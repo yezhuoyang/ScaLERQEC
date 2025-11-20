@@ -125,47 +125,81 @@ for w in range(1, num_noise):
 🧰 Development Notes (for contributors)
 
 
-# Environment and compilation
+## 1. Installation (Development Only)
+
+At the moment, ScaLER is installed **from source**. 
+
+### 1.1. Prerequisites
+
+Common to all platforms:
+
+- Python ≥ 3.9 (3.11+ recommended)
+- A C++20-compatible compiler
+- `pip` and a virtual environment (`venv`, `conda`, etc.)
+
+Additional dependencies:
+
+- **Boost** (for `boost::dynamic_bitset`)
+- **pybind11** (handled automatically as a build dependency, but the C++ compiler must be able to see its headers)
+- **Eigen3** Library
 
 
-The core backend is written in C++17, accelerated using:
+#### Windows (MSVC)
 
-Boost (dynamic_bitset)
-
-Eigen3 (linear algebra)
-
-pybind11 (Python bindings)
-
-vcpkg (dependency management)
-
-Below is a gentle walkthrough of the build environment.
-
-## Installing Boost
-
-<!-- > [!IMPORTANT]
-> Be careful about setting up environment -->
-
-The code is developed in C++17. 
-
-
-We are using dynamic bitset from boost, to install it, run:
+1. Install [Visual Studio Build Tools] or full Visual Studio with C++ toolchain.
+2. Install Boost (MSVC flavor), e.g. via Chocolatey:
 
 ```bash
-choco install   boost-msvc-14.3 -y
-```
+choco install boost-msvc-14.3 -y
+``` 
 
-The boost header file will be stored under the path "C:\local\boost_1_87_0\boost". Add this path into VScode cpp include path. 
-
-## Installing Eigen & Pybind11 (via vcpkg)
+The boost header file will be stored under the path "C:\local\boost_1_87_0\boost". Add this path into VScode cpp include path in your development process. 
 
 We also use vcpkg and install the Eigen3 library for matrix operations.
-
 
 We use pybind11 to convert the samples from C++ objects to python objects. To install using vcpkg, run the following command:
 
 ```bash
 vcpkg install pybind11
 ```
+
+
+#### macOS (Apple Silicon / Intel)
+
+Install Xcode command-line tools:
+
+```bash
+xcode-select --install
+```
+
+Install Homebrew (if you don’t have it):
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+``` 
+
+Install pybind11 and Eigen via Homebrew:
+
+```bash
+brew install eigen pybind11 boost
+``` 
+
+This provides headers in:
+
+/opt/homebrew/include (ARM)
+/usr/local/include (Intel)
+
+
+#### Linux (Ubuntu / Debian-like)
+
+Roughly:
+
+```bash
+sudo apt install libeigen3-dev libboost-dev
+pip install pybind11
+```
+
+Boost headers go into /usr/include/boost.
 
 
 ## Locating Python headers
@@ -225,8 +259,11 @@ All test script are kept under test/ folder. You can test the correct ness of ou
 
 # Pip install instructions
 
+Just directly run the following pip install command:
 
-
+```bash
+pip install .
+```
 
 
 
@@ -237,7 +274,7 @@ All our benchmark circuit are stored undered stimprograms/ folder. To reproduce 
 
 
 ```python
-from ScaLER import stratified_Scurve_LERcalc
+from scaler import stratified_Scurve_LERcalc
 d=7
 p = 0.001
 repeat=5
@@ -269,9 +306,9 @@ In this part, I explain how to get the ground truth of logical error rate by Sym
 
 
 ```python
-from ScaLER.stratifiedScurve import stratified_Scurve_LERcalc
+from scaler.stratifiedScurve import stratified_Scurve_LERcalc
 from contextlib import redirect_stdout
-from ScaLER.symbolicLER import symbolicLER
+from scaler.symbolicLER import symbolicLER
 
 
 if __name__ == "__main__":
@@ -302,7 +339,7 @@ In this part, I explain how to test any circuit with the widely use random fault
 
 ```python
 from contextlib import redirect_stdout
-from ScaLER.stimLER import stimLERcalc
+from scaler.stimLER import stimLERcalc
 
 if __name__ == "__main__":
 
@@ -332,7 +369,7 @@ You can also test the circuit with Stim optimized by Sinter.
 
 ```python
 from contextlib import redirect_stdout
-from ScaLER.stimLER import stimLERcalc
+from scaler.stimLER import stimLERcalc
 
 if __name__ == "__main__":
 
@@ -360,7 +397,7 @@ In this part, I explain how to use ScaLER to test and input circuit. I will expl
 
 
 ```python
-from ScaLER.stratifiedScurve import stratified_Scurve_LERcalc
+from scaler.stratifiedScurve import stratified_Scurve_LERcalc
 from contextlib import redirect_stdout
 
 if __name__ == "__main__":
