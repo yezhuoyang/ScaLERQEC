@@ -1,0 +1,24 @@
+[build-system]
+requires = [
+    "setuptools", 
+    "wheel",
+    "pybind11>=2.11"
+]
+
+build-backend = "setuptools.build_meta"
+
+
+
+[project]
+name = "scaler"
+version = "0.0.1"
+description = "ScaLER: Scalable testing of logical error rate for quantum error correction circuits"
+authors = [
+    {name = "John Ye", email = "yezhuoyang@cs.ucla.edu"}
+]
+requires-python = ">=3.8"
+readme = "README.md"
+
+
+[project.urls]
+Homepage = "https://github.com/yezhuoyang/ScaLER"

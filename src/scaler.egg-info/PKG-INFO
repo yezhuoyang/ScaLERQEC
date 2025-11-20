@@ -1,3 +1,14 @@
+Metadata-Version: 2.4
+Name: scaler
+Version: 0.0.1
+Summary: ScaLER: Scalable testing of logical error rate for quantum error correction circuits
+Author: John Ye
+Author-email: John Ye <yezhuoyang@cs.ucla.edu>
+Project-URL: Homepage, https://github.com/yezhuoyang/ScaLER
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Dynamic: author
+
 # ScaLER
 
 Scalable testing of logical error rate for QEC circuit. 

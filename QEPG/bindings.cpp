@@ -39,7 +39,7 @@ namespace LERcalculator{
    
 
 // --- Bindings ---
-PYBIND11_MODULE(QEPG, m) {
+PYBIND11_MODULE(qepg, m) {
     m.doc() = "Pybind11 bindings for QEPG library";
 
     // 1. Bind boost::dynamic_bitset
