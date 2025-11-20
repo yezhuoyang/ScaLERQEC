@@ -27,11 +27,7 @@ The boost header file will be stored under the path "C:\local\boost_1_87_0\boost
 > Avoid using dense matrix!
 
 
-We also use vcpkg and install the Eigen3 library for matrix operations:
-
-
-https://chatgpt.com/share/681cbfa0-f8d8-8005-9878-a8798ff9a88a
-
+We also use vcpkg and install the Eigen3 library for matrix operations.
 
 
 We use pybind11 to convert the samples from C++ objects to python objects. To install using vcpkg, run the following command:
