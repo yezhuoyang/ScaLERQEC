@@ -36,4 +36,4 @@ squareresults/*
 *.pdf
 ScalER/__pycache__/*
 tmp.py
-src/scaler.egg-info/PKG-INFO
+*.egg-info/

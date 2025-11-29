@@ -80,7 +80,7 @@ print(samples)
 3️⃣ Running Monte Carlo Fault-Injection
 
 ```python
-from scaler.stimLER import stimLERcalc
+from scaler.monteLER import stimLERcalc
 from contextlib import redirect_stdout
 
 p = 0.001
@@ -110,13 +110,15 @@ for w in range(1, num_noise):
 
 📌 TODO (Roadmap)
 
-- [ ] Support installation via `pip install`
+- [x] Support installation via `pip install`
+- [ ] Support LDPC code and LDPC code decoder
+- [ ] Python interface to construct QEC circuit
 - [ ] Add cross-platform installation support (including macOS)
 - [ ] Write full documentation
 - [ ] Implement dynamic-circuit support(Compatible with IBM)
 - [ ] Higher-level, easier interface to generate QEC program
 - [ ] Support testing code switching
-- [ ] Add more noise models
+- [ ] Add more realistic noise models
 - [ ] Support injecting quantum errors by type
 - [ ] Add CUDA backend support
 
