@@ -95,6 +95,9 @@ with open("resultMonte.txt", "w") as f, redirect_stdout(f):
 
 
 4️⃣ Running Symbolic LER Analysis (Ground Truth)
+
+
+```python
 from scaler.symbolicLER import symbolicLER
 
 calc = symbolicLER(0.001)
@@ -105,7 +108,7 @@ print(calc.calculate_LER_from_file(filepath, 0.001))
 num_noise = calc._num_noise
 for w in range(1, num_noise):
     print("LER in subspace", w, "=", calc.evaluate_LER_subspace(0.001, w))
-
+```
 
 
 📌 TODO (Roadmap)
