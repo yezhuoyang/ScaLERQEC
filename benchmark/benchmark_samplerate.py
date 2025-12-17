@@ -1,10 +1,10 @@
-from QEPG.QEPG import return_samples, return_samples_many_weights, return_detector_matrix, return_samples_many_weights_separate_obs, return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
-from LERcalc.clifford import *
-from LERcalc.stimparser import *
+from scaler.qepg import return_samples, return_samples_many_weights, return_detector_matrix, return_samples_many_weights_separate_obs, return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
+from scaler.clifford import *
+from scaler.stimparser import *
 from time import time, perf_counter
 import numpy as np
 import matplotlib.pyplot as plt
-from QEPG.QEPG import return_samples_Monte_separate_obs_with_QEPG,return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
+from scaler.qepg import return_samples_Monte_separate_obs_with_QEPG,return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
 
 
 def test_compile_speed(distance):

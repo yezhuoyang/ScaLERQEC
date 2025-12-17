@@ -4,7 +4,7 @@ Generate the ground truth of logical error rate for surface code and several ben
 import stim
 import pymatching
 import numpy as np
-from LERcalc.LERcalculator import *
+from scaler.LERcalculator import *
 
 def count_logical_errors(circuit: stim.Circuit, num_shots: int) -> int:
     # Sample the circuit.
