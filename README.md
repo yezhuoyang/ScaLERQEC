@@ -1,6 +1,6 @@
-# ScaLER
+# ScaLERQEC
 
-ScaLER is a scalable framework for estimating logical error rates (LER) of quantum error-correcting (QEC) circuits.
+ScaLERQEC is a scalable framework for estimating logical error rates (LER) of quantum error-correcting (QEC) circuits at scale.
 It combines optimized C++ backends (QEPG) with high-level Python interfaces for QEC experimentation, benchmarking, symbolic analysis, and Monte-Carlo fault injection.
 ScaLER is compatible with STIM, but use completely different approach to test logical error rate. 
 
@@ -9,14 +9,14 @@ ScaLER is compatible with STIM, but use completely different approach to test lo
 🔧 Option 1 — Install via pip (recommended)
 
 ```bash
-pip install scaler
+pip install scalerqec
 ```
 
 This installs:
 
-the Python package scaler
+the Python package scalerqec
 
-the compiled C++ backend scaler.qepg
+the compiled C++ backend scalerqec.qepg
 
 all Python modules for LER calculation, sampling, symbolic analysis, etc.
 
@@ -24,8 +24,8 @@ Then in Python:
 
 
 ```python
-import scaler
-import scaler.qepg
+import scalerqec
+import scalerqec.qepg
 ```
 
 
@@ -34,8 +34,8 @@ import scaler.qepg
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourname/ScaLER.git
-cd ScaLER
+git clone https://github.com/yourname/ScaLERQEC.git
+cd ScaLERQEC
 ```
 
 Build and install:
@@ -47,14 +47,14 @@ pip install .
 This compiles the C++ backend using pybind11 and places the compiled extension under:
 
 
-scaler/qepg.*.so or .pyd
+scalerqec/qepg.*.so or .pyd
 
 
 📚 Project Structure
 
 After installation, the package structure is:
 ```bash
-scaler/
+scalerqec/
     qepg               # compiled C++ backend (pybind11)
     clifford.py
     LERcalculator.py
@@ -66,10 +66,45 @@ scaler/
     ...
 ```
 
+
+1️⃣ Main method: Test Logical by Statefied fault-sampling and curve fitting:
+
+
+```python
+from scalerqec import stratified_Scurve_LERcalc
+
+d=7 #Set the code distance
+p = 0.001 #Set the physcial error rate
+repeat=5  #Repeat experiment for five times
+sample_budget = 100_000_0000 #Maximum sample budget
+t = (d - 1) // 2
+stim_path="your//path//to//stim//Surface"
+figname = f"Surface{d}"
+titlename = f"Surface{d}"
+output_filename = f"Surface{d}.txt"
+testinstance = stratified_Scurve_LERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=8, beta=4)
+testinstance.set_t(t)
+testinstance.set_sample_bound(
+    MIN_NUM_LE_EVENT=100,
+    SAMPLE_GAP=100,
+    MAX_SAMPLE_GAP=5000,
+    MAX_SUBSPACE_SAMPLE=50000
+)
+testinstance.calculate_LER_from_file(stim_path, p, 0, figname, titlename, repeat)
+```
+
+
+| <img src="Figures/Surface7-R0Final.pdf" alt="Curve in the Log Space" width="300"/> | <img src="Figures/Surface7.pdf" alt="Curve in the original space" width="300"/> |
+|:---------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
+| *Figure 1: Test Surface code distance 7 and plot the logical error rate of different subspaces in the log space* | *Figure 2: Same, but plot in original space* |
+
+
+
+
 2️⃣ Using the C++ QEPG Backend from Python
 
 ```python
-import scaler.qepg as qepg
+import scalerqec.qepg as qepg
 
 graph = qepg.compile_QEPG(open("circuit.stim").read())
 
@@ -81,7 +116,7 @@ print(samples)
 3️⃣ Running Monte Carlo Fault-Injection
 
 ```python
-from scaler.monteLER import stimLERcalc
+from scalerqec.monteLER import stimLERcalc
 from contextlib import redirect_stdout
 
 p = 0.001
@@ -94,12 +129,11 @@ with open("resultMonte.txt", "w") as f, redirect_stdout(f):
 ```
 
 
-
 4️⃣ Running Symbolic LER Analysis (Ground Truth)
 
 
 ```python
-from scaler.symbolicLER import symbolicLER
+from scalerqec.symbolicLER import symbolicLER
 
 calc = symbolicLER(0.001)
 filepath = "path/to/circuit"
@@ -117,6 +151,7 @@ for w in range(1, num_noise):
 - [x] Support installation via `pip install`
 - [ ] Support LDPC code and LDPC code decoder
 - [ ] SIMD support and compare with STIM
+- [ ] Visualize results better and visualize QEPG graph
 - [ ] Python interface to construct QEC circuit
 - [x] Add cross-platform installation support (including macOS)
 - [ ] Write full documentation
@@ -135,7 +170,7 @@ for w in range(1, num_noise):
 
 ## 1. Installation (Development Only)
 
-At the moment, ScaLER is installed **from source**. 
+At the moment, ScaLERQEC is installed **from source**. 
 
 ### 1.1. Prerequisites
 
@@ -149,7 +184,6 @@ Additional dependencies:
 
 - **Boost** (for `boost::dynamic_bitset`)
 - **pybind11** (handled automatically as a build dependency, but the C++ compiler must be able to see its headers)
-- **Eigen3** Library
 
 
 #### Windows (MSVC)
@@ -162,8 +196,6 @@ choco install boost-msvc-14.3 -y
 ``` 
 
 The boost header file will be stored under the path "C:\local\boost_1_87_0\boost". Add this path into VScode cpp include path in your development process. 
-
-We also use vcpkg and install the Eigen3 library for matrix operations.
 
 We use pybind11 to convert the samples from C++ objects to python objects. To install using vcpkg, run the following command:
 

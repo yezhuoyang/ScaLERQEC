@@ -79,7 +79,7 @@ else:
 
 ext_modules = [
     Pybind11Extension(
-        "scaler.qepg",
+        "scalerqec.qepg",
         [
             "QEPG/bindings.cpp",
             "QEPG/src/QEPG.cpp",
@@ -96,9 +96,9 @@ ext_modules = [
 
 
 setuptools.setup(
-    name="scaler",
+    name="scalerqec",
     version="0.0.1",
-    description="ScaLER + QEPG backend",
+    description="Scalable Quantum Error Correction testing Tools for logical error rate and software correctness",
     author="John Ye",
     packages=setuptools.find_packages(where="src"),
     package_dir={"": "src"},
