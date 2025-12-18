@@ -1,9 +1,9 @@
 #Test our stratified algorithm by comparing it with dp algorithm
 #This test only work for small scale
 
-from ScaLER.stratifiedLERcalc import stratifiedLERcalc
-from ScaLER.stimLER import stimLERcalc
-from ScaLER.symbolicLER import symbolicLER
+from scaler.stratifiedLERcalc import stratifiedLERcalc
+from scaler.stimLER import stimLERcalc
+from scaler.symbolicLER import symbolicLER
 
 
 

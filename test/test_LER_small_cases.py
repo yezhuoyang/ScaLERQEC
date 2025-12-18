@@ -5,8 +5,8 @@ import numpy as np
 from QEPG.QEPG import return_samples,return_samples_many_weights,return_detector_matrix
 from .test_QEPG_by_stim import *
 import pymatching
-from ScaLER.LERcalculator import *
-from ScaLER.clifford import *
+from scaler.LERcalculator import *
+from scaler.clifford import *
 
 
 '''

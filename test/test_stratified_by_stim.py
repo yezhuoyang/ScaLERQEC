@@ -3,9 +3,9 @@
 
 
 
-from LERcalc.stratifiedLERcalc import stratifiedLERcalc
-from LERcalc.stimLER import stimLERcalc
-from LERcalc.symbolicLER import symbolicLER
+from scaler.stratifiedLERcalc import stratifiedLERcalc
+from scaler.monteLER import stimLERcalc
+from scaler.symbolic import symbolicLER
 
 
 

@@ -182,22 +182,31 @@ class CliffordCircuit:
                     qubits = list(map(int, parts[1:]))
                     
                     if gate_type == "cnot":
+                        self.add_depolarize(qubits[0], qubits[1])
                         self.add_cnot(qubits[0], qubits[1])
                     elif gate_type == "M":
+                        self.add_depolarize(qubits[0])
                         self.add_measurement(qubits[0])
                     elif gate_type == "R":
+                        self.add_depolarize(qubits[0])
                         self.add_reset(qubits[0])
                     elif gate_type == "H":
+                        self.add_depolarize(qubits[0])
                         self.add_hadamard(qubits[0])
                     elif gate_type == "P":
+                        self.add_depolarize(qubits[0])
                         self.add_phase(qubits[0])
                     elif gate_type == "CZ":
+                        self.add_depolarize(qubits[0], qubits[1])
                         self.add_cz(qubits[0], qubits[1])
                     elif gate_type == "X":
+                        self.add_depolarize(qubits[0])
                         self.add_paulix(qubits[0])
                     elif gate_type == "Y":
+                        self.add_depolarize(qubits[0])
                         self.add_pauliy(qubits[0])
                     elif gate_type == "Z":
+                        self.add_depolarize(qubits[0])
                         self.add_pauliz(qubits[0])
                     else:
                         raise ValueError(f"Unknown gate type: {gate_type}")
@@ -302,28 +311,34 @@ class CliffordCircuit:
                 maxum_q_index=maxum_q_index if maxum_q_index>control else control
                 target = int(tokens[2])
                 maxum_q_index=maxum_q_index if maxum_q_index>target else target
+                self.add_depolarize(control)
+                self.add_depolarize(target)
                 self.add_cnot(control, target)
 
 
             elif gate == "M":
                 qubit = int(tokens[1])
                 maxum_q_index=maxum_q_index if maxum_q_index>qubit else qubit
+                self.add_depolarize(qubit)
                 self.add_measurement(qubit)
 
             elif gate == "H":
                 qubit = int(tokens[1])
                 maxum_q_index=maxum_q_index if maxum_q_index>qubit else qubit
+                self.add_depolarize(qubit)
                 self.add_hadamard(qubit)            
 
             elif gate == "S":
                 qubit = int(tokens[1])
                 maxum_q_index=maxum_q_index if maxum_q_index>qubit else qubit
+                self.add_depolarize(qubit)
                 self.add_phase(qubit)    
 
             
             elif gate == "R":
                 qubits = int(tokens[1])
                 maxum_q_index=maxum_q_index if maxum_q_index>qubits else qubits
+                self.add_depolarize(qubits)
                 self.add_reset(qubits)
             
         '''
@@ -362,69 +377,44 @@ class CliffordCircuit:
         self._totalnoise+=1           
 
 
-
     def add_depolarize(self, qubit):
         self._stimcircuit.append("DEPOLARIZE1", [qubit], self._error_rate)
         self._gatelists.append(pauliNoise(self._totalnoise, qubit))
         self._index_to_noise[self._totalnoise]=self._gatelists[-1]
         self._totalnoise+=1        
 
-
-    def add_cnot_no_noise(self, control, target):
-        self._gatelists.append(TwoQGate(twoQGateindices["CNOT"], control, target))
-        self._stimcircuit.append("CNOT", [control, target])        
-
-
-    def add_cnot(self, control, target):
-        self.add_depolarize(control)
-        self.add_depolarize(target)        
+    def add_cnot(self, control, target):   
         self._gatelists.append(TwoQGate(twoQGateindices["CNOT"], control, target))
         self._stimcircuit.append("CNOT", [control, target])
 
 
-    def add_hadamard(self, qubit):
-        self.add_depolarize(qubit)          
+    def add_hadamard(self, qubit):      
         self._gatelists.append(SingeQGate(oneQGateindices["H"], qubit))
         self._stimcircuit.append("H", [qubit])
 
-    def add_phase(self, qubit):
-        self.add_depolarize(qubit)            
+
+    def add_phase(self, qubit):         
         self._gatelists.append(SingeQGate(oneQGateindices["P"], qubit))
         self._stimcircuit.append("S", [qubit])
 
     def add_cz(self, qubit1, qubit2):
-        self.add_depolarize(qubit1)
-        self.add_depolarize(qubit2)   
         self._gatelists.append(TwoQGate(twoQGateindices["CZ"], qubit1, qubit2))     
 
 
     def add_paulix(self, qubit):
-        self.add_depolarize(qubit)  
         self._gatelists.append(SingeQGate(oneQGateindices["X"], qubit))
         self._stimcircuit.append("X", [qubit])
 
     def add_pauliy(self, qubit):
-        self.add_depolarize(qubit)
         self._gatelists.append(SingeQGate(oneQGateindices["Y"], qubit))
         self._stimcircuit.append("Y", [qubit])
 
     def add_pauliz(self, qubit):
-        self.add_depolarize(qubit)
         self._gatelists.append(SingeQGate(oneQGateindices["Z"], qubit))
         self._stimcircuit.append("Z", [qubit])
 
 
-    def add_measurement_no_noise(self, qubit):
-        self._gatelists.append(Measurement(self._totalMeas,qubit))
-        self._stimcircuit.append("M", [qubit])
-        #self._stimcircuit.append("DETECTOR", [stim.target_rec(-1)])
-        self._index_to_measurement[self._totalMeas]=self._gatelists[-1]
-        self._totalMeas+=1
-
-
-
     def add_measurement(self, qubit):
-        self.add_depolarize(qubit)
         self._gatelists.append(Measurement(self._totalMeas,qubit))
         self._stimcircuit.append("M", [qubit])
         #self._stimcircuit.append("DETECTOR", [stim.target_rec(-1)])
@@ -444,11 +434,7 @@ class CliffordCircuit:
             for k in paritygroup:
                 self._measIdx_to_parityIdx[k].append(detectorIdx)
             detectorIdx+=1
-
-
         self._stimcircuit.append("OBSERVABLE_INCLUDE", [stim.target_rec(k-totalMeas) for k in self._observable], 0)
-
-        #print(self._stimcircuit)
 
 
     def add_reset(self, qubit):
@@ -524,3 +510,48 @@ class CliffordCircuit:
         lines.append("\\end{yquant}")
         
         return "\n".join(lines)
+    
+
+
+
+
+def example():
+
+    circ= CliffordCircuit(3)
+    circ.set_error_rate(0.1)
+    circ.add_hadamard(0)
+    circ.add_cnot(0,1)
+    circ.add_cnot(0,2)
+    circ.add_measurement(1)
+    circ.add_measurement(2)
+    #Convert scaler circuit to stim circuit
+    stimcirc=circ.get_stim_circuit()
+    print(stimcirc)
+    #print(circ)
+
+
+
+
+
+def example():
+
+    circ= CliffordCircuit(3)
+    circ.set_error_rate(0.1)
+    circ.add_depolarize(0)
+    circ.add_hadamard(0)
+    circ.add_depolarize(0)
+    circ.add_depolarize(1)
+    circ.add_cnot(0,1)
+    circ.add_cnot(0,2)
+    circ.add_depolarize(1)
+    circ.add_measurement(1)
+    circ.add_measurement(2)
+    #Convert scaler circuit to stim circuit
+    stimcirc=circ.get_stim_circuit()
+    print(stimcirc)
+    #print(circ)
+
+
+
+if __name__ == "__main__":
+    example()

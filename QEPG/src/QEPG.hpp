@@ -1,8 +1,6 @@
 #ifndef QEPG_HPP
 #define QEPG_HPP
 #pragma once
-
-
 #include <cstddef>
 #include <ostream>
 #include <string>
@@ -10,14 +8,11 @@
 #include <boost/dynamic_bitset.hpp>
 #include "clifford.hpp"
 #include <iostream>
-#include <Eigen/Dense>
-#include <Eigen/Sparse>
+
 
 namespace QEPG{
 
 using Row=boost::dynamic_bitset<>;
-using SpMat = Eigen::SparseMatrix<bool,Eigen::RowMajor>;
-using SpVec = Eigen::SparseVector<bool>;
 
 std::vector<Row> bitset_matrix_multiplication(const std::vector<Row>& mat1,const std::vector<Row>& mat2);
 
@@ -90,12 +85,6 @@ class QEPG{
 
         void backward_graph_construction();
 
-        void backward_graph_construction_Eigen();
-
-
-        void backward_parity_matrix_construction_Eigen();
-
-
         void print_detectorMatrix(char zero = '0', char one='1') const;
 
         const std::vector<Row>& get_detectorMatrix() const noexcept; 
@@ -105,15 +94,6 @@ class QEPG{
         const std::vector<Row>& get_parityPropMatrix() const noexcept; 
 
         const std::vector<Row>& get_parityPropMatrixTrans() const noexcept; 
-
-
-        const SpMat& get_detectorMatrix_Eigen() const noexcept; 
-
-        const SpMat& get_dectorMatrixTrans_Eigen() const noexcept;
-
-        const SpMat& get_parityPropMatrix_Eigen() const noexcept; 
-
-        const SpMat& get_parityPropMatrixTrans_Eigen() const noexcept; 
 
         const size_t& get_total_noise() const noexcept;
 
@@ -129,25 +109,14 @@ class QEPG{
         std::size_t COLS = 3*total_noise_;
 
         std::vector<Row> parityPropMatrix_;    
-
-        SpMat parityPropMatrixEigen_;
         
         std::vector<Row> parityPropMatrixTranspose_;     
 
-        SpMat parityPropMatrixTransposeEigen_;
-
         std::vector<Row> detectorMatrix_;
 
-        SpMat detectorMatrixEigen_;
-
         std::vector<Row> detectorMatrixTranspose_;
-        
-        SpMat detectorMatrixTransposeEigen_;
-
 
         void compute_parityPropMatrix();
-
-        void compute_parityPropMatrix_Eigen();
 };
 }
 

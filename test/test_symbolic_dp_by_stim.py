@@ -2,9 +2,9 @@
 
 
 
-from ScaLER.stratifiedLERcalc import stratifiedLERcalc
-from ScaLER.stimLER import stimLERcalc
-from ScaLER.symbolicLER import symbolicLER
+from scaler.stratifiedLERcalc import stratifiedLERcalc
+from scaler.monteLER import stimLERcalc
+from scaler.symbolicLER import symbolicLER
 
 
 

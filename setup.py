@@ -37,10 +37,7 @@ if sys.platform == "win32":
 
     win_includes = [
         r"C:\local\boost_1_87_0",
-        r"C:\vcpkg\installed\x64-windows\include",
-        r"C:\Users\username\OneDrive\Documents\GitHub\vcpkg\installed\x64-windows\include",
-        r"C:\Users\username\AppData\Local\Programs\Python\Python311\Include",
-        r"C:\Users\username\miniconda3\Include",
+        r"C:\vcpkg\installed\x64-windows\include"
     ]
     for path in win_includes:
         if os.path.isdir(path) and path not in include_dirs:
