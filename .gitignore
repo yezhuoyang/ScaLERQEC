@@ -37,3 +37,4 @@ squareresults/*
 ScalER/__pycache__/*
 tmp.py
 *.egg-info/
+*.stim
