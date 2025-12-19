@@ -1,0 +1,6 @@
+H 0
+H 0
+CX 0 1
+M 0
+DETECTOR(2, 0) rec[-1]
+OBSERVABLE_INCLUDE(0) rec[-1]
