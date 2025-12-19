@@ -178,7 +178,12 @@ class CliffordCircuit:
 
     @stimcircuit.setter
     def stimcircuit(self, stim_circuit):
-        self._stimcircuit=stim_circuit
+        if isinstance(stim_circuit, str):
+            self._stim_str=stim_circuit
+            self._stimcircuit= stim.Circuit(stim_circuit)
+        elif isinstance(stim_circuit, stim.Circuit):
+            self._stimcircuit=stim_circuit
+            self._stim_str= str(stim_circuit)
 
     @property
     def observable(self):
