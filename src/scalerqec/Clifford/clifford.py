@@ -134,13 +134,6 @@ class CliffordCircuit:
 
         #self._error_channel
 
-    @property
-    def error_rates(self):
-        return self._error_rates
-    
-    @error_rates.setter
-    def error_rates(self, error_rates):
-        self._error_rates = error_rates
 
     @property
     def gatelists(self):
@@ -587,14 +580,14 @@ class CliffordCircuit:
 def example():
 
     circ= CliffordCircuit(3)
-    circ.set_error_rate(0.1)
+    circ.error_rate=0.1
     circ.add_hadamard(0)
     circ.add_cnot(0,1)
     circ.add_cnot(0,2)
     circ.add_measurement(1)
     circ.add_measurement(2)
     #Convert scaler circuit to stim circuit
-    stimcirc=circ.get_stim_circuit()
+    stimcirc=circ.stimcircuit
     print(stimcirc)
     #print(circ)
 

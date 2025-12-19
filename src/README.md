@@ -75,7 +75,7 @@ User can construct any stabilizer code circuit by the following provided interfa
 
 
 ```python
-from scalerqec.qeccircuit import QECStab
+from scalerqec.QEC.qeccircuit import QECStab
 qeccirc= QECStab(n=5,k=1,d=3)
 #Specify your stabilizers
 # Stabilizer generators
@@ -85,10 +85,10 @@ qeccirc.add_stab("XIXZZ")
 qeccirc.add_stab("ZXIXZ")
 qeccirc.set_logical_Z(0, "ZZZZZ")
 #Set stabilizer parity measurement scheme, round of repetition
-qeccirc.set_scheme("Standard") 
-qeccirc.set_rounds(2)
+qeccirc.scheme="Standard" 
+qeccirc.rounds=2
 qeccirc.construct_circuit()
-stim_circuit = qeccirc.get_stim_circuit()
+stim_circuit = qeccirc.stimcirc
 print(stim_circuit)
 ```
 
