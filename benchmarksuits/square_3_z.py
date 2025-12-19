@@ -353,7 +353,6 @@ if __name__ == '__main__':
     # generate_circuit(filepath,23)  
 
     from pathlib import Path
-    script = Path(__file__).resolve().parent
-    filepath = script / "square" / "square25"
-    # [script directory]/hexagon/hexagon21
+    home = Path(__file__).resolve().parent.parent
+    filepath = home / "stimprograms" / "square" / "square25" # [script directory parent]/stimprograms/square/square25
     generate_circuit(filepath,25)  

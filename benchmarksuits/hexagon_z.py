@@ -378,15 +378,14 @@ if __name__ == '__main__':
     # generate_circuit(filepath,19)  
     
     from pathlib import Path
-    script = Path(__file__).resolve().parent
-    filepath = script / "hexagon" / "hexagon21"
-    # [script directory]/hexagon/hexagon21
+    home = Path(__file__).resolve().parent.parent
+    filepath = home / "stimprograms" / "hexagon" / "hexagon21" # [script directory parent]/stimprograms/hexagon/hexagon21
     generate_circuit(filepath,21)  
 
-    filepath = script / "hexagon" / "hexagon23"
+    filepath = home / "stimprograms" / "hexagon" / "hexagon23"
     generate_circuit(filepath,23)   
 
-    filepath = script / "hexagon" / "hexagon25"
+    filepath = home / "stimprograms" / "hexagon" / "hexagon25"
     generate_circuit(filepath,25)  
 
     # filepath="C:/Users/username/Documents/Sampling/stimprograms/hexagon/hexagon27"
