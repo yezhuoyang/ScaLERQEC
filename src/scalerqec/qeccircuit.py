@@ -12,7 +12,6 @@ class SCHEME(Enum):
 
 
 
-
 def commute(stab1: str, stab2: str) -> bool:
     """
     Check if two stabilizer generators commute.
@@ -41,48 +40,176 @@ class IRType(Enum):
     IF_THEN = 3
     WHILE = 4
     REPEAT_UNTIL = 5
+    REPEAT = 6
 
 
 class IRInstruction:
     """
     A class representing an intermediate representation (IR) instruction for quantum circuits.
     """
-    def __init__(self, instr_type: IRType, dest: str, args: list[str]) -> None:
+    def __init__(self, instr_type) -> None:
         self._instr_type = instr_type
+
+
+
+class StabPropInstruction(IRInstruction):
+    """
+    A class representing an intermediate representation (IR) instruction for quantum circuits.
+    """
+    def __init__(self, round: int, stabindex: int, dest: str, stab: str, is_observable: bool=False, observable_index: int=-1) -> None:
+        super().__init__(IRType.PROP)
+        self._round = round
+        self._stabindex = stabindex
         self._dest = dest
-        self._args = args
+        self._stab = stab
+        self._is_observable = is_observable
+        self._observable_index = observable_index
+
+
+    def get_round(self) -> int:
+        """
+        Get the round number of the stabilizer propagation.
+
+        Returns:
+            int: The round number.
+        """
+        return self._round
+    
+
+    def is_observable(self) -> bool:
+        """
+        Check if the stabilizer propagation is for an observable.
+
+        Returns:
+            bool: True if it is an observable, False otherwise.
+        """
+        return self._is_observable
+
+
+    def get_observable_index(self) -> int:
+        """
+        Get the index of the observable if applicable.
+
+        Returns:
+            int: The observable index.
+        """
+        return self._observable_index
+
+
+    def get_stabindex(self) -> int:
+        """
+        Get the stabilizer index of the stabilizer propagation.
+
+        Returns:
+            int: The stabilizer index.
+        """
+        return self._stabindex
 
 
     def __str__(self) -> str:
-        match self._instr_type:
-            case IRType.PROP:
-                return f"{self._dest} = Prop {' '.join(self._args)}"
-            case IRType.DETECTOR:
-                return f"{self._dest} = Parity {' '.join(self._args)}"
-            case IRType.OBSERVABLE:
-                return f"{self._dest} = Parity {' '.join(self._args)}"
-            case _:
-                raise NotImplementedError(f"IR type {self._instr_type} not implemented.")
+        if self._is_observable:
+            return f"{self._dest} = Prop {self._stab}"
+        else:
+            return f"{self._dest} = Prop[r={self._round}, s={self._stabindex}] {self._stab}"
 
-
-    def get_dest_index(self) -> int:
+    def get_dest(self) -> str:
         """
-        Get the index of the destination qubit/observable/detector from the destination string.
+        Get the destination qubit/observable/detector from the instruction.
 
         Returns:
-            int: The index extracted from the destination string.
+            str: The destination string.
         """
-        return int(self._dest[1:])  # Assumes dest is in the form 'c0', 'd1', 'o2', etc.
+        return self._dest
 
 
-    def get_args_indices(self) -> list[int]:
+    def get_stab(self) -> str:
         """
-        Get the indices of the arguments from the argument strings.
+        Get the stabilizer from the instruction.
 
         Returns:
-            list[int]: A list of indices extracted from the argument strings.
+            str: The stabilizer string.
         """
-        return [int(arg[1:]) for arg in self._args]  # Assumes args are in the form 'c0', 'd1', 'o2', etc.
+        return self._stab
+
+
+class ParityInstruction(IRInstruction):
+    """
+    Base class for parity-based IR instructions (detectors, observables).
+    """
+
+    def __init__(self, ir_type: IRType, dest: str, args: list[str]) -> None:
+        super().__init__(ir_type)
+        self._dest = dest
+        self._args = args
+
+    def __str__(self) -> str:
+        return f"{self._dest} = Parity {' '.join(self._args)}"
+
+    def get_dest(self) -> str:
+        return self._dest
+
+    def get_args(self) -> list[str]:
+        return self._args
+
+
+class DetectorInstruction(ParityInstruction):    
+    """
+    A class representing a detector instruction in the intermediate representation (IR) of a quantum circuit.
+    """
+
+    def __init__(self, dest: str, args: list[str]) -> None:
+        super().__init__(IRType.DETECTOR, dest, args)
+
+
+class ObservableInstruction(ParityInstruction):
+    """
+    A class representing an observable instruction in the intermediate representation (IR) of a quantum circuit.
+    """
+
+    def __init__(self, dest: str, args: list[str]) -> None:
+        super().__init__(IRType.OBSERVABLE, dest, args)
+
+
+
+class IF_THENInstruction(IRInstruction):
+    """
+    A class representing an IF-THEN instruction in the intermediate representation (IR) of a quantum circuit.
+    """
+    def __init__(self, condition: str, then_branch: list[IRInstruction]) -> None:
+        super().__init__(IRType.IF_THEN)
+        self._condition = condition
+        self._then_branch = then_branch
+
+
+class WHILEInstruction(IRInstruction):
+    """
+    A class representing a WHILE instruction in the intermediate representation (IR) of a quantum circuit.
+    """
+    def __init__(self, condition: str, body: list[IRInstruction]) -> None:
+        super().__init__(IRType.WHILE)
+        self._condition = condition
+        self._body = body
+
+
+class REPEAT_UNTILInstruction(IRInstruction):
+    """
+    A class representing a REPEAT-UNTIL instruction in the intermediate representation (IR) of a quantum circuit.
+    """
+    def __init__(self, body: list[IRInstruction], until_condition: str) -> None:
+        super().__init__(IRType.REPEAT_UNTIL)
+        self._body = body
+        self._until_condition = until_condition
+
+
+
+class REPEATInstruction(IRInstruction):
+    """
+    A class representing a REPEAT instruction in the intermediate representation (IR) of a quantum circuit.
+    """
+    def __init__(self, body: list[IRInstruction], times: int) -> None:
+        super().__init__(IRType.REPEAT)
+        self._body = body
+        self._times = times
 
 
 
@@ -97,7 +224,57 @@ class QECStab:
         self._stabs = []
         self._scheme = SCHEME.STANDARD
         self._circuit = None
+        self._stimcirc=None
         self._IRList = []
+        self._rounds = 3*d
+        #Define the k different logical Z operators
+        self._logicalZ = {}
+
+
+    def get_circuit(self) -> None:
+        """
+        Get the Clifford circuit for the quantum error-correcting code.
+
+        Returns:
+            The Clifford circuit.
+        """
+        return self._circuit
+
+
+
+    def get_stim_circuit(self) -> None:
+        """
+        Get the stimulus circuit for the quantum error-correcting code.
+
+        Returns:
+            The stimulus circuit.
+        """
+        return self._stimcirc
+
+
+    def set_logical_Z(self, index: int, logicalZ: str) -> None:
+        """
+        Set the logical Z operator for a given logical qubit.
+
+        Args:
+            index (int): The index of the logical qubit.
+            logicalZ (str): A string representation of the logical Z operator.
+        """
+        assert len(logicalZ) == self._n, "Logical Z length must match number of qubits."
+        assert all(c in 'IXYZ' for c in logicalZ), "Logical Z must only contain I, X, Y, and Z."
+
+        self._logicalZ[index] = logicalZ
+
+
+    def set_rounds(self, rounds: int) -> None:
+        """
+        Set the number of error correction rounds.
+
+        Args:
+            rounds (int): The number of rounds to set.
+        """
+        self._rounds = rounds
+
 
     def add_stab(self, stab: str) -> None:
         """
@@ -147,7 +324,12 @@ class QECStab:
         d0 = Parity c0 c1
         o0 = Parity c0   
         """
-        pass
+        match self._scheme:
+            case SCHEME.STANDARD:
+                self.construct_IR_standard_scheme()
+                self.compile_stim_circuit_from_IR_standard()
+            case _:
+                raise NotImplementedError(f"Scheme {self._scheme} not implemented yet.")
 
 
 
@@ -156,8 +338,39 @@ class QECStab:
         Construct the quantum error-correcting circuit using the standard scheme.
         Now, we will create the intermediate representation (IR) for the circuit.
         """
-        self._circuit = CliffordCircuit(self._n)
+        current_measurement_idx = 0
+        current_detector_idx = 0
+        prev_stab_meas_addr = {}
+        for r in range(self._rounds):
+            stabidx=0
+            for stab in self._stabs:
+                dest = f"c{current_measurement_idx}"
+                instr = StabPropInstruction(r, stabidx, dest, stab)
+                self._IRList.append(instr)
+                current_measurement_idx += 1
+                stabidx += 1
+                """
+                Since the second round, add detectors comparing with previous round
+                """
+                if r > 0:
+                    prev_dest = prev_stab_meas_addr[stab]
+                    detector_dest = f"d{current_detector_idx}"
+                    detector_instr = DetectorInstruction(detector_dest, [prev_dest, dest])
+                    self._IRList.append(detector_instr)
+                    current_detector_idx += 1
+                prev_stab_meas_addr[stab] = dest
+        #Logical observables
+        for logical_idx in range(self._k):
+            logicalZ = self._logicalZ[logical_idx]
 
+            dest = f"c{current_measurement_idx}"
+            instr = StabPropInstruction(0, 0, dest, logicalZ, is_observable=True, observable_index=logical_idx)
+
+            self._IRList.append(instr)
+            current_measurement_idx += 1
+            observable_dest = f"o{logical_idx}"
+            observable_instr = ObservableInstruction(observable_dest, [dest])
+            self._IRList.append(observable_instr)
 
 
     def show_IR(self):
@@ -166,23 +379,68 @@ class QECStab:
 
         The IR has the form:
         """
-        if self._circuit is None:
-            raise ValueError("Circuit has not been constructed yet.")
-        print(self._circuit)
+        for irinst in self._IRList:
+            print(irinst)
 
 
-    def compile_stim_circuit_from_IR(self) -> str:
+    def compile_stim_circuit_from_IR_standard(self) -> str:
         """
         Compile the stim circuit from the intermediate representation (IR).
 
         Returns:
             str: The compiled stim circuit as a string.
         """
-        if self._circuit is None:
-            raise ValueError("Circuit has not been constructed yet.")
-        stim_circuit = ""
-        # Placeholder for actual implementation
-        return stim_circuit
+        #Convension: Stabilizer k stored in qubit n+k-1
+        #Observable k stored in qubit n+num_syndromes+k-1
+        self._circuit = CliffordCircuit(self._n+len(self._stabs) + self._k)
+        parity_match_group = []
+        observable_parity_group = []
+
+        dest_to_measure_index = {}
+        current_measure_index = 0
+        for irinst in self._IRList:
+            if isinstance(irinst, StabPropInstruction):
+                stab = irinst.get_stab()
+                dest_index = int(irinst.get_dest()[1:])
+                if irinst.is_observable():
+                    helper_qubit_index = self._n + irinst.get_stabindex()
+                else:
+                    helper_qubit_index = self._n + len(self._stabs) + irinst.get_observable_index()
+
+                self._circuit.add_reset(helper_qubit_index)
+                for qubit_index, pauli in enumerate(stab):
+                    match pauli:
+                        case 'X':
+                            self._circuit.add_hadamard(qubit_index)
+                            self._circuit.add_cnot(control=dest_index, target=helper_qubit_index)
+                            self._circuit.add_hadamard(qubit_index)
+                        case 'Z':
+                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
+                        case 'I':
+                            continue
+                        case 'Y':   
+                            raise NotImplementedError("Y parity propagation not supported.")
+                        
+                self._circuit.add_measurement(helper_qubit_index)
+                dest_to_measure_index[irinst.get_dest()] = current_measure_index
+                current_measure_index += 1
+
+            elif isinstance(irinst, DetectorInstruction):
+                args = irinst.get_args()
+                args_measure_indices = [dest_to_measure_index[arg] for arg in args]
+                parity_match_group.append(args_measure_indices)
+
+
+            elif isinstance(irinst, ObservableInstruction):
+                args = irinst.get_args()
+                args_indices = [dest_to_measure_index[arg] for arg in args]
+                observable_parity_group.append(args_indices)
+
+
+        self._circuit.set_parityMatchGroup(parity_match_group)
+        self._circuit.set_observable(observable_parity_group[0])
+        self._circuit.compile_detector_and_observable()
+        self._stimcirc = self._circuit._stimcircuit
 
 
 
@@ -196,4 +454,17 @@ def test_commute():
 
 
 if __name__ == "__main__":
-    test_commute()
+    qeccirc= QECStab(n=5,k=1,d=3)
+    #Specify your stabilizers
+    # Stabilizer generators
+    qeccirc.add_stab("XZZXI")
+    qeccirc.add_stab("IXZZX")
+    qeccirc.add_stab("XIXZZ")
+    qeccirc.add_stab("ZXIXZ")
+    qeccirc.set_logical_Z(0, "ZZZZZ")
+    #Set stabilizer parity measurement scheme, round of repetition
+    qeccirc.set_scheme("Standard") 
+    qeccirc.set_rounds(2)
+    qeccirc.construct_circuit()
+    stim_circuit = qeccirc.get_stim_circuit()
+    print(stim_circuit)

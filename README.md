@@ -159,6 +159,7 @@ for w in range(1, num_noise):
 - [ ] Support LDPC code and LDPC code decoder
 - [ ] SIMD support and compare with STIM
 - [ ] Visualize results better and visualize QEPG graph
+- [ ] HotSpot analysis(What is the reason for logical error?)
 - [ ] Python interface to construct QEC circuit
 - [ ] Constructing and testing magic state distillation/Cultivation
 - [x] Add cross-platform installation support (including macOS)

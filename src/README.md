@@ -82,11 +82,13 @@ qeccirc.add_stab("XZZXI")
 qeccirc.add_stab("IXZZX")
 qeccirc.add_stab("XIXZZ")
 qeccirc.add_stab("ZXIXZ")
+qeccirc.set_logical_Z(0, "ZZZZZ")
 #Set stabilizer parity measurement scheme, round of repetition
 qeccirc.set_scheme("Standard") 
-qeccirc.set_rounds(3*3)
+qeccirc.set_rounds(2)
 qeccirc.construct_circuit()
-print(qeccirc)
+stim_circuit = qeccirc.get_stim_circuit()
+print(stim_circuit)
 ```
 
 
