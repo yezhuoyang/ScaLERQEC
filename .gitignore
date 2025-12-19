@@ -40,4 +40,4 @@ tmp.py
 *.stim
 !Figures/*.pdf
 !Figures/*.png
-scalerqec/__pycache__/*
+src/scalerqec/__pycache__/

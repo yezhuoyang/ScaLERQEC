@@ -1,6 +1,6 @@
 
-from .qepg import return_samples,return_samples_many_weights,return_detector_matrix,return_samples_many_weights_numpy,return_samples_many_weights_separate_obs, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG
-from .clifford import *
+from ..qepg import compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG
+from ..Clifford.clifford import *
 import math
 import pymatching
 from scipy.optimize import curve_fit
@@ -9,9 +9,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 from scipy.stats import binom
 from contextlib import redirect_stdout
-
-import warnings
-from scipy.optimize import OptimizeWarning
 import pickle
 import time
 

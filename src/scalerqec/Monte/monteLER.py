@@ -1,11 +1,11 @@
-from .clifford import *
+from Clifford.clifford import *
 import pymatching
-from .stimparser import *
+from Clifford.stimparser import *
 import time
 import os
 from contextlib import redirect_stdout
 
-from .qepg import compile_QEPG,return_samples_Monte_separate_obs_with_QEPG
+from ..qepg import compile_QEPG,return_samples_Monte_separate_obs_with_QEPG
 
 
 import sinter

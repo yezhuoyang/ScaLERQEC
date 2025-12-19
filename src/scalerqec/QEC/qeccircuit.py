@@ -2,9 +2,9 @@
 
 
 from enum import Enum
-from clifford import CliffordCircuit
+from scalerqec.Clifford.clifford import CliffordCircuit
 import numpy as np
-from noisemodel import NoiseModel
+from scalerqec.QEC.noisemodel import NoiseModel
 
 class SCHEME(Enum):
     STANDARD = 0

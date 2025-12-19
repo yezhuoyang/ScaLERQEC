@@ -1,17 +1,3 @@
-#!/usr/bin/env python3
-# logical_error_dp.py
-#
-# Dynamic-programming evaluation of     dp[i][j][ D0 , O0 ]
-#
-# Requires:  sympy
-#   $ pip install sympy
-#
-# Run:
-#   $ python logical_error_dp.py
-#
-# You can change MAX_I below to push the computation deeper.
-
-import sys
 from sympy import symbols, binomial, Rational, simplify, latex
 
 # ----------------------------------------------------------------------

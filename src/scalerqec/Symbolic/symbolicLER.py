@@ -1,8 +1,7 @@
-import sys
-from sympy import symbols, binomial, Rational, simplify, latex
-from .clifford import *
-from .stimparser import *
-from .QEPGpython import *
+from sympy import symbols, binomial,  simplify, latex
+from ..Clifford.clifford import *
+from ..Clifford.stimparser import *
+from ..Clifford.QEPGpython import *
 import pymatching
 
 # ----------------------------------------------------------------------

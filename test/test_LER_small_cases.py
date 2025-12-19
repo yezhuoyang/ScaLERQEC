@@ -6,7 +6,7 @@ from QEPG.QEPG import return_samples,return_samples_many_weights,return_detector
 from .test_QEPG_by_stim import *
 import pymatching
 from scalerqec.LERcalculator import *
-from scalerqec.clifford import *
+from scalerqec.Clifford.clifford import *
 
 
 '''

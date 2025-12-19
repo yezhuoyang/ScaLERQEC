@@ -1,6 +1,6 @@
 #Test the correctness of the sampler in QEPG
 from scalerqec.qepg import return_samples_with_noise_vector, return_samples_many_weights, return_detector_matrix
-from scalerqec.clifford import *
+from scalerqec.Clifford.clifford import *
 from test.test_QEPG_by_stim import transpile_stim_with_noise_vector
 import pymatching
 

@@ -1,6 +1,6 @@
 from scalerqec.qepg import return_samples, return_samples_many_weights, return_detector_matrix, return_samples_many_weights_separate_obs, return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
-from scalerqec.clifford import *
-from scalerqec.stimparser import *
+from scalerqec.Clifford.clifford import *
+from scalerqec.Clifford.stimparser import *
 from time import time, perf_counter
 import numpy as np
 import matplotlib.pyplot as plt

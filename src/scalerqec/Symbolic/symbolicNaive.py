@@ -1,4 +1,3 @@
-import sys
 from sympy import symbols, binomial, Rational, simplify, latex,Poly
 
 # ----------------------------------------------------------------------
