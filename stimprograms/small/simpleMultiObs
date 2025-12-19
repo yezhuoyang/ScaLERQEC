@@ -1,0 +1,10 @@
+CX 0 3
+CX 1 3
+M 3
+DETECTOR(1, 0) rec[-1]
+CX 1 4
+CX 2 4
+M 4
+DETECTOR(2, 0) rec[-1]
+M 0
+OBSERVABLE_INCLUDE(0) rec[-2] rec[-1]
