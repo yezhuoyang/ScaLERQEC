@@ -12,6 +12,21 @@ It combines optimized C++ backends (QEPG) with high-level Python interfaces for 
 ScaLER is compatible with STIM, but use completely different approach to test logical error rate. 
 
 
+## Documentation
+
+
+We use Sphinx to automatically generate the documents: 
+
+```bash
+py -m sphinx.cmd.build -b html docs/source docs
+```
+
+You may visit the current documentation through the following link:
+
+📖 **Documentation website:**  
+https://yezhuoyang.github.io/ScaLERQEC/
+
+
 🚀 Installation
 🔧 Option 1 — Install via pip (recommended)
 
@@ -164,11 +179,8 @@ ScalerQEC compile any STIM circuit to QEPG graph.
 
 ```python
 import scalerqec.qepg as qepg
-
 graph = qepg.compile_QEPG(open("circuit.stim").read())
-
 samples = qepg.return_samples_with_fixed_QEPG(graph, weight=3, shots=10_000)
-
 print(samples)
 ```
 
@@ -204,6 +216,7 @@ symbcalculator.calc_LER_of_QECircuit(qeccirc, noise_model)
 - [x] Higher-level, easier interface to generate QEC program
 - [x] Add cross-platform installation support (including macOS)
 - [x] Python interface to construct QEC circuit
+- [x] Write full documentation
 - [ ] Support LDPC code and LDPC code decoder
 - [ ] Get rid of Boost package, use binary representation
 - [ ] Add CUDA backend support and compare with STIM
@@ -212,7 +225,6 @@ symbcalculator.calc_LER_of_QECircuit(qeccirc, noise_model)
 - [ ] Compatible with Qiskit
 - [ ] Visualize results better and visualize QEPG graph
 - [ ] HotSpot analysis(What is the reason for logical error?)
-- [ ] Write full documentation
 - [ ] Implement dynamic-circuit support(Compatible with IBM)
 - [ ] Support testing code switching such as lattice surgery, LDPC code switching protocol
 - [ ] Add more realistic noise models(Decoherence noise, Correlated noise)
