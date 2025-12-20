@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scalerqec.Symbolic.symbolicLER &#8212; scalerqec 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for scalerqec.Symbolic.symbolicLER</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="kn">import</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">binomial</span><span class="p">,</span>  <span class="n">simplify</span><span class="p">,</span> <span class="n">latex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..Clifford.clifford</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..Clifford.stimparser</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..Clifford.QEPGpython</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pymatching</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.noisemodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QECStab</span>
+
+
+<span class="c1"># ----------------------------------------------------------------------</span>
+<span class="c1"># Physical-error model</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">)</span>
+<span class="n">q</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p</span>                     <span class="c1">#   probability of &quot;no error&quot;</span>
+<span class="n">Px</span> <span class="o">=</span> <span class="n">Py</span> <span class="o">=</span> <span class="n">Pz</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="mi">3</span>          <span class="c1">#   probabilities of  X  Y  Z</span>
+
+
+
+<div class="viewcode-block" id="vec_to_idx">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.vec_to_idx">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">vec_to_idx</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a binary vector (A tuple or a list of 0s and 1s) to an integer index.</span>
+<span class="sd">    The first element of the vector is treated as the most significant bit(MSB).</span>
+<span class="sd">    Example: (1,0,1) -&gt; 1*2^2 + 0*2^1 + 1*2^0 =5</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        vec: A tuple or list of binary digits(0 or 1).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An integer representation of the binary vector.</span>
+<span class="sd">        Returns 0 for an empty vector.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">idx</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">vec</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">idx</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">bit</span>
+    <span class="k">return</span> <span class="n">idx</span></div>
+
+
+
+<div class="viewcode-block" id="idx_to_vec">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.idx_to_vec">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">idx_to_vec</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">dimension</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts and integer index back to the binary vector of a given dimension.</span>
+<span class="sd">    The first element of the vector is the most significant bit (MSB).</span>
+<span class="sd">    Example: (5,3) - &gt; (1,0,1)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        idx: The non-negative integer index.</span>
+<span class="sd">        dimension: The desired non-negative dimension(length) of the output binary vector</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple of binary digits representing the index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">temp_idx</span> <span class="o">=</span> <span class="n">idx</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimension</span><span class="p">):</span>
+        <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_idx</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">temp_idx</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">bits</span><span class="p">))</span></div>
+
+
+
+
+<div class="viewcode-block" id="idx_to_bool_list">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.idx_to_bool_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">idx_to_bool_list</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">dimension</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts and integer index back to the boolean vector of a given dimension.</span>
+<span class="sd">    The first element of the vector is the most significant bit (MSB).</span>
+<span class="sd">    Example: (5,3) - &gt; [True,False,True]</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        idx: The non-negative integer index.</span>
+<span class="sd">        dimension: The desired non-negative dimension(length) of the output binary vector</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A list of boolean representing the binary digits given the index.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bool_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">temp_idx</span> <span class="o">=</span> <span class="n">idx</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimension</span><span class="p">):</span>
+        <span class="n">bool_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span> <span class="k">if</span> <span class="p">(</span><span class="n">temp_idx</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">temp_idx</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">bool_list</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="xor_vec">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.xor_vec">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">xor_vec</span><span class="p">(</span><span class="n">vec_a</span><span class="p">,</span> <span class="n">vec_b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs element-wise XOR addition on two binary vectors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        vec_a: The first binary vector (tuple or list of 0s and 1s).</span>
+<span class="sd">        vec_b: The second binary vector (tuple or list of 0s and 1s).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A tuple representing the element-wise XOR of two vectors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">vec_a</span><span class="p">,</span><span class="n">vec_b</span><span class="p">))</span></div>
+
+
+
+<span class="n">MAX_degree</span><span class="o">=</span><span class="mi">100</span>
+<span class="n">MAX_weight</span><span class="o">=</span><span class="mi">12</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Use symbolic algorithm to calculate the probability.</span>
+<span class="sd">Simply enumerate all possible cases</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="symbolicLER">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">symbolicLER</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">error_rate</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">=</span><span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">=</span><span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="o">=</span><span class="n">error_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">=</span><span class="n">CliffordCircuit</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">=</span><span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_predictions</span><span class="o">=</span><span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_X</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Y</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Z</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_row_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LER</span><span class="o">=</span><span class="p">{}</span>
+
+<div class="viewcode-block" id="symbolicLER.get_totalnoise">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.get_totalnoise">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_totalnoise</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the total number of noise in the circuit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span></div>
+
+
+
+<div class="viewcode-block" id="symbolicLER.parse_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.parse_from_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read the circuit, parse from the file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stim_str</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">stim_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">error_rate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">compile_from_stim_circuit_str</span><span class="p">(</span><span class="n">stim_str</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">totalnoise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">parityMatchGroup</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total_detector_outcome</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">=</span><span class="n">QEPGpython</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">backword_graph_construction</span><span class="p">()</span></div>
+
+
+
+
+<div class="viewcode-block" id="symbolicLER.generate_pymatching_table">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.generate_pymatching_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_pymatching_table</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For all detector result, generate the prediction through pymatching.</span>
+
+<span class="sd">        _all_predictions store all prediction by matching</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Configure a decoder using the circuit.</span>
+        <span class="n">stimcircuit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">stimcircuit</span>
+        <span class="n">detector_error_model</span> <span class="o">=</span> <span class="n">stimcircuit</span><span class="o">.</span><span class="n">detector_error_model</span><span class="p">(</span><span class="n">decompose_errors</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">matcher</span> <span class="o">=</span> <span class="n">pymatching</span><span class="o">.</span><span class="n">Matching</span><span class="o">.</span><span class="n">from_detector_error_model</span><span class="p">(</span><span class="n">detector_error_model</span><span class="p">)</span>
+
+        <span class="n">all_inputs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total detector outcome: &quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">&lt;&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i=&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="p">)</span>
+            <span class="c1"># Convert the integer to a list of booleans</span>
+            <span class="n">bool_list</span> <span class="o">=</span> <span class="n">idx_to_bool_list</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="p">)</span>
+            <span class="c1"># Print the list of booleans</span>
+            <span class="n">all_inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bool_list</span><span class="p">)</span>
+        <span class="c1">#print(all_inputs)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_all_predictions</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="n">decode_batch</span><span class="p">(</span><span class="n">all_inputs</span><span class="p">)</span></div>
+
+
+
+    
+<div class="viewcode-block" id="symbolicLER.calc_error_row_indices">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calc_error_row_indices">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_error_row_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Based on the prediction result by pymatching of all possible input,</span>
+<span class="sd">        build a list including all row indices that cause logical error</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_row_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_detector_outcome</span><span class="p">):</span>
+            <span class="n">full_bool_list</span> <span class="o">=</span> <span class="n">idx_to_bool_list</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>     
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Get the current observable outcome represented by </span>
+<span class="sd">            the row index.</span>
+<span class="sd">            &quot;&quot;&quot;</span> 
+            <span class="n">current_obs</span><span class="o">=</span><span class="n">full_bool_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">ind_no_obs</span><span class="o">=</span><span class="n">vec_to_idx</span><span class="p">(</span><span class="n">full_bool_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Return the exact prediction result from the decoder, which</span>
+<span class="sd">            is computed by function generate_pymatching_table(self)</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">real_obs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_all_predictions</span><span class="p">[</span><span class="n">ind_no_obs</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">current_obs</span><span class="o">!=</span><span class="n">real_obs</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_error_row_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span></div>
+
+        
+        <span class="c1">#print(self._error_row_indices)</span>
+
+
+
+<div class="viewcode-block" id="symbolicLER.initialize_single_pauli_propagation">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.initialize_single_pauli_propagation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize_single_pauli_propagation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate and store the table of the propagation result of single pauli error</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_X</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Y</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Z</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">noiseidx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_X</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">sample_x_error</span><span class="p">(</span><span class="n">noiseidx</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">sample_y_error</span><span class="p">(</span><span class="n">noiseidx</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">sample_z_error</span><span class="p">(</span><span class="n">noiseidx</span><span class="p">)))</span></div>
+
+
+    
+
+<div class="viewcode-block" id="symbolicLER.initialize_dp">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.initialize_dp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize_dp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the circuit information, initialize the dp table for running the algorithm</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dp</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_detector_outcome</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span>
+                                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">]</span></div>
+
+        
+
+
+<div class="viewcode-block" id="symbolicLER.verify_table">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.verify_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+        <span class="nb">sum</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">vec_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_detector_outcome</span><span class="p">):</span>
+                <span class="nb">sum</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">vec_index</span><span class="p">]</span>
+            <span class="c1"># print(self._dp[i][j][vec_index])</span>
+        <span class="nb">sum</span><span class="o">=</span><span class="n">simplify</span><span class="p">(</span><span class="nb">sum</span><span class="p">)</span>
+        <span class="c1"># print(i,sum)</span>
+        <span class="k">assert</span> <span class="nb">sum</span><span class="o">==</span><span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="symbolicLER.dynamic_calculation_of_dp">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.dynamic_calculation_of_dp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dynamic_calculation_of_dp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># DP tables</span>
+        <span class="n">MAX_I</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_dp</span><span class="p">()</span>
+
+
+        <span class="n">col_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">+</span><span class="mi">1</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># Fill   dp[i][j][·]   using the recurrence in Eq. (1)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_I</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="n">i</span>
+
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>           <span class="c1"># j ≤ i</span>
+                <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">MAX_weight</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1">#print(&quot;MAX_I=&quot;,MAX_I,&quot;i=&quot;,i,&quot;j=&quot;,j)</span>
+                <span class="k">for</span> <span class="n">vec_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_detector_outcome</span><span class="p">):</span>
+
+                    <span class="n">vec</span> <span class="o">=</span> <span class="n">idx_to_vec</span><span class="p">(</span><span class="n">vec_idx</span><span class="p">,</span><span class="n">col_size</span><span class="p">)</span>
+
+                    <span class="c1"># 1) “no error’’ branch</span>
+                    <span class="n">acc</span> <span class="o">=</span> <span class="n">q</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">vec_idx</span><span class="p">]</span>
+
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">prop</span><span class="p">)</span> <span class="ow">in</span> <span class="p">((</span><span class="n">Px</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_X</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+                                            <span class="p">(</span><span class="n">Py</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Y</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+                                            <span class="p">(</span><span class="n">Pz</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PROP_Z</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
+                            
+
+                            <span class="n">prev_vec</span> <span class="o">=</span> <span class="n">xor_vec</span><span class="p">(</span><span class="n">prop</span><span class="p">,</span> <span class="n">vec</span><span class="p">)</span>
+                            <span class="n">acc</span> <span class="o">+=</span> <span class="n">prob</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span> <span class="n">vec_to_idx</span><span class="p">(</span><span class="n">prev_vec</span><span class="p">)</span> <span class="p">]</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">][</span><span class="n">vec_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">simplify</span><span class="p">(</span><span class="n">acc</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">MAX_weight</span><span class="o">&gt;=</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">verify_table</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="symbolicLER.calculate_LER_brute_force">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calculate_LER_brute_force">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_brute_force</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enumerate all possible noise input to get the exact LER polynomial</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+
+    <span class="c1"># ----------------------------------------------------------------------</span>
+    <span class="c1"># Calculate logical error rate</span>
+    <span class="c1"># The input is a list of rows with logical errors</span>
+<div class="viewcode-block" id="symbolicLER.calculate_LER">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calculate_LER">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">for</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">subLER</span><span class="o">=</span><span class="mi">0</span>
+            <span class="k">for</span> <span class="n">rowindex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_error_row_indices</span><span class="p">:</span>
+                <span class="n">subLER</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">_dp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">][</span><span class="n">weight</span><span class="p">][</span><span class="n">rowindex</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LER</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span><span class="o">=</span><span class="n">simplify</span><span class="p">(</span><span class="n">subLER</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">+=</span><span class="n">simplify</span><span class="p">(</span><span class="n">subLER</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">=</span><span class="n">simplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+        <span class="c1">#LER=LER.series(p, 0, MAX_degree).removeO()    # no .expand()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LER polynomial: &quot;</span><span class="p">,</span> <span class="n">latex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span></div>
+
+
+
+<div class="viewcode-block" id="symbolicLER.evaluate_LER">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.evaluate_LER">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_LER</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pval</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">subs</span><span class="o">=</span><span class="p">{</span><span class="n">p</span><span class="p">:</span><span class="n">pval</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="symbolicLER.evaluate_LER_subspace">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.evaluate_LER_subspace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_LER_subspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">pval</span><span class="p">,</span><span class="n">weight</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LER</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">subs</span><span class="o">=</span><span class="p">{</span><span class="n">p</span><span class="p">:</span><span class="n">pval</span><span class="p">})</span></div>
+
+
+
+<div class="viewcode-block" id="symbolicLER.subspace_LER">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.subspace_LER">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">subspace_LER</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">weight</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the subspace LER for a given weight</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">weight</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LER</span><span class="p">:</span>
+            <span class="n">bernolli_coeff</span> <span class="o">=</span> <span class="n">binomial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">,</span> <span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="o">**</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">p</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">-</span><span class="n">weight</span><span class="p">))</span>
+            <span class="n">subspaceLER</span><span class="o">=</span><span class="n">simplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LER</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span><span class="o">/</span><span class="n">bernolli_coeff</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">subspaceLER</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Subspace LER for weight </span><span class="si">{}</span><span class="s2"> is not calculated.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">weight</span><span class="p">))</span></div>
+
+
+
+    
+<div class="viewcode-block" id="symbolicLER.calculate_LER_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calculate_LER_from_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">pvalue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The most import function. Read the stim circuit, calculate the exact polynomial </span>
+<span class="sd">        of LER, and evaluate with the value of p(physical error rate).</span>
+
+<span class="sd">        Following steps are included:</span>
+<span class="sd">             Step1:   Parse the circuit from the file, inject depolarization noise</span>
+<span class="sd">             Step2:   Compile the STIM detector graph, generate the entire prediction table</span>
+<span class="sd">             Stem3:   Construct the QEPG graph</span>
+<span class="sd">             Step4:   Calculate all row indices in the table that will cause logical error</span>
+<span class="sd">             Step5:   Use dynamic algorithm to calculate the probability of measuring any possible outcomes</span>
+<span class="sd">             Step6:   Sum up all probability in the row with logical error</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">             filepath: The path of the file with the STIM circuit</span>
+<span class="sd">             pvalue:   The physical error rate</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             A floating value which store the final logical error rate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="o">=</span><span class="n">pvalue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse_from_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step2: Generate the prediction table---&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_pymatching_table</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step2: construction QEPG--------------&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_single_pauli_propagation</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step3: calculating error indices--------------&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calc_error_row_indices</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step4: dynamic algorithm--------------&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_calculation_of_dp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LER</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_LER</span><span class="p">(</span><span class="n">pvalue</span><span class="p">)</span></div>
+
+
+
+
+<div class="viewcode-block" id="symbolicLER.calc_LER_of_QECircuit">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calc_LER_of_QECircuit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calc_LER_of_QECircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qeccirc</span><span class="p">:</span><span class="n">QECStab</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span> <span class="n">NoiseModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a QECStab object, calculate the LER polynomial symbolically</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            qeccirc: A QECStab object</span>
+<span class="sd">            error_rate: The physical error rate</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The symbolic polynomial of LER</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span> <span class="o">=</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">error_rate</span>        
+        <span class="n">qeccirc</span><span class="o">.</span><span class="n">construct_IR_standard_scheme</span><span class="p">()</span>
+        <span class="n">qeccirc</span><span class="o">.</span><span class="n">compile_stim_circuit_from_IR_standard</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span> <span class="o">=</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">reconstruct_clifford_circuit</span><span class="p">(</span><span class="n">qeccirc</span><span class="o">.</span><span class="n">circuit</span><span class="p">)</span> 
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">totalnoise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="o">.</span><span class="n">parityMatchGroup</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total_detector_outcome</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">=</span><span class="n">QEPGpython</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cliffordcircuit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">backword_graph_construction</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step2: Generate the prediction table---&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_pymatching_table</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step2: construction QEPG--------------&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_single_pauli_propagation</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step3: calculating error indices--------------&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calc_error_row_indices</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---Step4: dynamic algorithm--------------&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dynamic_calculation_of_dp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calculate_LER</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluate_LER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Evaluated LER at p=</span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span></div>
+</div>
+
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+
+    <span class="n">tmp</span><span class="o">=</span><span class="n">symbolicLER</span><span class="p">(</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;C:/Users/username/Documents/Sampling/stimprograms/small/simple&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">calculate_LER_from_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span><span class="mf">0.001</span><span class="p">))</span>
+
+
+    <span class="n">num_noise</span><span class="o">=</span><span class="n">tmp</span><span class="o">.</span><span class="n">_num_noise</span>
+
+    <span class="c1"># for weight in range(1,11):</span>
+    <span class="c1">#     print(&quot;LER in the subspace {} is {}&quot;.format(weight,tmp.evaluate_LER_subspace(0.001,weight)))        </span>
+
+
+    <span class="k">for</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SubspaceLER </span><span class="si">{}</span><span class="s2"> is </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span><span class="n">tmp</span><span class="o">.</span><span class="n">subspace_LER</span><span class="p">(</span><span class="n">weight</span><span class="p">)))</span>        
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">scalerqec</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">scalerqec</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, John Ye.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

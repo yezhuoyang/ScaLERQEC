@@ -164,11 +164,8 @@ ScalerQEC compile any STIM circuit to QEPG graph.
 
 ```python
 import scalerqec.qepg as qepg
-
 graph = qepg.compile_QEPG(open("circuit.stim").read())
-
 samples = qepg.return_samples_with_fixed_QEPG(graph, weight=3, shots=10_000)
-
 print(samples)
 ```
 

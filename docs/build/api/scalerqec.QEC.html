@@ -1,0 +1,1405 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="scalerqec.Stratified package" href="scalerqec.Stratified.html"><link rel="prev" title="scalerqec.Monte package" href="scalerqec.Monte.html">
+
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
+        <title>scalerqec.QEC package - scalerqec 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">scalerqec 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">scalerqec 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">scalerqec</a><input aria-label="Toggle navigation of scalerqec" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="scalerqec.html">scalerqec package</a><input aria-label="Toggle navigation of scalerqec package" checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="scalerqec.Clifford.html">scalerqec.Clifford package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalerqec.Monte.html">scalerqec.Monte package</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">scalerqec.QEC package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalerqec.Stratified.html">scalerqec.Stratified package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalerqec.Symbolic.html">scalerqec.Symbolic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scalerqec.util.html">scalerqec.util package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/api/scalerqec.QEC.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="scalerqec-qec-package">
+<h1>scalerqec.QEC package<a class="headerlink" href="#scalerqec-qec-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-scalerqec.QEC.magic">
+<span id="scalerqec-qec-magic-module"></span><h2>scalerqec.QEC.magic module<a class="headerlink" href="#module-scalerqec.QEC.magic" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-scalerqec.QEC.noisemodel">
+<span id="scalerqec-qec-noisemodel-module"></span><h2>scalerqec.QEC.noisemodel module<a class="headerlink" href="#module-scalerqec.QEC.noisemodel" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.noisemodel.</span></span><span class="sig-name descname"><span class="pre">ErrorType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#ErrorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.CNOT">
+<span class="sig-name descname"><span class="pre">CNOT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.CNOT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.CZ">
+<span class="sig-name descname"><span class="pre">CZ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.CZ" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.HADAMARD">
+<span class="sig-name descname"><span class="pre">HADAMARD</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.HADAMARD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.MEASUREMENT">
+<span class="sig-name descname"><span class="pre">MEASUREMENT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.MEASUREMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.PAULIX">
+<span class="sig-name descname"><span class="pre">PAULIX</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.PAULIX" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.PAULIY">
+<span class="sig-name descname"><span class="pre">PAULIY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.PAULIY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.PAULIZ">
+<span class="sig-name descname"><span class="pre">PAULIZ</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.PAULIZ" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.PHASE">
+<span class="sig-name descname"><span class="pre">PHASE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.PHASE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.ErrorType.RESET">
+<span class="sig-name descname"><span class="pre">RESET</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.ErrorType.RESET" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.NoiseModel">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.noisemodel.</span></span><span class="sig-name descname"><span class="pre">NoiseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.noisemodel.NoiseModel" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing a noise model for quantum error correction simulations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.NoiseModel.disable_error">
+<span class="sig-name descname"><span class="pre">disable_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.disable_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.noisemodel.NoiseModel.disable_error" title="Link to this definition">¶</a></dt>
+<dd><p>Disable a specific type of error in the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>error_type</strong> – The type of error to disable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.NoiseModel.error_rate">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">error_rate</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#scalerqec.QEC.noisemodel.NoiseModel.error_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Get the error rate of the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The error rate as a float.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.NoiseModel.reconstruct_clifford_circuit">
+<span class="sig-name descname"><span class="pre">reconstruct_clifford_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clifford_circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit" title="scalerqec.Clifford.clifford.CliffordCircuit"><span class="pre">CliffordCircuit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit" title="scalerqec.Clifford.clifford.CliffordCircuit"><span class="pre">CliffordCircuit</span></a></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.reconstruct_clifford_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.noisemodel.NoiseModel.reconstruct_clifford_circuit" title="Link to this definition">¶</a></dt>
+<dd><p>Reconstruct a given Clifford circuit to incorporate the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>clifford_circuit</strong> – The original Clifford circuit to be modified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new Clifford circuit with the noise model applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.NoiseModel.rewrite_stim_program">
+<span class="sig-name descname"><span class="pre">rewrite_stim_program</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stim_program</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.rewrite_stim_program"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.noisemodel.NoiseModel.rewrite_stim_program" title="Link to this definition">¶</a></dt>
+<dd><p>Rewrite a given stim program to incorporate the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stim_program</strong> – The original stim program to be modified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new stim program with the noise model applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.noisemodel.NoiseModel.uniform_depolarization_single">
+<span class="sig-name descname"><span class="pre">uniform_depolarization_single</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.uniform_depolarization_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.noisemodel.NoiseModel.uniform_depolarization_single" title="Link to this definition">¶</a></dt>
+<dd><p>Apply uniform depolarization noise to single-qubit operations in the stim program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stim_program</strong> (<em>str</em>) – The original stim program.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The modified stim program with depolarization noise applied.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p># Placeholder for actual implementation</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-scalerqec.QEC.qeccircuit">
+<span id="scalerqec-qec-qeccircuit-module"></span><h2>scalerqec.QEC.qeccircuit module<a class="headerlink" href="#module-scalerqec.QEC.qeccircuit" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.DetectorInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">DetectorInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#DetectorInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.DetectorInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.ParityInstruction" title="scalerqec.QEC.qeccircuit.ParityInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParityInstruction</span></code></a></p>
+<p>A class representing a detector instruction in the intermediate representation (IR) of a quantum circuit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IF_THENInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">IF_THENInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">then_branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><span class="pre">IRInstruction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#IF_THENInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IF_THENInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></p>
+<p>A class representing an IF-THEN instruction in the intermediate representation (IR) of a quantum circuit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">IRInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instr_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#IRInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing an intermediate representation (IR) instruction for quantum circuits.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">IRType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#IRType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.DETECTOR">
+<span class="sig-name descname"><span class="pre">DETECTOR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.DETECTOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.IF_THEN">
+<span class="sig-name descname"><span class="pre">IF_THEN</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.IF_THEN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.OBSERVABLE">
+<span class="sig-name descname"><span class="pre">OBSERVABLE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.OBSERVABLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.PROP">
+<span class="sig-name descname"><span class="pre">PROP</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.PROP" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.REPEAT">
+<span class="sig-name descname"><span class="pre">REPEAT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.REPEAT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.REPEAT_UNTIL">
+<span class="sig-name descname"><span class="pre">REPEAT_UNTIL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.REPEAT_UNTIL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.IRType.WHILE">
+<span class="sig-name descname"><span class="pre">WHILE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.IRType.WHILE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.ObservableInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">ObservableInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#ObservableInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.ObservableInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.ParityInstruction" title="scalerqec.QEC.qeccircuit.ParityInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParityInstruction</span></code></a></p>
+<p>A class representing an observable instruction in the intermediate representation (IR) of a quantum circuit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.ParityInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">ParityInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ir_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType" title="scalerqec.QEC.qeccircuit.IRType"><span class="pre">IRType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#ParityInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.ParityInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></p>
+<p>Base class for parity-based IR instructions (detectors, observables).</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.ParityInstruction.args">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">args</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.ParityInstruction.args" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.ParityInstruction.dest">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dest</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.ParityInstruction.dest" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">QECStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.add_stab">
+<span class="sig-name descname"><span class="pre">add_stab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.add_stab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.add_stab" title="Link to this definition">¶</a></dt>
+<dd><p>Add a stabilizer generator to the code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stab</strong> (<em>str</em>) – A string representation of the stabilizer generator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.circuit">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">circuit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.circuit" title="Link to this definition">¶</a></dt>
+<dd><p>Get the Clifford circuit for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The Clifford circuit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard">
+<span class="sig-name descname"><span class="pre">compile_stim_circuit_from_IR_standard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.compile_stim_circuit_from_IR_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard" title="Link to this definition">¶</a></dt>
+<dd><p>Compile the stim circuit from the intermediate representation (IR).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The compiled stim circuit as a string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme">
+<span class="sig-name descname"><span class="pre">construct_IR_standard_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_IR_standard_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme" title="Link to this definition">¶</a></dt>
+<dd><p>Construct the quantum error-correcting circuit using the standard scheme.
+Now, we will create the intermediate representation (IR) for the circuit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.construct_circuit">
+<span class="sig-name descname"><span class="pre">construct_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.construct_circuit" title="Link to this definition">¶</a></dt>
+<dd><p>Construct the quantum error-correcting circuit based on the stabilizers and scheme.</p>
+<dl class="simple">
+<dt>There is a two step compilation:</dt><dd><p>First, compile the stabilizers into an intermediate representation (IR) of the circuit.
+Second, translate the IR into a Clifford circuit.
+In IR, there is no concept of qubits, only Pauli operators, detectors, observables, and their relationships.</p>
+</dd>
+</dl>
+<p>The IR has the form:</p>
+<p>c0 = Prop XYZIX
+c1 = Prop IXYZI
+d0 = Parity c0 c1
+o0 = Parity c0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">construct_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Construct the standard XZ parity check matrix for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parity check matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.d">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.d" title="Link to this definition">¶</a></dt>
+<dd><p>Get the distance of the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The distance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">get_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.get_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Get the standard XZ parity check matrix for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parity check matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">init_by_parity_check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paritymatrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.init_by_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the QECC stabilizer structures using a given parity check matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>paritymatrix</strong> (<em>np.ndarray</em>) – The parity check matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled">
+<span class="sig-name descname"><span class="pre">is_IR_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_IR_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the intermediate representation (IR) has been compiled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the IR is compiled, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled">
+<span class="sig-name descname"><span class="pre">is_circuit_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_circuit_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the quantum error-correcting circuit has been compiled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the circuit is compiled, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.k">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.k" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of logical qubits in the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of logical qubits.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.n">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.n" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of physical qubits in the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of physical qubits.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.noisemodel">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">noisemodel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel"><span class="pre">NoiseModel</span></a></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.noisemodel" title="Link to this definition">¶</a></dt>
+<dd><p>Get the noise model associated with the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The noise model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel">NoiseModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.rounds">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rounds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.rounds" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of error correction rounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of rounds.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.scheme">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scheme</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME"><span class="pre">SCHEME</span></a></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.scheme" title="Link to this definition">¶</a></dt>
+<dd><p>Get the error correction scheme for the code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The error correction scheme.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME">SCHEME</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.set_logical_Z">
+<span class="sig-name descname"><span class="pre">set_logical_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logicalZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.set_logical_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.set_logical_Z" title="Link to this definition">¶</a></dt>
+<dd><p>Set the logical Z operator for a given logical qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the logical qubit.</p></li>
+<li><p><strong>logicalZ</strong> (<em>str</em>) – A string representation of the logical Z operator.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.show_IR">
+<span class="sig-name descname"><span class="pre">show_IR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.show_IR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.show_IR" title="Link to this definition">¶</a></dt>
+<dd><p>Display the intermediate representation of the quantum error-correcting circuit.</p>
+<p>The IR has the form:</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.stimcirc">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stimcirc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.stimcirc" title="Link to this definition">¶</a></dt>
+<dd><p>Get the stimulus circuit for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The stimulus circuit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.REPEATInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">REPEATInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><span class="pre">IRInstruction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#REPEATInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.REPEATInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></p>
+<p>A class representing a REPEAT instruction in the intermediate representation (IR) of a quantum circuit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.REPEAT_UNTILInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">REPEAT_UNTILInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><span class="pre">IRInstruction</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">until_condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#REPEAT_UNTILInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.REPEAT_UNTILInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></p>
+<p>A class representing a REPEAT-UNTIL instruction in the intermediate representation (IR) of a quantum circuit.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.SCHEME">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">SCHEME</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#SCHEME"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.SCHEME" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.SCHEME.FLAG">
+<span class="sig-name descname"><span class="pre">FLAG</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.SCHEME.FLAG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.SCHEME.KNILL">
+<span class="sig-name descname"><span class="pre">KNILL</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.SCHEME.KNILL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.SCHEME.SHOR">
+<span class="sig-name descname"><span class="pre">SHOR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.SCHEME.SHOR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.SCHEME.STANDARD">
+<span class="sig-name descname"><span class="pre">STANDARD</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.SCHEME.STANDARD" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">StabPropInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">round</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stabindex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_observable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observable_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabPropInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></p>
+<p>A class representing an intermediate representation (IR) instruction for quantum circuits.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction.dest">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dest</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.dest" title="Link to this definition">¶</a></dt>
+<dd><p>Get the destination qubit/observable/detector from the instruction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The destination string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction.get_observable_index">
+<span class="sig-name descname"><span class="pre">get_observable_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabPropInstruction.get_observable_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.get_observable_index" title="Link to this definition">¶</a></dt>
+<dd><p>Get the index of the observable if applicable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The observable index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction.get_stabindex">
+<span class="sig-name descname"><span class="pre">get_stabindex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabPropInstruction.get_stabindex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.get_stabindex" title="Link to this definition">¶</a></dt>
+<dd><p>Get the stabilizer index of the stabilizer propagation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The stabilizer index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction.is_observable">
+<span class="sig-name descname"><span class="pre">is_observable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabPropInstruction.is_observable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.is_observable" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the stabilizer propagation is for an observable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if it is an observable, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction.round">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">round</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.round" title="Link to this definition">¶</a></dt>
+<dd><p>Get the round number of the stabilizer propagation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The round number.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabPropInstruction.stab">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stab</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.stab" title="Link to this definition">¶</a></dt>
+<dd><p>Get the stabilizer from the instruction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The stabilizer string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.WHILEInstruction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">WHILEInstruction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><span class="pre">IRInstruction</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#WHILEInstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.WHILEInstruction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction" title="scalerqec.QEC.qeccircuit.IRInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></p>
+<p>A class representing a WHILE instruction in the intermediate representation (IR) of a quantum circuit.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.commute">
+<span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">commute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stab2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#commute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.commute" title="Link to this definition">¶</a></dt>
+<dd><p>Check if two stabilizer generators commute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stab1</strong> (<em>str</em>) – The first stabilizer generator.</p></li>
+<li><p><strong>stab2</strong> (<em>str</em>) – The second stabilizer generator.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the stabilizers commute, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.test_commute">
+<span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">test_commute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#test_commute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.test_commute" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-scalerqec.QEC.small">
+<span id="scalerqec-qec-small-module"></span><h2>scalerqec.QEC.small module<a class="headerlink" href="#module-scalerqec.QEC.small" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-scalerqec.QEC.surface">
+<span id="scalerqec-qec-surface-module"></span><h2>scalerqec.QEC.surface module<a class="headerlink" href="#module-scalerqec.QEC.surface" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-scalerqec.QEC">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scalerqec.QEC" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.NoiseModel">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.</span></span><span class="sig-name descname"><span class="pre">NoiseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_rate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.NoiseModel" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing a noise model for quantum error correction simulations.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.NoiseModel.disable_error">
+<span class="sig-name descname"><span class="pre">disable_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">error_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.disable_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.NoiseModel.disable_error" title="Link to this definition">¶</a></dt>
+<dd><p>Disable a specific type of error in the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>error_type</strong> – The type of error to disable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.NoiseModel.error_rate">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">error_rate</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></span><a class="headerlink" href="#scalerqec.QEC.NoiseModel.error_rate" title="Link to this definition">¶</a></dt>
+<dd><p>Get the error rate of the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The error rate as a float.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.NoiseModel.reconstruct_clifford_circuit">
+<span class="sig-name descname"><span class="pre">reconstruct_clifford_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clifford_circuit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit" title="scalerqec.Clifford.clifford.CliffordCircuit"><span class="pre">CliffordCircuit</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit" title="scalerqec.Clifford.clifford.CliffordCircuit"><span class="pre">CliffordCircuit</span></a></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.reconstruct_clifford_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.NoiseModel.reconstruct_clifford_circuit" title="Link to this definition">¶</a></dt>
+<dd><p>Reconstruct a given Clifford circuit to incorporate the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>clifford_circuit</strong> – The original Clifford circuit to be modified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new Clifford circuit with the noise model applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.NoiseModel.rewrite_stim_program">
+<span class="sig-name descname"><span class="pre">rewrite_stim_program</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stim_program</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.rewrite_stim_program"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.NoiseModel.rewrite_stim_program" title="Link to this definition">¶</a></dt>
+<dd><p>Rewrite a given stim program to incorporate the noise model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stim_program</strong> – The original stim program to be modified.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new stim program with the noise model applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.NoiseModel.uniform_depolarization_single">
+<span class="sig-name descname"><span class="pre">uniform_depolarization_single</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/noisemodel.html#NoiseModel.uniform_depolarization_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.NoiseModel.uniform_depolarization_single" title="Link to this definition">¶</a></dt>
+<dd><p>Apply uniform depolarization noise to single-qubit operations in the stim program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stim_program</strong> (<em>str</em>) – The original stim program.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The modified stim program with depolarization noise applied.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p># Placeholder for actual implementation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.</span></span><span class="sig-name descname"><span class="pre">QECStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.add_stab">
+<span class="sig-name descname"><span class="pre">add_stab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.add_stab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.add_stab" title="Link to this definition">¶</a></dt>
+<dd><p>Add a stabilizer generator to the code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stab</strong> (<em>str</em>) – A string representation of the stabilizer generator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.circuit">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">circuit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.circuit" title="Link to this definition">¶</a></dt>
+<dd><p>Get the Clifford circuit for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The Clifford circuit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard">
+<span class="sig-name descname"><span class="pre">compile_stim_circuit_from_IR_standard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.compile_stim_circuit_from_IR_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard" title="Link to this definition">¶</a></dt>
+<dd><p>Compile the stim circuit from the intermediate representation (IR).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The compiled stim circuit as a string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.construct_IR_standard_scheme">
+<span class="sig-name descname"><span class="pre">construct_IR_standard_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_IR_standard_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.construct_IR_standard_scheme" title="Link to this definition">¶</a></dt>
+<dd><p>Construct the quantum error-correcting circuit using the standard scheme.
+Now, we will create the intermediate representation (IR) for the circuit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.construct_circuit">
+<span class="sig-name descname"><span class="pre">construct_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.construct_circuit" title="Link to this definition">¶</a></dt>
+<dd><p>Construct the quantum error-correcting circuit based on the stabilizers and scheme.</p>
+<dl class="simple">
+<dt>There is a two step compilation:</dt><dd><p>First, compile the stabilizers into an intermediate representation (IR) of the circuit.
+Second, translate the IR into a Clifford circuit.
+In IR, there is no concept of qubits, only Pauli operators, detectors, observables, and their relationships.</p>
+</dd>
+</dl>
+<p>The IR has the form:</p>
+<p>c0 = Prop XYZIX
+c1 = Prop IXYZI
+d0 = Parity c0 c1
+o0 = Parity c0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.construct_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">construct_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.construct_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Construct the standard XZ parity check matrix for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parity check matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.d">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.d" title="Link to this definition">¶</a></dt>
+<dd><p>Get the distance of the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The distance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.get_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">get_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.get_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.get_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Get the standard XZ parity check matrix for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The parity check matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.init_by_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">init_by_parity_check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paritymatrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.init_by_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.init_by_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the QECC stabilizer structures using a given parity check matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>paritymatrix</strong> (<em>np.ndarray</em>) – The parity check matrix.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.is_IR_compiled">
+<span class="sig-name descname"><span class="pre">is_IR_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_IR_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.is_IR_compiled" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the intermediate representation (IR) has been compiled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the IR is compiled, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.is_circuit_compiled">
+<span class="sig-name descname"><span class="pre">is_circuit_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_circuit_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.is_circuit_compiled" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the quantum error-correcting circuit has been compiled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the circuit is compiled, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.k">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.k" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of logical qubits in the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of logical qubits.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.n">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.n" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of physical qubits in the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of physical qubits.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.noisemodel">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">noisemodel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel"><span class="pre">NoiseModel</span></a></span><a class="headerlink" href="#scalerqec.QEC.QECStab.noisemodel" title="Link to this definition">¶</a></dt>
+<dd><p>Get the noise model associated with the QECC.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The noise model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#scalerqec.QEC.NoiseModel" title="scalerqec.QEC.NoiseModel">NoiseModel</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.rounds">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rounds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.rounds" title="Link to this definition">¶</a></dt>
+<dd><p>Get the number of error correction rounds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of rounds.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.scheme">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scheme</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME"><span class="pre">SCHEME</span></a></span><a class="headerlink" href="#scalerqec.QEC.QECStab.scheme" title="Link to this definition">¶</a></dt>
+<dd><p>Get the error correction scheme for the code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The error correction scheme.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME">SCHEME</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.set_logical_Z">
+<span class="sig-name descname"><span class="pre">set_logical_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logicalZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.set_logical_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.set_logical_Z" title="Link to this definition">¶</a></dt>
+<dd><p>Set the logical Z operator for a given logical qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – The index of the logical qubit.</p></li>
+<li><p><strong>logicalZ</strong> (<em>str</em>) – A string representation of the logical Z operator.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.show_IR">
+<span class="sig-name descname"><span class="pre">show_IR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.show_IR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.show_IR" title="Link to this definition">¶</a></dt>
+<dd><p>Display the intermediate representation of the quantum error-correcting circuit.</p>
+<p>The IR has the form:</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.stimcirc">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stimcirc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.stimcirc" title="Link to this definition">¶</a></dt>
+<dd><p>Get the stimulus circuit for the quantum error-correcting code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The stimulus circuit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="scalerqec.Stratified.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">scalerqec.Stratified package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="scalerqec.Monte.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">scalerqec.Monte package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, John Ye
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">scalerqec.QEC package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-scalerqec.QEC.magic">scalerqec.QEC.magic module</a></li>
+<li><a class="reference internal" href="#module-scalerqec.QEC.noisemodel">scalerqec.QEC.noisemodel module</a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType"><code class="docutils literal notranslate"><span class="pre">ErrorType</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.CNOT"><code class="docutils literal notranslate"><span class="pre">ErrorType.CNOT</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.CZ"><code class="docutils literal notranslate"><span class="pre">ErrorType.CZ</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.HADAMARD"><code class="docutils literal notranslate"><span class="pre">ErrorType.HADAMARD</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.MEASUREMENT"><code class="docutils literal notranslate"><span class="pre">ErrorType.MEASUREMENT</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.PAULIX"><code class="docutils literal notranslate"><span class="pre">ErrorType.PAULIX</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.PAULIY"><code class="docutils literal notranslate"><span class="pre">ErrorType.PAULIY</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.PAULIZ"><code class="docutils literal notranslate"><span class="pre">ErrorType.PAULIZ</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.PHASE"><code class="docutils literal notranslate"><span class="pre">ErrorType.PHASE</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.ErrorType.RESET"><code class="docutils literal notranslate"><span class="pre">ErrorType.RESET</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel"><code class="docutils literal notranslate"><span class="pre">NoiseModel</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel.disable_error"><code class="docutils literal notranslate"><span class="pre">NoiseModel.disable_error()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel.error_rate"><code class="docutils literal notranslate"><span class="pre">NoiseModel.error_rate</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel.reconstruct_clifford_circuit"><code class="docutils literal notranslate"><span class="pre">NoiseModel.reconstruct_clifford_circuit()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel.rewrite_stim_program"><code class="docutils literal notranslate"><span class="pre">NoiseModel.rewrite_stim_program()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel.uniform_depolarization_single"><code class="docutils literal notranslate"><span class="pre">NoiseModel.uniform_depolarization_single()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-scalerqec.QEC.qeccircuit">scalerqec.QEC.qeccircuit module</a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.DetectorInstruction"><code class="docutils literal notranslate"><span class="pre">DetectorInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IF_THENInstruction"><code class="docutils literal notranslate"><span class="pre">IF_THENInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRInstruction"><code class="docutils literal notranslate"><span class="pre">IRInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType"><code class="docutils literal notranslate"><span class="pre">IRType</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.DETECTOR"><code class="docutils literal notranslate"><span class="pre">IRType.DETECTOR</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.IF_THEN"><code class="docutils literal notranslate"><span class="pre">IRType.IF_THEN</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.OBSERVABLE"><code class="docutils literal notranslate"><span class="pre">IRType.OBSERVABLE</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.PROP"><code class="docutils literal notranslate"><span class="pre">IRType.PROP</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.REPEAT"><code class="docutils literal notranslate"><span class="pre">IRType.REPEAT</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.REPEAT_UNTIL"><code class="docutils literal notranslate"><span class="pre">IRType.REPEAT_UNTIL</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.IRType.WHILE"><code class="docutils literal notranslate"><span class="pre">IRType.WHILE</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.ObservableInstruction"><code class="docutils literal notranslate"><span class="pre">ObservableInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.ParityInstruction"><code class="docutils literal notranslate"><span class="pre">ParityInstruction</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.ParityInstruction.args"><code class="docutils literal notranslate"><span class="pre">ParityInstruction.args</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.ParityInstruction.dest"><code class="docutils literal notranslate"><span class="pre">ParityInstruction.dest</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab"><code class="docutils literal notranslate"><span class="pre">QECStab</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.add_stab"><code class="docutils literal notranslate"><span class="pre">QECStab.add_stab()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.circuit</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard"><code class="docutils literal notranslate"><span class="pre">QECStab.compile_stim_circuit_from_IR_standard()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_IR_standard_scheme()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.construct_circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_circuit()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.d"><code class="docutils literal notranslate"><span class="pre">QECStab.d</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.get_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.init_by_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_IR_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_circuit_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.k"><code class="docutils literal notranslate"><span class="pre">QECStab.k</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.n"><code class="docutils literal notranslate"><span class="pre">QECStab.n</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.noisemodel"><code class="docutils literal notranslate"><span class="pre">QECStab.noisemodel</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.rounds"><code class="docutils literal notranslate"><span class="pre">QECStab.rounds</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.scheme</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.set_logical_Z"><code class="docutils literal notranslate"><span class="pre">QECStab.set_logical_Z()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.show_IR"><code class="docutils literal notranslate"><span class="pre">QECStab.show_IR()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.stimcirc"><code class="docutils literal notranslate"><span class="pre">QECStab.stimcirc</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.REPEATInstruction"><code class="docutils literal notranslate"><span class="pre">REPEATInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.REPEAT_UNTILInstruction"><code class="docutils literal notranslate"><span class="pre">REPEAT_UNTILInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME"><code class="docutils literal notranslate"><span class="pre">SCHEME</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME.FLAG"><code class="docutils literal notranslate"><span class="pre">SCHEME.FLAG</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME.KNILL"><code class="docutils literal notranslate"><span class="pre">SCHEME.KNILL</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME.SHOR"><code class="docutils literal notranslate"><span class="pre">SCHEME.SHOR</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME.STANDARD"><code class="docutils literal notranslate"><span class="pre">SCHEME.STANDARD</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.dest"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction.dest</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.get_observable_index"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction.get_observable_index()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.get_stabindex"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction.get_stabindex()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.is_observable"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction.is_observable()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.round"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction.round</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabPropInstruction.stab"><code class="docutils literal notranslate"><span class="pre">StabPropInstruction.stab</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.WHILEInstruction"><code class="docutils literal notranslate"><span class="pre">WHILEInstruction</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.commute"><code class="docutils literal notranslate"><span class="pre">commute()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.test_commute"><code class="docutils literal notranslate"><span class="pre">test_commute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-scalerqec.QEC.small">scalerqec.QEC.small module</a></li>
+<li><a class="reference internal" href="#module-scalerqec.QEC.surface">scalerqec.QEC.surface module</a></li>
+<li><a class="reference internal" href="#module-scalerqec.QEC">Module contents</a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.NoiseModel"><code class="docutils literal notranslate"><span class="pre">NoiseModel</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.NoiseModel.disable_error"><code class="docutils literal notranslate"><span class="pre">NoiseModel.disable_error()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.NoiseModel.error_rate"><code class="docutils literal notranslate"><span class="pre">NoiseModel.error_rate</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.NoiseModel.reconstruct_clifford_circuit"><code class="docutils literal notranslate"><span class="pre">NoiseModel.reconstruct_clifford_circuit()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.NoiseModel.rewrite_stim_program"><code class="docutils literal notranslate"><span class="pre">NoiseModel.rewrite_stim_program()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.NoiseModel.uniform_depolarization_single"><code class="docutils literal notranslate"><span class="pre">NoiseModel.uniform_depolarization_single()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab"><code class="docutils literal notranslate"><span class="pre">QECStab</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.add_stab"><code class="docutils literal notranslate"><span class="pre">QECStab.add_stab()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.circuit</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard"><code class="docutils literal notranslate"><span class="pre">QECStab.compile_stim_circuit_from_IR_standard()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.construct_IR_standard_scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_IR_standard_scheme()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.construct_circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_circuit()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.construct_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.d"><code class="docutils literal notranslate"><span class="pre">QECStab.d</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.get_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.get_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.init_by_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.init_by_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.is_IR_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_IR_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.is_circuit_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_circuit_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.k"><code class="docutils literal notranslate"><span class="pre">QECStab.k</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.n"><code class="docutils literal notranslate"><span class="pre">QECStab.n</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.noisemodel"><code class="docutils literal notranslate"><span class="pre">QECStab.noisemodel</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.rounds"><code class="docutils literal notranslate"><span class="pre">QECStab.rounds</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.scheme</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.set_logical_Z"><code class="docutils literal notranslate"><span class="pre">QECStab.set_logical_Z()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.show_IR"><code class="docutils literal notranslate"><span class="pre">QECStab.show_IR()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.QECStab.stimcirc"><code class="docutils literal notranslate"><span class="pre">QECStab.stimcirc</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

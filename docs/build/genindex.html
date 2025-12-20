@@ -1,0 +1,1966 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#"><link rel="search" title="Search" href="search.html">
+
+    <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 --><title>Index - scalerqec 0.0.1 documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">scalerqec 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">scalerqec 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">scalerqec</a><input aria-label="Toggle navigation of scalerqec" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/scalerqec.html">scalerqec package</a><input aria-label="Toggle navigation of scalerqec package" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/scalerqec.Clifford.html">scalerqec.Clifford package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scalerqec.Monte.html">scalerqec.Monte package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scalerqec.QEC.html">scalerqec.QEC package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scalerqec.Stratified.html">scalerqec.Stratified package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scalerqec.Symbolic.html">scalerqec.Symbolic package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/scalerqec.util.html">scalerqec.util package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a> | <a href="#X"><strong>X</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_cnot">add_cnot() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_cnot">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_cnot">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_cz">add_cz() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_cz">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_cz">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_depolarize">add_depolarize() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_depolarize">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_depolarize">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_hadamard">add_hadamard() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_hadamard">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_hadamard">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_measurement">add_measurement() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_measurement">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_measurement">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_paulix">add_paulix() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_paulix">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_paulix">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_pauliy">add_pauliy() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_pauliy">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_pauliy">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_pauliz">add_pauliz() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_pauliz">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_pauliz">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_phase">add_phase() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_phase">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_phase">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_reset">add_reset() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_reset">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_reset">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.add_stab">add_stab() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.add_stab">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.add_stab">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.add_xflip_noise">add_xflip_noise() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.add_xflip_noise">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.add_xflip_noise">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.ParityInstruction.args">args (scalerqec.QEC.qeccircuit.ParityInstruction property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.QEPGGraph.backward_graph_construction">backward_graph_construction() (scalerqec.qepg.QEPGGraph method)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.backword_graph_construction">backword_graph_construction() (scalerqec.Clifford.QEPGpython.QEPGpython method)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.bias_estimator">bias_estimator() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.binary_search_lower">binary_search_lower() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.binary_search_lower">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.binary_search_lower">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.binary_search_upper">binary_search_upper() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.binary_search_upper">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.binary_search_upper">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.binom">binom() (in module scalerqec.Symbolic.symbolic)</a>
+</li>
+        <li><a href="api/scalerqec.util.html#scalerqec.util.binomial_weight">binomial_weight() (in module scalerqec.util)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.util.html#scalerqec.util.binomial.binomial_weight">(in module scalerqec.util.binomial)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.calc_error_row_indices">calc_error_row_indices() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.calc_error_row_indices">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.calc_error_row_indices">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.calc_LER_from_QECcircuit">calc_LER_from_QECcircuit() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.calc_LER_from_QECcircuit">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.calc_LER_from_QECcircuit">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.calc_LER_from_QECcircuit">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.calc_LER_from_QECcircuit">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.calc_LER_from_QECcircuit">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.calc_LER_of_QECircuit">calc_LER_of_QECircuit() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.calc_LER_of_QECircuit">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.calc_LER_of_QECircuit">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.calc_logical_error_rate_after_curve_fitting">calc_logical_error_rate_after_curve_fitting() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.calc_logical_error_rate_after_curve_fitting">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.calc_logical_error_rate_after_curve_fitting">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.calc_logical_error_rate_with_fixed_w">calc_logical_error_rate_with_fixed_w() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.calc_logical_error_rate_with_fixed_w">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.calc_logical_error_rate_with_fixed_w">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.calculate_LER">calculate_LER() (in module scalerqec.Symbolic.symbolic)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.calculate_LER">(scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.calculate_LER">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.calculate_LER">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.calculate_LER">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.calculate_LER">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.calculate_LER">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.calculate_LER">(scalerqec.Symbolic.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.calculate_LER">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.calculate_LER">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.calculate_LER_brute_force">calculate_LER_brute_force() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.calculate_LER_brute_force">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.calculate_LER_brute_force">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc.calculate_LER_from_file">calculate_LER_from_file() (scalerqec.Monte.monteLER.stimLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc.calculate_LER_from_file">(scalerqec.Monte.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stimLERcalc.calculate_LER_from_file">(scalerqec.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.Scaler.calculate_LER_from_file">(scalerqec.Stratified.Scaler method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.Scaler.Scaler.calculate_LER_from_file">(scalerqec.Stratified.Scaler.Scaler method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.calculate_LER_from_file">(scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.calculate_LER_from_file">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.calculate_LER_from_file">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.calculate_LER_from_file">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.calculate_LER_from_file">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.calculate_LER_from_file">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.calculate_LER_from_file">(scalerqec.Symbolic.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.calculate_LER_from_file">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.calculate_LER_from_file">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc.calculate_LER_from_file_sinter">calculate_LER_from_file_sinter() (scalerqec.Monte.monteLER.stimLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc.calculate_LER_from_file_sinter">(scalerqec.Monte.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stimLERcalc.calculate_LER_from_file_sinter">(scalerqec.stimLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc.calculate_LER_from_my_random_sampler">calculate_LER_from_my_random_sampler() (scalerqec.Monte.monteLER.stimLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc.calculate_LER_from_my_random_sampler">(scalerqec.Monte.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stimLERcalc.calculate_LER_from_my_random_sampler">(scalerqec.stimLERcalc method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc.calculate_LER_from_QECircuit">calculate_LER_from_QECircuit() (scalerqec.Monte.monteLER.stimLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc.calculate_LER_from_QECircuit">(scalerqec.Monte.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stimLERcalc.calculate_LER_from_QECircuit">(scalerqec.stimLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.calculate_R_square_score">calculate_R_square_score() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.calculate_R_square_score">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.calculate_R_square_score">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc.calculate_standard_error">calculate_standard_error() (scalerqec.Monte.monteLER.stimLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc.calculate_standard_error">(scalerqec.Monte.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stimLERcalc.calculate_standard_error">(scalerqec.stimLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.circuit">circuit (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.circuit">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.circuit">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.clear_all">clear_all() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.clear_all">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.clear_all">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.clear_all">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.clear_all">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.clear_all">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit">CliffordCircuit (class in scalerqec)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit">(class in scalerqec.Clifford)</a>
+</li>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit">(class in scalerqec.Clifford.clifford)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.qepg.CliffordCircuit">(class in scalerqec.qepg)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.CNOT">CNOT (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.commute">commute() (in module scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.compile_detector_and_observable">compile_detector_and_observable() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.compile_detector_and_observable">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.compile_detector_and_observable">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.CliffordCircuit.compile_from_rewrited_stim_string">compile_from_rewrited_stim_string() (scalerqec.qepg.CliffordCircuit method)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.compile_from_stim_circuit_str">compile_from_stim_circuit_str() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.compile_from_stim_circuit_str">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.compile_from_stim_circuit_str">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.compile_QEPG">compile_QEPG() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard">compile_stim_circuit_from_IR_standard() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.compile_stim_circuit_from_IR_standard">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.construct_circuit">construct_circuit() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.construct_circuit">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.construct_circuit">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme">construct_IR_standard_scheme() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.construct_IR_standard_scheme">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.construct_IR_standard_scheme">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix">construct_parity_check_matrix() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.construct_parity_check_matrix">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.construct_parity_check_matrix">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.TwoQGate.control">control (scalerqec.Clifford.clifford.TwoQGate property)</a>
+</li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.count_logical_errors">count_logical_errors() (in module scalerqec.Monte.monteLER)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.CZ">CZ (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.d">d (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.d">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.d">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.ParityInstruction.dest">dest (scalerqec.QEC.qeccircuit.ParityInstruction property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction.dest">(scalerqec.QEC.qeccircuit.StabPropInstruction property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.DETECTOR">DETECTOR (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.DetectorInstruction">DetectorInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.determine_lower_w">determine_lower_w() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.determine_lower_w">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.determine_lower_w">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.determine_range_to_sample">determine_range_to_sample() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.determine_range_to_sample">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.determine_range_to_sample">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.determine_range_to_sample">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.determine_range_to_sample">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.determine_range_to_sample">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.determine_saturated_w">determine_saturated_w() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.determine_saturated_w">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.determine_saturated_w">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.NoiseModel.disable_error">disable_error() (scalerqec.QEC.NoiseModel method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.NoiseModel.disable_error">(scalerqec.QEC.noisemodel.NoiseModel method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.dynamic_calculation_of_dp">dynamic_calculation_of_dp() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.dynamic_calculation_of_dp">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.dynamic_calculation_of_dp">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.DynamicBitset">DynamicBitset (class in scalerqec.qepg)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.error_rate">error_rate (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.error_rate">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.error_rate">(scalerqec.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.NoiseModel.error_rate">(scalerqec.QEC.NoiseModel property)</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.NoiseModel.error_rate">(scalerqec.QEC.noisemodel.NoiseModel property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType">ErrorType (class in scalerqec.QEC.noisemodel)</a>
+</li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.evaluate_LER">evaluate_LER() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.evaluate_LER">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.evaluate_LER">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.evaluate_LER_subspace">evaluate_LER_subspace() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.evaluate_LER_subspace">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.evaluate_LER_subspace">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.evenly_spaced_ints">evenly_spaced_ints() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.example">example() (in module scalerqec.Clifford.clifford)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.fast_calculate_LER_from_file">fast_calculate_LER_from_file() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.fast_calculate_LER_from_file">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.fast_calculate_LER_from_file">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.fit_linear_area">fit_linear_area() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.fit_linear_area">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.fit_linear_area">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.fit_log_S_model">fit_log_S_model() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.fit_log_S_model">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.fit_log_S_model">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.fit_Scurve">fit_Scurve() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.fit_Scurve">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.fit_Scurve">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.SCHEME.FLAG">FLAG (scalerqec.QEC.qeccircuit.SCHEME attribute)</a>
+</li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.format_with_uncertainty">format_with_uncertainty() (in module scalerqec.Monte.monteLER)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.util.html#scalerqec.util.format_with_uncertainty">(in module scalerqec.util)</a>
+</li>
+          <li><a href="api/scalerqec.util.html#scalerqec.util.printer.format_with_uncertainty">(in module scalerqec.util.printer)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.gatelists">gatelists (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.gatelists">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.gatelists">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.generate_pymatching_table">generate_pymatching_table() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.generate_pymatching_table">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.generate_pymatching_table">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.get_LER_subspace">get_LER_subspace() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.get_LER_subspace">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.get_LER_subspace">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.get_LER_subspace">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.get_LER_subspace">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.get_LER_subspace">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.get_LER_subspace_no_weight">get_LER_subspace_no_weight() (scalerqec.Stratified.stratifiedLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.get_LER_subspace_no_weight">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.get_LER_subspace_no_weight">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.get_measIdx_to_parityIdx">get_measIdx_to_parityIdx() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.get_measIdx_to_parityIdx">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.get_measIdx_to_parityIdx">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.CliffordCircuit.get_num_detector">get_num_detector() (scalerqec.qepg.CliffordCircuit method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.CliffordCircuit.get_num_noise">get_num_noise() (scalerqec.qepg.CliffordCircuit method)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.CliffordCircuit.get_num_qubit">get_num_qubit() (scalerqec.qepg.CliffordCircuit method)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction.get_observable_index">get_observable_index() (scalerqec.QEC.qeccircuit.StabPropInstruction method)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix">get_parity_check_matrix() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.get_parity_check_matrix">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.get_parity_check_matrix">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc.get_sample_used">get_sample_used() (scalerqec.Monte.monteLER.stimLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc.get_sample_used">(scalerqec.Monte.stimLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stimLERcalc.get_sample_used">(scalerqec.stimLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction.get_stabindex">get_stabindex() (scalerqec.QEC.qeccircuit.StabPropInstruction method)</a>
+</li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.get_totalnoise">get_totalnoise() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.get_totalnoise">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.get_totalnoise">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.get_yquant_latex">get_yquant_latex() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.get_yquant_latex">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.get_yquant_latex">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.ground_truth_subspace_sampling">ground_truth_subspace_sampling() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.ground_truth_subspace_sampling">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.ground_truth_subspace_sampling">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.HADAMARD">HADAMARD (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.idx_to_bool_list">idx_to_bool_list() (in module scalerqec.Symbolic.symbolicLER)</a>
+</li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.idx_to_vec">idx_to_vec() (in module scalerqec.Symbolic.symbolic)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.idx_to_vec">(in module scalerqec.Symbolic.symbolicLER)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicNaive.idx_to_vec">(in module scalerqec.Symbolic.symbolicNaive)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.IF_THEN">IF_THEN (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IF_THENInstruction">IF_THENInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix">init_by_parity_check_matrix() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.init_by_parity_check_matrix">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.init_by_parity_check_matrix">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.initialize_dp">initialize_dp() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.initialize_dp">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.initialize_dp">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.initialize_single_pauli_propagation">initialize_single_pauli_propagation() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.initialize_single_pauli_propagation">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.initialize_single_pauli_propagation">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.inv_logit_half">inv_logit_half() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRInstruction">IRInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType">IRType (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled">is_circuit_compiled() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.is_circuit_compiled">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.is_circuit_compiled">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled">is_IR_compiled() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.is_IR_compiled">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.is_IR_compiled">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction.is_observable">is_observable() (scalerqec.QEC.qeccircuit.StabPropInstruction method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.k">k (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.k">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.k">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.SCHEME.KNILL">KNILL (scalerqec.QEC.qeccircuit.SCHEME attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.linear_function">linear_function() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.load_all_sample_result">load_all_sample_result() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.load_all_sample_result">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.load_all_sample_result">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.html#scalerqec.interface.main">main() (in module scalerqec.interface)</a>
+</li>
+        <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.MAX_SAMPLE_GAP">MAX_SAMPLE_GAP (in module scalerqec.Monte.monteLER)</a>
+</li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.MAX_weight">MAX_weight (in module scalerqec.Symbolic.symbolicLER)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.Measurement">Measurement (class in scalerqec.Clifford.clifford)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.MEASUREMENT">MEASUREMENT (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.modified_linear_function">modified_linear_function() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.modified_linear_function_with_d">modified_linear_function_with_d() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.modified_sigmoid_function">modified_sigmoid_function() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="api/scalerqec.html#module-scalerqec">scalerqec</a>
+</li>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford">scalerqec.Clifford</a>
+</li>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford.clifford">scalerqec.Clifford.clifford</a>
+</li>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford.QEPGpython">scalerqec.Clifford.QEPGpython</a>
+</li>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford.stimparser">scalerqec.Clifford.stimparser</a>
+</li>
+          <li><a href="api/scalerqec.html#module-scalerqec.interface">scalerqec.interface</a>
+</li>
+          <li><a href="api/scalerqec.Monte.html#module-scalerqec.Monte">scalerqec.Monte</a>
+</li>
+          <li><a href="api/scalerqec.Monte.html#module-scalerqec.Monte.monteLER">scalerqec.Monte.monteLER</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC">scalerqec.QEC</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.magic">scalerqec.QEC.magic</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.noisemodel">scalerqec.QEC.noisemodel</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.qeccircuit">scalerqec.QEC.qeccircuit</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.small">scalerqec.QEC.small</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.surface">scalerqec.QEC.surface</a>
+</li>
+          <li><a href="api/scalerqec.html#module-scalerqec.qepg">scalerqec.qepg</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified">scalerqec.Stratified</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.fitting">scalerqec.Stratified.fitting</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.Scaler">scalerqec.Stratified.Scaler</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.ScurveModel">scalerqec.Stratified.ScurveModel</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.stratifiedLERcalc">scalerqec.Stratified.stratifiedLERcalc</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.stratifiedScurveLER">scalerqec.Stratified.stratifiedScurveLER</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic">scalerqec.Symbolic</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic.symbolic">scalerqec.Symbolic.symbolic</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic.symbolicLER">scalerqec.Symbolic.symbolicLER</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic.symbolicNaive">scalerqec.Symbolic.symbolicNaive</a>
+</li>
+          <li><a href="api/scalerqec.util.html#module-scalerqec.util">scalerqec.util</a>
+</li>
+          <li><a href="api/scalerqec.util.html#module-scalerqec.util.binomial">scalerqec.util.binomial</a>
+</li>
+          <li><a href="api/scalerqec.util.html#module-scalerqec.util.printer">scalerqec.util.printer</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.n">n (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.n">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.n">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.SingleQGate.name">name (scalerqec.Clifford.clifford.SingleQGate property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.TwoQGate.name">(scalerqec.Clifford.clifford.TwoQGate property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.NoiseModel">NoiseModel (class in scalerqec.QEC)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.NoiseModel">(class in scalerqec.QEC.noisemodel)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.noisemodel">noisemodel (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.noisemodel">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.noisemodel">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.pauliNoise.noisetype">noisetype (scalerqec.Clifford.clifford.pauliNoise property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.observable">observable (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.observable">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.observable">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.OBSERVABLE">OBSERVABLE (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.ObservableInstruction">ObservableInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.ParityInstruction">ParityInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.parityMatchGroup">parityMatchGroup (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.parityMatchGroup">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.parityMatchGroup">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.parse_from_file">parse_from_file() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.parse_from_file">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.parse_from_file">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.parse_from_file">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.parse_from_file">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.parse_from_file">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.parse_from_file">(scalerqec.Symbolic.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.parse_from_file">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.parse_from_file">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.html#scalerqec.interface.parse_line">parse_line() (in module scalerqec.interface)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.pauliNoise">pauliNoise (class in scalerqec.Clifford.clifford)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.PAULIX">PAULIX (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.PAULIY">PAULIY (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.PAULIZ">PAULIZ (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.PHASE">PHASE (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.plot_scurve">plot_scurve() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.plot_scurve">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.plot_scurve">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.poly_function">poly_function() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicNaive.pos_int_to_vec">pos_int_to_vec() (in module scalerqec.Symbolic.symbolicNaive)</a>
+</li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.print_table">print_table() (in module scalerqec.Symbolic.symbolic)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.PROP">PROP (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Q" class="genindex-section">
+  <h2>Q</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.html#scalerqec.QECStab">QECStab (class in scalerqec)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab">(class in scalerqec.QEC)</a>
+</li>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab">(class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.QEPGGraph">QEPGGraph (class in scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython">QEPGpython (class in scalerqec.Clifford.QEPGpython)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.quadratic_function">quadratic_function() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.qubit_num">qubit_num (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.qubit_num">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.qubit_num">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.Measurement.qubitindex">qubitindex (scalerqec.Clifford.clifford.Measurement property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.Reset.qubitindex">(scalerqec.Clifford.clifford.Reset property)</a>
+</li>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.SingleQGate.qubitindex">(scalerqec.Clifford.clifford.SingleQGate property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.qubitnum">qubitnum (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.qubitnum">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.qubitnum">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.fitting.r_squared">r_squared() (in module scalerqec.Stratified.fitting)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.read_circuit_from_file">read_circuit_from_file() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.read_circuit_from_file">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.read_circuit_from_file">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.interface.read_file">read_file() (in module scalerqec.interface)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.NoiseModel.reconstruct_clifford_circuit">reconstruct_clifford_circuit() (scalerqec.QEC.NoiseModel method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.NoiseModel.reconstruct_clifford_circuit">(scalerqec.QEC.noisemodel.NoiseModel method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.refined_sweat_spot">refined_sweat_spot() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.REPEAT">REPEAT (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.REPEAT_UNTIL">REPEAT_UNTIL (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.REPEAT_UNTILInstruction">REPEAT_UNTILInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.REPEATInstruction">REPEATInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.Reset">Reset (class in scalerqec.Clifford.clifford)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.ErrorType.RESET">RESET (scalerqec.QEC.noisemodel.ErrorType attribute)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.reset_noise_type">reset_noise_type() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.reset_noise_type">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.reset_noise_type">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_detector_matrix">return_detector_matrix() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples">return_samples() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_many_weights">return_samples_many_weights() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_many_weights_numpy">return_samples_many_weights_numpy() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_many_weights_separate_obs">return_samples_many_weights_separate_obs() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_many_weights_separate_obs_with_QEPG">return_samples_many_weights_separate_obs_with_QEPG() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_Monte_separate_obs_with_QEPG">return_samples_Monte_separate_obs_with_QEPG() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_numpy">return_samples_numpy() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_with_fixed_QEPG">return_samples_with_fixed_QEPG() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.return_samples_with_noise_vector">return_samples_with_noise_vector() (in module scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.stimparser.rewrite_stim_code">rewrite_stim_code() (in module scalerqec.Clifford.stimparser)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.stimparser.stimparser.rewrite_stim_code">(scalerqec.Clifford.stimparser.stimparser method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.NoiseModel.rewrite_stim_program">rewrite_stim_program() (scalerqec.QEC.NoiseModel method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.NoiseModel.rewrite_stim_program">(scalerqec.QEC.noisemodel.NoiseModel method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction.round">round (scalerqec.QEC.qeccircuit.StabPropInstruction property)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.rounds">rounds (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.rounds">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.rounds">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.sample_all_subspace">sample_all_subspace() (scalerqec.Stratified.stratifiedLERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.sample_all_subspace">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.sample_all_subspace">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.sample_all_subspaces">sample_all_subspaces() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.sample_all_subspaces">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.sample_all_subspaces">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.SAMPLE_GAP">SAMPLE_GAP (in module scalerqec.Stratified.stratifiedLERcalc)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_noise_vector">sample_noise_vector() (scalerqec.Clifford.QEPGpython.QEPGpython method)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_x_error">sample_x_error() (scalerqec.Clifford.QEPGpython.QEPGpython method)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_y_error">sample_y_error() (scalerqec.Clifford.QEPGpython.QEPGpython method)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_z_error">sample_z_error() (scalerqec.Clifford.QEPGpython.QEPGpython method)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.Sampler">Sampler (class in scalerqec.qepg)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.save_circuit_to_file">save_circuit_to_file() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.save_circuit_to_file">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.save_circuit_to_file">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.Scaler">Scaler (class in scalerqec.Stratified)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.Scaler.Scaler">(class in scalerqec.Stratified.Scaler)</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec
+
+        <ul>
+          <li><a href="api/scalerqec.html#module-scalerqec">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Clifford
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Clifford.clifford
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford.clifford">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Clifford.QEPGpython
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford.QEPGpython">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Clifford.stimparser
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#module-scalerqec.Clifford.stimparser">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.interface
+
+        <ul>
+          <li><a href="api/scalerqec.html#module-scalerqec.interface">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Monte
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#module-scalerqec.Monte">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Monte.monteLER
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#module-scalerqec.Monte.monteLER">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.QEC
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.QEC.magic
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.magic">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.QEC.noisemodel
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.noisemodel">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.QEC.qeccircuit
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.qeccircuit">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.QEC.small
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.small">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.QEC.surface
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#module-scalerqec.QEC.surface">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.qepg
+
+        <ul>
+          <li><a href="api/scalerqec.html#module-scalerqec.qepg">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Stratified
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Stratified.fitting
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.fitting">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Stratified.Scaler
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.Scaler">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Stratified.ScurveModel
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.ScurveModel">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Stratified.stratifiedLERcalc
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.stratifiedLERcalc">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Stratified.stratifiedScurveLER
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#module-scalerqec.Stratified.stratifiedScurveLER">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Symbolic
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Symbolic.symbolic
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic.symbolic">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Symbolic.symbolicLER
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic.symbolicLER">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.Symbolic.symbolicNaive
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#module-scalerqec.Symbolic.symbolicNaive">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.util
+
+        <ul>
+          <li><a href="api/scalerqec.util.html#module-scalerqec.util">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.util.binomial
+
+        <ul>
+          <li><a href="api/scalerqec.util.html#module-scalerqec.util.binomial">module</a>
+</li>
+        </ul></li>
+        <li>
+    scalerqec.util.printer
+
+        <ul>
+          <li><a href="api/scalerqec.util.html#module-scalerqec.util.printer">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.SCHEME">SCHEME (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.scheme">scheme (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.scheme">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.scheme">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.scurve_function">scurve_function() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.scurve_function_with_distance">scurve_function_with_distance() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.set_logical_Z">set_logical_Z() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.set_logical_Z">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.set_logical_Z">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.set_noise_type">set_noise_type() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.set_noise_type">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.set_noise_type">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.set_sample_bound">set_sample_bound() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.set_sample_bound">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.set_sample_bound">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.set_t">set_t() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.set_t">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.set_t">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.setShowNoise">setShowNoise() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.setShowNoise">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.setShowNoise">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.SCHEME.SHOR">SHOR (scalerqec.QEC.qeccircuit.SCHEME attribute)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.show_all_noise">show_all_noise() (scalerqec.Clifford.clifford.CliffordCircuit method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.show_all_noise">(scalerqec.Clifford.CliffordCircuit method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.show_all_noise">(scalerqec.CliffordCircuit method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.show_bias_estimator">show_bias_estimator() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.show_IR">show_IR() (scalerqec.QEC.qeccircuit.QECStab method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.show_IR">(scalerqec.QEC.QECStab method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.show_IR">(scalerqec.QECStab method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.sigma_estimator">sigma_estimator() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.SingleQGate">SingleQGate (class in scalerqec.Clifford.clifford)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.DynamicBitset.size">size() (scalerqec.qepg.DynamicBitset method)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction.stab">stab (scalerqec.QEC.qeccircuit.StabPropInstruction property)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.StabPropInstruction">StabPropInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.SCHEME.STANDARD">STANDARD (scalerqec.QEC.qeccircuit.SCHEME attribute)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.stim_str">stim_str (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.stim_str">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.stim_str">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.QECStab.stimcirc">stimcirc (scalerqec.QEC.qeccircuit.QECStab property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.QECStab.stimcirc">(scalerqec.QEC.QECStab property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.QECStab.stimcirc">(scalerqec.QECStab property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.stimcircuit">stimcircuit (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.stimcircuit">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.stimcircuit">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.stimLERcalc">stimLERcalc (class in scalerqec)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.stimLERcalc">(class in scalerqec.Monte)</a>
+</li>
+          <li><a href="api/scalerqec.Monte.html#scalerqec.Monte.monteLER.stimLERcalc">(class in scalerqec.Monte.monteLER)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.stimparser.stimparser">stimparser (class in scalerqec.Clifford.stimparser)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc">stratified_Scurve_LERcalc (class in scalerqec)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc">(class in scalerqec.Stratified)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc">(class in scalerqec.Stratified.stratifiedScurveLER)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc">stratifiedLERcalc (class in scalerqec)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc">(class in scalerqec.Stratified)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc">(class in scalerqec.Stratified.stratifiedLERcalc)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.subspace_LER">subspace_LER() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.subspace_LER">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.subspace_LER">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.subspace_sampling">subspace_sampling() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.subspace_sampling">(scalerqec.Stratified.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc.subspace_sampling">(scalerqec.Stratified.stratifiedLERcalc.stratifiedLERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.subspace_sampling">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.subspace_sampling">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratifiedLERcalc.subspace_sampling">(scalerqec.stratifiedLERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratified_Scurve_LERcalc.subspace_sampling_to_fit_curve">subspace_sampling_to_fit_curve() (scalerqec.Stratified.stratified_Scurve_LERcalc method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc.subspace_sampling_to_fit_curve">(scalerqec.Stratified.stratifiedScurveLER.stratified_Scurve_LERcalc method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.stratified_Scurve_LERcalc.subspace_sampling_to_fit_curve">(scalerqec.stratified_Scurve_LERcalc method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Stratified.html#scalerqec.Stratified.ScurveModel.subspace_sigma_estimator">subspace_sigma_estimator() (in module scalerqec.Stratified.ScurveModel)</a>
+</li>
+        <li><a href="api/scalerqec.util.html#scalerqec.util.subspace_size">subspace_size() (in module scalerqec.util)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.util.html#scalerqec.util.binomial.subspace_size">(in module scalerqec.util.binomial)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.html#scalerqec.symbolicLER">symbolicLER (class in scalerqec)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER">(class in scalerqec.Symbolic)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER">(class in scalerqec.Symbolic.symbolicLER)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.TwoQGate.target">target (scalerqec.Clifford.clifford.TwoQGate property)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.DynamicBitset.test">test() (scalerqec.qepg.DynamicBitset method)</a>
+</li>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.test_commute">test_commute() (in module scalerqec.QEC.qeccircuit)</a>
+</li>
+        <li><a href="api/scalerqec.html#scalerqec.qepg.DynamicBitset.to_list">to_list() (scalerqec.qepg.DynamicBitset method)</a>
+</li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.totalMeas">totalMeas (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.totalMeas">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.totalMeas">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.CliffordCircuit.totalnoise">totalnoise (scalerqec.Clifford.clifford.CliffordCircuit property)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.CliffordCircuit.totalnoise">(scalerqec.Clifford.CliffordCircuit property)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.CliffordCircuit.totalnoise">(scalerqec.CliffordCircuit property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Clifford.html#scalerqec.Clifford.clifford.TwoQGate">TwoQGate (class in scalerqec.Clifford.clifford)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.NoiseModel.uniform_depolarization_single">uniform_depolarization_single() (scalerqec.QEC.NoiseModel method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.noisemodel.NoiseModel.uniform_depolarization_single">(scalerqec.QEC.noisemodel.NoiseModel method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.vec_to_idx">vec_to_idx() (in module scalerqec.Symbolic.symbolic)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.vec_to_idx">(in module scalerqec.Symbolic.symbolicLER)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicNaive.vec_to_idx">(in module scalerqec.Symbolic.symbolicNaive)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.verify_table">verify_table() (scalerqec.Symbolic.symbolicLER method)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.symbolicLER.verify_table">(scalerqec.Symbolic.symbolicLER.symbolicLER method)</a>
+</li>
+          <li><a href="api/scalerqec.html#scalerqec.symbolicLER.verify_table">(scalerqec.symbolicLER method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.verity_table">verity_table() (in module scalerqec.Symbolic.symbolic)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.IRType.WHILE">WHILE (scalerqec.QEC.qeccircuit.IRType attribute)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.QEC.html#scalerqec.QEC.qeccircuit.WHILEInstruction">WHILEInstruction (class in scalerqec.QEC.qeccircuit)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="X" class="genindex-section">
+  <h2>X</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolic.xor_vec">xor_vec() (in module scalerqec.Symbolic.symbolic)</a>
+
+        <ul>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicLER.xor_vec">(in module scalerqec.Symbolic.symbolicLER)</a>
+</li>
+          <li><a href="api/scalerqec.Symbolic.html#scalerqec.Symbolic.symbolicNaive.xor_vec">(in module scalerqec.Symbolic.symbolicNaive)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, John Ye
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

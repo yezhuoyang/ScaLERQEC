@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scalerqec.Clifford.QEPGpython &#8212; scalerqec 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../../_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for scalerqec.Clifford.QEPGpython</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.clifford</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+
+
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Class of quantum error propagation graph</span>
+<span class="sd">TODO: Optimize the algorithm to construct the QEPG</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="QEPGpython">
+<a class="viewcode-back" href="../../../api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QEPGpython</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">circuit</span><span class="p">:</span><span class="n">CliffordCircuit</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span> <span class="o">=</span> <span class="n">circuit</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total_meas</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">_totalMeas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_total_noise</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">_totalnoise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_noise</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">parityMatchGroup</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="QEPGpython.backword_graph_construction">
+<a class="viewcode-back" href="../../../api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.backword_graph_construction">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backword_graph_construction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nqubit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">_qubit_num</span>
+        <span class="c1">#Keep track of the effect of X,Y,Z back propagation</span>
+
+
+        <span class="n">column_size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">parityMatchGroup</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">current_x_prop</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nqubit</span><span class="p">,</span><span class="n">column_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+        <span class="n">current_y_prop</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nqubit</span><span class="p">,</span><span class="n">column_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+        <span class="n">current_z_prop</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nqubit</span><span class="p">,</span><span class="n">column_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;uint8&#39;</span><span class="p">)</span>
+
+
+        <span class="n">current_noise_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">_totalnoise</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">current_meas_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_meas</span><span class="o">-</span><span class="mi">1</span>  
+
+
+        <span class="n">total_noise</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_noise</span>
+        <span class="n">T</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">_gatelists</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1">#Update current_x_prop, current_y_prop, current_z_prop based on the current gate and measurement</span>
+            <span class="n">gate</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">_gatelists</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+<span class="w">            </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            If the gate is a oiginal noise, add edges to the graph based on current propogation</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">pauliNoise</span><span class="p">):</span>
+                <span class="n">noiseindex</span><span class="o">=</span><span class="n">current_noise_index</span> 
+                <span class="c1">#print(&quot;Noise!&quot;)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="p">[</span><span class="n">noiseindex</span><span class="p">,:]</span><span class="o">=</span><span class="n">current_x_prop</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="p">[</span><span class="n">total_noise</span><span class="o">+</span><span class="n">noiseindex</span><span class="p">,:]</span><span class="o">=</span><span class="n">current_y_prop</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="p">[</span><span class="n">total_noise</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="n">noiseindex</span><span class="p">,:]</span><span class="o">=</span><span class="n">current_z_prop</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">current_noise_index</span><span class="o">-=</span><span class="mi">1</span>
+                <span class="k">continue</span>
+<span class="w">            </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            When there is a measurement, update the current propogation based on the measurement</span>
+<span class="sd">            We just need to consider the propagation of X and Y because only </span>
+<span class="sd">            the X and Y error can be detected by the measurement</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">Measurement</span><span class="p">):</span>
+                <span class="n">measureindex</span><span class="o">=</span><span class="n">current_meas_index</span>
+
+                <span class="n">qindex</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">measureindex</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">observable</span><span class="p">):</span>
+                    <span class="n">current_x_prop</span><span class="p">[</span><span class="n">qindex</span><span class="p">][</span><span class="n">column_size</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="n">current_y_prop</span><span class="p">[</span><span class="n">qindex</span><span class="p">][</span><span class="n">column_size</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+
+
+                <span class="k">for</span> <span class="n">parityIdx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_circuit</span><span class="o">.</span><span class="n">get_measIdx_to_parityIdx</span><span class="p">(</span><span class="n">measureindex</span><span class="p">):</span>
+                    <span class="n">current_x_prop</span><span class="p">[</span><span class="n">qindex</span><span class="p">][</span><span class="n">parityIdx</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="n">current_y_prop</span><span class="p">[</span><span class="n">qindex</span><span class="p">][</span><span class="n">parityIdx</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>                    
+
+                <span class="n">current_meas_index</span><span class="o">-=</span><span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span><span class="n">Reset</span><span class="p">):</span>
+                <span class="n">current_x_prop</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span><span class="p">,:]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">current_y_prop</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span><span class="p">,:]</span><span class="o">=</span><span class="mi">0</span>         
+                <span class="n">current_z_prop</span><span class="p">[</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span><span class="p">,:]</span><span class="o">=</span><span class="mi">0</span>     
+                <span class="k">continue</span>
+
+<span class="w">            </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Deal with propagation by CNOT gate, we need to consider the propagation of X and Z</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">gate</span><span class="o">.</span><span class="n">_name</span><span class="o">==</span><span class="s2">&quot;CNOT&quot;</span><span class="p">:</span>
+                <span class="n">control</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">_control</span>
+                <span class="n">target</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">_target</span>
+                <span class="n">current_x_prop</span><span class="p">[</span><span class="n">control</span><span class="p">,:]</span><span class="o">=</span><span class="p">(</span><span class="n">current_x_prop</span><span class="p">[</span><span class="n">control</span><span class="p">,:]</span><span class="o">+</span><span class="n">current_x_prop</span><span class="p">[</span><span class="n">target</span><span class="p">,:])</span><span class="o">%</span><span class="mi">2</span>
+                <span class="n">current_z_prop</span><span class="p">[</span><span class="n">target</span><span class="p">,:]</span><span class="o">=</span><span class="p">(</span><span class="n">current_z_prop</span><span class="p">[</span><span class="n">control</span><span class="p">,:]</span><span class="o">+</span><span class="n">current_z_prop</span><span class="p">[</span><span class="n">target</span><span class="p">,:])</span><span class="o">%</span><span class="mi">2</span>                
+                <span class="n">current_y_prop</span><span class="p">[</span><span class="n">control</span><span class="p">,:]</span><span class="o">=</span><span class="p">(</span><span class="n">current_y_prop</span><span class="p">[</span><span class="n">control</span><span class="p">,:]</span><span class="o">+</span><span class="n">current_x_prop</span><span class="p">[</span><span class="n">target</span><span class="p">,:])</span><span class="o">%</span><span class="mi">2</span>
+                <span class="n">current_y_prop</span><span class="p">[</span><span class="n">target</span><span class="p">,:]</span><span class="o">=</span><span class="p">(</span><span class="n">current_y_prop</span><span class="p">[</span><span class="n">target</span><span class="p">,:]</span><span class="o">+</span><span class="n">current_z_prop</span><span class="p">[</span><span class="n">control</span><span class="p">,:])</span><span class="o">%</span><span class="mi">2</span>
+                <span class="k">continue</span>
+<span class="w">            </span>
+<span class="w">            </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Deal with propagation by H gate</span>
+<span class="sd">            If there is a H gate, we need to swap the X and Z propagations</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">gate</span><span class="o">.</span><span class="n">_name</span><span class="o">==</span><span class="s2">&quot;H&quot;</span><span class="p">:</span>
+                <span class="n">qubitindex</span><span class="o">=</span><span class="n">gate</span><span class="o">.</span><span class="n">_qubitindex</span>
+                <span class="n">tmp_row</span><span class="o">=</span><span class="n">current_x_prop</span><span class="p">[</span><span class="n">qubitindex</span><span class="p">,:]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">current_x_prop</span><span class="p">[</span><span class="n">qubitindex</span><span class="p">,:]</span><span class="o">=</span><span class="n">current_z_prop</span><span class="p">[</span><span class="n">qubitindex</span><span class="p">,:]</span>
+                <span class="n">current_z_prop</span><span class="p">[</span><span class="n">qubitindex</span><span class="p">,:]</span><span class="o">=</span><span class="n">tmp_row</span>               
+                <span class="k">continue</span></div>
+
+
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sample error and compute the detector value(Parity)</span>
+<span class="sd">    Return a result of the detected value</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="QEPGpython.sample_x_error">
+<a class="viewcode-back" href="../../../api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_x_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_x_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="p">[</span><span class="n">noise_index</span><span class="p">,:])</span></div>
+
+
+<div class="viewcode-block" id="QEPGpython.sample_y_error">
+<a class="viewcode-back" href="../../../api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_y_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_y_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_noise</span><span class="o">+</span><span class="n">noise_index</span><span class="p">,:])</span></div>
+
+
+<div class="viewcode-block" id="QEPGpython.sample_z_error">
+<a class="viewcode-back" href="../../../api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_z_error">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_z_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_propMatrix</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_noise</span><span class="o">+</span><span class="n">noise_index</span><span class="p">,:])</span></div>
+
+
+
+<div class="viewcode-block" id="QEPGpython.sample_noise_vector">
+<a class="viewcode-back" href="../../../api/scalerqec.Clifford.html#scalerqec.Clifford.QEPGpython.QEPGpython.sample_noise_vector">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_noise_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">noise_vector</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">noise_vector</span><span class="p">)</span><span class="o">==</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_total_noise</span>
+        <span class="k">return</span> <span class="n">noise_vector</span><span class="nd">@self</span><span class="o">.</span><span class="n">_propMatrix</span>  </div>
+</div>
+
+
+
+
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+        <span class="n">stim_str</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+        <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;C:/Users/username/Documents/Sampling/stimprograms/1cnot&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">stim_str</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">circuit</span><span class="o">=</span><span class="n">CliffordCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">circuit</span><span class="o">.</span><span class="n">set_error_rate</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>  
+        <span class="n">circuit</span><span class="o">.</span><span class="n">compile_from_stim_circuit_str</span><span class="p">(</span><span class="n">stim_str</span><span class="p">)</span>    
+
+        <span class="n">graph</span><span class="o">=</span><span class="n">QEPGpython</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">backword_graph_construction</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">sample_noise_vector</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])))</span>
+
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">scalerqec</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/modules.html">scalerqec</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, John Ye.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
