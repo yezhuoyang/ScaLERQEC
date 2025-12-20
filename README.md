@@ -12,6 +12,12 @@ It combines optimized C++ backends (QEPG) with high-level Python interfaces for 
 ScaLER is compatible with STIM, but use completely different approach to test logical error rate. 
 
 
+## Documentation
+
+📖 **Documentation website:**  
+https://yezhuoyang.github.io/ScaLERQEC/
+
+
 🚀 Installation
 🔧 Option 1 — Install via pip (recommended)
 
