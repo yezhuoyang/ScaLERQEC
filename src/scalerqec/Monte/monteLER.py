@@ -6,7 +6,8 @@ import os
 from contextlib import redirect_stdout
 
 from ..qepg import compile_QEPG,return_samples_Monte_separate_obs_with_QEPG
-
+from ..QEC.noisemodel import NoiseModel
+from ..QEC.qeccircuit import QECStab
 
 import sinter
 import os
@@ -63,15 +64,98 @@ Shot is the initial guess of how many samples to used.
 We also need to estimate the uncertainty of the LER.
 '''
 class stimLERcalc:
-    def __init__(self,MIN_NUM_LE_EVENT=3):
+    def __init__(self,time_budget = 10,samplebudget=100000 ,MIN_NUM_LE_EVENT=3):
         self._num_LER=0
         self._sample_used=0
         self._sample_needed=0
         self._uncertainty=0
         self._estimated_LER=0
-        self._samplebudget=0
+        self._samplebudget=samplebudget
         self._MIN_NUM_LE_EVENT = MIN_NUM_LE_EVENT
         self._QEPG=None
+        self._time_budget=time_budget
+
+
+
+    def calculate_LER_from_QECircuit(self,qeccirc:QECStab, noise_model: NoiseModel , repeat=1):
+        """
+        Calculate the logical error rate from a QECStab object using Monte Carlo sampling.
+        """
+        qeccirc.construct_IR_standard_scheme()
+        qeccirc.compile_stim_circuit_from_IR_standard()
+
+        noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
+        stim_circuit = noisy_circuit.stimcircuit
+        self._QEPG=compile_QEPG(str(stim_circuit))
+
+
+        detector_error_model = stim_circuit.detector_error_model(decompose_errors=True)
+        matcher = pymatching.Matching.from_detector_error_model(detector_error_model)       
+
+        error_rate = noise_model.error_rate
+        Ler_list=[]
+        samples_list=[]
+        time_list=[]
+        ler_count_list=[]
+        for i in range(repeat):
+            start = time.perf_counter()
+            ler_count=0
+            sampleused=0
+
+
+            detector_result,obsresult=return_samples_Monte_separate_obs_with_QEPG(self._QEPG,error_rate,SAMPLE_GAP_INITIAL)
+            predictions_result = matcher.decode_batch(detector_result)
+            observables =  np.asarray(obsresult).ravel()                    # (shots,)
+            predictions = np.asarray(predictions_result).ravel()
+            num_errors = np.count_nonzero(observables != predictions)
+            # 3. count mismatches in vectorised form ---------------------------------
+
+
+            ler_count+=num_errors
+            sampleused+=SAMPLE_GAP_INITIAL
+            while ler_count<self._MIN_NUM_LE_EVENT and sampleused<self._samplebudget:
+
+                if ler_count==0:
+                    current_sample_gap=sampleused*10
+                    current_sample_gap=min(current_sample_gap, MAX_SAMPLE_GAP)
+                else:
+                    current_sample_gap=min(int(self._MIN_NUM_LE_EVENT/ler_count)*sampleused, MAX_SAMPLE_GAP)
+
+                detector_result,obsresult=return_samples_Monte_separate_obs_with_QEPG(self._QEPG,error_rate,current_sample_gap)
+                predictions_result = matcher.decode_batch(detector_result)
+                observables =  np.asarray(obsresult).ravel()                    # (shots,)
+                predictions = np.asarray(predictions_result).ravel()
+                num_errors = np.count_nonzero(observables != predictions)
+                ler_count+=num_errors
+                sampleused+=current_sample_gap
+
+            ler_count_list.append(ler_count)
+            Ler_list.append(ler_count/sampleused)
+            samples_list.append(sampleused)
+            elapsed = time.perf_counter() - start
+            time_list.append(elapsed)
+
+
+        ler_count_average=np.mean(ler_count_list)
+        #print("Average number of logical errors: ", ler_count_average)
+        std_ler_count=np.std(ler_count_list)
+        self._estimated_LER=np.mean(Ler_list)
+        self._sample_used=np.mean(samples_list)
+        """
+        Standard deviation
+        """
+        std_ler=np.std(Ler_list)
+        std_sample=np.std(samples_list)
+        #self.calculate_standard_error()
+        time_mean=np.mean(time_list)
+        time_std=np.std(time_list)
+        print("Time(STIM): ", format_with_uncertainty(time_mean, time_std))
+        print("PL(STIM): ", format_with_uncertainty(self._estimated_LER, std_ler))
+        print("Nerror(STIM): ", format_with_uncertainty(ler_count_average, std_ler_count))
+        print("Sample(STIM): ", format_with_uncertainty(self._sample_used, std_sample))      
+
+
+
 
     def calculate_LER_from_my_random_sampler(self, samplebudget, filepath, pvalue, repeat=1):
         circuit=CliffordCircuit(2)

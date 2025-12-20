@@ -36,6 +36,26 @@ class NoiseModel:
         self._has_PAULIZ_error = True
 
 
+    @property
+    def error_rate(self) -> float:
+        """
+        Get the error rate of the noise model.
+
+        Returns:
+            The error rate as a float.
+        """
+        return self._error_rate
+
+    @error_rate.setter
+    def error_rate(self, value: float) -> None:
+        """
+        Set the error rate of the noise model.
+
+        Args:
+            value: The new error rate as a float.
+        """
+        self._error_rate = value
+
 
 
     def disable_error(self, error_type: str) -> None:

@@ -3,6 +3,9 @@ from ..Clifford.clifford import *
 from ..Clifford.stimparser import *
 from ..Clifford.QEPGpython import *
 import pymatching
+from ..QEC.noisemodel import NoiseModel
+from ..QEC.qeccircuit import QECStab
+
 
 # ----------------------------------------------------------------------
 # Physical-error model
@@ -138,6 +141,7 @@ class symbolicLER:
 
         self._graph=QEPGpython(self._cliffordcircuit)
         self._graph.backword_graph_construction()
+
 
 
     def generate_pymatching_table(self):
@@ -314,7 +318,7 @@ class symbolicLER:
 
 
     
-    def calculate_LER_from_file(self,filepath,pvalue):
+    def calculate_LER_from_file(self,filepath,pvalue) -> float:
         """
         The most import function. Read the stim circuit, calculate the exact polynomial 
         of LER, and evaluate with the value of p(physical error rate).
@@ -346,6 +350,45 @@ class symbolicLER:
         self.dynamic_calculation_of_dp()
         self.calculate_LER()
         return self.evaluate_LER(pvalue)
+
+
+
+    def calc_LER_of_QECircuit(self,qeccirc:QECStab, noise_model: NoiseModel) -> float:
+        """
+        Given a QECStab object, calculate the LER polynomial symbolically
+
+        Args:
+            qeccirc: A QECStab object
+            error_rate: The physical error rate
+
+        Returns:
+            The symbolic polynomial of LER
+        """
+        self._error_rate = noise_model.error_rate        
+        qeccirc.construct_IR_standard_scheme()
+        qeccirc.compile_stim_circuit_from_IR_standard()
+        self._cliffordcircuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
+
+
+        self._num_noise = self._cliffordcircuit.totalnoise
+        self._num_detector=len(self._cliffordcircuit.parityMatchGroup)
+        self._total_detector_outcome=(1<<(self._num_detector+1))
+        self._graph=QEPGpython(self._cliffordcircuit)
+        self._graph.backword_graph_construction()
+
+        print("---Step2: Generate the prediction table---")
+        self.generate_pymatching_table()
+        print("---Step2: construction QEPG--------------")
+        self.initialize_single_pauli_propagation()
+        print("---Step3: calculating error indices--------------")
+        self.calc_error_row_indices()
+        print("---Step4: dynamic algorithm--------------")
+        self.dynamic_calculation_of_dp()
+        self.calculate_LER()
+        self._LER=self.evaluate_LER(self._error_rate)
+        print("Evaluated LER at p={} is {}".format(self._error_rate,self._LER))
+        return self._LER
+
 
 
 

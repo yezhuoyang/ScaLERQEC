@@ -236,6 +236,28 @@ class QECStab:
         self._logicalZ = {}
         self._paritymatrix = None
         self._noisemodel = None
+        self._IR_compiled = False
+        self._circuit_compiled = False
+
+
+    def is_IR_compiled(self) -> bool:
+        """
+        Check if the intermediate representation (IR) has been compiled.
+
+        Returns:
+            bool: True if the IR is compiled, False otherwise.
+        """
+        return self._IR_compiled
+
+
+    def is_circuit_compiled(self) -> bool:
+        """
+        Check if the quantum error-correcting circuit has been compiled.
+
+        Returns:
+            bool: True if the circuit is compiled, False otherwise.
+        """
+        return self._circuit_compiled
 
 
     @property
@@ -435,6 +457,8 @@ class QECStab:
         Construct the quantum error-correcting circuit using the standard scheme.
         Now, we will create the intermediate representation (IR) for the circuit.
         """
+        if self._IR_compiled:
+            return
         current_measurement_idx = 0
         current_detector_idx = 0
         prev_stab_meas_addr = {}
@@ -468,7 +492,7 @@ class QECStab:
             observable_dest = f"o{logical_idx}"
             observable_instr = ObservableInstruction(observable_dest, [dest])
             self._IRList.append(observable_instr)
-
+        self._IR_compiled = True
 
     def show_IR(self):
         """
@@ -480,7 +504,7 @@ class QECStab:
             print(irinst)
 
 
-    def compile_stim_circuit_from_IR_standard(self) -> str:
+    def compile_stim_circuit_from_IR_standard(self) -> None:
         """
         Compile the stim circuit from the intermediate representation (IR).
 
@@ -489,6 +513,11 @@ class QECStab:
         """
         #Convension: Stabilizer k stored in qubit n+k-1
         #Observable k stored in qubit n+num_syndromes+k-1
+
+        if not self._IR_compiled:
+            raise RuntimeError("IR not compiled yet.")
+        if self._circuit_compiled:
+            return str(self._stimcirc)
         self._circuit = CliffordCircuit(self._n+len(self._stabs) + self._k)
         parity_match_group = []
         observable_parity_group = []
@@ -500,16 +529,16 @@ class QECStab:
                 stab = irinst.stab
                 dest_index = int(irinst.dest[1:])
                 if irinst.is_observable():
-                    helper_qubit_index = self._n + irinst.get_stabindex()
-                else:
                     helper_qubit_index = self._n + len(self._stabs) + irinst.get_observable_index()
+                else:
+                    helper_qubit_index = self._n + irinst.get_stabindex()                    
 
                 self._circuit.add_reset(helper_qubit_index)
                 for qubit_index, pauli in enumerate(stab):
                     match pauli:
                         case 'X':
                             self._circuit.add_hadamard(qubit_index)
-                            self._circuit.add_cnot(control=dest_index, target=helper_qubit_index)
+                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
                             self._circuit.add_hadamard(qubit_index)
                         case 'Z':
                             self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
@@ -538,7 +567,7 @@ class QECStab:
         self._circuit.observable=observable_parity_group[0]
         self._circuit.compile_detector_and_observable()
         self._stimcirc = self._circuit._stimcircuit
-
+        self._circuit_compiled = True
 
 
 def test_commute():
@@ -562,7 +591,7 @@ if __name__ == "__main__":
     qeccirc.set_logical_Z(0, "ZZZZZ")
     #Set stabilizer parity measurement scheme, round of repetition
     qeccirc.scheme="Standard"
-    qeccirc.rounds=2
+    qeccirc.rounds=z
     qeccirc.construct_circuit()
     stim_circuit = qeccirc.stimcirc
     print(stim_circuit)
