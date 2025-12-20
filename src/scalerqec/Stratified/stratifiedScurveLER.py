@@ -4,220 +4,16 @@ from scalerqec.Clifford.clifford import *
 import math
 import pymatching
 from scipy.optimize import curve_fit
-from scipy.stats import norm
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-from scipy.stats import binom
 from contextlib import redirect_stdout
 import pickle
 import time
-
-
-
-def format_with_uncertainty(value, std):
-    """
-    Format a value and its standard deviation in the form:
-    1.23(±0.45)×10^k
-    """
-    if value == 0:
-        return f"0(+{std:.2e})"
-    exponent = int(np.floor(np.log10(abs(value))))
-    coeff = value / (10**exponent)
-    std_coeff = std / (10**exponent)
-    return f"{coeff:.2f}(+{std_coeff:.2f})*10^{exponent}"
-
-
-# Define the inverse transform: y → 1/2 * 1 / (1 + e^y)
-def inv_logit_half(y):
-    return 0.5 / (1 + np.exp(y))
-
-def binomial_weight(N, W, p):
-    return binom.pmf(W, N, p)
-    #return math.comb(N, W) * (p**W) * ((1 - p)**(N - W))
-
-def linear_function(x, a, b):
-    """
-    Linear function for curve fitting.
-    """
-    return a * x + b
-
-
-# def modified_linear_function(x, a, b,c,d):
-#     """
-#     Linear function for curve fitting.
-#     """
-#     return a * x + b+c/(x-d)
-
-
-def modified_linear_function_with_d(x, a, b, c, d):
-    eps   = 1e-12
-    delta = (x - d)**0.5
-    delta = np.where(np.abs(delta) < eps, np.sign(delta)*eps, delta)
-    return a * x + b + c / delta
-
-
-
-# Strategy A: keep the model safe near the pole
-def modified_linear_function(d):
-    def tempfunc(x,a,b,c,d=d):
-        return modified_linear_function_with_d(x, a, b, c, d)
-    return tempfunc
-
-
-
-def modified_sigmoid_function(x, a, b,c,d):
-    """
-    Modified sigmoid function for curve fitting.
-    This function is used to fit the S-curve.
-    """
-    z = a*x + b + c/((x - d)**0.5)
-    # ignore overflows in exp → exp(z) becomes np.inf, so 0.5/(1+inf) = 0.0
-    with np.errstate(over='ignore'):
-        y = 0.5 / (1 + np.exp(z))
-    return y
-
-def quadratic_function(x, a, b,c):
-    """
-    Linear function for curve fitting.
-    """
-    return a * x**2+b*x + c
-
-
-def poly_function(x, a, b,c,d):
-    """
-    Linear function for curve fitting.
-    """
-    return a * x**3+b*x**2 + c*x+d
-
-
-
-# Redefine turning point where the 2nd term is still significant in dy/dw
-def refined_sweat_spot(alpha, beta, t, ratio=0.05):
-    # We define turning point by solving: 1/alpha = ratio * (1/2) * beta / (w - t)^{3/2}
-    # => (w - t)^{3/2} = (ratio * beta * alpha) / 2
-    # => w = t + [(ratio * beta * alpha / 2)]^{2/3}
-    return t + ((ratio * beta * alpha / 2) ** (2 / 3))
-
-
-
-
-"""
-Return the estimated sigma of y(w)
-"""
-def sigma_estimator(N,M):
-    return np.sqrt(N**2*(N-M)/(M*(N-1)*(N-2*M)**2))
-
-
-"""
-Return the estimated sigma of Pw
-"""
-def subspace_sigma_estimator(N,M):
-    return np.sqrt(M*(N-M)/(N-1))/N
-
-def bias_estimator(N, M):
-    """
-    Bias = E[y(w)] - y(w)
-    Estimated by: (1/2) * f''(P_w) * Var(P_w)
-    where f(x) = ln(1/(2x) - 1)
-    """
-    # Pw = M / N
-    # var_Pw = sigma_estimator(N, M)**2
-    # f2 = 4 / (1 - 2 * Pw)**2 + 1 / Pw**2
-    # bias = 0.5 * f2 * var_Pw
-    # return 0
-    return 1/2*(N/M)*(N-4*M)/(N-2*M)**2*(N-M)/(N-1)
-
-
-def show_bias_estimator(N, M):
-    """
-    Bias = E[y(w)] - y(w)
-    Estimated by: (1/2) * f''(P_w) * Var(P_w)
-    where f(x) = ln(1/(2x) - 1)
-    """
-    Pw = M / N
-    return (1 - Pw) / (2 * Pw * N)
-
-
-def subspace_size(num_noise, weight):
-    """
-    Calculate the size of the subspace
-    """
-    return math.comb(num_noise, weight)
-
-# def scurve_function(x, mu, sigma):
-#     cdf_values = 0.5*norm.cdf(x, loc=mu, scale=sigma)
-#     return cdf_values
-
-
-def scurve_function(x, center, sigma):
-    return 0.5/(1+np.exp(-(x - center) / sigma))
-    #return 0*x
-
-
-
-def scurve_function_with_distance(x, cd, mu, sigma):
-    """
-    Piece-wise S-curve:
-        0                          for x < cd
-        0.5 * Φ((x - μ) / σ)       for x ≥ cd
-    where Φ is the standard normal CDF.
-    """
-    x = np.asarray(x)                      # ensure array
-    y = 0.5 * norm.cdf(x, loc=mu, scale=sigma)
-    return np.where(x < cd, 0.0, y)        # vectorised “if”
-
-
-
-
-def evenly_spaced_ints(minw, maxw, N):
-    if N == 1:
-        return [minw]
-    if N > (maxw - minw + 1):
-        return list(range(minw, maxw + 1))
-     
-    # Use high-resolution linspace, round, then deduplicate
-    raw = np.linspace(minw, maxw, num=10 * N)
-    rounded = sorted(set(map(int, raw)))
-    
-    # Pick N evenly spaced indices from the unique set
-    indices = np.linspace(0, len(rounded) - 1, num=N, dtype=int)
-    return [rounded[i] for i in indices]
-
-
-def r_squared(y_true, y_pred, clip=False):
-    """
-    Compute the coefficient of determination (R²).
-
-    Parameters
-    ----------
-    y_true : array-like
-        Observed data.
-    y_pred : array-like
-        Model-predicted data (same length as y_true).
-    clip : bool, default False
-        If True, negative R² values are clipped to 0 so the
-        score lies strictly in the interval [0, 1].
-    Returns
-    -------
-    float
-        The R² statistic.
-    """
-    y_true = np.asarray(y_true, dtype=float)
-    y_pred = np.asarray(y_pred, dtype=float)
-
-    if y_true.shape != y_pred.shape:
-        raise ValueError("y_true and y_pred must have the same shape")
-
-    ss_res = np.sum((y_true - y_pred) ** 2)        # residual sum of squares
-    ss_tot = np.sum((y_true - y_true.mean()) ** 2) # total sum of squares
-
-    # Handle the degenerate case where variance is zero
-    if ss_tot == 0.0:
-        return 1.0 if ss_res == 0.0 else 0.0
-
-    r2 = 1.0 - ss_res / ss_tot
-    return max(0.0, r2) if clip else r2
-
+from ..QEC.noisemodel import NoiseModel
+from ..QEC.qeccircuit import QECStab
+from ..util import binomial_weight, format_with_uncertainty
+from .ScurveModel import *
+from .fitting import r_squared
 
 '''
 Use strafified sampling + Scurve fitting  algorithm to calculate the logical error rate
@@ -309,7 +105,7 @@ class stratified_Scurve_LERcalc:
         self._saturatew=10000000000000               
         self._minw=self._t+1
         self._maxw=10000000000000
-        self._cliffordcircuit=CliffordCircuit(4)  
+        #self._cliffordcircuit=CliffordCircuit(4)  
         self._R_square_score=0
 
 
@@ -607,7 +403,8 @@ class stratified_Scurve_LERcalc:
         y_list = [np.log(0.5/self._estimated_subspaceLER[x]-1)-bias_estimator(self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
         sigma_list= [sigma_estimator( self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
 
-
+        print(x_list)
+        print(y_list)
         popt, pcov = curve_fit(
             linear_function,
             x_list,
@@ -1350,7 +1147,6 @@ class stratified_Scurve_LERcalc:
 
 
 
-
     def calculate_LER_from_file(self,filepath,pvalue,codedistance,figname,titlename, repeat=1):
         self._error_rate=pvalue
         self._circuit_level_code_distance=codedistance
@@ -1427,6 +1223,98 @@ class stratified_Scurve_LERcalc:
         print("PL(ours): ", format_with_uncertainty(self._LER, ler_std))
         print("Nerror(ours): ", format_with_uncertainty(Nerror_mean, Nerror_std))
 
+
+
+    def calc_LER_from_QECcircuit(self, qeccirc:QECStab, noise_model:NoiseModel,figname,titlename, repeat=1):
+        qeccirc.construct_IR_standard_scheme()
+        qeccirc.compile_stim_circuit_from_IR_standard()
+        noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
+
+        self._error_rate = noise_model.error_rate
+
+        self._circuit_level_code_distance=qeccirc.d
+        ler_list=[]
+        sample_used_list=[]
+        r_squared_list=[]
+        Nerror_list=[]
+        time_list=[]
+
+
+        self._cliffordcircuit =noisy_circuit
+        self._num_noise = self._cliffordcircuit.totalnoise
+        self._num_detector=len(self._cliffordcircuit.parityMatchGroup)
+        self._stim_str_after_rewrite=str(noisy_circuit.stimcircuit)
+        # Configure a decoder using the circuit.
+        self._detector_error_model = self._cliffordcircuit.stimcircuit.detector_error_model(decompose_errors=True)
+        self._matcher = pymatching.Matching.from_detector_error_model(self._detector_error_model)
+        self._QEPG_graph=compile_QEPG(str(noisy_circuit.stimcircuit))
+
+
+        for i in range(repeat):
+            self.clear_all()
+            start = time.perf_counter()
+            #self.determine_range_to_sample()
+            #self.subspace_sampling()
+            self.determine_lower_w()
+
+            #self.ground_truth_subspace_sampling()
+            #self._has_logical_errorw=self._t+4
+            self.determine_saturated_w()
+
+            self.subspace_sampling_to_fit_curve(1000*self._num_subspace)
+            '''
+            Fit the curve first time just to get the estimated sweat spot
+            '''
+            self.fit_linear_area()
+            tmptime= time.perf_counter()
+            self.fit_log_S_model(figname+"-R"+str(i)+"First.pdf",tmptime-start)
+            '''
+            Second round of samples
+            '''
+            self.subspace_sampling()
+
+            self.fit_linear_area()
+            tmptime= time.perf_counter()
+            self.fit_log_S_model(figname+"-R"+str(i)+"Final.pdf",tmptime-start)
+
+            self.calc_logical_error_rate_after_curve_fitting()
+
+            end = time.perf_counter()
+            time_list.append(end - start)
+
+            self.plot_scurve(figname,titlename)
+            r_squared_list.append(self._R_square_score)
+            self._sample_used=np.sum(list(self._subspace_sample_used.values()))
+            # print("Final LER: ",self._LER)
+            # print("Total samples used: ",self._sample_used)
+            ler_list.append(self._LER)
+            sample_used_list.append(self._sample_used)
+            Nerror_list.append(sum(self._subspace_LE_count.values()))
+
+        # Compute means
+        self._LER = np.mean(ler_list)
+        self._sample_used = np.mean(sample_used_list)
+
+        # Compute standard deviations
+        ler_std = np.std(ler_list)
+        sample_used_std = np.std(sample_used_list)
+        r2_mean = np.mean(r_squared_list)
+        r2_std = np.std(r_squared_list)
+        Nerror_mean = np.mean(Nerror_list)
+        Nerror_std = np.std(Nerror_list)
+
+        time_mean = np.mean(time_list)
+        time_std = np.std(time_list)
+
+        # Print with scientific ± formatting
+        print("k: ", self._k_range)
+        print("beta: ",self._beta)
+        print("Subspaces: ", self._num_subspace)
+        print("R2: ", format_with_uncertainty(r2_mean, r2_std))
+        print("Samples(ours): ", format_with_uncertainty(self._sample_used, sample_used_std))
+        print("Time(our): ", format_with_uncertainty(time_mean, time_std))
+        print("PL(ours): ", format_with_uncertainty(self._LER, ler_std))
+        print("Nerror(ours): ", format_with_uncertainty(Nerror_mean, Nerror_std))        
 
 
 if __name__ == "__main__":

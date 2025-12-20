@@ -260,6 +260,40 @@ class QECStab:
         return self._circuit_compiled
 
 
+
+    @property
+    def n(self) -> int:
+        """
+        Get the number of physical qubits in the QECC.
+
+        Returns:
+            int: The number of physical qubits.
+        """
+        return self._n
+    
+
+    @property
+    def k(self) -> int:
+        """
+        Get the number of logical qubits in the QECC.
+
+        Returns:
+            int: The number of logical qubits.
+        """
+        return self._k
+    
+
+    @property
+    def d(self) -> int:
+        """
+        Get the distance of the QECC.
+
+        Returns:
+            int: The distance.
+        """
+        return self._d
+
+
     @property
     def noisemodel(self) -> NoiseModel:
         """
@@ -591,7 +625,7 @@ if __name__ == "__main__":
     qeccirc.set_logical_Z(0, "ZZZZZ")
     #Set stabilizer parity measurement scheme, round of repetition
     qeccirc.scheme="Standard"
-    qeccirc.rounds=z
+    qeccirc.rounds=3
     qeccirc.construct_circuit()
     stim_circuit = qeccirc.stimcirc
     print(stim_circuit)

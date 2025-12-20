@@ -1,35 +1,14 @@
 
 from ..qepg import return_samples_many_weights_separate_obs, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
 from ..Clifford.clifford import *
-import math
 import pymatching
 import time
-from scipy.stats import binom
-
-def subspace_size(num_noise, weight):
-    """
-    Calculate the size of the subspace
-    """
-    return math.comb(num_noise, weight)
+from ..QEC.noisemodel import NoiseModel
+from ..QEC.qeccircuit import QECStab
+from ..util import binomial_weight, subspace_size, format_with_uncertainty 
 
 
-def binomial_weight(N, W, p):
-    if N<5000:
-        return math.comb(N, W) * ((p)**W) * ((1 - p)**(N - W))
-    else:
-        lam = N * p
-        # PMF(X=W) = e^-lam * lam^W / W!
-        # Evaluate in logs to avoid overflow for large W, then exponentiate
-        log_pmf = (-lam) + W*math.log(lam) - math.lgamma(W+1)
-        return math.exp(log_pmf)
-
-
-
-
-def binomial_weight(N, W, p):
-    return binom.pmf(W, N, p)
-
-MIN_NUM_LE_EVENT = 10
+MIN_NUM_LE_EVENT = 50
 SAMPLE_GAP=100
 
 
@@ -139,13 +118,6 @@ class stratifiedLERcalc:
         self._minW=max(1,ep-5*sigma)
         self._maxW=max(2,ep+5*sigma)
 
-        print("Minw:    ")
-        print(self._minW)
-        print("Maxw:    ")
-        print(self._maxW)
-        print("sima:")
-        print(sigma)
-
 
     def subspace_sampling(self):
         """
@@ -159,12 +131,13 @@ class stratifiedLERcalc:
         In each subspace, we stop sampling until 100 logical error events are detected, or we hit the total budget.
         """
         wlist_need_to_sample = list(range(self._minW, self._maxW + 1))
-
+        self._sample_used=0
         for weight in wlist_need_to_sample:
             self._subspace_LE_count[weight]=0
             self._subspace_sample_used[weight]=0
 
-        print(wlist_need_to_sample)
+        # print("Weights need to sample: ")
+        # print(wlist_need_to_sample)
 
         min_non_zero_weight=1e9
         while True:
@@ -177,7 +150,7 @@ class stratifiedLERcalc:
                 break
 
             for weight in wlist_need_to_sample:
-                if(weight<=self._circuit_level_code_distance):
+                if(weight<=(self._circuit_level_code_distance-1)/2):
                     continue
                 """
                 If the subspace has been sampled enough, but logical error rate is still zero,
@@ -221,12 +194,12 @@ class stratifiedLERcalc:
             if(len(wlist)==0):
                 break
 
-            print("wlist: ",wlist)
-            print("slist: ",slist)
+            # print("wlist: ",wlist)
+            # print("slist: ",slist)
             #detector_result,obsresult=return_samples_many_weights_separate_obs(self._stim_str_after_rewrite,wlist,slist)
             detector_result,obsresult=return_samples_many_weights_separate_obs_with_QEPG(self._QEPG_graph,wlist,slist)
             predictions_result = self._matcher.decode_batch(detector_result)
-            print("Result get!")
+            #print("Result get!")
 
             
             begin_index=0
@@ -241,14 +214,13 @@ class stratifiedLERcalc:
                 self._subspace_LE_count[w]+=num_errors
                 self._estimated_subspaceLER[w] = self._subspace_LE_count[w] / self._subspace_sample_used[w]
 
-
-                print(f"Logical error rate when w={w}: {self._estimated_subspaceLER[w]*binomial_weight(self._num_noise, w,self._error_rate):.6g}")
+                #print(f"Logical error rate when w={w}: {self._estimated_subspaceLER[w]*binomial_weight(self._num_noise, w,self._error_rate):.6g}")
 
                 begin_index+=quota
-            print(self._subspace_LE_count)
-            print(self._subspace_sample_used)
-        print("Samples used:{}".format(self._sample_used))
-        print("circuit level code distance:{}".format(self._circuit_level_code_distance))
+            # print(self._subspace_LE_count)
+            # print(self._subspace_sample_used)
+        # print("Samples used:{}".format(self._sample_used))
+        # print("circuit level code distance:{}".format(self._circuit_level_code_distance))
 
     # ----------------------------------------------------------------------
     # Calculate logical error rate
@@ -273,19 +245,79 @@ class stratifiedLERcalc:
 
 
 
+    def clear_all(self):
+        pass
+
+
+
+    def calc_LER_from_QECcircuit(self, qeccirc:QECStab, noise_model:NoiseModel,repeat=1):
+        qeccirc.construct_IR_standard_scheme()
+        qeccirc.compile_stim_circuit_from_IR_standard()
+        noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
+        self._error_rate = noise_model.error_rate
+        self._circuit_level_code_distance=qeccirc.d
+        self._cliffordcircuit =  noisy_circuit
+        self._num_noise = self._cliffordcircuit.totalnoise
+        self._num_detector=len(self._cliffordcircuit.parityMatchGroup)
+        self._stim_str_after_rewrite=str(self._cliffordcircuit.stimcircuit)
+        # Configure a decoder using the circuit.
+        self._detector_error_model = self._cliffordcircuit.stimcircuit.detector_error_model(decompose_errors=True)
+        self._matcher = pymatching.Matching.from_detector_error_model(self._detector_error_model)
+        self._QEPG_graph=compile_QEPG(self._stim_str_after_rewrite)
+
+
+        ler_list=[]
+        sample_used_list=[]
+        time_list=[]
+
+        for i in range(repeat):
+            starttime = time.perf_counter()
+
+            self.subspace_sampling()
+            self.calculate_LER()
+            ler_list.append(self._LER)
+            sample_used_list.append(self._sample_used)  
+            endtime = time.perf_counter()
+            time_list.append(endtime - starttime)
+        
+        
+        average_LER=sum(ler_list)/len(ler_list)
+        average_sample_used=sum(sample_used_list)/len(sample_used_list)
+        time_mean=sum(time_list)/len(time_list)
+        ler_std = np.std(ler_list)
+        sample_used_std = np.std(sample_used_list)
+        time_std = np.std(time_list)
+        print("Samples(ours): ", format_with_uncertainty(average_sample_used, sample_used_std))
+        print("Time(our): ", format_with_uncertainty(time_mean, time_std))
+        print("PL(ours): ", format_with_uncertainty(average_LER, ler_std))
 
 
 if __name__ == "__main__":
-    tmp=stratifiedLERcalc(0.001,sampleBudget=15000000,num_subspace=5)
-    filepath="C:/Users/username/Documents/Sampling/stimprograms/small/simple"
-    tmp.parse_from_file(filepath)
-    tmp.sample_all_subspace(11*1000000)
+    # tmp=stratifiedLERcalc(0.001,sampleBudget=15000000,num_subspace=5)
+    # filepath="C:/Users/username/Documents/Sampling/stimprograms/small/simple"
+    # tmp.parse_from_file(filepath)
+    # tmp.sample_all_subspace(11*1000000)
 
-    LER=tmp.calculate_LER()
+    # LER=tmp.calculate_LER()
 
-    print(LER)
+    # print(LER)
 
-    for weight in range(1,12):
-        #print("LER in the subspace {} is {}".format(weight,tmp.get_LER_subspace_no_weight(weight)))    
-        print("LER in the subspace {} is {}".format(weight,tmp.get_LER_subspace(weight)))
+    # for weight in range(1,12):
+    #     #print("LER in the subspace {} is {}".format(weight,tmp.get_LER_subspace_no_weight(weight)))    
+    #     print("LER in the subspace {} is {}".format(weight,tmp.get_LER_subspace(weight)))
+
+
+    qeccirc= QECStab(n=3,k=1,d=3)
+    # Stabilizer generators
+    qeccirc.add_stab("ZZI")
+    qeccirc.add_stab("IZZ")
+    qeccirc.set_logical_Z(0, "ZZZ")
+    noise_model = NoiseModel(0.001) #Set the noise model
+    # Set stabilizer parity measurement scheme, round of repetition
+    qeccirc.scheme="Standard"
+    qeccirc.rounds=2
+
+
+    stratifiedcalculator = stratifiedLERcalc()
+    stratifiedcalculator.calc_LER_from_QECcircuit(qeccirc, noise_model,repeat=1)
 

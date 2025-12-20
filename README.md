@@ -71,6 +71,52 @@ scalerqec/
     ...
 ```
 
+# Construct QEC circuit by Stabilizer
+
+
+In ScalerQEC, user can construct a circuit by stabilizer formalism. 
+
+
+```python
+from scalerqec.QEC.qeccircuit import QECStab
+from scalerqec.QEC.noisemodel import NoiseModel
+
+qeccirc= QECStab(n=3,k=1,d=3)
+# Stabilizer generators
+qeccirc.add_stab("ZZI")
+qeccirc.add_stab("IZZ")
+#Set the first logical Z
+qeccirc.set_logical_Z(0, "ZZZ")
+noise_model = NoiseModel(0.001) #Set the noise model with physical error rate
+# Set stabilizer parity measurement scheme, round of repetition
+# We support Standard/Shor/Knill/Flag scheme
+qeccirc.scheme="Standard"
+# How many rounds of stabilizer measurement?
+qeccirc.rounds=2
+# Construct IR and stim circuit
+qeccirc.construct_circuit()
+```
+
+We design a IR representation for qeccirc circuit that is much more easier to debug by Clifford circuit. Call the following interface:
+
+```python
+qeccirc.show_IR()
+```
+
+The output of IR representation of the above circuit is:
+
+```bash
+c0 = Prop[r=0, s=0] ZZI
+c1 = Prop[r=0, s=1] IZZ
+c2 = Prop[r=1, s=0] ZZI
+d0 = Parity c0 c2
+c3 = Prop[r=1, s=1] IZZ
+d1 = Parity c1 c3
+c4 = Prop ZZZ
+o0 = Parity c4
+```
+
+
 
 1️⃣ Main method: Test Logical by Statefied fault-sampling and curve fitting:
 
@@ -83,27 +129,16 @@ scalerqec/
   <em>Figure 2: Diagram for the main method in ScaLERQEC</em>
 </p> 
 
+
+You propose a novel method which tests the logical error rate by stratified sampling and curve fitting. With fixed QEC circuit
+and the noise model, we provide a simple interface for this method.
+
 ```python
 from scalerqec.Stratified import stratified_Scurve_LERcalc
-
-d=7 #Set the code distance
-p = 0.001 #Set the physcial error rate
-repeat=5  #Repeat experiment for five times
-sample_budget = 100_000_0000 #Maximum sample budget
-t = (d - 1) // 2
-stim_path="your//path//to//stim//Surface"
-figname = f"Surface{d}"
-titlename = f"Surface{d}"
-output_filename = f"Surface{d}.txt"
-testinstance = stratified_Scurve_LERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=8, beta=4)
-testinstance.set_t(t)
-testinstance.set_sample_bound(
-    MIN_NUM_LE_EVENT=100,
-    SAMPLE_GAP=100,
-    MAX_SAMPLE_GAP=5000,
-    MAX_SUBSPACE_SAMPLE=50000
-)
-testinstance.calculate_LER_from_file(stim_path, p, 0, figname, titlename, repeat)
+calculator = stratified_Scurve_LERcalc()
+figname="Repetition"  
+titlename="Repetition" 
+stratifiedcalculator.calc_LER_from_QECcircuit(qeccirc, noise_model,figname,titlename, repeat=3)
 ```
 
 
@@ -124,6 +159,7 @@ testinstance.calculate_LER_from_file(stim_path, p, 0, figname, titlename, repeat
   <em>Figure 2: Illustration of how we compile a QEPG graph in ScaLERQEC.</em>
 </p> 
 
+ScalerQEC compile any STIM circuit to QEPG graph.
 
 
 ```python
@@ -138,58 +174,51 @@ print(samples)
 
 3️⃣ Running Monte Carlo Fault-Injection
 
+
+We support standard Monte Carlo testing through the following interface:
+
+
 ```python
 from scalerqec.Monte.monteLER import stimLERcalc
-from contextlib import redirect_stdout
-
-p = 0.001
-filepath = "stimprograms/surface/surface3"
-sample_budget = 500_000
-
-with open("resultMonte.txt", "w") as f, redirect_stdout(f):
-    calc = stimLERcalc(MIN_NUM_LE_EVENT=10)
-    ler = calc.calculate_LER_from_my_random_sampler(sample_budget, filepath, p, repeat=5)
+montecalculator = stimLERcalc()
+symbcalculator.calc_LER_of_QECircuit(qeccirc, noise_model)
 ```
 
 
 4️⃣ Running Symbolic LER Analysis (Ground Truth)
 
 
+ScalerQEC has a novel method which calculate the exact symbolic polynomial representation of a given QEC circuit under a uniform noise model.
+
+
 ```python
 from scalerqec.Symbolic.symbolicLER import symbolicLER
-
-calc = symbolicLER(0.001)
-filepath = "path/to/circuit"
-
-print(calc.calculate_LER_from_file(filepath, 0.001))
-
-num_noise = calc._num_noise
-for w in range(1, num_noise):
-    print("LER in subspace", w, "=", calc.evaluate_LER_subspace(0.001, w))
+symbcalculator = symbolicLER()
+symbcalculator.calc_LER_of_QECircuit(qeccirc, noise_model)
 ```
 
 
 📌 TODO (Roadmap)
 
 - [x] Support installation via `pip install`
-- [ ] Get rid of Boost package, use binary representation
+- [x] Higher-level, easier interface to generate QEC program
+- [x] Add cross-platform installation support (including macOS)
+- [x] Python interface to construct QEC circuit
 - [ ] Support LDPC code and LDPC code decoder
-- [ ] Compatible with Qiskit
+- [ ] Get rid of Boost package, use binary representation
+- [ ] Add CUDA backend support and compare with STIM
 - [ ] SIMD support and compare with STIM
+- [ ] Constructing and testing magic state distillation/Cultivation
+- [ ] Compatible with Qiskit
 - [ ] Visualize results better and visualize QEPG graph
 - [ ] HotSpot analysis(What is the reason for logical error?)
-- [x] Python interface to construct QEC circuit
-- [ ] Constructing and testing magic state distillation/Cultivation
-- [x] Add cross-platform installation support (including macOS)
 - [ ] Write full documentation
 - [ ] Implement dynamic-circuit support(Compatible with IBM)
-- [x] Higher-level, easier interface to generate QEC program
 - [ ] Support testing code switching such as lattice surgery, LDPC code switching protocol
 - [ ] Add more realistic noise models(Decoherence noise, Correlated noise)
 - [ ] Support injecting quantum errors by type(Hook Error, Gate error, Propagated error, etc)
 - [ ] Static analysis pass of circuit(Learn symmetric structure)
-- [ ] Add CUDA backend support and compare with STIM
-
+- [ ] Test Pauli measurement based fault-tolerant circuit 
 
 
 🧰 Development Notes (for contributors)
