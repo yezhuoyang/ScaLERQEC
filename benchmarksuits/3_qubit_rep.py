@@ -1,13 +1,13 @@
 from scalerqec.QEC.qeccircuit import QECStab
 from scalerqec.Monte.monteLER import stimLERcalc
-from scalerqec.Stratified.stratifiedScurveLER import stratified_Scurve_LERcalc
+from scalerqec.Stratified.stratifiedLERcalc import stratifiedLERcalc
 from scalerqec.Symbolic.symbolicLER import symbolicLER
 from scalerqec.QEC.noisemodel import NoiseModel
 
 n = 3
 k = 1
 d = 3
-qeccirc= QECStab(n=n,k=k,d=d)
+qeccirc= QECStab(n=n,k=k,d=0)
 
 # Repetition code stabilizers
 qeccirc.add_stab("ZZI")
@@ -34,7 +34,7 @@ stim_path = tmp.name
 tmp.close()
 
 # Error model
-p = 0.001
+p = 0.01
 noise_model = NoiseModel(p)
 
 ### (1) MC
@@ -42,14 +42,10 @@ print("---------Monte-Carlo Logical-Z LER---------")
 calc = stimLERcalc(MIN_NUM_LE_EVENT=100)
 calc.calculate_LER_from_QECircuit(qeccirc, noise_model, repeat=3)
 
-# ### (2) Stratified
-# print("---------Stratified Logical-Z LER---------")
-# t = (d - 1) // 2
-# samplebudget = 100_000
-# est = stratified_Scurve_LERcalc(error_rate=p, sampleBudget=samplebudget, k_range=5, num_subspace=6, beta=4)
-# est.set_t(t)
-# est.set_sample_bound(MIN_NUM_LE_EVENT=100, SAMPLE_GAP=100, MAX_SAMPLE_GAP=5000, MAX_SUBSPACE_SAMPLE=50_000)
-# est.calculate_LER_from_file(stim_path, p, codedistance=3, figname="5q", titlename="5-qubit", repeat=1)
+### (2) Stratified
+print("---------Stratified Logical-Z LER---------")
+est = stratifiedLERcalc(error_rate=p, sampleBudget=100_000, num_subspace=6)
+est.calc_LER_from_QECcircuit(qeccirc, noise_model, repeat=3)
 
 ### (3) Symbolic
 print("---------Symbolic Logical-Z LER---------")

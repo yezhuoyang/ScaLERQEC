@@ -20,7 +20,7 @@ Use strafified sampling + Scurve fitting  algorithm to calculate the logical err
 '''
 class stratified_Scurve_LERcalc:
 
-    def __init__(self, error_rate=0, sampleBudget=10000, k_range=3, num_subspace=5,beta=4):
+    def __init__(self, error_rate=0., sampleBudget=10000, k_range=3, num_subspace=5,beta=4):
         self._num_detector=0
         self._num_noise=0
         self._error_rate=error_rate
