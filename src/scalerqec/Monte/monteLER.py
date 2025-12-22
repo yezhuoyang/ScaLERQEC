@@ -7,7 +7,7 @@ from contextlib import redirect_stdout
 
 from ..qepg import compile_QEPG,return_samples_Monte_separate_obs_with_QEPG
 from ..QEC.noisemodel import NoiseModel
-from ..QEC.qeccircuit import QECStab
+from ..QEC.qeccircuit import StabCode
 
 import sinter
 import os
@@ -63,7 +63,7 @@ The sampler will finally decide how many samples to used.
 Shot is the initial guess of how many samples to used.
 We also need to estimate the uncertainty of the LER.
 '''
-class stimLERcalc:
+class MonteLERcalc:
     def __init__(self,time_budget = 10,samplebudget=100000 ,MIN_NUM_LE_EVENT=3):
         self._num_LER=0
         self._sample_used=0
@@ -77,9 +77,9 @@ class stimLERcalc:
 
 
 
-    def calculate_LER_from_QECircuit(self,qeccirc:QECStab, noise_model: NoiseModel , repeat=1):
+    def calculate_LER_from_StabCode(self,qeccirc:StabCode, noise_model: NoiseModel , repeat=1):
         """
-        Calculate the logical error rate from a QECStab object using Monte Carlo sampling.
+        Calculate the logical error rate from a StabCode object using Monte Carlo sampling.
         """
         qeccirc.construct_IR_standard_scheme()
         qeccirc.compile_stim_circuit_from_IR_standard()
@@ -436,7 +436,7 @@ if __name__ == "__main__":
         with open(out_fname, "w") as outf, redirect_stdout(outf):
             print(f"---- Processing {stim_path} ----")
 
-            calculator=stimLERcalc(20)
+            calculator=MonteLERcalc(20)
             # pass the string path into your function:
             ler = calculator.calculate_LER_from_my_random_sampler(500000000, str(stim_path), p,5)
 
@@ -454,7 +454,7 @@ if __name__ == "__main__":
         with open(out_fname, "w") as outf, redirect_stdout(outf):
             print(f"---- Processing {stim_path} ----")
 
-            calculator=stimLERcalc(10)
+            calculator=MonteLERcalc(10)
             # pass the string path into your function:
             ler = calculator.calculate_LER_from_my_random_sampler(500000000, str(stim_path), p,5)
 

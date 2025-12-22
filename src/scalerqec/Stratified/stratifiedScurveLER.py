@@ -10,7 +10,7 @@ from contextlib import redirect_stdout
 import pickle
 import time
 from ..QEC.noisemodel import NoiseModel
-from ..QEC.qeccircuit import QECStab
+from ..QEC.qeccircuit import StabCode
 from ..util import binomial_weight, format_with_uncertainty
 from .ScurveModel import *
 from .fitting import r_squared
@@ -18,7 +18,7 @@ from .fitting import r_squared
 '''
 Use strafified sampling + Scurve fitting  algorithm to calculate the logical error rate
 '''
-class stratified_Scurve_LERcalc:
+class StratifiedScurveLERcalc:
 
     def __init__(self, error_rate=0., sampleBudget=10000, k_range=3, num_subspace=5,beta=4):
         self._num_detector=0
@@ -1225,7 +1225,7 @@ class stratified_Scurve_LERcalc:
 
 
 
-    def calc_LER_from_QECcircuit(self, qeccirc:QECStab, noise_model:NoiseModel,figname,titlename, repeat=1):
+    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,figname,titlename, repeat=1):
         qeccirc.construct_IR_standard_scheme()
         qeccirc.compile_stim_circuit_from_IR_standard()
         noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
@@ -1331,7 +1331,7 @@ if __name__ == "__main__":
         titlename = f"Surface{d}"
         output_filename = f"Surface{d}.txt"
 
-        tmp = stratified_Scurve_LERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
+        tmp = StratifiedScurveLERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
         tmp.set_t(t)
         tmp.set_sample_bound(
             MIN_NUM_LE_EVENT=100,

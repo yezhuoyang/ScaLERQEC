@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
     <!-- Generated with Sphinx 9.0.4 and Furo 2025.12.19 -->
-        <title>scalerqec.Stratified.stratifiedLERcalc - scalerqec 0.0.1 documentation</title>
+        <title>scalerqec.Stratified.StratifiedLERcalc - scalerqec 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -235,14 +235,14 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <h1>Source code for scalerqec.Stratified.stratifiedLERcalc</h1><div class="highlight"><pre>
+          <h1>Source code for scalerqec.Stratified.StratifiedLERcalc</h1><div class="highlight"><pre>
 <span></span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..qepg</span><span class="w"> </span><span class="kn">import</span> <span class="n">return_samples_many_weights_separate_obs</span><span class="p">,</span> <span class="n">compile_QEPG</span><span class="p">,</span> <span class="n">return_samples_many_weights_separate_obs_with_QEPG</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..Clifford.clifford</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymatching</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.noisemodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QECStab</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">binomial_weight</span><span class="p">,</span> <span class="n">subspace_size</span><span class="p">,</span> <span class="n">format_with_uncertainty</span> 
 
 
@@ -253,9 +253,9 @@
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Use strafified sampling algorithm to calculate the logical error rate</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<div class="viewcode-block" id="stratifiedLERcalc">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">stratifiedLERcalc</span><span class="p">:</span>
+<div class="viewcode-block" id="StratifiedLERcalc">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StratifiedLERcalc</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_rate</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sampleBudget</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">num_subspace</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">=</span><span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">=</span><span class="mi">0</span>
@@ -288,8 +288,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_QEPG_graph</span><span class="o">=</span><span class="kc">None</span>
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.parse_from_file">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.parse_from_file">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.parse_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.parse_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read the circuit, parse from the file</span>
@@ -312,8 +312,8 @@
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.sample_all_subspace">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.sample_all_subspace">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.sample_all_subspace">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.sample_all_subspace">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample_all_subspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shots_each_subspace</span><span class="o">=</span><span class="mi">1000000</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Aggressively sample all the subspace.</span>
@@ -349,8 +349,8 @@
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.determine_range_to_sample">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.determine_range_to_sample">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.determine_range_to_sample">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.determine_range_to_sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">determine_range_to_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">epsilon</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        We need to be exact about the range of w we want to sample. </span>
@@ -368,8 +368,8 @@
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.subspace_sampling">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.subspace_sampling">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.subspace_sampling">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.subspace_sampling">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">subspace_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sample around the subspaces.</span>
@@ -477,8 +477,8 @@
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="c1"># Calculate logical error rate</span>
     <span class="c1"># The input is a list of rows with logical errors</span>
-<div class="viewcode-block" id="stratifiedLERcalc.calculate_LER">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.calculate_LER">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.calculate_LER">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.calculate_LER">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
@@ -487,39 +487,39 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span>    </div>
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.get_LER_subspace_no_weight">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.get_LER_subspace_no_weight">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.get_LER_subspace_no_weight">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.get_LER_subspace_no_weight">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_LER_subspace_no_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">weight</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span></div>
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.get_LER_subspace">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.get_LER_subspace">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.get_LER_subspace">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.get_LER_subspace">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_LER_subspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">weight</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span><span class="o">*</span><span class="n">binomial_weight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.calculate_LER_from_file">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.calculate_LER_from_file">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.calculate_LER_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.calculate_LER_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">pvalue</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.clear_all">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.clear_all">[docs]</a>
+<div class="viewcode-block" id="StratifiedLERcalc.clear_all">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.clear_all">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clear_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
 
 
 
 
-<div class="viewcode-block" id="stratifiedLERcalc.calc_LER_from_QECcircuit">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratifiedLERcalc.calc_LER_from_QECcircuit">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calc_LER_from_QECcircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qeccirc</span><span class="p">:</span><span class="n">QECStab</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span><span class="n">NoiseModel</span><span class="p">,</span><span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="StratifiedLERcalc.calculate_LER_from_StabCode">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedLERcalc.calculate_LER_from_StabCode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_StabCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qeccirc</span><span class="p">:</span><span class="n">StabCode</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span><span class="n">NoiseModel</span><span class="p">,</span><span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">qeccirc</span><span class="o">.</span><span class="n">construct_IR_standard_scheme</span><span class="p">()</span>
         <span class="n">qeccirc</span><span class="o">.</span><span class="n">compile_stim_circuit_from_IR_standard</span><span class="p">()</span>
         <span class="n">noisy_circuit</span> <span class="o">=</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">reconstruct_clifford_circuit</span><span class="p">(</span><span class="n">qeccirc</span><span class="o">.</span><span class="n">circuit</span><span class="p">)</span> 
@@ -564,7 +564,7 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="c1"># tmp=stratifiedLERcalc(0.001,sampleBudget=15000000,num_subspace=5)</span>
+    <span class="c1"># tmp=StratifiedLERcalc(0.001,sampleBudget=15000000,num_subspace=5)</span>
     <span class="c1"># filepath=&quot;C:/Users/username/Documents/Sampling/stimprograms/small/simple&quot;</span>
     <span class="c1"># tmp.parse_from_file(filepath)</span>
     <span class="c1"># tmp.sample_all_subspace(11*1000000)</span>
@@ -578,7 +578,7 @@
     <span class="c1">#     print(&quot;LER in the subspace {} is {}&quot;.format(weight,tmp.get_LER_subspace(weight)))</span>
 
 
-    <span class="n">qeccirc</span><span class="o">=</span> <span class="n">QECStab</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">qeccirc</span><span class="o">=</span> <span class="n">StabCode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
     <span class="c1"># Stabilizer generators</span>
     <span class="n">qeccirc</span><span class="o">.</span><span class="n">add_stab</span><span class="p">(</span><span class="s2">&quot;ZZI&quot;</span><span class="p">)</span>
     <span class="n">qeccirc</span><span class="o">.</span><span class="n">add_stab</span><span class="p">(</span><span class="s2">&quot;IZZ&quot;</span><span class="p">)</span>
@@ -589,8 +589,8 @@
     <span class="n">qeccirc</span><span class="o">.</span><span class="n">rounds</span><span class="o">=</span><span class="mi">2</span>
 
 
-    <span class="n">stratifiedcalculator</span> <span class="o">=</span> <span class="n">stratifiedLERcalc</span><span class="p">()</span>
-    <span class="n">stratifiedcalculator</span><span class="o">.</span><span class="n">calc_LER_from_QECcircuit</span><span class="p">(</span><span class="n">qeccirc</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">,</span><span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">stratifiedcalculator</span> <span class="o">=</span> <span class="n">StratifiedLERcalc</span><span class="p">()</span>
+    <span class="n">stratifiedcalculator</span><span class="o">.</span><span class="n">calculate_LER_from_StabCode</span><span class="p">(</span><span class="n">qeccirc</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">,</span><span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 </pre></div>
         </article>

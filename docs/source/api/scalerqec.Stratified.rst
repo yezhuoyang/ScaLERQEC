@@ -28,10 +28,10 @@ scalerqec.Stratified.fitting module
    :show-inheritance:
    :undoc-members:
 
-scalerqec.Stratified.stratifiedLERcalc module
+scalerqec.Stratified.StratifiedLERcalc module
 ---------------------------------------------
 
-.. automodule:: scalerqec.Stratified.stratifiedLERcalc
+.. automodule:: scalerqec.Stratified.StratifiedLERcalc
    :members:
    :show-inheritance:
    :undoc-members:

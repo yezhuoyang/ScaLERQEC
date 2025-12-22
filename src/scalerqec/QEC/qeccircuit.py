@@ -218,7 +218,7 @@ class REPEATInstruction(IRInstruction):
 
 
 
-class QECStab:
+class StabCode:
     """
     A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.
     """
@@ -614,7 +614,7 @@ def test_commute():
 
 if __name__ == "__main__":
     noise_model = NoiseModel(error_rate=0.001)
-    qeccirc= QECStab(n=5,k=1,d=3)
+    qeccirc= StabCode(n=5,k=1,d=3)
     qeccirc.noisemodel = noise_model
     #Specify your stabilizers
     # Stabilizer generators

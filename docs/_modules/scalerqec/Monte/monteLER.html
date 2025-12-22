@@ -245,7 +245,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..qepg</span><span class="w"> </span><span class="kn">import</span> <span class="n">compile_QEPG</span><span class="p">,</span><span class="n">return_samples_Monte_separate_obs_with_QEPG</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.noisemodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QECStab</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabCode</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sinter</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -307,9 +307,9 @@
 <span class="sd">Shot is the initial guess of how many samples to used.</span>
 <span class="sd">We also need to estimate the uncertainty of the LER.</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<div class="viewcode-block" id="stimLERcalc">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">stimLERcalc</span><span class="p">:</span>
+<div class="viewcode-block" id="MonteLERcalc">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MonteLERcalc</span><span class="p">:</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">time_budget</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span><span class="n">samplebudget</span><span class="o">=</span><span class="mi">100000</span> <span class="p">,</span><span class="n">MIN_NUM_LE_EVENT</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_LER</span><span class="o">=</span><span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="o">=</span><span class="mi">0</span>
@@ -323,11 +323,11 @@
 
 
 
-<div class="viewcode-block" id="stimLERcalc.calculate_LER_from_QECircuit">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc.calculate_LER_from_QECircuit">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_QECircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qeccirc</span><span class="p">:</span><span class="n">QECStab</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span> <span class="n">NoiseModel</span> <span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="MonteLERcalc.calculate_LER_from_StabCode">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc.calculate_LER_from_StabCode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_StabCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qeccirc</span><span class="p">:</span><span class="n">StabCode</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span> <span class="n">NoiseModel</span> <span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculate the logical error rate from a QECStab object using Monte Carlo sampling.</span>
+<span class="sd">        Calculate the logical error rate from a StabCode object using Monte Carlo sampling.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qeccirc</span><span class="o">.</span><span class="n">construct_IR_standard_scheme</span><span class="p">()</span>
         <span class="n">qeccirc</span><span class="o">.</span><span class="n">compile_stim_circuit_from_IR_standard</span><span class="p">()</span>
@@ -406,8 +406,8 @@
 
 
 
-<div class="viewcode-block" id="stimLERcalc.calculate_LER_from_my_random_sampler">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc.calculate_LER_from_my_random_sampler">[docs]</a>
+<div class="viewcode-block" id="MonteLERcalc.calculate_LER_from_my_random_sampler">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc.calculate_LER_from_my_random_sampler">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_my_random_sampler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">samplebudget</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">pvalue</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">circuit</span><span class="o">=</span><span class="n">CliffordCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">circuit</span><span class="o">.</span><span class="n">error_rate</span><span class="o">=</span><span class="n">pvalue</span>
@@ -494,8 +494,8 @@
 
 
 
-<div class="viewcode-block" id="stimLERcalc.calculate_LER_from_file_sinter">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc.calculate_LER_from_file_sinter">[docs]</a>
+<div class="viewcode-block" id="MonteLERcalc.calculate_LER_from_file_sinter">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc.calculate_LER_from_file_sinter">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_file_sinter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">samplebudget</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">pvalue</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">circuit</span><span class="o">=</span><span class="n">CliffordCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">circuit</span><span class="o">.</span><span class="n">set_error_rate</span><span class="p">(</span><span class="n">pvalue</span><span class="p">)</span>
@@ -570,8 +570,8 @@
             
 
 
-<div class="viewcode-block" id="stimLERcalc.calculate_LER_from_file">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc.calculate_LER_from_file">[docs]</a>
+<div class="viewcode-block" id="MonteLERcalc.calculate_LER_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc.calculate_LER_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">samplebudget</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">pvalue</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">circuit</span><span class="o">=</span><span class="n">CliffordCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">circuit</span><span class="o">.</span><span class="n">error_rate</span><span class="o">=</span><span class="n">pvalue</span>
@@ -662,8 +662,8 @@
 
     
 
-<div class="viewcode-block" id="stimLERcalc.calculate_standard_error">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc.calculate_standard_error">[docs]</a>
+<div class="viewcode-block" id="MonteLERcalc.calculate_standard_error">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc.calculate_standard_error">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_standard_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the standard error of the LER.</span>
@@ -674,8 +674,8 @@
 
 
 
-<div class="viewcode-block" id="stimLERcalc.get_sample_used">
-<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.stimLERcalc.get_sample_used">[docs]</a>
+<div class="viewcode-block" id="MonteLERcalc.get_sample_used">
+<a class="viewcode-back" href="../../../api/scalerqec.Monte.html#scalerqec.MonteLERcalc.get_sample_used">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_sample_used</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span></div>
 </div>
@@ -701,7 +701,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outf</span><span class="p">,</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">outf</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;---- Processing </span><span class="si">{</span><span class="n">stim_path</span><span class="si">}</span><span class="s2"> ----&quot;</span><span class="p">)</span>
 
-            <span class="n">calculator</span><span class="o">=</span><span class="n">stimLERcalc</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+            <span class="n">calculator</span><span class="o">=</span><span class="n">MonteLERcalc</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
             <span class="c1"># pass the string path into your function:</span>
             <span class="n">ler</span> <span class="o">=</span> <span class="n">calculator</span><span class="o">.</span><span class="n">calculate_LER_from_my_random_sampler</span><span class="p">(</span><span class="mi">500000000</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">stim_path</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 
@@ -719,7 +719,7 @@
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outf</span><span class="p">,</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">outf</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;---- Processing </span><span class="si">{</span><span class="n">stim_path</span><span class="si">}</span><span class="s2"> ----&quot;</span><span class="p">)</span>
 
-            <span class="n">calculator</span><span class="o">=</span><span class="n">stimLERcalc</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">calculator</span><span class="o">=</span><span class="n">MonteLERcalc</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
             <span class="c1"># pass the string path into your function:</span>
             <span class="n">ler</span> <span class="o">=</span> <span class="n">calculator</span><span class="o">.</span><span class="n">calculate_LER_from_my_random_sampler</span><span class="p">(</span><span class="mi">500000000</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">stim_path</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 

@@ -4,7 +4,7 @@ from ..Clifford.clifford import *
 import pymatching
 import time
 from ..QEC.noisemodel import NoiseModel
-from ..QEC.qeccircuit import QECStab
+from ..QEC.qeccircuit import StabCode
 from ..util import binomial_weight, subspace_size, format_with_uncertainty 
 
 
@@ -15,7 +15,7 @@ SAMPLE_GAP=100
 '''
 Use strafified sampling algorithm to calculate the logical error rate
 '''
-class stratifiedLERcalc:
+class StratifiedLERcalc:
     def __init__(self, error_rate=0, sampleBudget=10000, num_subspace=30):
         self._num_detector=0
         self._num_noise=0
@@ -250,7 +250,7 @@ class stratifiedLERcalc:
 
 
 
-    def calc_LER_from_QECcircuit(self, qeccirc:QECStab, noise_model:NoiseModel,repeat=1):
+    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,repeat=1):
         qeccirc.construct_IR_standard_scheme()
         qeccirc.compile_stim_circuit_from_IR_standard()
         noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
@@ -293,7 +293,7 @@ class stratifiedLERcalc:
 
 
 if __name__ == "__main__":
-    # tmp=stratifiedLERcalc(0.001,sampleBudget=15000000,num_subspace=5)
+    # tmp=StratifiedLERcalc(0.001,sampleBudget=15000000,num_subspace=5)
     # filepath="C:/Users/username/Documents/Sampling/stimprograms/small/simple"
     # tmp.parse_from_file(filepath)
     # tmp.sample_all_subspace(11*1000000)
@@ -307,7 +307,7 @@ if __name__ == "__main__":
     #     print("LER in the subspace {} is {}".format(weight,tmp.get_LER_subspace(weight)))
 
 
-    qeccirc= QECStab(n=3,k=1,d=3)
+    qeccirc= StabCode(n=3,k=1,d=3)
     # Stabilizer generators
     qeccirc.add_stab("ZZI")
     qeccirc.add_stab("IZZ")
@@ -318,6 +318,6 @@ if __name__ == "__main__":
     qeccirc.rounds=2
 
 
-    stratifiedcalculator = stratifiedLERcalc()
-    stratifiedcalculator.calc_LER_from_QECcircuit(qeccirc, noise_model,repeat=1)
+    stratifiedcalculator = StratifiedLERcalc()
+    stratifiedcalculator.calculate_LER_from_StabCode(qeccirc, noise_model,repeat=1)
 

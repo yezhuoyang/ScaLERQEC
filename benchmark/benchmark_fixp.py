@@ -1,7 +1,7 @@
 from scalerqec.LERcalculator import *
-from scalerqec.Monte.monteLER import stimLERcalc
-from scalerqec import stratified_Scurve_LERcalc
-from scalerqec.Stratified.stratifiedLERcalc import *
+from scalerqec.Monte.monteLER import MonteLERcalc
+from scalerqec import StratifiedScurveLERcalc
+from scalerqec.Stratified.stratifiedLER import *
 from pathlib import Path
 home = Path(__file__).resolve().parent.parent
 
@@ -9,7 +9,7 @@ p=0.001
 
 def generate_all_repetition_benchmark():
 
-    tmp=stimLERcalc()
+    tmp=MonteLERcalc()
 
     print("--------------Repetition3--------------")
     shots3=1000000
@@ -70,7 +70,7 @@ def generate_all_repetition_benchmark():
 
 def generate_all_surface_benchmark():
 
-    tmp=stimLERcalc()
+    tmp=MonteLERcalc()
 
     print("--------------Surface3--------------")
     shots3=1000000

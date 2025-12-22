@@ -2,9 +2,9 @@
 
 
 
-from scaler.stratifiedLERcalc import stratifiedLERcalc
-from scaler.monteLER import stimLERcalc
-from scaler.symbolicLER import symbolicLER
+from scaler.StratifiedLERcalc import StratifiedLERcalc
+from scaler.monteLER import MonteLERcalc
+from scaler.symbolicLER import SymbolicLERcalc
 
 
 
@@ -19,11 +19,11 @@ all_test_files=["1cnot","1cnot1R","1cnoth","2cnot","2cnot2R","cnot1","cnot1","cn
 
 
 def test_by_file_name(filepath):
-    symbolic_calculator=symbolicLER(error_rate)
+    symbolic_calculator=SymbolicLERcalc(error_rate)
     ground_truth=symbolic_calculator.calculate_LER_from_file(filepath,error_rate)
     print("Exact ground truth: ",ground_truth)
 
-    stimcalculator=stimLERcalc()
+    stimcalculator=MonteLERcalc()
     stimresult=stimcalculator.calculate_LER_from_file(sample_size,filepath,error_rate)
     print("STIM result: ",stimresult)
 

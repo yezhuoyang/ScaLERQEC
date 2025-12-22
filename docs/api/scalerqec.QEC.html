@@ -468,13 +468,13 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">QECStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.qeccircuit.</span></span><span class="sig-name descname"><span class="pre">StabCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.add_stab">
-<span class="sig-name descname"><span class="pre">add_stab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.add_stab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.add_stab" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.add_stab">
+<span class="sig-name descname"><span class="pre">add_stab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.add_stab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.add_stab" title="Link to this definition">¶</a></dt>
 <dd><p>Add a stabilizer generator to the code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -484,8 +484,8 @@
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.circuit">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">circuit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.circuit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.circuit">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">circuit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.circuit" title="Link to this definition">¶</a></dt>
 <dd><p>Get the Clifford circuit for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -495,8 +495,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard">
-<span class="sig-name descname"><span class="pre">compile_stim_circuit_from_IR_standard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.compile_stim_circuit_from_IR_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.compile_stim_circuit_from_IR_standard">
+<span class="sig-name descname"><span class="pre">compile_stim_circuit_from_IR_standard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.compile_stim_circuit_from_IR_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.compile_stim_circuit_from_IR_standard" title="Link to this definition">¶</a></dt>
 <dd><p>Compile the stim circuit from the intermediate representation (IR).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -509,15 +509,15 @@
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme">
-<span class="sig-name descname"><span class="pre">construct_IR_standard_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_IR_standard_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.construct_IR_standard_scheme">
+<span class="sig-name descname"><span class="pre">construct_IR_standard_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.construct_IR_standard_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.construct_IR_standard_scheme" title="Link to this definition">¶</a></dt>
 <dd><p>Construct the quantum error-correcting circuit using the standard scheme.
 Now, we will create the intermediate representation (IR) for the circuit.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.construct_circuit">
-<span class="sig-name descname"><span class="pre">construct_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.construct_circuit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.construct_circuit">
+<span class="sig-name descname"><span class="pre">construct_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.construct_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.construct_circuit" title="Link to this definition">¶</a></dt>
 <dd><p>Construct the quantum error-correcting circuit based on the stabilizers and scheme.</p>
 <dl class="simple">
 <dt>There is a two step compilation:</dt><dd><p>First, compile the stabilizers into an intermediate representation (IR) of the circuit.
@@ -533,8 +533,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix">
-<span class="sig-name descname"><span class="pre">construct_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.construct_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">construct_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.construct_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.construct_parity_check_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Construct the standard XZ parity check matrix for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -544,8 +544,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.d">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.d" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.d">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.d" title="Link to this definition">¶</a></dt>
 <dd><p>Get the distance of the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -558,8 +558,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix">
-<span class="sig-name descname"><span class="pre">get_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.get_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.get_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">get_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.get_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.get_parity_check_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Get the standard XZ parity check matrix for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -569,8 +569,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix">
-<span class="sig-name descname"><span class="pre">init_by_parity_check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paritymatrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.init_by_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.init_by_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">init_by_parity_check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paritymatrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.init_by_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.init_by_parity_check_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Initialize the QECC stabilizer structures using a given parity check matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -580,8 +580,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled">
-<span class="sig-name descname"><span class="pre">is_IR_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_IR_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.is_IR_compiled">
+<span class="sig-name descname"><span class="pre">is_IR_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.is_IR_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.is_IR_compiled" title="Link to this definition">¶</a></dt>
 <dd><p>Check if the intermediate representation (IR) has been compiled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -594,8 +594,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled">
-<span class="sig-name descname"><span class="pre">is_circuit_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_circuit_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.is_circuit_compiled">
+<span class="sig-name descname"><span class="pre">is_circuit_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.is_circuit_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.is_circuit_compiled" title="Link to this definition">¶</a></dt>
 <dd><p>Check if the quantum error-correcting circuit has been compiled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -608,8 +608,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.k">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.k" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.k">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.k" title="Link to this definition">¶</a></dt>
 <dd><p>Get the number of logical qubits in the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -622,8 +622,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.n">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.n" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.n">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.n" title="Link to this definition">¶</a></dt>
 <dd><p>Get the number of physical qubits in the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -636,8 +636,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.noisemodel">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">noisemodel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel"><span class="pre">NoiseModel</span></a></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.noisemodel" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.noisemodel">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">noisemodel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel"><span class="pre">NoiseModel</span></a></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.noisemodel" title="Link to this definition">¶</a></dt>
 <dd><p>Get the noise model associated with the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -650,8 +650,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.rounds">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rounds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.rounds" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.rounds">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rounds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.rounds" title="Link to this definition">¶</a></dt>
 <dd><p>Get the number of error correction rounds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -664,8 +664,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.scheme">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scheme</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME"><span class="pre">SCHEME</span></a></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.scheme" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.scheme">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scheme</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME"><span class="pre">SCHEME</span></a></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.scheme" title="Link to this definition">¶</a></dt>
 <dd><p>Get the error correction scheme for the code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -678,8 +678,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.set_logical_Z">
-<span class="sig-name descname"><span class="pre">set_logical_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logicalZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.set_logical_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.set_logical_Z" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.set_logical_Z">
+<span class="sig-name descname"><span class="pre">set_logical_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logicalZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.set_logical_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.set_logical_Z" title="Link to this definition">¶</a></dt>
 <dd><p>Set the logical Z operator for a given logical qubit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -692,15 +692,15 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.show_IR">
-<span class="sig-name descname"><span class="pre">show_IR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.show_IR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.show_IR" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.show_IR">
+<span class="sig-name descname"><span class="pre">show_IR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.show_IR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.show_IR" title="Link to this definition">¶</a></dt>
 <dd><p>Display the intermediate representation of the quantum error-correcting circuit.</p>
 <p>The IR has the form:</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.QECStab.stimcirc">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stimcirc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.QECStab.stimcirc" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.qeccircuit.StabCode.stimcirc">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stimcirc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.qeccircuit.StabCode.stimcirc" title="Link to this definition">¶</a></dt>
 <dd><p>Get the stimulus circuit for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -959,13 +959,13 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.</span></span><span class="sig-name descname"><span class="pre">QECStab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">scalerqec.QEC.</span></span><span class="sig-name descname"><span class="pre">StabCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.add_stab">
-<span class="sig-name descname"><span class="pre">add_stab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.add_stab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.add_stab" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.add_stab">
+<span class="sig-name descname"><span class="pre">add_stab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stab</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.add_stab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.add_stab" title="Link to this definition">¶</a></dt>
 <dd><p>Add a stabilizer generator to the code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -975,8 +975,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.circuit">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">circuit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.circuit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.circuit">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">circuit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.StabCode.circuit" title="Link to this definition">¶</a></dt>
 <dd><p>Get the Clifford circuit for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -986,8 +986,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard">
-<span class="sig-name descname"><span class="pre">compile_stim_circuit_from_IR_standard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.compile_stim_circuit_from_IR_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.compile_stim_circuit_from_IR_standard">
+<span class="sig-name descname"><span class="pre">compile_stim_circuit_from_IR_standard</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.compile_stim_circuit_from_IR_standard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.compile_stim_circuit_from_IR_standard" title="Link to this definition">¶</a></dt>
 <dd><p>Compile the stim circuit from the intermediate representation (IR).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1000,15 +1000,15 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.construct_IR_standard_scheme">
-<span class="sig-name descname"><span class="pre">construct_IR_standard_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_IR_standard_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.construct_IR_standard_scheme" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.construct_IR_standard_scheme">
+<span class="sig-name descname"><span class="pre">construct_IR_standard_scheme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.construct_IR_standard_scheme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.construct_IR_standard_scheme" title="Link to this definition">¶</a></dt>
 <dd><p>Construct the quantum error-correcting circuit using the standard scheme.
 Now, we will create the intermediate representation (IR) for the circuit.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.construct_circuit">
-<span class="sig-name descname"><span class="pre">construct_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.construct_circuit" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.construct_circuit">
+<span class="sig-name descname"><span class="pre">construct_circuit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.construct_circuit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.construct_circuit" title="Link to this definition">¶</a></dt>
 <dd><p>Construct the quantum error-correcting circuit based on the stabilizers and scheme.</p>
 <dl class="simple">
 <dt>There is a two step compilation:</dt><dd><p>First, compile the stabilizers into an intermediate representation (IR) of the circuit.
@@ -1024,8 +1024,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.construct_parity_check_matrix">
-<span class="sig-name descname"><span class="pre">construct_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.construct_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.construct_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.construct_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">construct_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.construct_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.construct_parity_check_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Construct the standard XZ parity check matrix for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1035,8 +1035,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.d">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.d" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.d">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">d</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.StabCode.d" title="Link to this definition">¶</a></dt>
 <dd><p>Get the distance of the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1049,8 +1049,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.get_parity_check_matrix">
-<span class="sig-name descname"><span class="pre">get_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.get_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.get_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.get_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">get_parity_check_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.get_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.get_parity_check_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Get the standard XZ parity check matrix for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1060,8 +1060,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.init_by_parity_check_matrix">
-<span class="sig-name descname"><span class="pre">init_by_parity_check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paritymatrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.init_by_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.init_by_parity_check_matrix" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.init_by_parity_check_matrix">
+<span class="sig-name descname"><span class="pre">init_by_parity_check_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paritymatrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.init_by_parity_check_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.init_by_parity_check_matrix" title="Link to this definition">¶</a></dt>
 <dd><p>Initialize the QECC stabilizer structures using a given parity check matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1071,8 +1071,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.is_IR_compiled">
-<span class="sig-name descname"><span class="pre">is_IR_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_IR_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.is_IR_compiled" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.is_IR_compiled">
+<span class="sig-name descname"><span class="pre">is_IR_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.is_IR_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.is_IR_compiled" title="Link to this definition">¶</a></dt>
 <dd><p>Check if the intermediate representation (IR) has been compiled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1085,8 +1085,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.is_circuit_compiled">
-<span class="sig-name descname"><span class="pre">is_circuit_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.is_circuit_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.is_circuit_compiled" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.is_circuit_compiled">
+<span class="sig-name descname"><span class="pre">is_circuit_compiled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.is_circuit_compiled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.is_circuit_compiled" title="Link to this definition">¶</a></dt>
 <dd><p>Check if the quantum error-correcting circuit has been compiled.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1099,8 +1099,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.k">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.k" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.k">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">k</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.StabCode.k" title="Link to this definition">¶</a></dt>
 <dd><p>Get the number of logical qubits in the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1113,8 +1113,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.n">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.n" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.n">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.StabCode.n" title="Link to this definition">¶</a></dt>
 <dd><p>Get the number of physical qubits in the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1127,8 +1127,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.noisemodel">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">noisemodel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel"><span class="pre">NoiseModel</span></a></span><a class="headerlink" href="#scalerqec.QEC.QECStab.noisemodel" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.noisemodel">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">noisemodel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.noisemodel.NoiseModel" title="scalerqec.QEC.noisemodel.NoiseModel"><span class="pre">NoiseModel</span></a></span><a class="headerlink" href="#scalerqec.QEC.StabCode.noisemodel" title="Link to this definition">¶</a></dt>
 <dd><p>Get the noise model associated with the QECC.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1141,8 +1141,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.rounds">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rounds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.rounds" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.rounds">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">rounds</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><a class="headerlink" href="#scalerqec.QEC.StabCode.rounds" title="Link to this definition">¶</a></dt>
 <dd><p>Get the number of error correction rounds.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1155,8 +1155,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.scheme">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scheme</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME"><span class="pre">SCHEME</span></a></span><a class="headerlink" href="#scalerqec.QEC.QECStab.scheme" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.scheme">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">scheme</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#scalerqec.QEC.qeccircuit.SCHEME" title="scalerqec.QEC.qeccircuit.SCHEME"><span class="pre">SCHEME</span></a></span><a class="headerlink" href="#scalerqec.QEC.StabCode.scheme" title="Link to this definition">¶</a></dt>
 <dd><p>Get the error correction scheme for the code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1169,8 +1169,8 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.set_logical_Z">
-<span class="sig-name descname"><span class="pre">set_logical_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logicalZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.set_logical_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.set_logical_Z" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.set_logical_Z">
+<span class="sig-name descname"><span class="pre">set_logical_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logicalZ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.set_logical_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.set_logical_Z" title="Link to this definition">¶</a></dt>
 <dd><p>Set the logical Z operator for a given logical qubit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1183,15 +1183,15 @@ o0 = Parity c0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.show_IR">
-<span class="sig-name descname"><span class="pre">show_IR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#QECStab.show_IR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.QECStab.show_IR" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.show_IR">
+<span class="sig-name descname"><span class="pre">show_IR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/scalerqec/QEC/qeccircuit.html#StabCode.show_IR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scalerqec.QEC.StabCode.show_IR" title="Link to this definition">¶</a></dt>
 <dd><p>Display the intermediate representation of the quantum error-correcting circuit.</p>
 <p>The IR has the form:</p>
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="scalerqec.QEC.QECStab.stimcirc">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stimcirc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.QECStab.stimcirc" title="Link to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="scalerqec.QEC.StabCode.stimcirc">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">stimcirc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#scalerqec.QEC.StabCode.stimcirc" title="Link to this definition">¶</a></dt>
 <dd><p>Get the stimulus circuit for the quantum error-correcting code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -1306,26 +1306,26 @@ o0 = Parity c0</p>
 <li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.ParityInstruction.dest"><code class="docutils literal notranslate"><span class="pre">ParityInstruction.dest</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab"><code class="docutils literal notranslate"><span class="pre">QECStab</span></code></a><ul>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.add_stab"><code class="docutils literal notranslate"><span class="pre">QECStab.add_stab()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.circuit</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.compile_stim_circuit_from_IR_standard"><code class="docutils literal notranslate"><span class="pre">QECStab.compile_stim_circuit_from_IR_standard()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.construct_IR_standard_scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_IR_standard_scheme()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.construct_circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_circuit()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.construct_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_parity_check_matrix()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.d"><code class="docutils literal notranslate"><span class="pre">QECStab.d</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.get_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.get_parity_check_matrix()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.init_by_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.init_by_parity_check_matrix()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.is_IR_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_IR_compiled()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.is_circuit_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_circuit_compiled()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.k"><code class="docutils literal notranslate"><span class="pre">QECStab.k</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.n"><code class="docutils literal notranslate"><span class="pre">QECStab.n</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.noisemodel"><code class="docutils literal notranslate"><span class="pre">QECStab.noisemodel</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.rounds"><code class="docutils literal notranslate"><span class="pre">QECStab.rounds</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.scheme</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.set_logical_Z"><code class="docutils literal notranslate"><span class="pre">QECStab.set_logical_Z()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.show_IR"><code class="docutils literal notranslate"><span class="pre">QECStab.show_IR()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.QECStab.stimcirc"><code class="docutils literal notranslate"><span class="pre">QECStab.stimcirc</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode"><code class="docutils literal notranslate"><span class="pre">StabCode</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.add_stab"><code class="docutils literal notranslate"><span class="pre">StabCode.add_stab()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.circuit"><code class="docutils literal notranslate"><span class="pre">StabCode.circuit</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.compile_stim_circuit_from_IR_standard"><code class="docutils literal notranslate"><span class="pre">StabCode.compile_stim_circuit_from_IR_standard()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.construct_IR_standard_scheme"><code class="docutils literal notranslate"><span class="pre">StabCode.construct_IR_standard_scheme()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.construct_circuit"><code class="docutils literal notranslate"><span class="pre">StabCode.construct_circuit()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.construct_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">StabCode.construct_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.d"><code class="docutils literal notranslate"><span class="pre">StabCode.d</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.get_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">StabCode.get_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.init_by_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">StabCode.init_by_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.is_IR_compiled"><code class="docutils literal notranslate"><span class="pre">StabCode.is_IR_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.is_circuit_compiled"><code class="docutils literal notranslate"><span class="pre">StabCode.is_circuit_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.k"><code class="docutils literal notranslate"><span class="pre">StabCode.k</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.n"><code class="docutils literal notranslate"><span class="pre">StabCode.n</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.noisemodel"><code class="docutils literal notranslate"><span class="pre">StabCode.noisemodel</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.rounds"><code class="docutils literal notranslate"><span class="pre">StabCode.rounds</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.scheme"><code class="docutils literal notranslate"><span class="pre">StabCode.scheme</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.set_logical_Z"><code class="docutils literal notranslate"><span class="pre">StabCode.set_logical_Z()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.show_IR"><code class="docutils literal notranslate"><span class="pre">StabCode.show_IR()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.StabCode.stimcirc"><code class="docutils literal notranslate"><span class="pre">StabCode.stimcirc</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#scalerqec.QEC.qeccircuit.REPEATInstruction"><code class="docutils literal notranslate"><span class="pre">REPEATInstruction</span></code></a></li>
@@ -1362,26 +1362,26 @@ o0 = Parity c0</p>
 <li><a class="reference internal" href="#scalerqec.QEC.NoiseModel.uniform_depolarization_single"><code class="docutils literal notranslate"><span class="pre">NoiseModel.uniform_depolarization_single()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab"><code class="docutils literal notranslate"><span class="pre">QECStab</span></code></a><ul>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.add_stab"><code class="docutils literal notranslate"><span class="pre">QECStab.add_stab()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.circuit</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.compile_stim_circuit_from_IR_standard"><code class="docutils literal notranslate"><span class="pre">QECStab.compile_stim_circuit_from_IR_standard()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.construct_IR_standard_scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_IR_standard_scheme()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.construct_circuit"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_circuit()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.construct_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.construct_parity_check_matrix()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.d"><code class="docutils literal notranslate"><span class="pre">QECStab.d</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.get_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.get_parity_check_matrix()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.init_by_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">QECStab.init_by_parity_check_matrix()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.is_IR_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_IR_compiled()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.is_circuit_compiled"><code class="docutils literal notranslate"><span class="pre">QECStab.is_circuit_compiled()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.k"><code class="docutils literal notranslate"><span class="pre">QECStab.k</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.n"><code class="docutils literal notranslate"><span class="pre">QECStab.n</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.noisemodel"><code class="docutils literal notranslate"><span class="pre">QECStab.noisemodel</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.rounds"><code class="docutils literal notranslate"><span class="pre">QECStab.rounds</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.scheme"><code class="docutils literal notranslate"><span class="pre">QECStab.scheme</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.set_logical_Z"><code class="docutils literal notranslate"><span class="pre">QECStab.set_logical_Z()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.show_IR"><code class="docutils literal notranslate"><span class="pre">QECStab.show_IR()</span></code></a></li>
-<li><a class="reference internal" href="#scalerqec.QEC.QECStab.stimcirc"><code class="docutils literal notranslate"><span class="pre">QECStab.stimcirc</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode"><code class="docutils literal notranslate"><span class="pre">StabCode</span></code></a><ul>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.add_stab"><code class="docutils literal notranslate"><span class="pre">StabCode.add_stab()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.circuit"><code class="docutils literal notranslate"><span class="pre">StabCode.circuit</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.compile_stim_circuit_from_IR_standard"><code class="docutils literal notranslate"><span class="pre">StabCode.compile_stim_circuit_from_IR_standard()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.construct_IR_standard_scheme"><code class="docutils literal notranslate"><span class="pre">StabCode.construct_IR_standard_scheme()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.construct_circuit"><code class="docutils literal notranslate"><span class="pre">StabCode.construct_circuit()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.construct_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">StabCode.construct_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.d"><code class="docutils literal notranslate"><span class="pre">StabCode.d</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.get_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">StabCode.get_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.init_by_parity_check_matrix"><code class="docutils literal notranslate"><span class="pre">StabCode.init_by_parity_check_matrix()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.is_IR_compiled"><code class="docutils literal notranslate"><span class="pre">StabCode.is_IR_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.is_circuit_compiled"><code class="docutils literal notranslate"><span class="pre">StabCode.is_circuit_compiled()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.k"><code class="docutils literal notranslate"><span class="pre">StabCode.k</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.n"><code class="docutils literal notranslate"><span class="pre">StabCode.n</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.noisemodel"><code class="docutils literal notranslate"><span class="pre">StabCode.noisemodel</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.rounds"><code class="docutils literal notranslate"><span class="pre">StabCode.rounds</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.scheme"><code class="docutils literal notranslate"><span class="pre">StabCode.scheme</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.set_logical_Z"><code class="docutils literal notranslate"><span class="pre">StabCode.set_logical_Z()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.show_IR"><code class="docutils literal notranslate"><span class="pre">StabCode.show_IR()</span></code></a></li>
+<li><a class="reference internal" href="#scalerqec.QEC.StabCode.stimcirc"><code class="docutils literal notranslate"><span class="pre">StabCode.stimcirc</span></code></a></li>
 </ul>
 </li>
 </ul>

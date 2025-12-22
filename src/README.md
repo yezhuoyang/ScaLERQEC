@@ -75,9 +75,9 @@ User can construct any stabilizer code circuit by the following provided interfa
 
 
 ```python
-from scalerqec.QEC.qeccircuit import QECStab
+from scalerqec.QEC.qeccircuit import StabCode
 from scalerqec.QEC.noisemodel import NoiseModel
-qeccirc= QECStab(n=5,k=1,d=3)
+qeccirc= StabCode(n=5,k=1,d=3)
 noise_model = NoiseModel(0.001) #Set the noise model
 #Specify your stabilizers
 # Stabilizer generators

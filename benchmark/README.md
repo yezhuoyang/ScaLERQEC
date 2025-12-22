@@ -5,7 +5,7 @@ All our benchmark circuit are stored undered stimprograms/ folder. To reproduce 
 
 
 ```python
-from scaler import stratified_Scurve_LERcalc
+from scaler import StratifiedScurveLERcalc
 d=7
 p = 0.001
 repeat=5
@@ -15,7 +15,7 @@ stim_path = f"your/path/stimprograms/surface/surface7"
 figname = f"Surface{d}"
 titlename = f"Surface{d}"
 output_filename = f"Surface{d}.txt"
-testinstance = stratified_Scurve_LERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
+testinstance = StratifiedScurveLERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
 testinstance.set_t(t)
 testinstance.set_sample_bound(
     MIN_NUM_LE_EVENT=100,
@@ -37,14 +37,14 @@ In this part, I explain how to get the ground truth of logical error rate by Sym
 
 
 ```python
-from scaler.stratifiedScurve import stratified_Scurve_LERcalc
+from scaler.stratifiedScurve import StratifiedScurveLERcalc
 from contextlib import redirect_stdout
-from scaler.symbolicLER import symbolicLER
+from scaler.symbolicLER import SymbolicLERcalc
 
 
 if __name__ == "__main__":
 
-    testinstance=symbolicLER(0.001)
+    testinstance=SymbolicLERcalc(0.001)
     filepath="your/file/path/to/circuit"
     print(testinstance.calculate_LER_from_file(filepath,0.001))
     p=0.001
@@ -70,7 +70,7 @@ In this part, I explain how to test any circuit with the widely use random fault
 
 ```python
 from contextlib import redirect_stdout
-from scaler.stimLER import stimLERcalc
+from scaler.stimLER import MonteLERcalc
 
 if __name__ == "__main__":
 
@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     with open(out_fname, "w") as outf, redirect_stdout(outf):
 
-        calculator=stimLERcalc(MIN_NUM_LE_EVENT=10)
+        calculator=MonteLERcalc(MIN_NUM_LE_EVENT=10)
         # pass the string path into your function:
         ler = calculator.calculate_LER_from_my_random_sampler(sampleBudget,filepath, p, repeat)    
 ```
@@ -100,7 +100,7 @@ You can also test the circuit with Stim optimized by Sinter.
 
 ```python
 from contextlib import redirect_stdout
-from scaler.stimLER import stimLERcalc
+from scaler.stimLER import MonteLERcalc
 
 if __name__ == "__main__":
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
 
     with open(out_fname, "w") as outf, redirect_stdout(outf):
 
-        calculator=stimLERcalc(MIN_NUM_LE_EVENT=10)
+        calculator=MonteLERcalc(MIN_NUM_LE_EVENT=10)
         # pass the string path into your function:   
         ler  = calculator.calculate_LER_from_file_sinter(sampleBudget,filepath, p, repeat)
 ```
@@ -128,7 +128,7 @@ In this part, I explain how to use ScaLER to test and input circuit. I will expl
 
 
 ```python
-from scaler.stratifiedScurve import stratified_Scurve_LERcalc
+from scaler.stratifiedScurve import StratifiedScurveLERcalc
 from contextlib import redirect_stdout
 
 if __name__ == "__main__":
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     figname = f"Surface{d}"
     titlename = f"Surface{d}"
     output_filename = f"Surface{d}.txt"
-    testinstance = stratified_Scurve_LERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
+    testinstance = StratifiedScurveLERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
     testinstance.set_t(t)
     testinstance.set_sample_bound(
         MIN_NUM_LE_EVENT=100,
