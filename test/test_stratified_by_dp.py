@@ -1,9 +1,9 @@
 #Test our stratified algorithm by comparing it with dp algorithm
 #This test only work for small scale
 
-from scalerqec.Stratified.stratifiedLERcalc import stratifiedLERcalc
-from scalerqec.stimLER import stimLERcalc
-from scalerqec.Symbolic.symbolicLER import symbolicLER
+from scalerqec.Stratified.stratifiedLER import StratifiedLERcalc
+from scalerqec.stimLER import MonteLERcalc
+from scalerqec.Symbolic.symbolicLER import SymbolicLERcalc
 
 
 
@@ -20,12 +20,12 @@ num_subspace=3
 
 
 def test_by_file_name(filepath):
-    symbolic_calculator=symbolicLER(error_rate)
+    symbolic_calculator=SymbolicLERcalc(error_rate)
     ground_truth=symbolic_calculator.calculate_LER_from_file(filepath,error_rate)
     print("Exact ground truth: ",ground_truth)
 
 
-    tmp=stratifiedLERcalc(error_rate,sampleBudget=sample_size,num_subspace=num_subspace)
+    tmp=StratifiedLERcalc(error_rate,sampleBudget=sample_size,num_subspace=num_subspace)
     tmp.parse_from_file(filepath)
     tmp.sample_all_subspace(sample_size)
 

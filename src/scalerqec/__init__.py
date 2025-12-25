@@ -6,20 +6,20 @@ ScaLER: Scalable Logical Error Rate Estimation Toolkit
 from . import qepg
 
 # Re-export high-level components for easy access
-from .Stratified.stratifiedLERcalc import stratifiedLERcalc
-from .Stratified.stratifiedScurveLER import stratified_Scurve_LERcalc
-from .Symbolic.symbolicLER import symbolicLER
-from .Monte.monteLER import stimLERcalc
+from .Stratified.stratifiedLER import StratifiedLERcalc
+from .Stratified.stratifiedScurveLER import StratifiedScurveLERcalc
+from .Symbolic.symbolicLER import SymbolicLERcalc
+from .Monte.monteLER import MonteLERcalc
 from .Clifford.clifford import CliffordCircuit
-from .QEC.qeccircuit import QECStab
+from .QEC.qeccircuit import StabCode
 
 
 __all__ = [
-    "stratifiedLERcalc",
-    "stratified_Scurve_LERcalc",
+    "StratifiedLERcalc",
+    "StratifiedScurveLERcalc",
     "symbolicLER",
-    "stimLERcalc",
+    "MonteLERcalc",
     "CliffordCircuit",
     "qepg",
-    "QECStab"
+    "StabCode"
 ]

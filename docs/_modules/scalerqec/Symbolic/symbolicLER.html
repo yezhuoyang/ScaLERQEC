@@ -242,7 +242,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..Clifford.QEPGpython</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pymatching</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.noisemodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QECStab</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabCode</span>
 
 
 <span class="c1"># ----------------------------------------------------------------------</span>
@@ -647,14 +647,14 @@
 
 
 
-<div class="viewcode-block" id="symbolicLER.calc_LER_of_QECircuit">
-<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calc_LER_of_QECircuit">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calc_LER_of_QECircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qeccirc</span><span class="p">:</span><span class="n">QECStab</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span> <span class="n">NoiseModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="symbolicLER.calculate_LER_from_StabCode">
+<a class="viewcode-back" href="../../../api/scalerqec.Symbolic.html#scalerqec.symbolicLER.calculate_LER_from_StabCode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_StabCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">qeccirc</span><span class="p">:</span><span class="n">StabCode</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span> <span class="n">NoiseModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given a QECStab object, calculate the LER polynomial symbolically</span>
+<span class="sd">        Given a StabCode object, calculate the LER polynomial symbolically</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            qeccirc: A QECStab object</span>
+<span class="sd">            qeccirc: A StabCode object</span>
 <span class="sd">            error_rate: The physical error rate</span>
 
 <span class="sd">        Returns:</span>

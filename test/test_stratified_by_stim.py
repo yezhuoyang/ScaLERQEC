@@ -3,9 +3,9 @@
 
 
 
-from scalerqec.Stratified.stratifiedLERcalc import stratifiedLERcalc
-from scalerqec.Monte.monteLER import stimLERcalc
-from scalerqec.Symbolic.symbolic import symbolicLER
+from scalerqec.Stratified.stratifiedLER import StratifiedLERcalc
+from scalerqec.Monte.monteLER import MonteLERcalc
+from scalerqec.Symbolic.symbolic import SymbolicLERcalc
 
 
 
@@ -20,12 +20,12 @@ all_test_files=["1cnot","1cnot1R","1cnoth","2cnot","2cnot2R","cnot1","cnot1","cn
 
 
 def test_by_file_name(filepath):
-    stimcalculator=stimLERcalc()
+    stimcalculator=MonteLERcalc()
     ground_truth=stimcalculator.calculate_LER_from_file(stim_sample_size,filepath,error_rate)
     print("STIM result: ",ground_truth)
 
 
-    tmp=stratifiedLERcalc(error_rate,sampleBudget=sample_size,num_subspace=num_subspace)
+    tmp=StratifiedLERcalc(error_rate,sampleBudget=sample_size,num_subspace=num_subspace)
     tmp.parse_from_file(filepath)
     tmp.subspace_sampling()
 

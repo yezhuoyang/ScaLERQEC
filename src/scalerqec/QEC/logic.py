@@ -1,7 +1,7 @@
 #This is the file define the semantic of logical circuits
 #This is useful for Magic state distillation which works on logical level
 import re
-from qeccircuit import QECStab
+from qeccircuit import StabCode
 
 
 
@@ -87,7 +87,7 @@ Postcondition:
 class CodeBlock:
     """
     The QEC code block to hold logical qubits
-    TODO: The type should be QECStab
+    TODO: The type should be StabCode
     """
     def __init__(self, type:str,name: str, n: int, k: int, d: int):
         self._name = name  # Name of the code block

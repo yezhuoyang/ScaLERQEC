@@ -4,7 +4,7 @@ from ..Clifford.stimparser import *
 from ..Clifford.QEPGpython import *
 import pymatching
 from ..QEC.noisemodel import NoiseModel
-from ..QEC.qeccircuit import QECStab
+from ..QEC.qeccircuit import StabCode
 
 
 # ----------------------------------------------------------------------
@@ -99,7 +99,7 @@ MAX_weight=12
 Use symbolic algorithm to calculate the probability.
 Simply enumerate all possible cases
 '''
-class symbolicLER:
+class SymbolicLERcalc:
     def __init__(self,error_rate=0):
         self._num_detector=0
         self._num_noise=0
@@ -159,8 +159,8 @@ class symbolicLER:
 
         print("Total detector outcome: ", 1<<self._num_detector)
         for i in range(0,1<<self._num_detector):
-            print("i=",i)
-            print(1<<self._num_detector)
+            #print("i=",i)
+            #print(1<<self._num_detector)
             # Convert the integer to a list of booleans
             bool_list = idx_to_bool_list(i, self._num_detector)
             # Print the list of booleans
@@ -326,7 +326,7 @@ class symbolicLER:
         Following steps are included:
              Step1:   Parse the circuit from the file, inject depolarization noise
              Step2:   Compile the STIM detector graph, generate the entire prediction table
-             Stem3:   Construct the QEPG graph
+             Step3:   Construct the QEPG graph
              Step4:   Calculate all row indices in the table that will cause logical error
              Step5:   Use dynamic algorithm to calculate the probability of measuring any possible outcomes
              Step6:   Sum up all probability in the row with logical error
@@ -353,12 +353,12 @@ class symbolicLER:
 
 
 
-    def calc_LER_of_QECircuit(self,qeccirc:QECStab, noise_model: NoiseModel) -> float:
+    def calculate_LER_from_StabCode(self,qeccirc:StabCode, noise_model: NoiseModel) -> float:
         """
-        Given a QECStab object, calculate the LER polynomial symbolically
+        Given a StabCode object, calculate the LER polynomial symbolically
 
         Args:
-            qeccirc: A QECStab object
+            qeccirc: A StabCode object
             error_rate: The physical error rate
 
         Returns:
@@ -395,7 +395,7 @@ class symbolicLER:
 if __name__=="__main__":
 
 
-    tmp=symbolicLER(0.001)
+    tmp=SymbolicLERcalc(0.001)
     filepath="C:/Users/username/Documents/Sampling/stimprograms/small/simple"
     print(tmp.calculate_LER_from_file(filepath,0.001))
 

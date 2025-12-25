@@ -248,7 +248,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.noisemodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QECStab</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..QEC.qeccircuit</span><span class="w"> </span><span class="kn">import</span> <span class="n">StabCode</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..util</span><span class="w"> </span><span class="kn">import</span> <span class="n">binomial_weight</span><span class="p">,</span> <span class="n">format_with_uncertainty</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.ScurveModel</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="n">r_squared</span>
@@ -256,9 +256,9 @@
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Use strafified sampling + Scurve fitting  algorithm to calculate the logical error rate</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<div class="viewcode-block" id="stratified_Scurve_LERcalc">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">stratified_Scurve_LERcalc</span><span class="p">:</span>
+<div class="viewcode-block" id="StratifiedScurveLERcalc">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StratifiedScurveLERcalc</span><span class="p">:</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_rate</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sampleBudget</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">k_range</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">num_subspace</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">beta</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_num_detector</span><span class="o">=</span><span class="mi">0</span>
@@ -324,8 +324,8 @@
         
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.set_sample_bound">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.set_sample_bound">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.set_sample_bound">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.set_sample_bound">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_sample_bound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MIN_NUM_LE_EVENT</span><span class="p">,</span><span class="n">SAMPLE_GAP</span><span class="p">,</span> <span class="n">MAX_SAMPLE_GAP</span><span class="p">,</span> <span class="n">MAX_SUBSPACE_SAMPLE</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the sample bound for the subspace sampling</span>
@@ -337,8 +337,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.clear_all">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.clear_all">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.clear_all">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.clear_all">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clear_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="o">=</span><span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LE_count</span><span class="o">=</span><span class="p">{}</span>
@@ -355,8 +355,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.calc_logical_error_rate_with_fixed_w">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.calc_logical_error_rate_with_fixed_w">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.calc_logical_error_rate_with_fixed_w">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.calc_logical_error_rate_with_fixed_w">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calc_logical_error_rate_with_fixed_w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shots</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the logical error rate with fixed w</span>
@@ -386,8 +386,8 @@
 <span class="sd">    TODO: Restructure the function.</span>
 <span class="sd">    Add the threshold as an input parameter.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.binary_search_upper">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.binary_search_upper">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.binary_search_upper">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.binary_search_upper">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">binary_search_upper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">low</span><span class="p">,</span><span class="n">high</span><span class="p">,</span> <span class="n">shots</span><span class="p">):</span>
         <span class="n">left</span><span class="o">=</span><span class="n">low</span>
         <span class="n">right</span><span class="o">=</span><span class="n">high</span>
@@ -403,8 +403,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.binary_search_lower">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.binary_search_lower">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.binary_search_lower">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.binary_search_lower">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">binary_search_lower</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">low</span><span class="p">,</span><span class="n">high</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
         <span class="n">left</span><span class="o">=</span><span class="n">low</span>
         <span class="n">right</span><span class="o">=</span><span class="n">high</span>
@@ -420,16 +420,16 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.determine_lower_w">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.determine_lower_w">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.determine_lower_w">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.determine_lower_w">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">determine_lower_w</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_has_logical_errorw</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">binary_search_lower</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">//</span><span class="mi">10</span><span class="p">)</span></div>
 
         <span class="c1">#self._has_logical_errorw=self._t+100</span>
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.determine_saturated_w">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.determine_saturated_w">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.determine_saturated_w">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.determine_saturated_w">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">determine_saturated_w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Use binary search to determine the minw and maxw</span>
@@ -441,8 +441,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.parse_from_file">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.parse_from_file">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.parse_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.parse_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">parse_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read the circuit, parse from the file</span>
@@ -465,8 +465,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.determine_range_to_sample">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.determine_range_to_sample">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.determine_range_to_sample">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.determine_range_to_sample">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">determine_range_to_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        We need to be exact about the range of w we want to sample. </span>
@@ -486,8 +486,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.subspace_sampling">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.subspace_sampling">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.subspace_sampling">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.subspace_sampling">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">subspace_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        wlist store the subset of weights we need to sample and get</span>
@@ -596,8 +596,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.subspace_sampling_to_fit_curve">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.subspace_sampling_to_fit_curve">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.subspace_sampling_to_fit_curve">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.subspace_sampling_to_fit_curve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">subspace_sampling_to_fit_curve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">sampleBudget</span><span class="p">):</span>
 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -643,8 +643,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.calculate_R_square_score">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.calculate_R_square_score">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.calculate_R_square_score">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.calculate_R_square_score">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_R_square_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">y_observed</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_wlist</span><span class="p">]</span>
         <span class="n">y_predicted</span> <span class="o">=</span> <span class="p">[</span><span class="n">scurve_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_mu</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_sigma</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_wlist</span><span class="p">]</span>
@@ -658,8 +658,8 @@
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="c1"># Calculate logical error rate</span>
     <span class="c1"># The input is a list of rows with logical errors</span>
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.calculate_LER">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.calculate_LER">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.calculate_LER">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.calculate_LER">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">=</span><span class="mi">0</span>
         <span class="k">for</span> <span class="n">weight</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
@@ -669,8 +669,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.get_LER_subspace">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.get_LER_subspace">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.get_LER_subspace">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.get_LER_subspace">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_LER_subspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">weight</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span><span class="o">*</span><span class="n">binomial_weight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="p">)</span></div>
 
@@ -678,8 +678,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.fit_linear_area">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.fit_linear_area">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.fit_linear_area">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.fit_linear_area">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit_linear_area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">x_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)]</span>
 
@@ -748,8 +748,8 @@
 
 
  
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.fit_log_S_model">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.fit_log_S_model">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.fit_log_S_model">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.fit_log_S_model">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit_log_S_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filename</span><span class="p">,</span><span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">x_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subspace_LE_count</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">&gt;=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_MIN_NUM_LE_EVENT</span><span class="o">//</span><span class="mi">5</span><span class="p">))]</span>
 
@@ -942,8 +942,8 @@
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Fit the distribution by 1/2-e^{alpha/W}</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.fit_Scurve">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.fit_Scurve">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.fit_Scurve">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.fit_Scurve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fit_Scurve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stratified_succeed</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_saturatew</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxw</span>
@@ -967,8 +967,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.ground_truth_subspace_sampling">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.ground_truth_subspace_sampling">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.ground_truth_subspace_sampling">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.ground_truth_subspace_sampling">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">ground_truth_subspace_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sample around the subspaces.</span>
@@ -1051,8 +1051,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.calc_logical_error_rate_after_curve_fitting">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.calc_logical_error_rate_after_curve_fitting">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.calc_logical_error_rate_after_curve_fitting">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.calc_logical_error_rate_after_curve_fitting">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calc_logical_error_rate_after_curve_fitting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1">#self.fit_Scurve()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">=</span><span class="mi">0</span>
@@ -1085,8 +1085,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.plot_scurve">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.plot_scurve">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.plot_scurve">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.plot_scurve">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_scurve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;S-curve&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the S-curve and its discrete estimate.&quot;&quot;&quot;</span>
         <span class="n">keys</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_estimated_subspaceLER</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -1154,8 +1154,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.set_t">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.set_t">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.set_t">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.set_t">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_t</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the t value for the S-curve fitting.</span>
@@ -1168,8 +1168,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In this function, we just try to sample the linear area</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.fast_calculate_LER_from_file">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.fast_calculate_LER_from_file">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.fast_calculate_LER_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.fast_calculate_LER_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">fast_calculate_LER_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">pvalue</span><span class="p">,</span><span class="n">codedistance</span><span class="p">,</span><span class="n">figname</span><span class="p">,</span><span class="n">titlename</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="o">=</span><span class="n">pvalue</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_level_code_distance</span><span class="o">=</span><span class="n">codedistance</span>
@@ -1232,8 +1232,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.sample_all_subspaces">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.sample_all_subspaces">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.sample_all_subspaces">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.sample_all_subspaces">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sample_all_subspaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nclip</span><span class="p">,</span> <span class="n">Budget</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Sample all subspaces from minw to maxw</span>
@@ -1314,8 +1314,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.load_all_sample_result">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.load_all_sample_result">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.load_all_sample_result">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.load_all_sample_result">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_all_sample_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -1462,8 +1462,8 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.calculate_LER_from_file">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.calculate_LER_from_file">[docs]</a>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.calculate_LER_from_file">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.calculate_LER_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">filepath</span><span class="p">,</span><span class="n">pvalue</span><span class="p">,</span><span class="n">codedistance</span><span class="p">,</span><span class="n">figname</span><span class="p">,</span><span class="n">titlename</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="o">=</span><span class="n">pvalue</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_level_code_distance</span><span class="o">=</span><span class="n">codedistance</span>
@@ -1543,9 +1543,9 @@
 
 
 
-<div class="viewcode-block" id="stratified_Scurve_LERcalc.calc_LER_from_QECcircuit">
-<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.stratified_Scurve_LERcalc.calc_LER_from_QECcircuit">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calc_LER_from_QECcircuit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qeccirc</span><span class="p">:</span><span class="n">QECStab</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span><span class="n">NoiseModel</span><span class="p">,</span><span class="n">figname</span><span class="p">,</span><span class="n">titlename</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="StratifiedScurveLERcalc.calculate_LER_from_StabCode">
+<a class="viewcode-back" href="../../../api/scalerqec.Stratified.html#scalerqec.StratifiedScurveLERcalc.calculate_LER_from_StabCode">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_LER_from_StabCode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qeccirc</span><span class="p">:</span><span class="n">StabCode</span><span class="p">,</span> <span class="n">noise_model</span><span class="p">:</span><span class="n">NoiseModel</span><span class="p">,</span><span class="n">figname</span><span class="p">,</span><span class="n">titlename</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="n">qeccirc</span><span class="o">.</span><span class="n">construct_IR_standard_scheme</span><span class="p">()</span>
         <span class="n">qeccirc</span><span class="o">.</span><span class="n">compile_stim_circuit_from_IR_standard</span><span class="p">()</span>
         <span class="n">noisy_circuit</span> <span class="o">=</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">reconstruct_clifford_circuit</span><span class="p">(</span><span class="n">qeccirc</span><span class="o">.</span><span class="n">circuit</span><span class="p">)</span> 
@@ -1653,7 +1653,7 @@
         <span class="n">titlename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Surface</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">output_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Surface</span><span class="si">{</span><span class="n">d</span><span class="si">}</span><span class="s2">.txt&quot;</span>
 
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">stratified_Scurve_LERcalc</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">sampleBudget</span><span class="o">=</span><span class="n">sample_budget</span><span class="p">,</span> <span class="n">k_range</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num_subspace</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">StratifiedScurveLERcalc</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">sampleBudget</span><span class="o">=</span><span class="n">sample_budget</span><span class="p">,</span> <span class="n">k_range</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">num_subspace</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
         <span class="n">tmp</span><span class="o">.</span><span class="n">set_t</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
         <span class="n">tmp</span><span class="o">.</span><span class="n">set_sample_bound</span><span class="p">(</span>
             <span class="n">MIN_NUM_LE_EVENT</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>

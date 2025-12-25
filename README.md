@@ -93,10 +93,10 @@ In ScalerQEC, user can construct a circuit by stabilizer formalism.
 
 
 ```python
-from scalerqec.QEC.qeccircuit import QECStab
+from scalerqec.QEC.qeccircuit import StabCode
 from scalerqec.QEC.noisemodel import NoiseModel
 
-qeccirc= QECStab(n=3,k=1,d=3)
+qeccirc= StabCode(n=3,k=1,d=3)
 # Stabilizer generators
 qeccirc.add_stab("ZZI")
 qeccirc.add_stab("IZZ")
@@ -212,11 +212,11 @@ You propose a novel method which tests the logical error rate by stratified samp
 and the noise model, we provide a simple interface for this method.
 
 ```python
-from scalerqec.Stratified import stratified_Scurve_LERcalc
-calculator = stratified_Scurve_LERcalc()
+from scalerqec.Stratified import StratifiedScurveLERcalc
+calculator = StratifiedScurveLERcalc()
 figname="Repetition"  
 titlename="Repetition" 
-stratifiedcalculator.calc_LER_from_QECcircuit(qeccirc, noise_model,figname,titlename, repeat=3)
+stratifiedcalculator.calculate_LER_from_StabCode(qeccirc, noise_model,figname,titlename, repeat=3)
 ```
 
 
@@ -254,9 +254,9 @@ We support standard Monte Carlo testing through the following interface:
 
 
 ```python
-from scalerqec.Monte.monteLER import stimLERcalc
-montecalculator = stimLERcalc()
-symbcalculator.calc_LER_of_QECircuit(qeccirc, noise_model)
+from scalerqec.Monte.monteLER import MonteLERcalc
+montecalculator = MonteLERcalc()
+symbcalculator.calculate_LER_from_StabCode(qeccirc, noise_model)
 ```
 
 
@@ -267,9 +267,9 @@ ScalerQEC has a novel method which calculate the exact symbolic polynomial repre
 
 
 ```python
-from scalerqec.Symbolic.symbolicLER import symbolicLER
-symbcalculator = symbolicLER()
-symbcalculator.calc_LER_of_QECircuit(qeccirc, noise_model)
+from scalerqec.Symbolic.symbolicLER import SymbolicLERcalc
+symbcalculator = SymbolicLERcalc()
+symbcalculator.calculate_LER_from_StabCode(qeccirc, noise_model)
 ```
 
 

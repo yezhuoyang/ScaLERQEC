@@ -1,0 +1,6572 @@
+R 0
+R 1
+R 2
+R 3
+R 4
+R 5
+R 6
+R 7
+R 8
+R 9
+R 10
+R 11
+R 12
+R 13
+R 14
+R 15
+R 16
+R 17
+R 18
+R 19
+R 20
+R 21
+R 22
+R 23
+R 24
+R 25
+R 26
+R 27
+R 28
+R 29
+R 30
+R 31
+R 32
+R 33
+R 34
+R 35
+R 36
+R 37
+R 38
+R 39
+R 40
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 0) rec[-20]
+DETECTOR(3, 0) rec[-19]
+DETECTOR(5, 0) rec[-18]
+DETECTOR(7, 0) rec[-17]
+DETECTOR(9, 0) rec[-16]
+DETECTOR(11, 0) rec[-15]
+DETECTOR(13, 0) rec[-14]
+DETECTOR(15, 0) rec[-13]
+DETECTOR(17, 0) rec[-12]
+DETECTOR(19, 0) rec[-11]
+DETECTOR(21, 0) rec[-10]
+DETECTOR(23, 0) rec[-9]
+DETECTOR(25, 0) rec[-8]
+DETECTOR(27, 0) rec[-7]
+DETECTOR(29, 0) rec[-6]
+DETECTOR(31, 0) rec[-5]
+DETECTOR(33, 0) rec[-4]
+DETECTOR(35, 0) rec[-3]
+DETECTOR(37, 0) rec[-2]
+DETECTOR(39, 0) rec[-1]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 1) rec[-20] rec[-40]
+DETECTOR(3, 1) rec[-19] rec[-39]
+DETECTOR(5, 1) rec[-18] rec[-38]
+DETECTOR(7, 1) rec[-17] rec[-37]
+DETECTOR(9, 1) rec[-16] rec[-36]
+DETECTOR(11, 1) rec[-15] rec[-35]
+DETECTOR(13, 1) rec[-14] rec[-34]
+DETECTOR(15, 1) rec[-13] rec[-33]
+DETECTOR(17, 1) rec[-12] rec[-32]
+DETECTOR(19, 1) rec[-11] rec[-31]
+DETECTOR(21, 1) rec[-10] rec[-30]
+DETECTOR(23, 1) rec[-9] rec[-29]
+DETECTOR(25, 1) rec[-8] rec[-28]
+DETECTOR(27, 1) rec[-7] rec[-27]
+DETECTOR(29, 1) rec[-6] rec[-26]
+DETECTOR(31, 1) rec[-5] rec[-25]
+DETECTOR(33, 1) rec[-4] rec[-24]
+DETECTOR(35, 1) rec[-3] rec[-23]
+DETECTOR(37, 1) rec[-2] rec[-22]
+DETECTOR(39, 1) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 2) rec[-20] rec[-40]
+DETECTOR(3, 2) rec[-19] rec[-39]
+DETECTOR(5, 2) rec[-18] rec[-38]
+DETECTOR(7, 2) rec[-17] rec[-37]
+DETECTOR(9, 2) rec[-16] rec[-36]
+DETECTOR(11, 2) rec[-15] rec[-35]
+DETECTOR(13, 2) rec[-14] rec[-34]
+DETECTOR(15, 2) rec[-13] rec[-33]
+DETECTOR(17, 2) rec[-12] rec[-32]
+DETECTOR(19, 2) rec[-11] rec[-31]
+DETECTOR(21, 2) rec[-10] rec[-30]
+DETECTOR(23, 2) rec[-9] rec[-29]
+DETECTOR(25, 2) rec[-8] rec[-28]
+DETECTOR(27, 2) rec[-7] rec[-27]
+DETECTOR(29, 2) rec[-6] rec[-26]
+DETECTOR(31, 2) rec[-5] rec[-25]
+DETECTOR(33, 2) rec[-4] rec[-24]
+DETECTOR(35, 2) rec[-3] rec[-23]
+DETECTOR(37, 2) rec[-2] rec[-22]
+DETECTOR(39, 2) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 3) rec[-20] rec[-40]
+DETECTOR(3, 3) rec[-19] rec[-39]
+DETECTOR(5, 3) rec[-18] rec[-38]
+DETECTOR(7, 3) rec[-17] rec[-37]
+DETECTOR(9, 3) rec[-16] rec[-36]
+DETECTOR(11, 3) rec[-15] rec[-35]
+DETECTOR(13, 3) rec[-14] rec[-34]
+DETECTOR(15, 3) rec[-13] rec[-33]
+DETECTOR(17, 3) rec[-12] rec[-32]
+DETECTOR(19, 3) rec[-11] rec[-31]
+DETECTOR(21, 3) rec[-10] rec[-30]
+DETECTOR(23, 3) rec[-9] rec[-29]
+DETECTOR(25, 3) rec[-8] rec[-28]
+DETECTOR(27, 3) rec[-7] rec[-27]
+DETECTOR(29, 3) rec[-6] rec[-26]
+DETECTOR(31, 3) rec[-5] rec[-25]
+DETECTOR(33, 3) rec[-4] rec[-24]
+DETECTOR(35, 3) rec[-3] rec[-23]
+DETECTOR(37, 3) rec[-2] rec[-22]
+DETECTOR(39, 3) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 4) rec[-20] rec[-40]
+DETECTOR(3, 4) rec[-19] rec[-39]
+DETECTOR(5, 4) rec[-18] rec[-38]
+DETECTOR(7, 4) rec[-17] rec[-37]
+DETECTOR(9, 4) rec[-16] rec[-36]
+DETECTOR(11, 4) rec[-15] rec[-35]
+DETECTOR(13, 4) rec[-14] rec[-34]
+DETECTOR(15, 4) rec[-13] rec[-33]
+DETECTOR(17, 4) rec[-12] rec[-32]
+DETECTOR(19, 4) rec[-11] rec[-31]
+DETECTOR(21, 4) rec[-10] rec[-30]
+DETECTOR(23, 4) rec[-9] rec[-29]
+DETECTOR(25, 4) rec[-8] rec[-28]
+DETECTOR(27, 4) rec[-7] rec[-27]
+DETECTOR(29, 4) rec[-6] rec[-26]
+DETECTOR(31, 4) rec[-5] rec[-25]
+DETECTOR(33, 4) rec[-4] rec[-24]
+DETECTOR(35, 4) rec[-3] rec[-23]
+DETECTOR(37, 4) rec[-2] rec[-22]
+DETECTOR(39, 4) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 5) rec[-20] rec[-40]
+DETECTOR(3, 5) rec[-19] rec[-39]
+DETECTOR(5, 5) rec[-18] rec[-38]
+DETECTOR(7, 5) rec[-17] rec[-37]
+DETECTOR(9, 5) rec[-16] rec[-36]
+DETECTOR(11, 5) rec[-15] rec[-35]
+DETECTOR(13, 5) rec[-14] rec[-34]
+DETECTOR(15, 5) rec[-13] rec[-33]
+DETECTOR(17, 5) rec[-12] rec[-32]
+DETECTOR(19, 5) rec[-11] rec[-31]
+DETECTOR(21, 5) rec[-10] rec[-30]
+DETECTOR(23, 5) rec[-9] rec[-29]
+DETECTOR(25, 5) rec[-8] rec[-28]
+DETECTOR(27, 5) rec[-7] rec[-27]
+DETECTOR(29, 5) rec[-6] rec[-26]
+DETECTOR(31, 5) rec[-5] rec[-25]
+DETECTOR(33, 5) rec[-4] rec[-24]
+DETECTOR(35, 5) rec[-3] rec[-23]
+DETECTOR(37, 5) rec[-2] rec[-22]
+DETECTOR(39, 5) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 6) rec[-20] rec[-40]
+DETECTOR(3, 6) rec[-19] rec[-39]
+DETECTOR(5, 6) rec[-18] rec[-38]
+DETECTOR(7, 6) rec[-17] rec[-37]
+DETECTOR(9, 6) rec[-16] rec[-36]
+DETECTOR(11, 6) rec[-15] rec[-35]
+DETECTOR(13, 6) rec[-14] rec[-34]
+DETECTOR(15, 6) rec[-13] rec[-33]
+DETECTOR(17, 6) rec[-12] rec[-32]
+DETECTOR(19, 6) rec[-11] rec[-31]
+DETECTOR(21, 6) rec[-10] rec[-30]
+DETECTOR(23, 6) rec[-9] rec[-29]
+DETECTOR(25, 6) rec[-8] rec[-28]
+DETECTOR(27, 6) rec[-7] rec[-27]
+DETECTOR(29, 6) rec[-6] rec[-26]
+DETECTOR(31, 6) rec[-5] rec[-25]
+DETECTOR(33, 6) rec[-4] rec[-24]
+DETECTOR(35, 6) rec[-3] rec[-23]
+DETECTOR(37, 6) rec[-2] rec[-22]
+DETECTOR(39, 6) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 7) rec[-20] rec[-40]
+DETECTOR(3, 7) rec[-19] rec[-39]
+DETECTOR(5, 7) rec[-18] rec[-38]
+DETECTOR(7, 7) rec[-17] rec[-37]
+DETECTOR(9, 7) rec[-16] rec[-36]
+DETECTOR(11, 7) rec[-15] rec[-35]
+DETECTOR(13, 7) rec[-14] rec[-34]
+DETECTOR(15, 7) rec[-13] rec[-33]
+DETECTOR(17, 7) rec[-12] rec[-32]
+DETECTOR(19, 7) rec[-11] rec[-31]
+DETECTOR(21, 7) rec[-10] rec[-30]
+DETECTOR(23, 7) rec[-9] rec[-29]
+DETECTOR(25, 7) rec[-8] rec[-28]
+DETECTOR(27, 7) rec[-7] rec[-27]
+DETECTOR(29, 7) rec[-6] rec[-26]
+DETECTOR(31, 7) rec[-5] rec[-25]
+DETECTOR(33, 7) rec[-4] rec[-24]
+DETECTOR(35, 7) rec[-3] rec[-23]
+DETECTOR(37, 7) rec[-2] rec[-22]
+DETECTOR(39, 7) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 8) rec[-20] rec[-40]
+DETECTOR(3, 8) rec[-19] rec[-39]
+DETECTOR(5, 8) rec[-18] rec[-38]
+DETECTOR(7, 8) rec[-17] rec[-37]
+DETECTOR(9, 8) rec[-16] rec[-36]
+DETECTOR(11, 8) rec[-15] rec[-35]
+DETECTOR(13, 8) rec[-14] rec[-34]
+DETECTOR(15, 8) rec[-13] rec[-33]
+DETECTOR(17, 8) rec[-12] rec[-32]
+DETECTOR(19, 8) rec[-11] rec[-31]
+DETECTOR(21, 8) rec[-10] rec[-30]
+DETECTOR(23, 8) rec[-9] rec[-29]
+DETECTOR(25, 8) rec[-8] rec[-28]
+DETECTOR(27, 8) rec[-7] rec[-27]
+DETECTOR(29, 8) rec[-6] rec[-26]
+DETECTOR(31, 8) rec[-5] rec[-25]
+DETECTOR(33, 8) rec[-4] rec[-24]
+DETECTOR(35, 8) rec[-3] rec[-23]
+DETECTOR(37, 8) rec[-2] rec[-22]
+DETECTOR(39, 8) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 9) rec[-20] rec[-40]
+DETECTOR(3, 9) rec[-19] rec[-39]
+DETECTOR(5, 9) rec[-18] rec[-38]
+DETECTOR(7, 9) rec[-17] rec[-37]
+DETECTOR(9, 9) rec[-16] rec[-36]
+DETECTOR(11, 9) rec[-15] rec[-35]
+DETECTOR(13, 9) rec[-14] rec[-34]
+DETECTOR(15, 9) rec[-13] rec[-33]
+DETECTOR(17, 9) rec[-12] rec[-32]
+DETECTOR(19, 9) rec[-11] rec[-31]
+DETECTOR(21, 9) rec[-10] rec[-30]
+DETECTOR(23, 9) rec[-9] rec[-29]
+DETECTOR(25, 9) rec[-8] rec[-28]
+DETECTOR(27, 9) rec[-7] rec[-27]
+DETECTOR(29, 9) rec[-6] rec[-26]
+DETECTOR(31, 9) rec[-5] rec[-25]
+DETECTOR(33, 9) rec[-4] rec[-24]
+DETECTOR(35, 9) rec[-3] rec[-23]
+DETECTOR(37, 9) rec[-2] rec[-22]
+DETECTOR(39, 9) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 10) rec[-20] rec[-40]
+DETECTOR(3, 10) rec[-19] rec[-39]
+DETECTOR(5, 10) rec[-18] rec[-38]
+DETECTOR(7, 10) rec[-17] rec[-37]
+DETECTOR(9, 10) rec[-16] rec[-36]
+DETECTOR(11, 10) rec[-15] rec[-35]
+DETECTOR(13, 10) rec[-14] rec[-34]
+DETECTOR(15, 10) rec[-13] rec[-33]
+DETECTOR(17, 10) rec[-12] rec[-32]
+DETECTOR(19, 10) rec[-11] rec[-31]
+DETECTOR(21, 10) rec[-10] rec[-30]
+DETECTOR(23, 10) rec[-9] rec[-29]
+DETECTOR(25, 10) rec[-8] rec[-28]
+DETECTOR(27, 10) rec[-7] rec[-27]
+DETECTOR(29, 10) rec[-6] rec[-26]
+DETECTOR(31, 10) rec[-5] rec[-25]
+DETECTOR(33, 10) rec[-4] rec[-24]
+DETECTOR(35, 10) rec[-3] rec[-23]
+DETECTOR(37, 10) rec[-2] rec[-22]
+DETECTOR(39, 10) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 11) rec[-20] rec[-40]
+DETECTOR(3, 11) rec[-19] rec[-39]
+DETECTOR(5, 11) rec[-18] rec[-38]
+DETECTOR(7, 11) rec[-17] rec[-37]
+DETECTOR(9, 11) rec[-16] rec[-36]
+DETECTOR(11, 11) rec[-15] rec[-35]
+DETECTOR(13, 11) rec[-14] rec[-34]
+DETECTOR(15, 11) rec[-13] rec[-33]
+DETECTOR(17, 11) rec[-12] rec[-32]
+DETECTOR(19, 11) rec[-11] rec[-31]
+DETECTOR(21, 11) rec[-10] rec[-30]
+DETECTOR(23, 11) rec[-9] rec[-29]
+DETECTOR(25, 11) rec[-8] rec[-28]
+DETECTOR(27, 11) rec[-7] rec[-27]
+DETECTOR(29, 11) rec[-6] rec[-26]
+DETECTOR(31, 11) rec[-5] rec[-25]
+DETECTOR(33, 11) rec[-4] rec[-24]
+DETECTOR(35, 11) rec[-3] rec[-23]
+DETECTOR(37, 11) rec[-2] rec[-22]
+DETECTOR(39, 11) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 12) rec[-20] rec[-40]
+DETECTOR(3, 12) rec[-19] rec[-39]
+DETECTOR(5, 12) rec[-18] rec[-38]
+DETECTOR(7, 12) rec[-17] rec[-37]
+DETECTOR(9, 12) rec[-16] rec[-36]
+DETECTOR(11, 12) rec[-15] rec[-35]
+DETECTOR(13, 12) rec[-14] rec[-34]
+DETECTOR(15, 12) rec[-13] rec[-33]
+DETECTOR(17, 12) rec[-12] rec[-32]
+DETECTOR(19, 12) rec[-11] rec[-31]
+DETECTOR(21, 12) rec[-10] rec[-30]
+DETECTOR(23, 12) rec[-9] rec[-29]
+DETECTOR(25, 12) rec[-8] rec[-28]
+DETECTOR(27, 12) rec[-7] rec[-27]
+DETECTOR(29, 12) rec[-6] rec[-26]
+DETECTOR(31, 12) rec[-5] rec[-25]
+DETECTOR(33, 12) rec[-4] rec[-24]
+DETECTOR(35, 12) rec[-3] rec[-23]
+DETECTOR(37, 12) rec[-2] rec[-22]
+DETECTOR(39, 12) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 13) rec[-20] rec[-40]
+DETECTOR(3, 13) rec[-19] rec[-39]
+DETECTOR(5, 13) rec[-18] rec[-38]
+DETECTOR(7, 13) rec[-17] rec[-37]
+DETECTOR(9, 13) rec[-16] rec[-36]
+DETECTOR(11, 13) rec[-15] rec[-35]
+DETECTOR(13, 13) rec[-14] rec[-34]
+DETECTOR(15, 13) rec[-13] rec[-33]
+DETECTOR(17, 13) rec[-12] rec[-32]
+DETECTOR(19, 13) rec[-11] rec[-31]
+DETECTOR(21, 13) rec[-10] rec[-30]
+DETECTOR(23, 13) rec[-9] rec[-29]
+DETECTOR(25, 13) rec[-8] rec[-28]
+DETECTOR(27, 13) rec[-7] rec[-27]
+DETECTOR(29, 13) rec[-6] rec[-26]
+DETECTOR(31, 13) rec[-5] rec[-25]
+DETECTOR(33, 13) rec[-4] rec[-24]
+DETECTOR(35, 13) rec[-3] rec[-23]
+DETECTOR(37, 13) rec[-2] rec[-22]
+DETECTOR(39, 13) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 14) rec[-20] rec[-40]
+DETECTOR(3, 14) rec[-19] rec[-39]
+DETECTOR(5, 14) rec[-18] rec[-38]
+DETECTOR(7, 14) rec[-17] rec[-37]
+DETECTOR(9, 14) rec[-16] rec[-36]
+DETECTOR(11, 14) rec[-15] rec[-35]
+DETECTOR(13, 14) rec[-14] rec[-34]
+DETECTOR(15, 14) rec[-13] rec[-33]
+DETECTOR(17, 14) rec[-12] rec[-32]
+DETECTOR(19, 14) rec[-11] rec[-31]
+DETECTOR(21, 14) rec[-10] rec[-30]
+DETECTOR(23, 14) rec[-9] rec[-29]
+DETECTOR(25, 14) rec[-8] rec[-28]
+DETECTOR(27, 14) rec[-7] rec[-27]
+DETECTOR(29, 14) rec[-6] rec[-26]
+DETECTOR(31, 14) rec[-5] rec[-25]
+DETECTOR(33, 14) rec[-4] rec[-24]
+DETECTOR(35, 14) rec[-3] rec[-23]
+DETECTOR(37, 14) rec[-2] rec[-22]
+DETECTOR(39, 14) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 15) rec[-20] rec[-40]
+DETECTOR(3, 15) rec[-19] rec[-39]
+DETECTOR(5, 15) rec[-18] rec[-38]
+DETECTOR(7, 15) rec[-17] rec[-37]
+DETECTOR(9, 15) rec[-16] rec[-36]
+DETECTOR(11, 15) rec[-15] rec[-35]
+DETECTOR(13, 15) rec[-14] rec[-34]
+DETECTOR(15, 15) rec[-13] rec[-33]
+DETECTOR(17, 15) rec[-12] rec[-32]
+DETECTOR(19, 15) rec[-11] rec[-31]
+DETECTOR(21, 15) rec[-10] rec[-30]
+DETECTOR(23, 15) rec[-9] rec[-29]
+DETECTOR(25, 15) rec[-8] rec[-28]
+DETECTOR(27, 15) rec[-7] rec[-27]
+DETECTOR(29, 15) rec[-6] rec[-26]
+DETECTOR(31, 15) rec[-5] rec[-25]
+DETECTOR(33, 15) rec[-4] rec[-24]
+DETECTOR(35, 15) rec[-3] rec[-23]
+DETECTOR(37, 15) rec[-2] rec[-22]
+DETECTOR(39, 15) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 16) rec[-20] rec[-40]
+DETECTOR(3, 16) rec[-19] rec[-39]
+DETECTOR(5, 16) rec[-18] rec[-38]
+DETECTOR(7, 16) rec[-17] rec[-37]
+DETECTOR(9, 16) rec[-16] rec[-36]
+DETECTOR(11, 16) rec[-15] rec[-35]
+DETECTOR(13, 16) rec[-14] rec[-34]
+DETECTOR(15, 16) rec[-13] rec[-33]
+DETECTOR(17, 16) rec[-12] rec[-32]
+DETECTOR(19, 16) rec[-11] rec[-31]
+DETECTOR(21, 16) rec[-10] rec[-30]
+DETECTOR(23, 16) rec[-9] rec[-29]
+DETECTOR(25, 16) rec[-8] rec[-28]
+DETECTOR(27, 16) rec[-7] rec[-27]
+DETECTOR(29, 16) rec[-6] rec[-26]
+DETECTOR(31, 16) rec[-5] rec[-25]
+DETECTOR(33, 16) rec[-4] rec[-24]
+DETECTOR(35, 16) rec[-3] rec[-23]
+DETECTOR(37, 16) rec[-2] rec[-22]
+DETECTOR(39, 16) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 17) rec[-20] rec[-40]
+DETECTOR(3, 17) rec[-19] rec[-39]
+DETECTOR(5, 17) rec[-18] rec[-38]
+DETECTOR(7, 17) rec[-17] rec[-37]
+DETECTOR(9, 17) rec[-16] rec[-36]
+DETECTOR(11, 17) rec[-15] rec[-35]
+DETECTOR(13, 17) rec[-14] rec[-34]
+DETECTOR(15, 17) rec[-13] rec[-33]
+DETECTOR(17, 17) rec[-12] rec[-32]
+DETECTOR(19, 17) rec[-11] rec[-31]
+DETECTOR(21, 17) rec[-10] rec[-30]
+DETECTOR(23, 17) rec[-9] rec[-29]
+DETECTOR(25, 17) rec[-8] rec[-28]
+DETECTOR(27, 17) rec[-7] rec[-27]
+DETECTOR(29, 17) rec[-6] rec[-26]
+DETECTOR(31, 17) rec[-5] rec[-25]
+DETECTOR(33, 17) rec[-4] rec[-24]
+DETECTOR(35, 17) rec[-3] rec[-23]
+DETECTOR(37, 17) rec[-2] rec[-22]
+DETECTOR(39, 17) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 18) rec[-20] rec[-40]
+DETECTOR(3, 18) rec[-19] rec[-39]
+DETECTOR(5, 18) rec[-18] rec[-38]
+DETECTOR(7, 18) rec[-17] rec[-37]
+DETECTOR(9, 18) rec[-16] rec[-36]
+DETECTOR(11, 18) rec[-15] rec[-35]
+DETECTOR(13, 18) rec[-14] rec[-34]
+DETECTOR(15, 18) rec[-13] rec[-33]
+DETECTOR(17, 18) rec[-12] rec[-32]
+DETECTOR(19, 18) rec[-11] rec[-31]
+DETECTOR(21, 18) rec[-10] rec[-30]
+DETECTOR(23, 18) rec[-9] rec[-29]
+DETECTOR(25, 18) rec[-8] rec[-28]
+DETECTOR(27, 18) rec[-7] rec[-27]
+DETECTOR(29, 18) rec[-6] rec[-26]
+DETECTOR(31, 18) rec[-5] rec[-25]
+DETECTOR(33, 18) rec[-4] rec[-24]
+DETECTOR(35, 18) rec[-3] rec[-23]
+DETECTOR(37, 18) rec[-2] rec[-22]
+DETECTOR(39, 18) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 19) rec[-20] rec[-40]
+DETECTOR(3, 19) rec[-19] rec[-39]
+DETECTOR(5, 19) rec[-18] rec[-38]
+DETECTOR(7, 19) rec[-17] rec[-37]
+DETECTOR(9, 19) rec[-16] rec[-36]
+DETECTOR(11, 19) rec[-15] rec[-35]
+DETECTOR(13, 19) rec[-14] rec[-34]
+DETECTOR(15, 19) rec[-13] rec[-33]
+DETECTOR(17, 19) rec[-12] rec[-32]
+DETECTOR(19, 19) rec[-11] rec[-31]
+DETECTOR(21, 19) rec[-10] rec[-30]
+DETECTOR(23, 19) rec[-9] rec[-29]
+DETECTOR(25, 19) rec[-8] rec[-28]
+DETECTOR(27, 19) rec[-7] rec[-27]
+DETECTOR(29, 19) rec[-6] rec[-26]
+DETECTOR(31, 19) rec[-5] rec[-25]
+DETECTOR(33, 19) rec[-4] rec[-24]
+DETECTOR(35, 19) rec[-3] rec[-23]
+DETECTOR(37, 19) rec[-2] rec[-22]
+DETECTOR(39, 19) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 20) rec[-20] rec[-40]
+DETECTOR(3, 20) rec[-19] rec[-39]
+DETECTOR(5, 20) rec[-18] rec[-38]
+DETECTOR(7, 20) rec[-17] rec[-37]
+DETECTOR(9, 20) rec[-16] rec[-36]
+DETECTOR(11, 20) rec[-15] rec[-35]
+DETECTOR(13, 20) rec[-14] rec[-34]
+DETECTOR(15, 20) rec[-13] rec[-33]
+DETECTOR(17, 20) rec[-12] rec[-32]
+DETECTOR(19, 20) rec[-11] rec[-31]
+DETECTOR(21, 20) rec[-10] rec[-30]
+DETECTOR(23, 20) rec[-9] rec[-29]
+DETECTOR(25, 20) rec[-8] rec[-28]
+DETECTOR(27, 20) rec[-7] rec[-27]
+DETECTOR(29, 20) rec[-6] rec[-26]
+DETECTOR(31, 20) rec[-5] rec[-25]
+DETECTOR(33, 20) rec[-4] rec[-24]
+DETECTOR(35, 20) rec[-3] rec[-23]
+DETECTOR(37, 20) rec[-2] rec[-22]
+DETECTOR(39, 20) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 21) rec[-20] rec[-40]
+DETECTOR(3, 21) rec[-19] rec[-39]
+DETECTOR(5, 21) rec[-18] rec[-38]
+DETECTOR(7, 21) rec[-17] rec[-37]
+DETECTOR(9, 21) rec[-16] rec[-36]
+DETECTOR(11, 21) rec[-15] rec[-35]
+DETECTOR(13, 21) rec[-14] rec[-34]
+DETECTOR(15, 21) rec[-13] rec[-33]
+DETECTOR(17, 21) rec[-12] rec[-32]
+DETECTOR(19, 21) rec[-11] rec[-31]
+DETECTOR(21, 21) rec[-10] rec[-30]
+DETECTOR(23, 21) rec[-9] rec[-29]
+DETECTOR(25, 21) rec[-8] rec[-28]
+DETECTOR(27, 21) rec[-7] rec[-27]
+DETECTOR(29, 21) rec[-6] rec[-26]
+DETECTOR(31, 21) rec[-5] rec[-25]
+DETECTOR(33, 21) rec[-4] rec[-24]
+DETECTOR(35, 21) rec[-3] rec[-23]
+DETECTOR(37, 21) rec[-2] rec[-22]
+DETECTOR(39, 21) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 22) rec[-20] rec[-40]
+DETECTOR(3, 22) rec[-19] rec[-39]
+DETECTOR(5, 22) rec[-18] rec[-38]
+DETECTOR(7, 22) rec[-17] rec[-37]
+DETECTOR(9, 22) rec[-16] rec[-36]
+DETECTOR(11, 22) rec[-15] rec[-35]
+DETECTOR(13, 22) rec[-14] rec[-34]
+DETECTOR(15, 22) rec[-13] rec[-33]
+DETECTOR(17, 22) rec[-12] rec[-32]
+DETECTOR(19, 22) rec[-11] rec[-31]
+DETECTOR(21, 22) rec[-10] rec[-30]
+DETECTOR(23, 22) rec[-9] rec[-29]
+DETECTOR(25, 22) rec[-8] rec[-28]
+DETECTOR(27, 22) rec[-7] rec[-27]
+DETECTOR(29, 22) rec[-6] rec[-26]
+DETECTOR(31, 22) rec[-5] rec[-25]
+DETECTOR(33, 22) rec[-4] rec[-24]
+DETECTOR(35, 22) rec[-3] rec[-23]
+DETECTOR(37, 22) rec[-2] rec[-22]
+DETECTOR(39, 22) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 23) rec[-20] rec[-40]
+DETECTOR(3, 23) rec[-19] rec[-39]
+DETECTOR(5, 23) rec[-18] rec[-38]
+DETECTOR(7, 23) rec[-17] rec[-37]
+DETECTOR(9, 23) rec[-16] rec[-36]
+DETECTOR(11, 23) rec[-15] rec[-35]
+DETECTOR(13, 23) rec[-14] rec[-34]
+DETECTOR(15, 23) rec[-13] rec[-33]
+DETECTOR(17, 23) rec[-12] rec[-32]
+DETECTOR(19, 23) rec[-11] rec[-31]
+DETECTOR(21, 23) rec[-10] rec[-30]
+DETECTOR(23, 23) rec[-9] rec[-29]
+DETECTOR(25, 23) rec[-8] rec[-28]
+DETECTOR(27, 23) rec[-7] rec[-27]
+DETECTOR(29, 23) rec[-6] rec[-26]
+DETECTOR(31, 23) rec[-5] rec[-25]
+DETECTOR(33, 23) rec[-4] rec[-24]
+DETECTOR(35, 23) rec[-3] rec[-23]
+DETECTOR(37, 23) rec[-2] rec[-22]
+DETECTOR(39, 23) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 24) rec[-20] rec[-40]
+DETECTOR(3, 24) rec[-19] rec[-39]
+DETECTOR(5, 24) rec[-18] rec[-38]
+DETECTOR(7, 24) rec[-17] rec[-37]
+DETECTOR(9, 24) rec[-16] rec[-36]
+DETECTOR(11, 24) rec[-15] rec[-35]
+DETECTOR(13, 24) rec[-14] rec[-34]
+DETECTOR(15, 24) rec[-13] rec[-33]
+DETECTOR(17, 24) rec[-12] rec[-32]
+DETECTOR(19, 24) rec[-11] rec[-31]
+DETECTOR(21, 24) rec[-10] rec[-30]
+DETECTOR(23, 24) rec[-9] rec[-29]
+DETECTOR(25, 24) rec[-8] rec[-28]
+DETECTOR(27, 24) rec[-7] rec[-27]
+DETECTOR(29, 24) rec[-6] rec[-26]
+DETECTOR(31, 24) rec[-5] rec[-25]
+DETECTOR(33, 24) rec[-4] rec[-24]
+DETECTOR(35, 24) rec[-3] rec[-23]
+DETECTOR(37, 24) rec[-2] rec[-22]
+DETECTOR(39, 24) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 25) rec[-20] rec[-40]
+DETECTOR(3, 25) rec[-19] rec[-39]
+DETECTOR(5, 25) rec[-18] rec[-38]
+DETECTOR(7, 25) rec[-17] rec[-37]
+DETECTOR(9, 25) rec[-16] rec[-36]
+DETECTOR(11, 25) rec[-15] rec[-35]
+DETECTOR(13, 25) rec[-14] rec[-34]
+DETECTOR(15, 25) rec[-13] rec[-33]
+DETECTOR(17, 25) rec[-12] rec[-32]
+DETECTOR(19, 25) rec[-11] rec[-31]
+DETECTOR(21, 25) rec[-10] rec[-30]
+DETECTOR(23, 25) rec[-9] rec[-29]
+DETECTOR(25, 25) rec[-8] rec[-28]
+DETECTOR(27, 25) rec[-7] rec[-27]
+DETECTOR(29, 25) rec[-6] rec[-26]
+DETECTOR(31, 25) rec[-5] rec[-25]
+DETECTOR(33, 25) rec[-4] rec[-24]
+DETECTOR(35, 25) rec[-3] rec[-23]
+DETECTOR(37, 25) rec[-2] rec[-22]
+DETECTOR(39, 25) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 26) rec[-20] rec[-40]
+DETECTOR(3, 26) rec[-19] rec[-39]
+DETECTOR(5, 26) rec[-18] rec[-38]
+DETECTOR(7, 26) rec[-17] rec[-37]
+DETECTOR(9, 26) rec[-16] rec[-36]
+DETECTOR(11, 26) rec[-15] rec[-35]
+DETECTOR(13, 26) rec[-14] rec[-34]
+DETECTOR(15, 26) rec[-13] rec[-33]
+DETECTOR(17, 26) rec[-12] rec[-32]
+DETECTOR(19, 26) rec[-11] rec[-31]
+DETECTOR(21, 26) rec[-10] rec[-30]
+DETECTOR(23, 26) rec[-9] rec[-29]
+DETECTOR(25, 26) rec[-8] rec[-28]
+DETECTOR(27, 26) rec[-7] rec[-27]
+DETECTOR(29, 26) rec[-6] rec[-26]
+DETECTOR(31, 26) rec[-5] rec[-25]
+DETECTOR(33, 26) rec[-4] rec[-24]
+DETECTOR(35, 26) rec[-3] rec[-23]
+DETECTOR(37, 26) rec[-2] rec[-22]
+DETECTOR(39, 26) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 27) rec[-20] rec[-40]
+DETECTOR(3, 27) rec[-19] rec[-39]
+DETECTOR(5, 27) rec[-18] rec[-38]
+DETECTOR(7, 27) rec[-17] rec[-37]
+DETECTOR(9, 27) rec[-16] rec[-36]
+DETECTOR(11, 27) rec[-15] rec[-35]
+DETECTOR(13, 27) rec[-14] rec[-34]
+DETECTOR(15, 27) rec[-13] rec[-33]
+DETECTOR(17, 27) rec[-12] rec[-32]
+DETECTOR(19, 27) rec[-11] rec[-31]
+DETECTOR(21, 27) rec[-10] rec[-30]
+DETECTOR(23, 27) rec[-9] rec[-29]
+DETECTOR(25, 27) rec[-8] rec[-28]
+DETECTOR(27, 27) rec[-7] rec[-27]
+DETECTOR(29, 27) rec[-6] rec[-26]
+DETECTOR(31, 27) rec[-5] rec[-25]
+DETECTOR(33, 27) rec[-4] rec[-24]
+DETECTOR(35, 27) rec[-3] rec[-23]
+DETECTOR(37, 27) rec[-2] rec[-22]
+DETECTOR(39, 27) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 28) rec[-20] rec[-40]
+DETECTOR(3, 28) rec[-19] rec[-39]
+DETECTOR(5, 28) rec[-18] rec[-38]
+DETECTOR(7, 28) rec[-17] rec[-37]
+DETECTOR(9, 28) rec[-16] rec[-36]
+DETECTOR(11, 28) rec[-15] rec[-35]
+DETECTOR(13, 28) rec[-14] rec[-34]
+DETECTOR(15, 28) rec[-13] rec[-33]
+DETECTOR(17, 28) rec[-12] rec[-32]
+DETECTOR(19, 28) rec[-11] rec[-31]
+DETECTOR(21, 28) rec[-10] rec[-30]
+DETECTOR(23, 28) rec[-9] rec[-29]
+DETECTOR(25, 28) rec[-8] rec[-28]
+DETECTOR(27, 28) rec[-7] rec[-27]
+DETECTOR(29, 28) rec[-6] rec[-26]
+DETECTOR(31, 28) rec[-5] rec[-25]
+DETECTOR(33, 28) rec[-4] rec[-24]
+DETECTOR(35, 28) rec[-3] rec[-23]
+DETECTOR(37, 28) rec[-2] rec[-22]
+DETECTOR(39, 28) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 29) rec[-20] rec[-40]
+DETECTOR(3, 29) rec[-19] rec[-39]
+DETECTOR(5, 29) rec[-18] rec[-38]
+DETECTOR(7, 29) rec[-17] rec[-37]
+DETECTOR(9, 29) rec[-16] rec[-36]
+DETECTOR(11, 29) rec[-15] rec[-35]
+DETECTOR(13, 29) rec[-14] rec[-34]
+DETECTOR(15, 29) rec[-13] rec[-33]
+DETECTOR(17, 29) rec[-12] rec[-32]
+DETECTOR(19, 29) rec[-11] rec[-31]
+DETECTOR(21, 29) rec[-10] rec[-30]
+DETECTOR(23, 29) rec[-9] rec[-29]
+DETECTOR(25, 29) rec[-8] rec[-28]
+DETECTOR(27, 29) rec[-7] rec[-27]
+DETECTOR(29, 29) rec[-6] rec[-26]
+DETECTOR(31, 29) rec[-5] rec[-25]
+DETECTOR(33, 29) rec[-4] rec[-24]
+DETECTOR(35, 29) rec[-3] rec[-23]
+DETECTOR(37, 29) rec[-2] rec[-22]
+DETECTOR(39, 29) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 30) rec[-20] rec[-40]
+DETECTOR(3, 30) rec[-19] rec[-39]
+DETECTOR(5, 30) rec[-18] rec[-38]
+DETECTOR(7, 30) rec[-17] rec[-37]
+DETECTOR(9, 30) rec[-16] rec[-36]
+DETECTOR(11, 30) rec[-15] rec[-35]
+DETECTOR(13, 30) rec[-14] rec[-34]
+DETECTOR(15, 30) rec[-13] rec[-33]
+DETECTOR(17, 30) rec[-12] rec[-32]
+DETECTOR(19, 30) rec[-11] rec[-31]
+DETECTOR(21, 30) rec[-10] rec[-30]
+DETECTOR(23, 30) rec[-9] rec[-29]
+DETECTOR(25, 30) rec[-8] rec[-28]
+DETECTOR(27, 30) rec[-7] rec[-27]
+DETECTOR(29, 30) rec[-6] rec[-26]
+DETECTOR(31, 30) rec[-5] rec[-25]
+DETECTOR(33, 30) rec[-4] rec[-24]
+DETECTOR(35, 30) rec[-3] rec[-23]
+DETECTOR(37, 30) rec[-2] rec[-22]
+DETECTOR(39, 30) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 31) rec[-20] rec[-40]
+DETECTOR(3, 31) rec[-19] rec[-39]
+DETECTOR(5, 31) rec[-18] rec[-38]
+DETECTOR(7, 31) rec[-17] rec[-37]
+DETECTOR(9, 31) rec[-16] rec[-36]
+DETECTOR(11, 31) rec[-15] rec[-35]
+DETECTOR(13, 31) rec[-14] rec[-34]
+DETECTOR(15, 31) rec[-13] rec[-33]
+DETECTOR(17, 31) rec[-12] rec[-32]
+DETECTOR(19, 31) rec[-11] rec[-31]
+DETECTOR(21, 31) rec[-10] rec[-30]
+DETECTOR(23, 31) rec[-9] rec[-29]
+DETECTOR(25, 31) rec[-8] rec[-28]
+DETECTOR(27, 31) rec[-7] rec[-27]
+DETECTOR(29, 31) rec[-6] rec[-26]
+DETECTOR(31, 31) rec[-5] rec[-25]
+DETECTOR(33, 31) rec[-4] rec[-24]
+DETECTOR(35, 31) rec[-3] rec[-23]
+DETECTOR(37, 31) rec[-2] rec[-22]
+DETECTOR(39, 31) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 32) rec[-20] rec[-40]
+DETECTOR(3, 32) rec[-19] rec[-39]
+DETECTOR(5, 32) rec[-18] rec[-38]
+DETECTOR(7, 32) rec[-17] rec[-37]
+DETECTOR(9, 32) rec[-16] rec[-36]
+DETECTOR(11, 32) rec[-15] rec[-35]
+DETECTOR(13, 32) rec[-14] rec[-34]
+DETECTOR(15, 32) rec[-13] rec[-33]
+DETECTOR(17, 32) rec[-12] rec[-32]
+DETECTOR(19, 32) rec[-11] rec[-31]
+DETECTOR(21, 32) rec[-10] rec[-30]
+DETECTOR(23, 32) rec[-9] rec[-29]
+DETECTOR(25, 32) rec[-8] rec[-28]
+DETECTOR(27, 32) rec[-7] rec[-27]
+DETECTOR(29, 32) rec[-6] rec[-26]
+DETECTOR(31, 32) rec[-5] rec[-25]
+DETECTOR(33, 32) rec[-4] rec[-24]
+DETECTOR(35, 32) rec[-3] rec[-23]
+DETECTOR(37, 32) rec[-2] rec[-22]
+DETECTOR(39, 32) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 33) rec[-20] rec[-40]
+DETECTOR(3, 33) rec[-19] rec[-39]
+DETECTOR(5, 33) rec[-18] rec[-38]
+DETECTOR(7, 33) rec[-17] rec[-37]
+DETECTOR(9, 33) rec[-16] rec[-36]
+DETECTOR(11, 33) rec[-15] rec[-35]
+DETECTOR(13, 33) rec[-14] rec[-34]
+DETECTOR(15, 33) rec[-13] rec[-33]
+DETECTOR(17, 33) rec[-12] rec[-32]
+DETECTOR(19, 33) rec[-11] rec[-31]
+DETECTOR(21, 33) rec[-10] rec[-30]
+DETECTOR(23, 33) rec[-9] rec[-29]
+DETECTOR(25, 33) rec[-8] rec[-28]
+DETECTOR(27, 33) rec[-7] rec[-27]
+DETECTOR(29, 33) rec[-6] rec[-26]
+DETECTOR(31, 33) rec[-5] rec[-25]
+DETECTOR(33, 33) rec[-4] rec[-24]
+DETECTOR(35, 33) rec[-3] rec[-23]
+DETECTOR(37, 33) rec[-2] rec[-22]
+DETECTOR(39, 33) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 34) rec[-20] rec[-40]
+DETECTOR(3, 34) rec[-19] rec[-39]
+DETECTOR(5, 34) rec[-18] rec[-38]
+DETECTOR(7, 34) rec[-17] rec[-37]
+DETECTOR(9, 34) rec[-16] rec[-36]
+DETECTOR(11, 34) rec[-15] rec[-35]
+DETECTOR(13, 34) rec[-14] rec[-34]
+DETECTOR(15, 34) rec[-13] rec[-33]
+DETECTOR(17, 34) rec[-12] rec[-32]
+DETECTOR(19, 34) rec[-11] rec[-31]
+DETECTOR(21, 34) rec[-10] rec[-30]
+DETECTOR(23, 34) rec[-9] rec[-29]
+DETECTOR(25, 34) rec[-8] rec[-28]
+DETECTOR(27, 34) rec[-7] rec[-27]
+DETECTOR(29, 34) rec[-6] rec[-26]
+DETECTOR(31, 34) rec[-5] rec[-25]
+DETECTOR(33, 34) rec[-4] rec[-24]
+DETECTOR(35, 34) rec[-3] rec[-23]
+DETECTOR(37, 34) rec[-2] rec[-22]
+DETECTOR(39, 34) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 35) rec[-20] rec[-40]
+DETECTOR(3, 35) rec[-19] rec[-39]
+DETECTOR(5, 35) rec[-18] rec[-38]
+DETECTOR(7, 35) rec[-17] rec[-37]
+DETECTOR(9, 35) rec[-16] rec[-36]
+DETECTOR(11, 35) rec[-15] rec[-35]
+DETECTOR(13, 35) rec[-14] rec[-34]
+DETECTOR(15, 35) rec[-13] rec[-33]
+DETECTOR(17, 35) rec[-12] rec[-32]
+DETECTOR(19, 35) rec[-11] rec[-31]
+DETECTOR(21, 35) rec[-10] rec[-30]
+DETECTOR(23, 35) rec[-9] rec[-29]
+DETECTOR(25, 35) rec[-8] rec[-28]
+DETECTOR(27, 35) rec[-7] rec[-27]
+DETECTOR(29, 35) rec[-6] rec[-26]
+DETECTOR(31, 35) rec[-5] rec[-25]
+DETECTOR(33, 35) rec[-4] rec[-24]
+DETECTOR(35, 35) rec[-3] rec[-23]
+DETECTOR(37, 35) rec[-2] rec[-22]
+DETECTOR(39, 35) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 36) rec[-20] rec[-40]
+DETECTOR(3, 36) rec[-19] rec[-39]
+DETECTOR(5, 36) rec[-18] rec[-38]
+DETECTOR(7, 36) rec[-17] rec[-37]
+DETECTOR(9, 36) rec[-16] rec[-36]
+DETECTOR(11, 36) rec[-15] rec[-35]
+DETECTOR(13, 36) rec[-14] rec[-34]
+DETECTOR(15, 36) rec[-13] rec[-33]
+DETECTOR(17, 36) rec[-12] rec[-32]
+DETECTOR(19, 36) rec[-11] rec[-31]
+DETECTOR(21, 36) rec[-10] rec[-30]
+DETECTOR(23, 36) rec[-9] rec[-29]
+DETECTOR(25, 36) rec[-8] rec[-28]
+DETECTOR(27, 36) rec[-7] rec[-27]
+DETECTOR(29, 36) rec[-6] rec[-26]
+DETECTOR(31, 36) rec[-5] rec[-25]
+DETECTOR(33, 36) rec[-4] rec[-24]
+DETECTOR(35, 36) rec[-3] rec[-23]
+DETECTOR(37, 36) rec[-2] rec[-22]
+DETECTOR(39, 36) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 37) rec[-20] rec[-40]
+DETECTOR(3, 37) rec[-19] rec[-39]
+DETECTOR(5, 37) rec[-18] rec[-38]
+DETECTOR(7, 37) rec[-17] rec[-37]
+DETECTOR(9, 37) rec[-16] rec[-36]
+DETECTOR(11, 37) rec[-15] rec[-35]
+DETECTOR(13, 37) rec[-14] rec[-34]
+DETECTOR(15, 37) rec[-13] rec[-33]
+DETECTOR(17, 37) rec[-12] rec[-32]
+DETECTOR(19, 37) rec[-11] rec[-31]
+DETECTOR(21, 37) rec[-10] rec[-30]
+DETECTOR(23, 37) rec[-9] rec[-29]
+DETECTOR(25, 37) rec[-8] rec[-28]
+DETECTOR(27, 37) rec[-7] rec[-27]
+DETECTOR(29, 37) rec[-6] rec[-26]
+DETECTOR(31, 37) rec[-5] rec[-25]
+DETECTOR(33, 37) rec[-4] rec[-24]
+DETECTOR(35, 37) rec[-3] rec[-23]
+DETECTOR(37, 37) rec[-2] rec[-22]
+DETECTOR(39, 37) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 38) rec[-20] rec[-40]
+DETECTOR(3, 38) rec[-19] rec[-39]
+DETECTOR(5, 38) rec[-18] rec[-38]
+DETECTOR(7, 38) rec[-17] rec[-37]
+DETECTOR(9, 38) rec[-16] rec[-36]
+DETECTOR(11, 38) rec[-15] rec[-35]
+DETECTOR(13, 38) rec[-14] rec[-34]
+DETECTOR(15, 38) rec[-13] rec[-33]
+DETECTOR(17, 38) rec[-12] rec[-32]
+DETECTOR(19, 38) rec[-11] rec[-31]
+DETECTOR(21, 38) rec[-10] rec[-30]
+DETECTOR(23, 38) rec[-9] rec[-29]
+DETECTOR(25, 38) rec[-8] rec[-28]
+DETECTOR(27, 38) rec[-7] rec[-27]
+DETECTOR(29, 38) rec[-6] rec[-26]
+DETECTOR(31, 38) rec[-5] rec[-25]
+DETECTOR(33, 38) rec[-4] rec[-24]
+DETECTOR(35, 38) rec[-3] rec[-23]
+DETECTOR(37, 38) rec[-2] rec[-22]
+DETECTOR(39, 38) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 39) rec[-20] rec[-40]
+DETECTOR(3, 39) rec[-19] rec[-39]
+DETECTOR(5, 39) rec[-18] rec[-38]
+DETECTOR(7, 39) rec[-17] rec[-37]
+DETECTOR(9, 39) rec[-16] rec[-36]
+DETECTOR(11, 39) rec[-15] rec[-35]
+DETECTOR(13, 39) rec[-14] rec[-34]
+DETECTOR(15, 39) rec[-13] rec[-33]
+DETECTOR(17, 39) rec[-12] rec[-32]
+DETECTOR(19, 39) rec[-11] rec[-31]
+DETECTOR(21, 39) rec[-10] rec[-30]
+DETECTOR(23, 39) rec[-9] rec[-29]
+DETECTOR(25, 39) rec[-8] rec[-28]
+DETECTOR(27, 39) rec[-7] rec[-27]
+DETECTOR(29, 39) rec[-6] rec[-26]
+DETECTOR(31, 39) rec[-5] rec[-25]
+DETECTOR(33, 39) rec[-4] rec[-24]
+DETECTOR(35, 39) rec[-3] rec[-23]
+DETECTOR(37, 39) rec[-2] rec[-22]
+DETECTOR(39, 39) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 40) rec[-20] rec[-40]
+DETECTOR(3, 40) rec[-19] rec[-39]
+DETECTOR(5, 40) rec[-18] rec[-38]
+DETECTOR(7, 40) rec[-17] rec[-37]
+DETECTOR(9, 40) rec[-16] rec[-36]
+DETECTOR(11, 40) rec[-15] rec[-35]
+DETECTOR(13, 40) rec[-14] rec[-34]
+DETECTOR(15, 40) rec[-13] rec[-33]
+DETECTOR(17, 40) rec[-12] rec[-32]
+DETECTOR(19, 40) rec[-11] rec[-31]
+DETECTOR(21, 40) rec[-10] rec[-30]
+DETECTOR(23, 40) rec[-9] rec[-29]
+DETECTOR(25, 40) rec[-8] rec[-28]
+DETECTOR(27, 40) rec[-7] rec[-27]
+DETECTOR(29, 40) rec[-6] rec[-26]
+DETECTOR(31, 40) rec[-5] rec[-25]
+DETECTOR(33, 40) rec[-4] rec[-24]
+DETECTOR(35, 40) rec[-3] rec[-23]
+DETECTOR(37, 40) rec[-2] rec[-22]
+DETECTOR(39, 40) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 41) rec[-20] rec[-40]
+DETECTOR(3, 41) rec[-19] rec[-39]
+DETECTOR(5, 41) rec[-18] rec[-38]
+DETECTOR(7, 41) rec[-17] rec[-37]
+DETECTOR(9, 41) rec[-16] rec[-36]
+DETECTOR(11, 41) rec[-15] rec[-35]
+DETECTOR(13, 41) rec[-14] rec[-34]
+DETECTOR(15, 41) rec[-13] rec[-33]
+DETECTOR(17, 41) rec[-12] rec[-32]
+DETECTOR(19, 41) rec[-11] rec[-31]
+DETECTOR(21, 41) rec[-10] rec[-30]
+DETECTOR(23, 41) rec[-9] rec[-29]
+DETECTOR(25, 41) rec[-8] rec[-28]
+DETECTOR(27, 41) rec[-7] rec[-27]
+DETECTOR(29, 41) rec[-6] rec[-26]
+DETECTOR(31, 41) rec[-5] rec[-25]
+DETECTOR(33, 41) rec[-4] rec[-24]
+DETECTOR(35, 41) rec[-3] rec[-23]
+DETECTOR(37, 41) rec[-2] rec[-22]
+DETECTOR(39, 41) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 42) rec[-20] rec[-40]
+DETECTOR(3, 42) rec[-19] rec[-39]
+DETECTOR(5, 42) rec[-18] rec[-38]
+DETECTOR(7, 42) rec[-17] rec[-37]
+DETECTOR(9, 42) rec[-16] rec[-36]
+DETECTOR(11, 42) rec[-15] rec[-35]
+DETECTOR(13, 42) rec[-14] rec[-34]
+DETECTOR(15, 42) rec[-13] rec[-33]
+DETECTOR(17, 42) rec[-12] rec[-32]
+DETECTOR(19, 42) rec[-11] rec[-31]
+DETECTOR(21, 42) rec[-10] rec[-30]
+DETECTOR(23, 42) rec[-9] rec[-29]
+DETECTOR(25, 42) rec[-8] rec[-28]
+DETECTOR(27, 42) rec[-7] rec[-27]
+DETECTOR(29, 42) rec[-6] rec[-26]
+DETECTOR(31, 42) rec[-5] rec[-25]
+DETECTOR(33, 42) rec[-4] rec[-24]
+DETECTOR(35, 42) rec[-3] rec[-23]
+DETECTOR(37, 42) rec[-2] rec[-22]
+DETECTOR(39, 42) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 43) rec[-20] rec[-40]
+DETECTOR(3, 43) rec[-19] rec[-39]
+DETECTOR(5, 43) rec[-18] rec[-38]
+DETECTOR(7, 43) rec[-17] rec[-37]
+DETECTOR(9, 43) rec[-16] rec[-36]
+DETECTOR(11, 43) rec[-15] rec[-35]
+DETECTOR(13, 43) rec[-14] rec[-34]
+DETECTOR(15, 43) rec[-13] rec[-33]
+DETECTOR(17, 43) rec[-12] rec[-32]
+DETECTOR(19, 43) rec[-11] rec[-31]
+DETECTOR(21, 43) rec[-10] rec[-30]
+DETECTOR(23, 43) rec[-9] rec[-29]
+DETECTOR(25, 43) rec[-8] rec[-28]
+DETECTOR(27, 43) rec[-7] rec[-27]
+DETECTOR(29, 43) rec[-6] rec[-26]
+DETECTOR(31, 43) rec[-5] rec[-25]
+DETECTOR(33, 43) rec[-4] rec[-24]
+DETECTOR(35, 43) rec[-3] rec[-23]
+DETECTOR(37, 43) rec[-2] rec[-22]
+DETECTOR(39, 43) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 44) rec[-20] rec[-40]
+DETECTOR(3, 44) rec[-19] rec[-39]
+DETECTOR(5, 44) rec[-18] rec[-38]
+DETECTOR(7, 44) rec[-17] rec[-37]
+DETECTOR(9, 44) rec[-16] rec[-36]
+DETECTOR(11, 44) rec[-15] rec[-35]
+DETECTOR(13, 44) rec[-14] rec[-34]
+DETECTOR(15, 44) rec[-13] rec[-33]
+DETECTOR(17, 44) rec[-12] rec[-32]
+DETECTOR(19, 44) rec[-11] rec[-31]
+DETECTOR(21, 44) rec[-10] rec[-30]
+DETECTOR(23, 44) rec[-9] rec[-29]
+DETECTOR(25, 44) rec[-8] rec[-28]
+DETECTOR(27, 44) rec[-7] rec[-27]
+DETECTOR(29, 44) rec[-6] rec[-26]
+DETECTOR(31, 44) rec[-5] rec[-25]
+DETECTOR(33, 44) rec[-4] rec[-24]
+DETECTOR(35, 44) rec[-3] rec[-23]
+DETECTOR(37, 44) rec[-2] rec[-22]
+DETECTOR(39, 44) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 45) rec[-20] rec[-40]
+DETECTOR(3, 45) rec[-19] rec[-39]
+DETECTOR(5, 45) rec[-18] rec[-38]
+DETECTOR(7, 45) rec[-17] rec[-37]
+DETECTOR(9, 45) rec[-16] rec[-36]
+DETECTOR(11, 45) rec[-15] rec[-35]
+DETECTOR(13, 45) rec[-14] rec[-34]
+DETECTOR(15, 45) rec[-13] rec[-33]
+DETECTOR(17, 45) rec[-12] rec[-32]
+DETECTOR(19, 45) rec[-11] rec[-31]
+DETECTOR(21, 45) rec[-10] rec[-30]
+DETECTOR(23, 45) rec[-9] rec[-29]
+DETECTOR(25, 45) rec[-8] rec[-28]
+DETECTOR(27, 45) rec[-7] rec[-27]
+DETECTOR(29, 45) rec[-6] rec[-26]
+DETECTOR(31, 45) rec[-5] rec[-25]
+DETECTOR(33, 45) rec[-4] rec[-24]
+DETECTOR(35, 45) rec[-3] rec[-23]
+DETECTOR(37, 45) rec[-2] rec[-22]
+DETECTOR(39, 45) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 46) rec[-20] rec[-40]
+DETECTOR(3, 46) rec[-19] rec[-39]
+DETECTOR(5, 46) rec[-18] rec[-38]
+DETECTOR(7, 46) rec[-17] rec[-37]
+DETECTOR(9, 46) rec[-16] rec[-36]
+DETECTOR(11, 46) rec[-15] rec[-35]
+DETECTOR(13, 46) rec[-14] rec[-34]
+DETECTOR(15, 46) rec[-13] rec[-33]
+DETECTOR(17, 46) rec[-12] rec[-32]
+DETECTOR(19, 46) rec[-11] rec[-31]
+DETECTOR(21, 46) rec[-10] rec[-30]
+DETECTOR(23, 46) rec[-9] rec[-29]
+DETECTOR(25, 46) rec[-8] rec[-28]
+DETECTOR(27, 46) rec[-7] rec[-27]
+DETECTOR(29, 46) rec[-6] rec[-26]
+DETECTOR(31, 46) rec[-5] rec[-25]
+DETECTOR(33, 46) rec[-4] rec[-24]
+DETECTOR(35, 46) rec[-3] rec[-23]
+DETECTOR(37, 46) rec[-2] rec[-22]
+DETECTOR(39, 46) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 47) rec[-20] rec[-40]
+DETECTOR(3, 47) rec[-19] rec[-39]
+DETECTOR(5, 47) rec[-18] rec[-38]
+DETECTOR(7, 47) rec[-17] rec[-37]
+DETECTOR(9, 47) rec[-16] rec[-36]
+DETECTOR(11, 47) rec[-15] rec[-35]
+DETECTOR(13, 47) rec[-14] rec[-34]
+DETECTOR(15, 47) rec[-13] rec[-33]
+DETECTOR(17, 47) rec[-12] rec[-32]
+DETECTOR(19, 47) rec[-11] rec[-31]
+DETECTOR(21, 47) rec[-10] rec[-30]
+DETECTOR(23, 47) rec[-9] rec[-29]
+DETECTOR(25, 47) rec[-8] rec[-28]
+DETECTOR(27, 47) rec[-7] rec[-27]
+DETECTOR(29, 47) rec[-6] rec[-26]
+DETECTOR(31, 47) rec[-5] rec[-25]
+DETECTOR(33, 47) rec[-4] rec[-24]
+DETECTOR(35, 47) rec[-3] rec[-23]
+DETECTOR(37, 47) rec[-2] rec[-22]
+DETECTOR(39, 47) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 48) rec[-20] rec[-40]
+DETECTOR(3, 48) rec[-19] rec[-39]
+DETECTOR(5, 48) rec[-18] rec[-38]
+DETECTOR(7, 48) rec[-17] rec[-37]
+DETECTOR(9, 48) rec[-16] rec[-36]
+DETECTOR(11, 48) rec[-15] rec[-35]
+DETECTOR(13, 48) rec[-14] rec[-34]
+DETECTOR(15, 48) rec[-13] rec[-33]
+DETECTOR(17, 48) rec[-12] rec[-32]
+DETECTOR(19, 48) rec[-11] rec[-31]
+DETECTOR(21, 48) rec[-10] rec[-30]
+DETECTOR(23, 48) rec[-9] rec[-29]
+DETECTOR(25, 48) rec[-8] rec[-28]
+DETECTOR(27, 48) rec[-7] rec[-27]
+DETECTOR(29, 48) rec[-6] rec[-26]
+DETECTOR(31, 48) rec[-5] rec[-25]
+DETECTOR(33, 48) rec[-4] rec[-24]
+DETECTOR(35, 48) rec[-3] rec[-23]
+DETECTOR(37, 48) rec[-2] rec[-22]
+DETECTOR(39, 48) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 49) rec[-20] rec[-40]
+DETECTOR(3, 49) rec[-19] rec[-39]
+DETECTOR(5, 49) rec[-18] rec[-38]
+DETECTOR(7, 49) rec[-17] rec[-37]
+DETECTOR(9, 49) rec[-16] rec[-36]
+DETECTOR(11, 49) rec[-15] rec[-35]
+DETECTOR(13, 49) rec[-14] rec[-34]
+DETECTOR(15, 49) rec[-13] rec[-33]
+DETECTOR(17, 49) rec[-12] rec[-32]
+DETECTOR(19, 49) rec[-11] rec[-31]
+DETECTOR(21, 49) rec[-10] rec[-30]
+DETECTOR(23, 49) rec[-9] rec[-29]
+DETECTOR(25, 49) rec[-8] rec[-28]
+DETECTOR(27, 49) rec[-7] rec[-27]
+DETECTOR(29, 49) rec[-6] rec[-26]
+DETECTOR(31, 49) rec[-5] rec[-25]
+DETECTOR(33, 49) rec[-4] rec[-24]
+DETECTOR(35, 49) rec[-3] rec[-23]
+DETECTOR(37, 49) rec[-2] rec[-22]
+DETECTOR(39, 49) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 50) rec[-20] rec[-40]
+DETECTOR(3, 50) rec[-19] rec[-39]
+DETECTOR(5, 50) rec[-18] rec[-38]
+DETECTOR(7, 50) rec[-17] rec[-37]
+DETECTOR(9, 50) rec[-16] rec[-36]
+DETECTOR(11, 50) rec[-15] rec[-35]
+DETECTOR(13, 50) rec[-14] rec[-34]
+DETECTOR(15, 50) rec[-13] rec[-33]
+DETECTOR(17, 50) rec[-12] rec[-32]
+DETECTOR(19, 50) rec[-11] rec[-31]
+DETECTOR(21, 50) rec[-10] rec[-30]
+DETECTOR(23, 50) rec[-9] rec[-29]
+DETECTOR(25, 50) rec[-8] rec[-28]
+DETECTOR(27, 50) rec[-7] rec[-27]
+DETECTOR(29, 50) rec[-6] rec[-26]
+DETECTOR(31, 50) rec[-5] rec[-25]
+DETECTOR(33, 50) rec[-4] rec[-24]
+DETECTOR(35, 50) rec[-3] rec[-23]
+DETECTOR(37, 50) rec[-2] rec[-22]
+DETECTOR(39, 50) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 51) rec[-20] rec[-40]
+DETECTOR(3, 51) rec[-19] rec[-39]
+DETECTOR(5, 51) rec[-18] rec[-38]
+DETECTOR(7, 51) rec[-17] rec[-37]
+DETECTOR(9, 51) rec[-16] rec[-36]
+DETECTOR(11, 51) rec[-15] rec[-35]
+DETECTOR(13, 51) rec[-14] rec[-34]
+DETECTOR(15, 51) rec[-13] rec[-33]
+DETECTOR(17, 51) rec[-12] rec[-32]
+DETECTOR(19, 51) rec[-11] rec[-31]
+DETECTOR(21, 51) rec[-10] rec[-30]
+DETECTOR(23, 51) rec[-9] rec[-29]
+DETECTOR(25, 51) rec[-8] rec[-28]
+DETECTOR(27, 51) rec[-7] rec[-27]
+DETECTOR(29, 51) rec[-6] rec[-26]
+DETECTOR(31, 51) rec[-5] rec[-25]
+DETECTOR(33, 51) rec[-4] rec[-24]
+DETECTOR(35, 51) rec[-3] rec[-23]
+DETECTOR(37, 51) rec[-2] rec[-22]
+DETECTOR(39, 51) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 52) rec[-20] rec[-40]
+DETECTOR(3, 52) rec[-19] rec[-39]
+DETECTOR(5, 52) rec[-18] rec[-38]
+DETECTOR(7, 52) rec[-17] rec[-37]
+DETECTOR(9, 52) rec[-16] rec[-36]
+DETECTOR(11, 52) rec[-15] rec[-35]
+DETECTOR(13, 52) rec[-14] rec[-34]
+DETECTOR(15, 52) rec[-13] rec[-33]
+DETECTOR(17, 52) rec[-12] rec[-32]
+DETECTOR(19, 52) rec[-11] rec[-31]
+DETECTOR(21, 52) rec[-10] rec[-30]
+DETECTOR(23, 52) rec[-9] rec[-29]
+DETECTOR(25, 52) rec[-8] rec[-28]
+DETECTOR(27, 52) rec[-7] rec[-27]
+DETECTOR(29, 52) rec[-6] rec[-26]
+DETECTOR(31, 52) rec[-5] rec[-25]
+DETECTOR(33, 52) rec[-4] rec[-24]
+DETECTOR(35, 52) rec[-3] rec[-23]
+DETECTOR(37, 52) rec[-2] rec[-22]
+DETECTOR(39, 52) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 53) rec[-20] rec[-40]
+DETECTOR(3, 53) rec[-19] rec[-39]
+DETECTOR(5, 53) rec[-18] rec[-38]
+DETECTOR(7, 53) rec[-17] rec[-37]
+DETECTOR(9, 53) rec[-16] rec[-36]
+DETECTOR(11, 53) rec[-15] rec[-35]
+DETECTOR(13, 53) rec[-14] rec[-34]
+DETECTOR(15, 53) rec[-13] rec[-33]
+DETECTOR(17, 53) rec[-12] rec[-32]
+DETECTOR(19, 53) rec[-11] rec[-31]
+DETECTOR(21, 53) rec[-10] rec[-30]
+DETECTOR(23, 53) rec[-9] rec[-29]
+DETECTOR(25, 53) rec[-8] rec[-28]
+DETECTOR(27, 53) rec[-7] rec[-27]
+DETECTOR(29, 53) rec[-6] rec[-26]
+DETECTOR(31, 53) rec[-5] rec[-25]
+DETECTOR(33, 53) rec[-4] rec[-24]
+DETECTOR(35, 53) rec[-3] rec[-23]
+DETECTOR(37, 53) rec[-2] rec[-22]
+DETECTOR(39, 53) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 54) rec[-20] rec[-40]
+DETECTOR(3, 54) rec[-19] rec[-39]
+DETECTOR(5, 54) rec[-18] rec[-38]
+DETECTOR(7, 54) rec[-17] rec[-37]
+DETECTOR(9, 54) rec[-16] rec[-36]
+DETECTOR(11, 54) rec[-15] rec[-35]
+DETECTOR(13, 54) rec[-14] rec[-34]
+DETECTOR(15, 54) rec[-13] rec[-33]
+DETECTOR(17, 54) rec[-12] rec[-32]
+DETECTOR(19, 54) rec[-11] rec[-31]
+DETECTOR(21, 54) rec[-10] rec[-30]
+DETECTOR(23, 54) rec[-9] rec[-29]
+DETECTOR(25, 54) rec[-8] rec[-28]
+DETECTOR(27, 54) rec[-7] rec[-27]
+DETECTOR(29, 54) rec[-6] rec[-26]
+DETECTOR(31, 54) rec[-5] rec[-25]
+DETECTOR(33, 54) rec[-4] rec[-24]
+DETECTOR(35, 54) rec[-3] rec[-23]
+DETECTOR(37, 54) rec[-2] rec[-22]
+DETECTOR(39, 54) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 55) rec[-20] rec[-40]
+DETECTOR(3, 55) rec[-19] rec[-39]
+DETECTOR(5, 55) rec[-18] rec[-38]
+DETECTOR(7, 55) rec[-17] rec[-37]
+DETECTOR(9, 55) rec[-16] rec[-36]
+DETECTOR(11, 55) rec[-15] rec[-35]
+DETECTOR(13, 55) rec[-14] rec[-34]
+DETECTOR(15, 55) rec[-13] rec[-33]
+DETECTOR(17, 55) rec[-12] rec[-32]
+DETECTOR(19, 55) rec[-11] rec[-31]
+DETECTOR(21, 55) rec[-10] rec[-30]
+DETECTOR(23, 55) rec[-9] rec[-29]
+DETECTOR(25, 55) rec[-8] rec[-28]
+DETECTOR(27, 55) rec[-7] rec[-27]
+DETECTOR(29, 55) rec[-6] rec[-26]
+DETECTOR(31, 55) rec[-5] rec[-25]
+DETECTOR(33, 55) rec[-4] rec[-24]
+DETECTOR(35, 55) rec[-3] rec[-23]
+DETECTOR(37, 55) rec[-2] rec[-22]
+DETECTOR(39, 55) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 56) rec[-20] rec[-40]
+DETECTOR(3, 56) rec[-19] rec[-39]
+DETECTOR(5, 56) rec[-18] rec[-38]
+DETECTOR(7, 56) rec[-17] rec[-37]
+DETECTOR(9, 56) rec[-16] rec[-36]
+DETECTOR(11, 56) rec[-15] rec[-35]
+DETECTOR(13, 56) rec[-14] rec[-34]
+DETECTOR(15, 56) rec[-13] rec[-33]
+DETECTOR(17, 56) rec[-12] rec[-32]
+DETECTOR(19, 56) rec[-11] rec[-31]
+DETECTOR(21, 56) rec[-10] rec[-30]
+DETECTOR(23, 56) rec[-9] rec[-29]
+DETECTOR(25, 56) rec[-8] rec[-28]
+DETECTOR(27, 56) rec[-7] rec[-27]
+DETECTOR(29, 56) rec[-6] rec[-26]
+DETECTOR(31, 56) rec[-5] rec[-25]
+DETECTOR(33, 56) rec[-4] rec[-24]
+DETECTOR(35, 56) rec[-3] rec[-23]
+DETECTOR(37, 56) rec[-2] rec[-22]
+DETECTOR(39, 56) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 57) rec[-20] rec[-40]
+DETECTOR(3, 57) rec[-19] rec[-39]
+DETECTOR(5, 57) rec[-18] rec[-38]
+DETECTOR(7, 57) rec[-17] rec[-37]
+DETECTOR(9, 57) rec[-16] rec[-36]
+DETECTOR(11, 57) rec[-15] rec[-35]
+DETECTOR(13, 57) rec[-14] rec[-34]
+DETECTOR(15, 57) rec[-13] rec[-33]
+DETECTOR(17, 57) rec[-12] rec[-32]
+DETECTOR(19, 57) rec[-11] rec[-31]
+DETECTOR(21, 57) rec[-10] rec[-30]
+DETECTOR(23, 57) rec[-9] rec[-29]
+DETECTOR(25, 57) rec[-8] rec[-28]
+DETECTOR(27, 57) rec[-7] rec[-27]
+DETECTOR(29, 57) rec[-6] rec[-26]
+DETECTOR(31, 57) rec[-5] rec[-25]
+DETECTOR(33, 57) rec[-4] rec[-24]
+DETECTOR(35, 57) rec[-3] rec[-23]
+DETECTOR(37, 57) rec[-2] rec[-22]
+DETECTOR(39, 57) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 58) rec[-20] rec[-40]
+DETECTOR(3, 58) rec[-19] rec[-39]
+DETECTOR(5, 58) rec[-18] rec[-38]
+DETECTOR(7, 58) rec[-17] rec[-37]
+DETECTOR(9, 58) rec[-16] rec[-36]
+DETECTOR(11, 58) rec[-15] rec[-35]
+DETECTOR(13, 58) rec[-14] rec[-34]
+DETECTOR(15, 58) rec[-13] rec[-33]
+DETECTOR(17, 58) rec[-12] rec[-32]
+DETECTOR(19, 58) rec[-11] rec[-31]
+DETECTOR(21, 58) rec[-10] rec[-30]
+DETECTOR(23, 58) rec[-9] rec[-29]
+DETECTOR(25, 58) rec[-8] rec[-28]
+DETECTOR(27, 58) rec[-7] rec[-27]
+DETECTOR(29, 58) rec[-6] rec[-26]
+DETECTOR(31, 58) rec[-5] rec[-25]
+DETECTOR(33, 58) rec[-4] rec[-24]
+DETECTOR(35, 58) rec[-3] rec[-23]
+DETECTOR(37, 58) rec[-2] rec[-22]
+DETECTOR(39, 58) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 59) rec[-20] rec[-40]
+DETECTOR(3, 59) rec[-19] rec[-39]
+DETECTOR(5, 59) rec[-18] rec[-38]
+DETECTOR(7, 59) rec[-17] rec[-37]
+DETECTOR(9, 59) rec[-16] rec[-36]
+DETECTOR(11, 59) rec[-15] rec[-35]
+DETECTOR(13, 59) rec[-14] rec[-34]
+DETECTOR(15, 59) rec[-13] rec[-33]
+DETECTOR(17, 59) rec[-12] rec[-32]
+DETECTOR(19, 59) rec[-11] rec[-31]
+DETECTOR(21, 59) rec[-10] rec[-30]
+DETECTOR(23, 59) rec[-9] rec[-29]
+DETECTOR(25, 59) rec[-8] rec[-28]
+DETECTOR(27, 59) rec[-7] rec[-27]
+DETECTOR(29, 59) rec[-6] rec[-26]
+DETECTOR(31, 59) rec[-5] rec[-25]
+DETECTOR(33, 59) rec[-4] rec[-24]
+DETECTOR(35, 59) rec[-3] rec[-23]
+DETECTOR(37, 59) rec[-2] rec[-22]
+DETECTOR(39, 59) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 60) rec[-20] rec[-40]
+DETECTOR(3, 60) rec[-19] rec[-39]
+DETECTOR(5, 60) rec[-18] rec[-38]
+DETECTOR(7, 60) rec[-17] rec[-37]
+DETECTOR(9, 60) rec[-16] rec[-36]
+DETECTOR(11, 60) rec[-15] rec[-35]
+DETECTOR(13, 60) rec[-14] rec[-34]
+DETECTOR(15, 60) rec[-13] rec[-33]
+DETECTOR(17, 60) rec[-12] rec[-32]
+DETECTOR(19, 60) rec[-11] rec[-31]
+DETECTOR(21, 60) rec[-10] rec[-30]
+DETECTOR(23, 60) rec[-9] rec[-29]
+DETECTOR(25, 60) rec[-8] rec[-28]
+DETECTOR(27, 60) rec[-7] rec[-27]
+DETECTOR(29, 60) rec[-6] rec[-26]
+DETECTOR(31, 60) rec[-5] rec[-25]
+DETECTOR(33, 60) rec[-4] rec[-24]
+DETECTOR(35, 60) rec[-3] rec[-23]
+DETECTOR(37, 60) rec[-2] rec[-22]
+DETECTOR(39, 60) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 61) rec[-20] rec[-40]
+DETECTOR(3, 61) rec[-19] rec[-39]
+DETECTOR(5, 61) rec[-18] rec[-38]
+DETECTOR(7, 61) rec[-17] rec[-37]
+DETECTOR(9, 61) rec[-16] rec[-36]
+DETECTOR(11, 61) rec[-15] rec[-35]
+DETECTOR(13, 61) rec[-14] rec[-34]
+DETECTOR(15, 61) rec[-13] rec[-33]
+DETECTOR(17, 61) rec[-12] rec[-32]
+DETECTOR(19, 61) rec[-11] rec[-31]
+DETECTOR(21, 61) rec[-10] rec[-30]
+DETECTOR(23, 61) rec[-9] rec[-29]
+DETECTOR(25, 61) rec[-8] rec[-28]
+DETECTOR(27, 61) rec[-7] rec[-27]
+DETECTOR(29, 61) rec[-6] rec[-26]
+DETECTOR(31, 61) rec[-5] rec[-25]
+DETECTOR(33, 61) rec[-4] rec[-24]
+DETECTOR(35, 61) rec[-3] rec[-23]
+DETECTOR(37, 61) rec[-2] rec[-22]
+DETECTOR(39, 61) rec[-1] rec[-21]
+TICK
+CX 0 1
+CX 2 3
+CX 4 5
+CX 6 7
+CX 8 9
+CX 10 11
+CX 12 13
+CX 14 15
+CX 16 17
+CX 18 19
+CX 20 21
+CX 22 23
+CX 24 25
+CX 26 27
+CX 28 29
+CX 30 31
+CX 32 33
+CX 34 35
+CX 36 37
+CX 38 39
+TICK
+CX 2 1
+CX 4 3
+CX 6 5
+CX 8 7
+CX 10 9
+CX 12 11
+CX 14 13
+CX 16 15
+CX 18 17
+CX 20 19
+CX 22 21
+CX 24 23
+CX 26 25
+CX 28 27
+CX 30 29
+CX 32 31
+CX 34 33
+CX 36 35
+CX 38 37
+CX 40 39
+TICK
+M 1
+R 1
+M 3
+R 3
+M 5
+R 5
+M 7
+R 7
+M 9
+R 9
+M 11
+R 11
+M 13
+R 13
+M 15
+R 15
+M 17
+R 17
+M 19
+R 19
+M 21
+R 21
+M 23
+R 23
+M 25
+R 25
+M 27
+R 27
+M 29
+R 29
+M 31
+R 31
+M 33
+R 33
+M 35
+R 35
+M 37
+R 37
+M 39
+R 39
+DETECTOR(1, 62) rec[-20] rec[-40]
+DETECTOR(3, 62) rec[-19] rec[-39]
+DETECTOR(5, 62) rec[-18] rec[-38]
+DETECTOR(7, 62) rec[-17] rec[-37]
+DETECTOR(9, 62) rec[-16] rec[-36]
+DETECTOR(11, 62) rec[-15] rec[-35]
+DETECTOR(13, 62) rec[-14] rec[-34]
+DETECTOR(15, 62) rec[-13] rec[-33]
+DETECTOR(17, 62) rec[-12] rec[-32]
+DETECTOR(19, 62) rec[-11] rec[-31]
+DETECTOR(21, 62) rec[-10] rec[-30]
+DETECTOR(23, 62) rec[-9] rec[-29]
+DETECTOR(25, 62) rec[-8] rec[-28]
+DETECTOR(27, 62) rec[-7] rec[-27]
+DETECTOR(29, 62) rec[-6] rec[-26]
+DETECTOR(31, 62) rec[-5] rec[-25]
+DETECTOR(33, 62) rec[-4] rec[-24]
+DETECTOR(35, 62) rec[-3] rec[-23]
+DETECTOR(37, 62) rec[-2] rec[-22]
+DETECTOR(39, 62) rec[-1] rec[-21]
+M 0
+M 2
+M 4
+M 6
+M 8
+M 10
+M 12
+M 14
+M 16
+M 18
+M 20
+M 22
+M 24
+M 26
+M 28
+M 30
+M 32
+M 34
+M 36
+M 38
+M 40
+DETECTOR(1, 63) rec[-20] rec[-21] rec[-41]
+DETECTOR(3, 63) rec[-19] rec[-20] rec[-40]
+DETECTOR(5, 63) rec[-18] rec[-19] rec[-39]
+DETECTOR(7, 63) rec[-17] rec[-18] rec[-38]
+DETECTOR(9, 63) rec[-16] rec[-17] rec[-37]
+DETECTOR(11, 63) rec[-15] rec[-16] rec[-36]
+DETECTOR(13, 63) rec[-14] rec[-15] rec[-35]
+DETECTOR(15, 63) rec[-13] rec[-14] rec[-34]
+DETECTOR(17, 63) rec[-12] rec[-13] rec[-33]
+DETECTOR(19, 63) rec[-11] rec[-12] rec[-32]
+DETECTOR(21, 63) rec[-10] rec[-11] rec[-31]
+DETECTOR(23, 63) rec[-9] rec[-10] rec[-30]
+DETECTOR(25, 63) rec[-8] rec[-9] rec[-29]
+DETECTOR(27, 63) rec[-7] rec[-8] rec[-28]
+DETECTOR(29, 63) rec[-6] rec[-7] rec[-27]
+DETECTOR(31, 63) rec[-5] rec[-6] rec[-26]
+DETECTOR(33, 63) rec[-4] rec[-5] rec[-25]
+DETECTOR(35, 63) rec[-3] rec[-4] rec[-24]
+DETECTOR(37, 63) rec[-2] rec[-3] rec[-23]
+DETECTOR(39, 63) rec[-1] rec[-2] rec[-22]
+OBSERVABLE_INCLUDE(0) rec[-1]

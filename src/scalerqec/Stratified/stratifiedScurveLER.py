@@ -1,6 +1,6 @@
 
-from ..qepg import compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG
-from ..Clifford.clifford import *
+from scalerqec.qepg import compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG
+from scalerqec.Clifford.clifford import *
 import math
 import pymatching
 from scipy.optimize import curve_fit
@@ -10,7 +10,7 @@ from contextlib import redirect_stdout
 import pickle
 import time
 from ..QEC.noisemodel import NoiseModel
-from ..QEC.qeccircuit import QECStab
+from ..QEC.qeccircuit import StabCode
 from ..util import binomial_weight, format_with_uncertainty
 from .ScurveModel import *
 from .fitting import r_squared
@@ -18,9 +18,9 @@ from .fitting import r_squared
 '''
 Use strafified sampling + Scurve fitting  algorithm to calculate the logical error rate
 '''
-class stratified_Scurve_LERcalc:
+class StratifiedScurveLERcalc:
 
-    def __init__(self, error_rate=0, sampleBudget=10000, k_range=3, num_subspace=5,beta=4):
+    def __init__(self, error_rate=0., sampleBudget=10000, k_range=3, num_subspace=5,beta=4):
         self._num_detector=0
         self._num_noise=0
         self._error_rate=error_rate
@@ -49,7 +49,7 @@ class stratified_Scurve_LERcalc:
         self._maxw=10000000000000
         """
         self._saturatew is the weight of the subspace where the 
-        logical error get satureated
+        logical error get saturated
         """
         self._saturatew=10000000000000       
         self._has_logical_errorw=0
@@ -754,9 +754,6 @@ class stratified_Scurve_LERcalc:
             print(self._ground_subspace_sample_used)
         print("Samples used:{}".format(self._ground_sample_used))
 
-
-
-
     def calc_logical_error_rate_after_curve_fitting(self):
         #self.fit_Scurve()
         self._LER=0
@@ -1228,7 +1225,7 @@ class stratified_Scurve_LERcalc:
 
 
 
-    def calc_LER_from_QECcircuit(self, qeccirc:QECStab, noise_model:NoiseModel,figname,titlename, repeat=1):
+    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,figname,titlename, repeat=1):
         qeccirc.construct_IR_standard_scheme()
         qeccirc.compile_stim_circuit_from_IR_standard()
         noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
@@ -1334,7 +1331,7 @@ if __name__ == "__main__":
         titlename = f"Surface{d}"
         output_filename = f"Surface{d}.txt"
 
-        tmp = stratified_Scurve_LERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
+        tmp = StratifiedScurveLERcalc(p, sampleBudget=sample_budget, k_range=5, num_subspace=6, beta=4)
         tmp.set_t(t)
         tmp.set_sample_bound(
             MIN_NUM_LE_EVENT=100,

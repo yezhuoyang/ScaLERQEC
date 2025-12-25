@@ -501,9 +501,9 @@
 
 
 
-<div class="viewcode-block" id="QECStab">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">QECStab</span><span class="p">:</span>
+<div class="viewcode-block" id="StabCode">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StabCode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -525,8 +525,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_circuit_compiled</span> <span class="o">=</span> <span class="kc">False</span>
 
 
-<div class="viewcode-block" id="QECStab.is_IR_compiled">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.is_IR_compiled">[docs]</a>
+<div class="viewcode-block" id="StabCode.is_IR_compiled">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.is_IR_compiled">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_IR_compiled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the intermediate representation (IR) has been compiled.</span>
@@ -538,8 +538,8 @@
 
 
 
-<div class="viewcode-block" id="QECStab.is_circuit_compiled">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.is_circuit_compiled">[docs]</a>
+<div class="viewcode-block" id="StabCode.is_circuit_compiled">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.is_circuit_compiled">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_circuit_compiled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the quantum error-correcting circuit has been compiled.</span>
@@ -608,8 +608,8 @@
 
 
 
-<div class="viewcode-block" id="QECStab.init_by_parity_check_matrix">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.init_by_parity_check_matrix">[docs]</a>
+<div class="viewcode-block" id="StabCode.init_by_parity_check_matrix">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.init_by_parity_check_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">init_by_parity_check_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paritymatrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the QECC stabilizer structures using a given parity check matrix.</span>
@@ -626,8 +626,8 @@
 
 
 
-<div class="viewcode-block" id="QECStab.construct_parity_check_matrix">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.construct_parity_check_matrix">[docs]</a>
+<div class="viewcode-block" id="StabCode.construct_parity_check_matrix">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.construct_parity_check_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">construct_parity_check_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the standard XZ parity check matrix for the quantum error-correcting code.</span>
@@ -640,8 +640,8 @@
 
 
 
-<div class="viewcode-block" id="QECStab.get_parity_check_matrix">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.get_parity_check_matrix">[docs]</a>
+<div class="viewcode-block" id="StabCode.get_parity_check_matrix">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.get_parity_check_matrix">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_parity_check_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the standard XZ parity check matrix for the quantum error-correcting code.</span>
@@ -677,8 +677,8 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stimcirc</span>
 
 
-<div class="viewcode-block" id="QECStab.set_logical_Z">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.set_logical_Z">[docs]</a>
+<div class="viewcode-block" id="StabCode.set_logical_Z">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.set_logical_Z">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_logical_Z</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">logicalZ</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the logical Z operator for a given logical qubit.</span>
@@ -716,8 +716,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_rounds</span> <span class="o">=</span> <span class="n">rounds</span>
 
 
-<div class="viewcode-block" id="QECStab.add_stab">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.add_stab">[docs]</a>
+<div class="viewcode-block" id="StabCode.add_stab">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.add_stab">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_stab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stab</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a stabilizer generator to the code.</span>
@@ -764,8 +764,8 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown scheme: </span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             
 
-<div class="viewcode-block" id="QECStab.construct_circuit">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.construct_circuit">[docs]</a>
+<div class="viewcode-block" id="StabCode.construct_circuit">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.construct_circuit">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">construct_circuit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the quantum error-correcting circuit based on the stabilizers and scheme.</span>
@@ -795,8 +795,8 @@
 
 
 
-<div class="viewcode-block" id="QECStab.construct_IR_standard_scheme">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.construct_IR_standard_scheme">[docs]</a>
+<div class="viewcode-block" id="StabCode.construct_IR_standard_scheme">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.construct_IR_standard_scheme">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">construct_IR_standard_scheme</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct the quantum error-correcting circuit using the standard scheme.</span>
@@ -840,8 +840,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_IR_compiled</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="QECStab.show_IR">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.show_IR">[docs]</a>
+<div class="viewcode-block" id="StabCode.show_IR">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.show_IR">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">show_IR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display the intermediate representation of the quantum error-correcting circuit.</span>
@@ -853,8 +853,8 @@
 
 
 
-<div class="viewcode-block" id="QECStab.compile_stim_circuit_from_IR_standard">
-<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.QECStab.compile_stim_circuit_from_IR_standard">[docs]</a>
+<div class="viewcode-block" id="StabCode.compile_stim_circuit_from_IR_standard">
+<a class="viewcode-back" href="../../../api/scalerqec.QEC.html#scalerqec.StabCode.compile_stim_circuit_from_IR_standard">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compile_stim_circuit_from_IR_standard</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compile the stim circuit from the intermediate representation (IR).</span>
@@ -936,7 +936,7 @@
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">noise_model</span> <span class="o">=</span> <span class="n">NoiseModel</span><span class="p">(</span><span class="n">error_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-    <span class="n">qeccirc</span><span class="o">=</span> <span class="n">QECStab</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">qeccirc</span><span class="o">=</span> <span class="n">StabCode</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
     <span class="n">qeccirc</span><span class="o">.</span><span class="n">noisemodel</span> <span class="o">=</span> <span class="n">noise_model</span>
     <span class="c1">#Specify your stabilizers</span>
     <span class="c1"># Stabilizer generators</span>

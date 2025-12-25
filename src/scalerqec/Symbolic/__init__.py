@@ -1,6 +1,6 @@
 # Re-export high-level components for easy access
 
-from .symbolicLER import symbolicLER
+from .symbolicLER import SymbolicLERcalc
 
 
 __all__ = [
