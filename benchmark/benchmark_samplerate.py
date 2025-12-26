@@ -1,10 +1,10 @@
 from scalerqec.qepg import return_samples, return_samples_many_weights, return_detector_matrix, return_samples_many_weights_separate_obs, return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
 from scalerqec.Clifford.clifford import *
 from scalerqec.Clifford.stimparser import *
-from time import time, perf_counter
+from time import time, perf_counter, process_time
 import numpy as np
 import matplotlib.pyplot as plt
-from scalerqec.qepg import return_samples_Monte_separate_obs_with_QEPG,return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
+from scalerqec.qepg import return_samples_Monte_separate_obs_with_QEPG,return_samples_numpy, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_many_weights_separate_obs_with_QEPG_cuda
 
 
 def test_compile_speed(distance):
@@ -50,6 +50,7 @@ def test_samplerate(filepath):
 
 
     current_time = time()
+    
     result=return_samples_numpy(str(new_stim_circuit),average_weight,1000000)
     print("My Time taken for return_samples: ", time()-current_time)
 
@@ -59,6 +60,35 @@ def test_samplerate(filepath):
     current_time = time()
     sampler.sample(shots=1000000)
     print("Stim take {} to sample".format(time()-current_time))
+
+
+
+
+def compare_cuda_with_cpu(filepath):
+    print("---------------------------Test file: ",filepath,"---------------------------")
+    p=0.001
+    stim_str=""
+    with open(filepath, "r", encoding="utf-8") as f:
+        stim_str = f.read()
+    circuit=CliffordCircuit(2)
+    stim_circuit=rewrite_stim_code(stim_str)
+    circuit.compile_from_stim_circuit_str(stim_circuit)
+    new_stim_circuit=circuit.stimcircuit       
+    total_noise=circuit.totalnoise
+    average_weight=int(total_noise*p)
+    
+    #First use cuda
+    g=compile_QEPG(str(new_stim_circuit))
+    weight_list=[average_weight]
+    shots_list=[5000000]
+    #Track CPU process time
+    current_time = perf_counter()
+    result_cuda=return_samples_many_weights_separate_obs_with_QEPG_cuda(g,weight_list,shots_list)
+    print("Cuda: ",  perf_counter()-current_time)
+    #Then use cpu
+    current_time = perf_counter()
+    result_cpu=return_samples_many_weights_separate_obs_with_QEPG(g,weight_list,shots_list)
+    print("CPU: ", perf_counter()-current_time)    
 
 
 
@@ -160,10 +190,18 @@ def plot_speed_comparison():
 if __name__ == "__main__":
     #test_samplerate(11)
     #test_compile_speed(13)
-    fileroot="../benchmarksuits/"
+    fileroot="../stimprograms/"
+    all_files=["repetition/repetition3",
+    "repetition/repetition5","repetition/repetition7",
+    "surface/surface3",
+    "surface/surface5","surface/surface7",
+    "square/square3",
+    "square/square5","square/square7",
+    "hexagon/hexagon3",
+    "hexagon/hexagon5","hexagon/hexagon7"]
     for file in all_files:
         filepath=fileroot+file
-        test_samplerate(filepath)
+        compare_cuda_with_cpu(filepath)
     #plot_speed_comparison()
     # test_samplerate(3)
 

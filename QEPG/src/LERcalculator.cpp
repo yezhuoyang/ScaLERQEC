@@ -367,28 +367,28 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs
 
 
 
-// std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots){
-//     SAMPLE::sampler sampler(graph.get_total_noise());
-//     std::vector<QEPG::Row> samplecontainer;
-//     size_t shot_sum=0;
-//     for(int i=0;i<weight.size();i++){
-//         shot_sum+=shots[i];
-//     }
-//     py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
-//     py::array_t<bool> obsresult(shot_sum);
-//     auto begin_index=0;
-//     for(size_t i=0;i<weight.size();++i){
-//         samplecontainer.clear();
-//         sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
-//         convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
-//         begin_index+=shots[i];
-//     }
-//     return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
-// }
+std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots){
+    SAMPLE::sampler sampler(graph.get_total_noise());
+    std::vector<QEPG::Row> samplecontainer;
+    size_t shot_sum=0;
+    for(int i=0;i<weight.size();i++){
+        shot_sum+=shots[i];
+    }
+    py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
+    py::array_t<bool> obsresult(shot_sum);
+    auto begin_index=0;
+    for(size_t i=0;i<weight.size();++i){
+        samplecontainer.clear();
+        sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
+        convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
+        begin_index+=shots[i];
+    }
+    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+}
 
 
 std::pair<py::array_t<bool>, py::array_t<bool>>
-return_samples_many_weights_separate_obs_with_QEPG(
+return_samples_many_weights_separate_obs_with_QEPG_cuda(
     const QEPG::QEPG&          graph,
     const std::vector<size_t>& weight,
     const std::vector<size_t>& shots)
