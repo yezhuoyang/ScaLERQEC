@@ -5,7 +5,7 @@ from ..Clifford.QEPGpython import *
 import pymatching
 from ..QEC.noisemodel import NoiseModel
 from ..QEC.qeccircuit import StabCode
-
+from tqdm.notebook import tqdm 
 
 # ----------------------------------------------------------------------
 # Physical-error model
@@ -93,7 +93,7 @@ def xor_vec(vec_a, vec_b):
 
 
 MAX_degree=100
-MAX_weight=12
+MAX_weight=10
 
 '''
 Use symbolic algorithm to calculate the probability.
@@ -231,43 +231,106 @@ class SymbolicLERcalc:
 
 
     def dynamic_calculation_of_dp(self):
-        # ----------------------------------------------------------------------
-        # DP tables
         MAX_I = self._num_noise
+
         self.initialize_dp()
+        col_size = self._num_detector + 1
+
+        # Precompute bit masks for X,Y,Z propagation if not already done
+        # (do this once in __init__ ideally)
+        if not hasattr(self, "_PROP_X_mask"):
+            # First time: build from PROP_* vectors
+            self._PROP_X_mask = [int(vec_to_idx(v)) for v in self._PROP_X]
+            self._PROP_Y_mask = [int(vec_to_idx(v)) for v in self._PROP_Y]
+            self._PROP_Z_mask = [int(vec_to_idx(v)) for v in self._PROP_Z]
+        else:
+            # If these were created earlier as numpy scalars, normalize them
+            self._PROP_X_mask = [int(m) for m in self._PROP_X_mask]
+            self._PROP_Y_mask = [int(m) for m in self._PROP_Y_mask]
+            self._PROP_Z_mask = [int(m) for m in self._PROP_Z_mask]
+
+        dp = self._dp
+        total = self._total_detector_outcome
+
+        PROP_X_mask = self._PROP_X_mask
+        PROP_Y_mask = self._PROP_Y_mask
+        PROP_Z_mask = self._PROP_Z_mask
+
+        # (1-p)**i computed incrementally
+        no_error_pow = 1  # (1-p)**0
+        for i in tqdm(range(0, MAX_I + 1), desc="Dynamic DP rows", unit="row"):
+            dp[i][0][0] = no_error_pow
+            no_error_pow *= (1 - p)
+
+            j_max = min(i, MAX_weight)
+            prev_i = i - 1
+
+            if i == 0:
+                continue
+
+            mask_X = PROP_X_mask[prev_i]
+            mask_Y = PROP_Y_mask[prev_i]
+            mask_Z = PROP_Z_mask[prev_i]
+
+            for j in range(1, j_max + 1):
+                prev_j = j - 1
+                dp_prev_same = dp[prev_i][j]
+                dp_prev_less = dp[prev_i][prev_j]
+                dp_curr = dp[i][j]
+
+                for vec_idx in range(total):
+                    # 1) no-error branch
+                    acc = q * dp_prev_same[vec_idx]
+
+                    # 2) error branches (only if j>=1, but loop starts at 1)
+                    prev_idx_X = vec_idx ^ mask_X
+                    prev_idx_Y = vec_idx ^ mask_Y
+                    prev_idx_Z = vec_idx ^ mask_Z
+
+                    acc += Px * dp_prev_less[prev_idx_X]
+                    acc += Py * dp_prev_less[prev_idx_Y]
+                    acc += Pz * dp_prev_less[prev_idx_Z]
+
+                    # No simplify here; keep as-is
+                    dp_curr[vec_idx] = acc
 
 
-        col_size=self._num_detector+1
-        # ----------------------------------------------------------------------
-        # Fill   dp[i][j][·]   using the recurrence in Eq. (1)
-        for i in range(0, MAX_I+1):
-            self._dp[i][0][0] = (1-p)**i
+    # def dynamic_calculation_of_dp(self):
+    #     # ----------------------------------------------------------------------
+    #     # DP tables
+    #     MAX_I = self._num_noise
+    #     self.initialize_dp()
 
-            for j in range(1, i+1):           # j ≤ i
-                if j > MAX_weight:
-                    continue
+    #     col_size=self._num_detector+1
+    #     # ----------------------------------------------------------------------
+    #     # Fill   dp[i][j][·]   using the recurrence in Eq. (1)
+    #     for i in tqdm(range(0, MAX_I+1),desc="Dynamic DP rows", unit = "row"):
+    #         self._dp[i][0][0] = (1-p)**i
 
-                #print("MAX_I=",MAX_I,"i=",i,"j=",j)
-                for vec_idx in range(self._total_detector_outcome):
+    #         for j in range(1, i+1):           # j ≤ i
+    #             if j > MAX_weight:
+    #                 continue
 
-                    vec = idx_to_vec(vec_idx,col_size)
+    #             #print("MAX_I=",MAX_I,"i=",i,"j=",j)
+    #             for vec_idx in range(self._total_detector_outcome):
 
-                    # 1) “no error’’ branch
-                    acc = q * self._dp[i-1][j][vec_idx]
+    #                 vec = idx_to_vec(vec_idx,col_size)
 
-                    if j >= 1:
-                        for (prob, prop) in ((Px, self._PROP_X[i-1]),
-                                            (Py, self._PROP_Y[i-1]),
-                                            (Pz, self._PROP_Z[i-1])):
+    #                 # 1) “no error’’ branch
+    #                 acc = q * self._dp[i-1][j][vec_idx]
+
+    #                 if j >= 1:
+    #                     for (prob, prop) in ((Px, self._PROP_X[i-1]),
+    #                                         (Py, self._PROP_Y[i-1]),
+    #                                         (Pz, self._PROP_Z[i-1])):
                             
 
-                            prev_vec = xor_vec(prop, vec)
-                            acc += prob * self._dp[i-1][j-1][ vec_to_idx(prev_vec) ]
+    #                         prev_vec = xor_vec(prop, vec)
+    #                         acc += prob * self._dp[i-1][j-1][ vec_to_idx(prev_vec) ]
 
-                    self._dp[i][j][vec_idx] = simplify(acc)
-            if MAX_weight>=self._num_noise:
-                self.verify_table(i)
-
+    #                 self._dp[i][j][vec_idx] = simplify(acc)
+    #         # if MAX_weight>=self._num_noise:
+    #         #     self.verify_table(i)
 
 
 

@@ -166,7 +166,10 @@ class StratifiedScurveLERcalc:
 
 
     def determine_lower_w(self):
-        self._has_logical_errorw=self.binary_search_lower(self._t+1,self._num_noise//10)
+        if self._num_noise<=8:
+            self._has_logical_errorw=1
+        else:
+            self._has_logical_errorw=self.binary_search_lower(self._t+1,self._num_noise)
         #self._has_logical_errorw=self._t+100
 
 
@@ -175,7 +178,12 @@ class StratifiedScurveLERcalc:
         Use binary search to determine the minw and maxw
         """
         #self._saturatew=self._num_detector//30
-        self._saturatew=self.binary_search_upper(self._minw,self._num_noise//10,shots)
+        if self._num_noise<=8:
+            self._saturatew=self._num_noise
+        else:
+            self._saturatew=self.binary_search_upper(self._minw,self._num_noise,shots)
+            if self._saturatew<self._has_logical_errorw+8:
+                self._saturatew=self._has_logical_errorw+8
         #print("Self._saturatew: ",self._saturatew)
 
 
@@ -403,8 +411,8 @@ class StratifiedScurveLERcalc:
         y_list = [np.log(0.5/self._estimated_subspaceLER[x]-1)-bias_estimator(self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
         sigma_list= [sigma_estimator( self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
 
-        print(x_list)
-        print(y_list)
+        # print(x_list)
+        # print(y_list)
         popt, pcov = curve_fit(
             linear_function,
             x_list,
@@ -463,15 +471,15 @@ class StratifiedScurveLERcalc:
 
 
  
-    def fit_log_S_model(self,filename,time=None):
+    def fit_log_S_model(self,filename,savefigure=True,time=None):
         x_list = [x for x in self._estimated_subspaceLER.keys() if (self._estimated_subspaceLER[x] < 0.5 and self._estimated_subspaceLER[x]>0 and self._subspace_LE_count[x]>=(self._MIN_NUM_LE_EVENT//5))]
 
         sigma_list= [sigma_estimator( self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
         y_list = [np.log(0.5/self._estimated_subspaceLER[x]-1)-bias_estimator(self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
 
-        print("Saturated weight: ",self._saturatew)
-        print("LE count: ",self._subspace_LE_count)
-        print("Sample used: ",self._subspace_sample_used)
+        # print("Saturated weight: ",self._saturatew)
+        # print("LE count: ",self._subspace_LE_count)
+        # print("Sample used: ",self._subspace_sample_used)
 
 
         non_zero_indices=[x for x in x_list if self._estimated_subspaceLER[x]>0]
@@ -647,7 +655,9 @@ class StratifiedScurveLERcalc:
         ax.set_title('Fitted log-S-curve')
         ax.legend(fontsize=8)
         fig.tight_layout()
-        fig.savefig(filename, format='pdf', bbox_inches='tight')  # `dpi` optional
+        if savefigure:
+            fig.savefig(filename, format='pdf', bbox_inches='tight')  # `dpi` optional
+        plt.show()
         plt.close()
 
 
@@ -727,8 +737,8 @@ class StratifiedScurveLERcalc:
                 break
             #detector_result,obsresult=return_samples_many_weights_separate_obs(self._stim_str_after_rewrite,wlist,slist)
             
-            print("Ground truth wlist: ",wlist)
-            print("Ground truth slist: ",slist)
+            # print("Ground truth wlist: ",wlist)
+            # print("Ground truth slist: ",slist)
             
             detector_result,obsresult=return_samples_many_weights_separate_obs_with_QEPG(self._QEPG_graph,wlist,slist)
             predictions_result = self._matcher.decode_batch(detector_result)
@@ -747,12 +757,12 @@ class StratifiedScurveLERcalc:
                 self._ground_estimated_subspaceLER[w] = self._ground_subspace_LE_count[w] / self._ground_subspace_sample_used[w]
 
 
-                print(f"Logical error rate when w={w}: {self._ground_estimated_subspaceLER[w]*binomial_weight(self._num_noise, w,self._error_rate):.6g}")
+                # print(f"Logical error rate when w={w}: {self._ground_estimated_subspaceLER[w]*binomial_weight(self._num_noise, w,self._error_rate):.6g}")
 
                 begin_index+=quota
-            print(self._ground_subspace_LE_count)
-            print(self._ground_subspace_sample_used)
-        print("Samples used:{}".format(self._ground_sample_used))
+            # print(self._ground_subspace_LE_count)
+            # print(self._ground_subspace_sample_used)
+        # print("Samples used:{}".format(self._ground_sample_used))
 
     def calc_logical_error_rate_after_curve_fitting(self):
         #self.fit_Scurve()
@@ -764,6 +774,7 @@ class StratifiedScurveLERcalc:
         ep=int(self._error_rate*self._num_noise)
         self._minw=max(self._t+1,ep-self._k_range*sigma)
         self._maxw=max(2,ep+self._k_range*sigma)
+        
 
         for weight in range(self._minw,self._maxw+1):
             """
@@ -785,7 +796,7 @@ class StratifiedScurveLERcalc:
 
 
 
-    def plot_scurve(self, filename,title="S-curve"):
+    def plot_scurve(self, filename=None, savefigure=False, title="S-curve"):
         """Plot the S-curve and its discrete estimate."""
         keys   = list(self._estimated_subspaceLER.keys())
         values = [self._estimated_subspaceLER[k] for k in keys]
@@ -847,7 +858,9 @@ class StratifiedScurveLERcalc:
 
         # Layout and save
         plt.tight_layout()
-        fig.savefig(filename+".pdf", format='pdf', bbox_inches='tight')  # `dpi` optional
+        if savefigure:
+            fig.savefig(filename+".pdf", format='pdf', bbox_inches='tight')  # `dpi` optional
+        plt.show()
         plt.close(fig)
 
 
@@ -1225,7 +1238,7 @@ class StratifiedScurveLERcalc:
 
 
 
-    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,figname,titlename, repeat=1):
+    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,figname: str = None,titlename: str = None, savefigure: bool = False,repeat: int =1):
         qeccirc.construct_IR_standard_scheme()
         qeccirc.compile_stim_circuit_from_IR_standard()
         noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
@@ -1233,6 +1246,7 @@ class StratifiedScurveLERcalc:
         self._error_rate = noise_model.error_rate
 
         self._circuit_level_code_distance=qeccirc.d
+        self._t=max(0,int((self._circuit_level_code_distance-1)/2))
         ler_list=[]
         sample_used_list=[]
         r_squared_list=[]
@@ -1267,7 +1281,10 @@ class StratifiedScurveLERcalc:
             '''
             self.fit_linear_area()
             tmptime= time.perf_counter()
-            self.fit_log_S_model(figname+"-R"+str(i)+"First.pdf",tmptime-start)
+            if savefigure:
+                self.fit_log_S_model(figname+"-R"+str(i)+"First.pdf",savefigure=savefigure,time=tmptime-start)
+            else:
+                self.fit_log_S_model(None,savefigure=savefigure,time=tmptime-start)
             '''
             Second round of samples
             '''
@@ -1275,14 +1292,16 @@ class StratifiedScurveLERcalc:
 
             self.fit_linear_area()
             tmptime= time.perf_counter()
-            self.fit_log_S_model(figname+"-R"+str(i)+"Final.pdf",tmptime-start)
-
+            if savefigure:
+                self.fit_log_S_model(figname+"-R"+str(i)+"Final.pdf",savefigure=savefigure,time=tmptime-start)
+            else:
+                self.fit_log_S_model(None,savefigure=savefigure,time=tmptime-start)
             self.calc_logical_error_rate_after_curve_fitting()
 
             end = time.perf_counter()
             time_list.append(end - start)
-
-            self.plot_scurve(figname,titlename)
+            
+            self.plot_scurve(figname, savefigure=savefigure, title=titlename)
             r_squared_list.append(self._R_square_score)
             self._sample_used=np.sum(list(self._subspace_sample_used.values()))
             # print("Final LER: ",self._LER)
