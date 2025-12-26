@@ -157,7 +157,7 @@ class SymbolicLERcalc:
 
         all_inputs = []
 
-        print("Total detector outcome: ", 1<<self._num_detector)
+        #print("Total detector outcome: ", 1<<self._num_detector)
         for i in range(0,1<<self._num_detector):
             #print("i=",i)
             #print(1<<self._num_detector)
@@ -376,7 +376,7 @@ class SymbolicLERcalc:
         self._graph=QEPGpython(self._cliffordcircuit)
         self._graph.backword_graph_construction()
 
-        print("---Step2: Generate the prediction table---")
+        print("---Step1: Generate the prediction table---")
         self.generate_pymatching_table()
         print("---Step2: construction QEPG--------------")
         self.initialize_single_pauli_propagation()

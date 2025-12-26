@@ -41,3 +41,4 @@ tmp.py
 !Figures/*.pdf
 !Figures/*.png
 src/scalerqec/__pycache__/
+!Tutorial.ipynb
