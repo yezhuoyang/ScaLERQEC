@@ -367,24 +367,108 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs
 
 
 
-std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots){
-    SAMPLE::sampler sampler(graph.get_total_noise());
-    std::vector<QEPG::Row> samplecontainer;
-    size_t shot_sum=0;
-    for(int i=0;i<weight.size();i++){
-        shot_sum+=shots[i];
+// std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots){
+//     SAMPLE::sampler sampler(graph.get_total_noise());
+//     std::vector<QEPG::Row> samplecontainer;
+//     size_t shot_sum=0;
+//     for(int i=0;i<weight.size();i++){
+//         shot_sum+=shots[i];
+//     }
+//     py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
+//     py::array_t<bool> obsresult(shot_sum);
+//     auto begin_index=0;
+//     for(size_t i=0;i<weight.size();++i){
+//         samplecontainer.clear();
+//         sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
+//         convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
+//         begin_index+=shots[i];
+//     }
+//     return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+// }
+
+
+std::pair<py::array_t<bool>, py::array_t<bool>>
+return_samples_many_weights_separate_obs_with_QEPG(
+    const QEPG::QEPG&          graph,
+    const std::vector<size_t>& weight,
+    const std::vector<size_t>& shots)
+{
+    if (weight.size() != shots.size()) {
+        throw std::runtime_error("weight.size() != shots.size()");
     }
-    py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
+
+    // Total number of shots
+    size_t shot_sum = 0;
+    for (size_t i = 0; i < shots.size(); ++i) {
+        shot_sum += shots[i];
+    }
+    if (shot_sum == 0) {
+        // Return empty arrays with correct shapes
+        py::array_t<bool> empty_det({
+            py::ssize_t(0),
+            py::ssize_t(graph.get_total_detector())
+        });
+
+        py::array_t<bool> empty_obs(0);
+        return {std::move(empty_det), std::move(empty_obs)};
+    }
+
+    const size_t num_det = graph.get_total_detector();
+
+    // Allocate Python arrays (C-contiguous, row-major)
+    py::array_t<bool> detectorresult({shot_sum, num_det});
     py::array_t<bool> obsresult(shot_sum);
-    auto begin_index=0;
-    for(size_t i=0;i<weight.size();++i){
-        samplecontainer.clear();
-        sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
-        convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
-        begin_index+=shots[i];
+
+    auto det_info = detectorresult.request();
+    auto obs_info = obsresult.request();
+
+    if (det_info.ndim != 2 ||
+        static_cast<std::size_t>(det_info.shape[0]) != shot_sum ||
+        static_cast<std::size_t>(det_info.shape[1]) != num_det)
+    {
+        throw std::runtime_error("detectorresult has unexpected shape/strides");
     }
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    if (obs_info.ndim != 1 ||
+        static_cast<std::size_t>(obs_info.shape[0]) != shot_sum)
+    {
+        throw std::runtime_error("obsresult has unexpected shape/strides");
+    }
+
+    // Build per-shot weight array (explode by weights and group shots)
+    std::vector<std::size_t> per_shot_weight;
+    per_shot_weight.reserve(shot_sum);
+    for (size_t i = 0; i < weight.size(); ++i) {
+        for (size_t s = 0; s < shots[i]; ++s) {
+            per_shot_weight.push_back(weight[i]);
+        }
+    }
+
+    // Underlying py::array_t<bool> storage is byte-addressable
+    auto* det_ptr = static_cast<unsigned char*>(det_info.ptr);
+    auto* obs_ptr = static_cast<unsigned char*>(obs_info.ptr);
+
+    {
+        // Release GIL while doing heavy GPU work
+        py::gil_scoped_release release;
+
+        // Build device graph and run CUDA sampler
+        auto dgraph = cuda_accel::make_device_graph(graph);
+        try {
+            cuda_accel::sample_many_weights_separate_obs(
+                dgraph,
+                per_shot_weight,
+                det_ptr,
+                obs_ptr);
+        } catch (...) {
+            cuda_accel::free_device_graph(dgraph);
+            throw;
+        }
+        cuda_accel::free_device_graph(dgraph);
+    }
+
+    return {std::move(detectorresult), std::move(obsresult)};
 }
+
 
 
 
