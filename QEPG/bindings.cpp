@@ -36,6 +36,8 @@ namespace LERcalculator{
     std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG_cuda(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots);
     std::vector<std::vector<bool>> return_samples_with_fixed_QEPG(const QEPG::QEPG& graph,size_t weight, size_t shots);
     std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs_with_QEPG(const QEPG::QEPG& graph,const double& error_rate, const size_t& shot);
+    double calculate_LER_Monte_with_decoder(const std::string& prog_str, const double& error_rate, const std::size_t shots);
+    double calculate_LER_Monte_with_decoder_QEPG(const QEPG::QEPG& graph, const double& error_rate, const std::size_t  shots);
 }
    
 
@@ -169,6 +171,13 @@ PYBIND11_MODULE(qepg, m) {
         &LERcalculator::return_samples_many_weights_separate_obs_with_QEPG_cuda,
         py::arg("graph"), py::arg("weight"), py::arg("shots"),
         py::return_value_policy::move);   // avoid an extra copy on the Python side
+
+
+    m.def("calculate_LER_Monte_with_decoder",
+        &LERcalculator::calculate_LER_Monte_with_decoder,
+        py::arg("prog_str"),
+        py::arg("error_rate"),
+        py::arg("shots"));
 
 
 }

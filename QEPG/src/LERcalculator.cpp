@@ -530,6 +530,98 @@ std::vector<std::vector<bool>> return_detector_matrix(const std::string& prog_st
 }
 
 
+double calculate_LER_Monte_with_decoder(
+    const std::string& prog_str,
+    const double&      error_rate,
+    const std::size_t  shots)
+{
+    // Compile Stim-style string into Clifford circuit and QEPG graph
+    clifford::cliffordcircuit c;
+    c.compile_from_rewrited_stim_string(prog_str);
+
+    QEPG::QEPG graph(c, c.get_num_detector(), c.get_num_noise());
+    graph.backward_graph_construction();
+
+    return calculate_LER_Monte_with_decoder_QEPG(graph, error_rate, shots);
+}
+
+
+
+double calculate_LER_Monte_with_decoder_QEPG(
+    const QEPG::QEPG& graph,
+    const double&      error_rate,
+    const std::size_t  shots)
+{
+    if (shots == 0) {
+        return 0.0;
+    }
+
+    const std::size_t num_det   = graph.get_total_detector();
+    const std::size_t total_err = graph.get_total_noise();
+
+    if (num_det == 0 || total_err == 0) {
+        throw std::runtime_error(
+            "calculate_LER_Monte_with_decoder_QEPG: graph has zero detectors or noise terms");
+    }
+
+    // 1) Sample detector+observable outcomes using your existing Monte Carlo sampler.
+    SAMPLE::sampler sampler(total_err);
+    std::vector<QEPG::Row> samplecontainer;
+    samplecontainer.reserve(shots);
+
+    sampler.generate_many_output_samples_Monte(
+        graph,
+        samplecontainer,
+        error_rate,
+        shots);
+
+    if (samplecontainer.empty()) {
+        return 0.0;
+    }
+
+    // Sanity check: each row should be [num_det detector bits | 1 logical bit]
+    const std::size_t expected_row_size = num_det + 1;
+    if (samplecontainer.front().size() != expected_row_size) {
+        throw std::runtime_error(
+            "calculate_LER_Monte_with_decoder_QEPG: sample row size != num_det + 1");
+    }
+
+    // 2) For each shot:
+    //    - extract detector syndrome (first num_det bits)
+    //    - extract true logical measurement (last bit)
+    //    - run decoder on the syndrome
+    //    - compare decoded logical value with true logical value
+    std::size_t logical_failures = 0;
+
+    QEPG::Row det_syndrome(num_det);   // reusable buffer
+
+    for (std::size_t s = 0; s < samplecontainer.size(); ++s) {
+        const QEPG::Row& full_row = samplecontainer[s];
+
+        // Copy detector bits into a length-num_det bitset
+        for (std::size_t j = 0; j < num_det; ++j) {
+            det_syndrome[j] = full_row.test(j);
+        }
+
+        const bool true_logical = full_row.test(num_det);
+
+        // Decode using the new perfect-matching-style decoder
+        QEPG::PMDecodedResult decoded =
+            QEPG::decode_perfect_matching(graph, det_syndrome);
+
+        const bool decoded_logical = decoded.logical_flip;
+
+        if (decoded_logical != true_logical) {
+            ++logical_failures;
+        }
+    }
+
+    return static_cast<double>(logical_failures)
+         / static_cast<double>(shots);
+}
+
+
+
 
 
 }

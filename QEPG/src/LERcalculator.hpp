@@ -5,6 +5,7 @@
 #include "QEPG.hpp"
 #include "sampler.hpp"
 #include "cuda_accel.hpp"
+#include "decoder.hpp"
 #include <chrono>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>          // <-- defines py::array_t
@@ -53,6 +54,17 @@ namespace py = pybind11;
 
 
  QEPG::QEPG compile_QEPG(const std::string& prog_str);
+
+
+double calculate_LER_Monte_with_decoder_QEPG(
+    const QEPG::QEPG& graph,
+    const double&      error_rate,
+    const std::size_t  shots);
+
+double calculate_LER_Monte_with_decoder(
+    const std::string& prog_str,
+    const double&      error_rate,
+    const std::size_t  shots);
 
 
 }
