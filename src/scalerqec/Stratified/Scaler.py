@@ -268,7 +268,7 @@ class Scaler:
         return elapsed
 
     # ------------------------------------------------------------------
-    #  Fitting the log-S model (reusing your structure, simplified)
+    #  Fitting the log-S model
     # ------------------------------------------------------------------
 
     def fit_log_S_model(self, filename=None, savefigure: bool = False, time_val=None):
@@ -903,7 +903,7 @@ class Scaler:
         param_tol = 0.03     # stricter parameter tolerance
         r2_target = 0.98     # stricter R^2 requirement
         pl_tol = 0.20        # require PL to be stable within 20% (tune)
-        max_iters = 50
+        max_iters = 10
 
         iter_idx = 0
         while (

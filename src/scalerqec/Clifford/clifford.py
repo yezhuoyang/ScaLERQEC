@@ -129,7 +129,7 @@ class CliffordCircuit:
         self._measIdx_to_parityIdx={}
 
         self._stim_str=None
-        self._stimcircuit=stim.Circuit()
+        self._stimcircuit: stim.Circuit = stim.Circuit()
 
 
         #self._error_channel
@@ -450,7 +450,7 @@ class CliffordCircuit:
         self._index_to_noise[self._totalnoise]=self._gatelists[-1]
         self._totalnoise+=1        
 
-    def add_cnot(self, control, target):   
+    def add_cnot(self, control : int, target : int):   
         self._gatelists.append(TwoQGate(twoQGateindices["CNOT"], control, target))
         self._stimcircuit.append("CNOT", [control, target])
 

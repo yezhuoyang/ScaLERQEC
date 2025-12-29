@@ -64,7 +64,7 @@ Shot is the initial guess of how many samples to used.
 We also need to estimate the uncertainty of the LER.
 '''
 class MonteLERcalc:
-    def __init__(self,time_budget = 10,samplebudget=100000 ,MIN_NUM_LE_EVENT=3):
+    def __init__(self,time_budget = 10,samplebudget=100000 ,MIN_NUM_LE_EVENT=20):
         self._num_LER=0
         self._sample_used=0
         self._sample_needed=0
