@@ -71,7 +71,7 @@ class StratifiedScurveLERcalc:
         self._R_square_score=0
         self._beta=beta
 
-        self._sweat_spot=None
+        self._sweet_spot=None
 
 
         self._MIN_NUM_LE_EVENT = 100
@@ -235,10 +235,10 @@ class StratifiedScurveLERcalc:
         In each subspace, we stop sampling until 100 logical error events are detected, or we hit the total budget.
         """
         #wlist_need_to_sample = list(range(self._minw, self._maxw + 1))
-        #wlist_need_to_sample=evenly_spaced_ints(self._sweat_spot,self._saturatew,self._num_subspace)
+        #wlist_need_to_sample=evenly_spaced_ints(self._sweet_spot,self._saturatew,self._num_subspace)
         
         
-        wlist_need_to_sample=evenly_spaced_ints(self._sweat_spot,self._has_logical_errorw,self._num_subspace)
+        wlist_need_to_sample=evenly_spaced_ints(self._sweet_spot,self._has_logical_errorw,self._num_subspace)
         
         
         #print("wlist_need_to_sample: ",wlist_need_to_sample)
@@ -486,7 +486,7 @@ class StratifiedScurveLERcalc:
         upper_bound_code_distance=min(non_zero_indices) if len(non_zero_indices)>0 else self._circuit_level_code_distance*10
 
         center = self._saturatew /2 
-        sigma    = self._saturatew/7          # centre in the middle of that span
+        sigma    = self._saturatew/7          # center in the middle of that span
         b=self._b
         a=self._a
         c=self._beta
@@ -546,15 +546,15 @@ class StratifiedScurveLERcalc:
         self.calc_logical_error_rate_after_curve_fitting()
         
         alpha= -1/self._a
-        self._sweat_spot = int(refined_sweat_spot(alpha, self._c, self._t, ratio=self._ratio))
-        if self._sweat_spot<ep:
-            self._sweat_spot=ep
-        if self._sweat_spot<=self._t:
-            self._sweat_spot=self._t+1
-        #self._sweat_spot=self._t+100
+        self._sweet_spot = int(refined_sweet_spot(alpha, self._c, self._t, ratio=self._ratio))
+        if self._sweet_spot<ep:
+            self._sweet_spot=ep
+        if self._sweet_spot<=self._t:
+            self._sweet_spot=self._t+1
+        #self._sweet_spot=self._t+100
         
 
-        sweat_spot_y = modified_linear_function_with_d(self._sweat_spot, self._a, self._b, self._c, self._t)
+        sweet_spot_y = modified_linear_function_with_d(self._sweet_spot, self._a, self._b, self._c, self._t)
 
         sample_cost_list= [self._subspace_sample_used[x] for x in x_list]
 
@@ -592,9 +592,9 @@ class StratifiedScurveLERcalc:
         # Fit curve
         ax.plot(x_fit, y_fit, label=f'Fitted line, R2={self._R_square_score:.4f}', color='blue', linestyle='--')
 
-        # Sweat spot marker
-        ax.scatter(self._sweat_spot, sweat_spot_y, color='purple', marker='o', s=50, label='Sweet Spot')
-        ax.text(self._sweat_spot*1.1, sweat_spot_y*1.1, 'Sweet Spot', ha='center',color='purple', fontsize=10)
+        # sweet spot marker
+        ax.scatter(self._sweet_spot, sweet_spot_y, color='purple', marker='o', s=50, label='Sweet Spot')
+        ax.text(self._sweet_spot*1.1, sweet_spot_y*1.1, 'Sweet Spot', ha='center',color='purple', fontsize=10)
 
         # Region: Fault-tolerant (green)
         ax.axvspan(0, self._t, color='green', alpha=0.15)
@@ -630,13 +630,13 @@ class StratifiedScurveLERcalc:
             r'$N_{sub}^{Gap}=%d$' % self._MAX_SAMPLE_GAP,
             r'$N_{sub}^{Max}=%d$' % self._MAX_SUBSPACE_SAMPLE,
             r'$N_{total}=%d$' % self._sample_used,
-            r'$r_{sweat}=%.2f$' % self._ratio,
+            r'$r_{sweet}=%.2f$' % self._ratio,
             r'$\alpha=%.4f$' % alpha,
             r'$\mu =%.4f$' % (alpha * self._b),
             r'$\beta=%.4f$' % self._c,
             r'$w_{\min}=%d$' % self._minw,
             r'$w_{\max}=%d$' % self._maxw,
-            r'$w_{sweet}=%d$' % self._sweat_spot,
+            r'$w_{sweet}=%d$' % self._sweet_spot,
             r'$\#\mathrm{detector}=%d$' % self._num_detector,
             r'$\#\mathrm{noise}=%d$' % self._num_noise,
             r'$P_L={0}\times 10^{{{1}}}$'.format(*"{0:.2e}".format(self._LER).split('e'))
@@ -1183,7 +1183,7 @@ class StratifiedScurveLERcalc:
 
             self.subspace_sampling_to_fit_curve(1000*self._num_subspace)
             '''
-            Fit the curve first time just to get the estimated sweat spot
+            Fit the curve first time just to get the estimated sweet spot
             '''
             self.fit_linear_area()
             tmptime=time.time()
@@ -1238,7 +1238,7 @@ class StratifiedScurveLERcalc:
 
 
 
-    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,figname: str = None,titlename: str = None, savefigure: bool = False,repeat: int =1):
+    def calculate_LER_from_StabCode(self, qeccirc:StabCode, noise_model:NoiseModel,figname: str | None = None,titlename: str | None = None, savefigure: bool = False,repeat: int =1):
         qeccirc.construct_IR_standard_scheme()
         qeccirc.compile_stim_circuit_from_IR_standard()
         noisy_circuit = noise_model.reconstruct_clifford_circuit(qeccirc.circuit) 
@@ -1277,7 +1277,7 @@ class StratifiedScurveLERcalc:
 
             self.subspace_sampling_to_fit_curve(1000*self._num_subspace)
             '''
-            Fit the curve first time just to get the estimated sweat spot
+            Fit the curve first time just to get the estimated sweet spot
             '''
             self.fit_linear_area()
             tmptime= time.perf_counter()

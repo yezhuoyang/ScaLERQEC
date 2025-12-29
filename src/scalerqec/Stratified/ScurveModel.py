@@ -7,18 +7,6 @@ def scurve_function(x, center, sigma):
 
 
 
-def scurve_function_with_distance(x, cd, mu, sigma):
-    """
-    Piece-wise S-curve:
-        0                          for x < cd
-        0.5 * Φ((x - μ) / σ)       for x ≥ cd
-    where Φ is the standard normal CDF.
-    """
-    x = np.asarray(x)                      # ensure array
-    y = 0.5 * norm.cdf(x, loc=mu, scale=sigma)
-    return np.where(x < cd, 0.0, y)        # vectorised “if”
-
-
 # Define the inverse transform: y → 1/2 * 1 / (1 + e^y)
 def inv_logit_half(y):
     return 0.5 / (1 + np.exp(y))
@@ -74,7 +62,7 @@ def poly_function(x, a, b,c,d):
 
 
 # Redefine turning point where the 2nd term is still significant in dy/dw
-def refined_sweat_spot(alpha, beta, t, ratio=0.05):
+def refined_sweet_spot(alpha, beta, t, ratio=0.05):
     # We define turning point by solving: 1/alpha = ratio * (1/2) * beta / (w - t)^{3/2}
     # => (w - t)^{3/2} = (ratio * beta * alpha) / 2
     # => w = t + [(ratio * beta * alpha / 2)]^{2/3}
