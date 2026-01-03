@@ -88,7 +88,7 @@ scalerqec/
 ## Construct QEC circuit by Stabilizer
 ---
 
-A detailed tutorial on using ScaLER to estimate the logical error rate of the surface code is in the notebook `Tutorial.ipynb`. Below is a smaller example of how we construct a code using the stabilizer formalism on the $\llbracket 3, 1, 3 \rrbacket$ $Z$-repetition code.
+A detailed tutorial on using ScaLER to estimate the logical error rate of the surface code is in the notebook `Tutorial.ipynb`. Below is a smaller example of how we construct a code using the stabilizer formalism on the [[ 3, 1, 3 ]] $Z$-repetition code.
 
 
 ```python
