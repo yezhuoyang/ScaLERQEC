@@ -147,13 +147,54 @@ o0 = Parity c4
 We introduce LogiQ -- which supports users to define their own logical QEC block and implement logical Clifford+T operations.
 
 ```python
-Type surface:
-    The stabilizers should be a function of d
-    This type describe the stabilizer structure.
+# 1) Define a family of surface codes (sugar → CSSCode core)
+code surface(d: Int) as CellComplex over Z2 {
 
-surface q1 [n1,k1,d1]   # The first block of the surface code
-surface q2 [n2,k2,d2]   # The second block of the surface code
-surface t0 [n3,k3,d3]   # Magic T state block
+  cells {
+    faces     F[x,y]  in 0..(d-2), 0..(d-2);
+    edges_x   Ex[x,y] in 0..(d-2), 0..(d-1);
+    edges_y   Ey[x,y] in 0..(d-1), 0..(d-2);
+    vertices  V[x,y]  in 0..(d-1), 0..(d-1);
+  }
+
+  boundary {
+    d2(F[x,y]) =
+      Ex[x,y]   +
+      Ey[x+1,y] +
+      Ex[x,y+1] +
+      Ey[x,y];
+
+    d1(Ex[x,y]) = V[x,y]   + V[x+1,y];
+    d1(Ey[x,y]) = V[x,y]   + V[x,y+1];
+  }
+
+  css {
+    hx = matrix(d2);
+    hz = transpose(matrix(d1));
+  }
+}
+
+code five_qubit as StabilizerCode {
+
+  # Number of physical qubits (optional if implied by generator length)
+  n = 5;
+
+  generators {
+    S0 = "XZZXI";
+    S1 = "IXZZX";
+    S2 = "XIXZZ";
+    S3 = "ZXIXZ";
+  }
+
+  logical_z {
+    LZ0 = "ZZZZZ";
+  }
+}
+
+
+surface q1 [n=40, k=1, d=5]   # First surface-code block (distance-5)
+surface q2 [n=40, k=1, d=5]   # Second surface-code block (distance-5)
+surface t0 [n=84, k=1, d=7]   # Magic-T ancilla block (distance-7)
 
 q1[0] = LogicH q1[0]
 

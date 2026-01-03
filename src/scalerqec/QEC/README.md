@@ -1,234 +1,194 @@
-# Stabilizer Type System Based on Chain Complex
+### Stabilizer Type System Based on Chain Complex
 
-This project introduces a **mathematical type system for quantum error-correcting codes**, designed to support an end-to-end compilation pipeline:
+This project proposes a **mathematical type system for stabilizer quantum error-correcting codes**, designed to support an end-to-end compilation pipeline:
 
 LogicQ
 → LogicQIR
 → QStabIR (stabilizer IR)
-→ Clifford/STIM executable circuits with classical feedback.
+→ Clifford / STIM circuits with detectors and feedback
 
-At the top level, programmers work with abstract **code families**, rather than manually specifying stabilizer tables. The stabilizer structure, logical operators, and code parameters are derived automatically from:
+At the top level, programmers work with **code families**, not concrete stabilizer tables.
+Concrete stabilizers, logical operators, QECCycles, and syndrome structures are derived automatically by the compiler.
 
-* chain complexes,
-* CSS constructions,
-* matrix-defined LDPC codes, or
-* explicit stabilizer generators (for small codes).
+The language supports two canonical ways of defining a code:
 
-This system enables users to construct and manipulate QEC programs **mathematically**, while the compiler expands the structure into full stabilizer representations and circuit implementations.
-
----
-
-## Motivation
-
-Traditional FT program representations require users to manually:
-
-* write stabilizer generators,
-* reason about syndrome extraction circuits,
-* define logical operators,
-* track QECCycle placement,
-* implement transversal and logical gates.
-
-This is:
-
-* error-prone,
-* redundant across code families,
-* and incompatible with code-parameter sweeps (e.g., scaling surface codes).
-
-Instead, we introduce:
-
-### Code Families as Types
-
-A `Type` declaration encodes:
-
-* a **mathematical specification** of a QEC code family,
-* optionally parameterized by distance or lattice dimensions,
-* interpreted by the compiler into concrete stabilizer structures.
-
-Concrete instances (e.g., `surface q1[d = 5]`) are **typed objects**, not raw stabilizer lists.
-
-The compiler then:
-
-1. Expands the type into stabilizers, check matrices, and logical structure.
-2. Injects QECCycles automatically.
-3. Lowers logical operations to stabilizer-level operators.
-4. Converts QStabIR into a Clifford/STIM circuit with detectors.
+1. **Chain-complex based code families** (for scalable and geometric codes)
+2. **Explicit stabilizer generators** (for small fixed codes)
 
 ---
 
-# Chain-Complex Based Code Definitions
+## Why Chain-Complex Codes?
 
-A CSS stabilizer code is described via a chain complex over (\mathbb{F}_2):
+Most large-scale QEC codes — including surface codes, color codes, and homological LDPC codes — naturally arise from:
 
-[
-C_2 \xrightarrow{\partial_2} C_1 \xrightarrow{\partial_1} C_0,
-\quad
-\partial_1 \circ \partial_2 = 0
-]
+* cell complexes,
+* chain groups,
+* boundary maps, and
+* homology structure.
 
-The compiler interprets:
+Representing codes at this level gives:
 
-[
-H_X = \partial_2,
-\qquad
-H_Z = \partial_1^T
-]
+* code-parameter scalability (changing (d) changes the lattice),
+* automatic derivation of stabilizers,
+* correct logical operator structure,
+* and compatibility with homological reasoning.
 
-and constructs a stabilizer code with:
-
-* (n = \dim C_1)
-* (k = \dim(\ker H_Z) - \mathrm{rank}(H_X))
-* distance inferred from the logical operator analyzer.
-
----
-
-## Example 1 — Surface Code via Cell Complex
-
-A parametric surface code is defined as:
+The compiler interprets a chain complex:
 
 ```
-Type surface(d: Int) as CellComplex over Z2 {
+C2  --d2-->  C1  --d1-->  C0
+```
 
-    Cells {
-        Faces    F[x,y]   for x in 0..(d-2), y in 0..(d-2);
-        Edges    Ex[x,y]  for x in 0..(d-2), y in 0..(d-1);
-        Edges    Ey[x,y]  for x in 0..(d-1), y in 0..(d-2);
-        Vertices V[x,y]   for x in 0..(d-1), y in 0..(d-1);
-    }
+subject to:
 
-    Boundary {
+```
+require d1(d2(F)) == 0;
+```
 
-        ∂2 F[x,y] =
-            Ex[x,y] + Ey[x+1,y] + Ex[x,y+1] + Ey[x,y];
+and constructs:
 
-        ∂1 Ex[x,y] = V[x,y] + V[x+1,y];
-        ∂1 Ey[x,y] = V[x,y] + V[x,y+1];
-    }
+```
+HX = matrix(d2)
+HZ = transpose(matrix(d1))
+```
 
-    CSS {
-        H_X = incidence_matrix(∂2);
-        H_Z = transpose(incidence_matrix(∂1));
-    }
+which defines a CSS stabilizer code.
 
-    require d1 * d2 == 0;
+Users do **not** write stabilizers manually.
 
-    Logical {
-        basis = "standard_surface";
-    }
+---
+
+## Example — Surface Code Family (Concrete Parameters)
+
+```text
+code surface(d: Int) as CellComplex over Z2 {
+
+  cells {
+    faces     F[x,y]  in 0..(d-2), 0..(d-2);
+    edges_x   Ex[x,y] in 0..(d-2), 0..(d-1);
+    edges_y   Ey[x,y] in 0..(d-1), 0..(d-2);
+    vertices  V[x,y]  in 0..(d-1), 0..(d-1);
+  }
+
+  boundary {
+
+    d2(F[x,y]) =
+      Ex[x,y] +
+      Ey[x+1,y] +
+      Ex[x,y+1] +
+      Ey[x,y];
+
+    d1(Ex[x,y]) = V[x,y] + V[x+1,y];
+    d1(Ey[x,y]) = V[x,y] + V[x,y+1];
+  }
+
+  css {
+    hx = matrix(d2);
+    hz = transpose(matrix(d1));
+  }
 }
 ```
 
 The compiler:
 
-* enumerates cells,
-* constructs boundary operators,
-* derives (H_X) and (H_Z),
-* builds a `StabCode` instance.
-
-No stabilizers are written manually.
-
----
-
-### Instantiating Concrete Blocks
-
-```
-surface q1[d = 5]
-surface q2[d = 5]
-surface t0[d = 7]
-```
-
-Each instance becomes a code block in LogicQIR with its own:
-
-* stabilizer set,
-* QECCycle structure,
-* logical operators.
-
----
-
-### Supported Syntax (CellComplex Mode)
-
-| Construct                                  | Meaning                           |
-| ------------------------------------------ | --------------------------------- |
-| `Type NAME(params) as CellComplex over Z2` | Define parametric chain complex   |
-| `Cells { ... }`                            | Define indexed cell sets          |
-| `Boundary { ... }`                         | Define ∂₂ and ∂₁                  |
-| `CSS { H_X = ...; H_Z = ...; }`            | Interpret as CSS code             |
-| `require expr`                             | Enforce algebraic constraints     |
-| `Logical { basis = ... }`                  | Select logical operator basis     |
-| `NAME instance[param=value]`               | Instantiate a concrete code block |
-
----
-
-# Matrix-Defined CSS Codes
-
-Chain complexes are powerful — but some codes are most naturally expressed algebraically.
-
-We support direct CSS matrix construction:
-
-```
-Type color_code(d: Int) as CSS over Z2 {
-
-    Matrix H_X = generate_color_X_checks(d);
-    Matrix H_Z = generate_color_Z_checks(d);
-
-    require H_X * transpose(H_Z) == 0;
-}
-```
-
-The compiler:
-
-* validates CSS orthogonality,
-* constructs the stabilizer group,
+* enumerates lattice cells,
+* constructs the chain complex,
+* derives HX / HZ,
+* builds a `StabCode`,
 * exposes logical operators to the analyzer.
 
-### Supported Syntax (CSS Mode)
-
-| Construct                           | Meaning                      |
-| ----------------------------------- | ---------------------------- |
-| `Type NAME(...) as CSS over Z2`     | Define algebraic CSS code    |
-| `Matrix H_X = { ... }`              | Explicit or generated matrix |
-| `Matrix H_Z = { ... }`              | Z-check matrix               |
-| `require H_X * transpose(H_Z) == 0` | CSS orthogonality constraint |
+No stabilizer strings are hand-written.
 
 ---
 
-# Stabilizer Codes with Explicit Generators
+### Instantiating Concrete Surface-Code Blocks
 
-For small codes and benchmarks, generators may be written directly:
-
+```text
+surface q1[d = 5]
+surface q2[d = 7]
+surface t0[d = 9]
 ```
-Type five_qubit as StabilizerCode {
 
-    Generators {
-        S0 = "XZZXI";
-        S1 = "IXZZX";
-        S2 = "XIXZZ";
-        S3 = "ZXIXZ";
-    }
+Each instance becomes a LogicalQ block with:
 
-    LogicalZ {
-        LZ0 = "ZZZZZ";
-    }
+* stabilizer set
+* logical-operator basis
+* QECCycle structure
+
+---
+
+### Supported Syntax (Chain-Complex Mode)
+
+| Construct                                              | Meaning                        |
+| ------------------------------------------------------ | ------------------------------ |
+| `code NAME(params) as CellComplex over Z2`             | Define parametric code family  |
+| `cells { ... }`                                        | Define indexed cell sets       |
+| `boundary { d1(...); d2(...); }`                       | Define boundary operators      |
+| `css { hx = matrix(d2); hz = transpose(matrix(d1)); }` | Interpret as CSS code          |
+| `require expr`                                         | Enforce homological constraint |
+| `NAME instance[param=value]`                           | Instantiate concrete code      |
+
+---
+
+# Explicit Stabilizer Codes (Fixed / Small Codes)
+
+For handcrafted or classical benchmark codes, users may define stabilizers directly:
+
+```text
+code five_qubit as StabilizerCode {
+
+  n = 5;
+
+  generators {
+    S0 = "XZZXI";
+    S1 = "IXZZX";
+    S2 = "XIXZZ";
+    S3 = "ZXIXZ";
+  }
+
+  logical_z {
+    LZ0 = "ZZZZZ";
+  }
 }
 ```
 
-Instantiating a block:
+Instantiating:
 
-```
+```text
 five_qubit qA[]
 five_qubit qB[]
 ```
 
-This maps 1-to-1 into your existing `StabCode` object model.
+This maps directly to the existing `StabCode` class.
 
-### Supported Syntax (StabilizerCode Mode)
+---
 
-| Construct                        | Meaning                  |
-| -------------------------------- | ------------------------ |
-| `Type NAME as StabilizerCode`    | Fixed-structure code     |
-| `Generators { S0 = "..."; ... }` | Stabilizer generators    |
-| `LogicalZ { LZ0 = "..."; }`      | Optional logical Z basis |
-| `NAME instance[]`                | Instantiate code block   |
+### Supported Syntax (Explicit Stabilizer Mode)
 
+| Construct                     | Meaning                         |
+| ----------------------------- | ------------------------------- |
+| `code NAME as StabilizerCode` | Define fixed stabilizer code    |
+| `n = INT`                     | Physical qubit count (optional) |
+| `generators { S = "XIZ..." }` | Stabilizer generators           |
+| `logical_z { LZk = "ZZ..." }` | Optional logical-Z basis        |
+| `NAME instance[]`             | Instantiate block               |
+
+---
+
+## Design Philosophy Going Forward
+
+The language now has:
+
+* **one mathematical foundation** — chain complexes
+* **one practical fallback** — explicit generators
+
+Everything else (boundaries, twists, punctures, rotated layouts, dislocations, etc.) can be added **as semantic sugar layered on top**, not as new primitive mechanisms.
+
+That keeps:
+
+* syntax minimal
+* semantics principled
+* implementations extensible
 
 
 # Class of Quantum Error Correction Program
