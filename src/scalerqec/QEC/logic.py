@@ -37,6 +37,32 @@ c2 = LogicMeasure q2[1]
 
 
 """
+A compiler translate LogicQ to a slightly lower-level IR which is more specific how to implement logical operations on specific QEC codes.
+
+
+TRANSVERSAL H q1[0]            # Transversal H on logical qubit 0 of block q1
+QECCycle q1                    # Perform one QEC cycle on block q1, including stabilizer measurements and corrections
+Transversal CNOT q1[0], q2[1]  # Transversal CNOT between logical qubit 0 of block q1 and logical qubit 1 of block q2
+Transversal H q2[1]
+XXZZXIXII   q1[0]                # Also support direct Pauli operations, if needed
+
+QECCycle q1                    # Perform one QEC cycle on block q1, including stabilizer measurements and corrections
+QECCycle q2                    # Perform one QEC cycle on block q2, including stabilizer measurements and corrections
+
+c1 = Prop LogicZ q1[0]          # Propagate logical Z operator to classical bit c1
+c2 = Prop LogicZ q2[1]          # Propagate logical Z operator to classical bit c2
+
+
+"""
+
+
+
+
+
+
+
+
+"""
 Magic state distillation protocol:
 
 Now we have a language which works on the logical level. We can define the MGD protocol as follows:

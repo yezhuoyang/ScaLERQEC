@@ -2,9 +2,14 @@
 
 from .qeccircuit import StabCode
 from .noisemodel import NoiseModel
+from .small import fivequbitCode, steaneCode, ShorCode
+from .analyzer import LogicalOperatorAnalyzer
 
 
 __all__ = [
     "StabCode",
-    "NoiseModel"
+    "NoiseModel",
+    "fivequbitCode",
+    "steaneCode",
+    "ShorCode"
 ]

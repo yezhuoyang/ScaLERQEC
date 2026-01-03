@@ -42,3 +42,4 @@ tmp.py
 !Figures/*.png
 src/scalerqec/__pycache__/
 !Tutorial.ipynb
+src/scalerqec/QEC/__pycache__/

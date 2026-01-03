@@ -33,6 +33,7 @@ def commute(stab1: str, stab2: str) -> bool:
 
 """
 Current types of IR instructions.
+
 TODO: Support repeat, conditional operations, etc. The IR should be stored as a tree structure.
 """
 class IRType(Enum):
@@ -437,6 +438,17 @@ class StabCode:
         return self._scheme
 
 
+    @property
+    def stabilizers(self) -> list[str]:
+        """
+        Get the list of stabilizer generators for this code.
+
+        Returns:
+            list[str]: The stabilizer generators as Pauli strings.
+        """
+        return self._stabs
+
+
     @scheme.setter
     def scheme(self, scheme: str) -> None:
         """
@@ -484,6 +496,43 @@ class StabCode:
             case _:
                 raise NotImplementedError(f"Scheme {self._scheme} not implemented yet.")
 
+
+
+    def construct_IR_shor_scheme(self):
+        """
+        Construct the quantum error-correcting circuit using the Shor scheme.
+        Now, we will create the intermediate representation (IR) for the circuit.
+        """
+        pass
+
+
+    def compile_stim_circuit_from_shor_standard(self):
+        """
+        Compile the stim circuit from the intermediate representation (IR) using the Shor scheme.
+
+        Returns:
+            str: The compiled stim circuit as a string.
+        """
+        pass
+
+
+
+    def construct_IR_knill_scheme(self):
+        """
+        Construct the quantum error-correcting circuit using the Knill scheme.
+        Now, we will create the intermediate representation (IR) for the circuit.
+        """
+        pass
+
+
+    def compile_stim_circuit_from_knill(self):
+        """
+        Compile the stim circuit from the intermediate representation (IR) using the Knill scheme.
+
+        Returns:
+            str: The compiled stim circuit as a string.
+        """
+        pass
 
 
     def construct_IR_standard_scheme(self):
