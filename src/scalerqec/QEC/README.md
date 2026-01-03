@@ -1,191 +1,249 @@
 # Class of Quantum Error Correction Program
 
-This project implements a modular, end-to-end compiler stack for **fault-tolerant quantum programs**, starting from a high-level language (LogicQ) and lowering through multiple intermediate representations down to a **Clifford circuit with dynamic classical control**.
+This project implements a **multi-layer compiler stack** for fault-tolerant quantum programs:
 
-The design is code-centric and QEC-aware:
+```text
+LogicQ + MigicQ  ──►  LogicQIR  ──►  QStabIR  ──►  Clifford / STIM
+(high)              (logical-IR)    (stabilizer IR)   (physical circuit)
+```
 
-* Users express quantum programs in terms of **logical qubits** and **QEC code blocks**.
-* The compiler expands logical operations into:
+* **LogicQ**: high-level fault-tolerant programming language (types + logical operations).
+* **LogicQIR**: code-aware IR with explicit stabilizers, QECCycles, and logical gate structure.
+* **QStabIR**: low-level stabilizer IR (syndrome extraction, decoding, correction).
+* **Clifford / STIM**: concrete circuit representation with dynamic classical control.
 
-  * stabilizer propagation gadgets,
-  * QEC cycles,
-  * logical gate implementations,
-  * transversal operations when available.
-  
-* The backend produces:
-
-  * a stabilizer-level IR (QStabIR),
-  * a Clifford circuit or STIM circuit suitable for simulation or backend execution.
-
-The goal is to allow users to write programs at the logical level, while still enabling fully explicit fault-tolerant compilation at lower abstraction layers.
+The goal is to let users write **logical programs** while the compiler takes care of QEC details.
 
 ---
 
 # LogicQ — High-Level Fault-Tolerant Language
 
-LogicQ is the **highest-level programming abstraction**. At this level:
+LogicQ is the **user-facing language**. At this level:
 
-Users specify:
+* You work with **code types** (`surface`, `steane`, …).
+* You allocate **code blocks** with logical qubit counts and distances.
+* You apply **logical operations** (`LogicH`, `LogicCNOT`, `LogicMeasure`, …).
+* You call **high-level protocols** such as magic-state distillation and injection.
 
-* the QEC code family,
-* code parameters ((n,k,d)),
-* logical program structure,
-* logical gates and logical measurements.
-
-The compiler handles:
-
-* Code construction
-* Logical operators
-* QECCycles
-* Fault-tolerant execution sequencing
-
-Users do **not** need to specify:
-
-* stabilizers,
-* syndrome extraction procedures,
-* physical gate layouts.
+You **do not** specify stabilizers or QECCycles at this level — those are handled by the compiler.
 
 ---
 
-## Supported LogicQ Syntax
+## LogicQ Syntax
 
-| Category               | Syntax                          | Description                        |
-| ---------------------- | ------------------------------- | ---------------------------------- |
-| Code block definition  | `[[n,k,d,'scheme']] q1 { ... }` | Declare a QEC code block           |
-| Stabilizer declaration | `XXXXZI;`                       | Define stabilizer generators       |
-| QECCycle               | `QECCycle q1`                   | Execute one error-correction round |
-| Transversal gate       | `Transversal H q1[0]`           | Apply transversal logical H        |
-| Transversal CNOT       | `Transversal CNOT q1[0], q2[0]` | Assumed transversal between blocks |
-| Logical gate           | `Logical X q1[0]`               | Logical operator via analyzer      |
-| Logical measurement    | `c1 = Measure Logic Z q1[0]`    | Propagate logical operator         |
+### 1. Code type and block declarations
+
+| Syntax                  | Meaning                                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| `Type surface:`         | Declare a QEC code *type* (e.g., surface code family). The stabilizers are a function of `d`. |
+| `surface q1 [n1,k1,d1]` | Instantiate a surface code block `q1` with parameters ((n_1, k_1, d_1)).                      |
+| `surface q2 [n2,k2,d2]` | Another block of the same code family.                                                        |
+| `surface t0 [n3,k3,d3]` | A block used as a magic-state ancilla (e.g., `T`-state block).                                |
+
+Typical interpretation:
+
+* `Type surface:` defines how to construct stabilizers as a function of `d`.
+* `surface q1 [n1,k1,d1]` declares a *logical register* backed by a `StabCode` instance.
+
+### 2. Logical gate operations
+
+| Syntax                           | Meaning                                                  |
+| -------------------------------- | -------------------------------------------------------- |
+| `q1[i] = LogicH q1[i]`           | Apply logical Hadamard on block `q1`, logical qubit `i`. |
+| `q2[j] = LogicCNOT q1[i], q2[j]` | Apply logical CNOT with control `q1[i]`, target `q2[j]`. |
+| `q1[i] = LogicX q1[i]`           | Logical bit-flip on `q1[i]` (if supported).              |
+| `q1[i] = LogicZ q1[i]`           | Logical phase-flip on `q1[i]` (if supported).            |
+
+(Your current compiler implements logical X/Z/H in LogicQIR; LogicQ maps these to the corresponding LogicQIR `Logical` instructions.)
+
+### 3. Magic-state operations (MagicQ-style)
+
+| Syntax                      | Meaning                                                                                          |
+| --------------------------- | ------------------------------------------------------------------------------------------------ |
+| `t0 = Distill15to1_T[d=25]` | Run a 15-to-1 T-state distillation protocol at distance `d=25`. Returns a magic-(T) handle `t0`. |
+| `InjectT q1[0], t0`         | Perform gate teleportation / T injection on logical qubit `q1[0]` using magic state `t0`.        |
+
+Later, the LogicQ → LogicQIR compiler expands these into explicit distillation and injection subcircuits with specific codes and stabilizers.
+
+### 4. Logical measurement
+
+| Syntax                            | Meaning                                                                                 |
+| --------------------------------- | --------------------------------------------------------------------------------------- |
+| `c = LogicMeasure q1[i]`          | Measure logical Z (or specified logical basis) of `q1[i]`. Returns a classical bit `c`. |
+| `c = LogicMeasureX q1[i]`         | (Possible extension) Measure logical X.                                                 |
+| `c = LogicMeasureXZ q1[i], q2[j]` | (Possible extension) Measure joint logical operator (e.g., Bell measurement).           |
 
 ---
 
 ## Example — LogicQ Program
 
+A small illustrative LogicQ program using surface code blocks and T distillation:
+
 ```text
-[[5,1,3,'standard']] q1 {
-    XZZXI;
-    IXZZX;
-    XIXZZ;
-    ZXIXZ;
-}
+Type surface:
+    # Stabilizers are a function of the distance d
+    # This type describes the stabilizer structure (primal/dual plaquettes, boundaries, etc.)
 
-[[5,1,3,'standard']] q2 {
-    XZZXI;
-    IXZZX;
-    XIXZZ;
-    ZXIXZ;
-}
+surface q1 [n1, k1, d1]   # First logical data block
+surface q2 [n2, k2, d2]   # Second logical data block
+surface t0 [n3, k3, d3]   # Magic T state block
 
-# Apply a logical H to q1
-Logical H q1[0]
-QECCycle q1
+# Apply logical H on q1[0]
+q1[0] = LogicH q1[0]
 
-# Apply transversal CNOT between blocks
-Transversal CNOT q1[0], q2[0]
-QECCycle q1
-QECCycle q2
+# Prepare a high-fidelity magic T state via distillation
+t0 = Distill15to1_T[d=25]     # returns a magic_T handle on block t0
 
-# Logical Z measurement on q1
-c1 = Measure Logic Z q1[0]
+# Inject a logical T gate into q1[0] using magic state t0
+InjectT q1[0], t0
+
+# Apply a logical CNOT from q1[0] to q2[1]
+q2[1] = LogicCNOT q1[0], q2[1]
+
+# Measure both logical qubits
+c1 = LogicMeasure q1[0]
+c2 = LogicMeasure q2[1]
 ```
 
----
+The **LogicQ → LogicQIR** compiler:
 
-# LogicQIR — Structural Logical IR
-
-LogicQIR is the **second-stage IR**, where abstract logical constructs are made explicit.
-
-Compared with LogicQ, this layer:
-
-| Difference from LogicQ        | Meaning                                   |
-| ----------------------------- | ----------------------------------------- |
-| Stabilizers are explicit      | Code block fully defined in operator form |
-| QECCycle boundaries enforced  | Scheduling between logical operations     |
-| Logical CNOT must be compiled | Cross-block structure is explicit         |
-
-LogicQIR serves as the input to the QStabIR compiler.
+* Chooses concrete stabilizer codes for `surface` blocks based on `d`.
+* Creates explicit stabilizer lists, QECCycles, and logical operators.
+* Lowers `LogicH`, `LogicCNOT`, `LogicMeasure`, and `InjectT` into the LogicQIR structures below.
 
 ---
 
-## Supported LogicQIR Instruction Set
+# LogicQIR — Logical, Code-Aware IR
 
-| Category            | IR Form                         | Meaning                             |
-| ------------------- | ------------------------------- | ----------------------------------- |
-| QECCyle             | `QECCycle q1`                   | Expand to stabilizer propagation    |
-| Transversal         | `Transversal H q1[0]`           | Apply H on all physical qubits      |
-| Transversal CNOT    | `Transversal CNOT q1[0], q2[0]` | Index-wise CNOT pairs               |
-| Logical gate        | `Logical X q1[0]`               | Lower using LogicalOperatorAnalyzer |
-| Logical measurement | `c1 = Measure Logic Z q1[0]`    | Map to Pauli measurement pattern    |
+LogicQIR is the next layer: an IR that is:
 
----
+* **code-aware** (explicit stabilizers),
+* structured in terms of:
 
-## Example — LogicQIR Output
+  * code blocks,
+  * QECCycles,
+  * transversal gates,
+  * logical gates,
+  * logical measurements.
+
+This is what your current `LogicQIRProgram` / `LogicQCompiler` operate on.
+
+### LogicQIR Code Block Syntax
+
+| Syntax                          | Meaning                                              |
+| ------------------------------- | ---------------------------------------------------- |
+| `[[n,k,d,'scheme']] q1 { ... }` | Declare a QEC code block with parameters and scheme. |
+| `XZZXI;`                        | One stabilizer generator (per line, `;`-terminated). |
+
+Example:
 
 ```text
+[[5,1,3,'Standard']] q1 {
+    XZZXI;
+    IXZZX;
+    XIXZZ;
+    ZXIXZ;
+}
+```
+
+### LogicQIR Instruction Syntax
+
+| Category            | Syntax                          | Meaning                                                                            |
+| ------------------- | ------------------------------- | ---------------------------------------------------------------------------------- |
+| QECCycle            | `QECCycle q1`                   | One abstract QEC cycle on code block `q1`.                                         |
+| Transversal H       | `Transversal H q1[0]`           | H on all physical qubits of block `q1`.                                            |
+| Transversal CNOT    | `Transversal CNOT q1[0], q2[0]` | CNOT between corresponding physical qubits of `q1` and `q2` (assumed transversal). |
+| Logical gate        | `Logical X q1[0]`               | Logical X on logical qubit 0 of block `q1` using `LogicalOperatorAnalyzer`.        |
+| Logical gate        | `Logical Z q1[0]`               | Logical Z (currently naive `Z^n` in the example).                                  |
+| Logical gate        | `Logical H q1[0]`               | Logical H pattern, lowered to HInstruction.                                        |
+| Logical measurement | `c1 = Measure Logic Z q1[0]`    | Measure logical Z on `q1[0]` → classical bit `c1`.                                 |
+
+---
+
+## Example — LogicQIR Program
+
+This mirrors the example in your current test driver:
+
+```text
+[[5,1,3,'Standard']] q1 {
+    XZZXI;
+    IXZZX;
+    XIXZZ;
+    ZXIXZ;
+}
+
+[[7,1,3,'Standard']] q2 {
+    IIIXXXX;
+    IXXIIXX;
+    XIXIXIX;
+    IIIZZZZ;
+    IZZIIZZ;
+    ZIZIZIZ;
+}
+
+# Logical operations on q1
 Logical X q1[0]
 QECCycle q1
 
-Transversal H q2[0]
-QECCycle q2
-
-Transversal CNOT q1[0], q2[0]
+Logical Z q1[0]
 QECCycle q1
+
+Logical H q1[0]
+QECCycle q1
+
+# Logical operations on q2
+Logical X q2[0]
 QECCycle q2
 
-c1 = Measure Logic Z q1[0]
+Logical Z q2[0]
+QECCycle q2
+
+Logical H q2[0]
+QECCycle q2
+
+# Logical Z measurements
+c1 = Measure Logic Z  q1[0]
+QECCycle q1
+
+c2 = Measure Logic Z  q2[0]
+QECCycle q2
 ```
+
+Your `LogicQCompiler` then compiles this LogicQIR into QStabIR.
 
 ---
 
 # QStabIR — Stabilizer-Level IR
 
-QStabIR is the **fully expanded stabilizer execution IR**.
+QStabIR is the **stabilizer execution IR** used internally by `StabCode`:
 
-At this level:
-
-* No “logical” abstractions remain.
-
-* QECCycle expands into:
-
-  * Pauli propagation
-  * syndrome extraction
-  * decoding
-  * correction
-
-* Logical gates expand into:
-
-  * Pauli strings
-  * transversal operations
-  * compound Pauli actions
-
-* Measurements are expressed as:
-
-  * propagation gadgets
-  * observable decoding
-
----
+* Expanded QECCycles → stabilizer propagation gadgets.
+* Logical gates → explicit Pauli or Clifford actions on physical indices.
+* Logical measurements → `Prop` and `Decode` sequences.
 
 ## QStabIR Instruction Set
 
-| Category         | Instruction            | Meaning                         |
-| ---------------- | ---------------------- | ------------------------------- |
-| Propagation      | `c = Prop XYZII`       | Stabilizer syndrome measurement |
-| Decode           | `E = Decode c0,c1,...` | Classical decoding of syndrome  |
-| Correct          | `Correct E`            | Apply correction                |
-| Logical X        | `X i , j , k`          | Physical logical X action       |
-| Logical Z        | `Z i , j , k`          | Physical logical Z action       |
-| Logical H        | `H i , j , k`          | Physical H action               |
-| Compound Pauli   | `X[1]Z[3]Y[5]`         | Mixed-Pauli operator            |
-| Transversal CNOT | `CNOT i->j , ...`      | Index-wise physical mapping     |
+| Category         | Instruction Form         | Meaning                                                            |
+| ---------------- | ------------------------ | ------------------------------------------------------------------ |
+| Propagation      | `c = Prop XZZXI`         | Measure a stabilizer or logical observable into classical bit `c`. |
+| Decode           | `E = Decode c0,c1,...`   | Map syndrome bits to an error label/operation.                     |
+| Correct          | `Correct E`              | Apply correction associated with `E`.                              |
+| Logical X        | `X i , j , k`            | Apply X on listed physical qubits.                                 |
+| Logical Y        | `Y i , j , k`            | Apply Y on listed physical qubits.                                 |
+| Logical Z        | `Z i , j , k`            | Apply Z on listed physical qubits.                                 |
+| Logical H        | `H i , j , k`            | Apply H on listed physical qubits.                                 |
+| Logical S        | `S i , j , k`            | Apply S on listed physical qubits.                                 |
+| Compound Pauli   | `X[1]Z[4]Y[6]`           | Apply mixed Pauli string on specified qubits.                      |
+| Transversal CNOT | `CNOT 0->5 , 1->6 , ...` | Index-wise physical CNOT pairs (transversal assumption).           |
 
 ---
 
-## Example — QStabIR Output
+## Example — QStabIR Generated by LogicQCompiler
+
+For a single QECCycle on a 5-qubit code `q1`:
 
 ```text
-# QECCycle(q1)
+# QECCycle q1 (cycle 0)
 
 q1_s0_0 = Prop XZZXI
 q1_s0_1 = Prop IXZZX
@@ -194,72 +252,66 @@ q1_s0_3 = Prop ZXIXZ
 
 E_q1_0 = Decode q1_s0_0,q1_s0_1,q1_s0_2,q1_s0_3
 Correct E_q1_0
+```
 
-# Logical H(q1)
+For a logical `H q1[0]` where `determine_logical_H` returns `H` on all 5 physical qubits:
 
+```text
 H 0 , 1 , 2 , 3 , 4
+```
 
-# Transversal CNOT(q1,q2)
+For a transversal CNOT between two 5-qubit blocks `q1` and `q3`:
 
+```text
 CNOT 0->5 , 1->6 , 2->7 , 3->8 , 4->9
 ```
 
----
-
-# Clifford-Level Output
-
-The final stage lowers QStabIR into:
-
-* a Clifford circuit
-* optionally a STIM circuit
-* with explicit:
-
-  * measurement ancillae
-  * reset operations
-  * detector construction
-  * classical-feedback correction
-
-This stage performs:
-
-| Function                | Description                         |
-| ----------------------- | ----------------------------------- |
-| Parity gadget synthesis | Convert Pauli propagation → circuit |
-| Detector construction   | Stabilizer repeat consistency       |
-| Observable encoding     | Logical-Z measurement record        |
-| Backend-aware lowering  | (STIM / QASM / executors)           |
-
----
-
-## Example — Clifford Circuit Output (STIM-style)
+For a logical Z measurement `c1 = Measure Logic Z q1[0]` (using logical Z = `ZZZZZ`):
 
 ```text
-R 4
-CX 0 4
-CX 1 4
-M 4
-DETECTOR rec[-1] rec[-5]
-OBSERVABLE_INCLUDE rec[-2]
+c1 = Prop ZZZZZ
 ```
-
-(Actual output depends on scheme and backend.)
 
 ---
 
-# Summary
+# Clifford / STIM Output
 
-This compiler pipeline supports:
+The final backend lowers QStabIR to a real circuit:
 
-| Layer           | Role                        | User Sees                                |
-| --------------- | --------------------------- | ---------------------------------------- |
-| LogicQ          | Logical-program abstraction | Logical qubits, QECCycles, logical gates |
-| LogicQIR        | Structural FT schedule      | Stabilizers + logical structure          |
-| QStabIR         | Fault-tolerant execution IR | Syndrome propagation + decoding          |
-| Clifford Output | Physical implementation     | Real executable circuit                  |
+* `StabPropInstruction` → reset + CNOT/H gadgets + measurement.
+* `DetectorInstruction` / `ObservableInstruction` → STIM `DETECTOR` / `OBSERVABLE_INCLUDE`.
+* Noise model (if present) is folded into the Clifford circuit.
 
-The design cleanly separates:
+A typical **standard scheme** compilation pipeline is:
 
-* mathematical logical intent,
-* stabilizer semantics,
-* hardware-level execution,
-* and code-specific compilation rules.
+```python
+qeccirc = StabCode(n=5, k=1, d=3)
+qeccirc.add_stab("XZZXI")
+qeccirc.add_stab("IXZZX")
+qeccirc.add_stab("XIXZZ")
+qeccirc.add_stab("ZXIXZ")
+qeccirc.set_logical_Z(0, "ZZZZZ")
+qeccirc.scheme = "Standard"
+qeccirc.rounds = 3
+qeccirc.construct_circuit()
+stim_circuit = qeccirc.stimcirc
+print(stim_circuit)
+```
 
+The resulting STIM-style circuit contains:
+
+* qubit resets,
+* Clifford gates (H, CX),
+* measurements,
+* detectors and logical observables.
+
+---
+
+## Summary of Layers
+
+| Layer           | Main Abstraction                  | User-Facing Syntax                                                                                | Example Section                               |
+| --------------- | --------------------------------- | ------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| LogicQ          | Logical algorithms over QEC types | `Type surface`, `LogicH`, `LogicCNOT`, `LogicMeasure`, `Distill15to1_T`, `InjectT`                | “LogicQ — High-Level Fault-Tolerant Language” |
+| LogicQIR        | Code-aware logical IR             | `[[n,k,d,'scheme']] q1 { ... }`, `QECCycle`, `Logical X/Z/H`, `Transversal CNOT`, `Measure Logic` | “LogicQIR — Logical, Code-Aware IR”           |
+| QStabIR         | Stabilizer execution IR           | `Prop`, `Decode`, `Correct`, `X/Y/Z/H/S`, `CompoundPaulis`, `CNOT`                                | “QStabIR — Stabilizer-Level IR”               |
+| Clifford / STIM | Physical circuit                  | H, CX, M, R, DETECTOR, OBSERVABLE_INCLUDE                                                         | “Clifford / STIM Output”                      |
