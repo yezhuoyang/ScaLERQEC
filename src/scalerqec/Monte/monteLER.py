@@ -1,16 +1,17 @@
-from ..Clifford.clifford import *
-import pymatching
-from ..Clifford.stimparser import *
-import time
 import os
+import time
 from contextlib import redirect_stdout
 
-from ..qepg import compile_QEPG,return_samples_Monte_separate_obs_with_QEPG
+import numpy as np
+import pymatching
+import sinter
+import stim
+
+from ..Clifford.clifford import CliffordCircuit
+from ..Clifford.stimparser import rewrite_stim_code
+from ..qepg import compile_QEPG, return_samples_Monte_separate_obs_with_QEPG
 from ..QEC.noisemodel import NoiseModel
 from ..QEC.qeccircuit import StabCode
-
-import sinter
-import os
 
 
 

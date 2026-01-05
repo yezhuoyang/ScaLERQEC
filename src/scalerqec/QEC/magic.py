@@ -167,11 +167,11 @@ class MGDDistillation:
 
     @staticmethod
     def reconstruct_density_matrix(x: float, y: float, z: float) -> np.ndarray:
-        I = np.eye(2, dtype=complex)
-        X = np.array([[0, 1], [1, 0]], dtype=complex)
-        Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
-        Z = np.array([[1, 0], [0, -1]], dtype=complex)
-        rho = 0.5 * (I + x * X + y * Y + z * Z)
+        identity = np.eye(2, dtype=complex)
+        pauli_x = np.array([[0, 1], [1, 0]], dtype=complex)
+        pauli_y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+        pauli_z = np.array([[1, 0], [0, -1]], dtype=complex)
+        rho = 0.5 * (identity + x * pauli_x + y * pauli_y + z * pauli_z)
         return rho
 
     @staticmethod

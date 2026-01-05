@@ -5,7 +5,7 @@ from .stratifiedScurveLER import StratifiedScurveLERcalc
 from .Scaler import Scaler
 
 __all__ = [
-    "stratifiedLER",
+    "StratifiedLERcalc",
     "StratifiedScurveLERcalc",
-    "Scaler"
+    "Scaler",
 ]

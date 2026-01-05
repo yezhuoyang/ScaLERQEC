@@ -1,22 +1,29 @@
 # An updated version of the main method
-import numpy as np
 import time
-import math
-from typing import List, Tuple, Optional, Dict
+from typing import Dict, List, Optional, Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pymatching
 from scipy.optimize import curve_fit
-from scalerqec.Stratified.stratifiedScurveLER import format_with_uncertainty
+
+from scalerqec.Clifford.clifford import CliffordCircuit
 from scalerqec.qepg import (
     compile_QEPG,
     return_samples_many_weights_separate_obs_with_QEPG,
     return_samples_with_fixed_QEPG,
 )
-import pymatching
-from scalerqec.Clifford.clifford import *
-from scalerqec.Stratified.ScurveModel import *
 from scalerqec.Stratified.fitting import r_squared
+from scalerqec.Stratified.ScurveModel import (
+    bias_estimator,
+    evenly_spaced_ints,
+    modified_linear_function,
+    modified_linear_function_with_d,
+    modified_sigmoid_function,
+    refined_sweet_spot,
+    sigma_estimator,
+)
 from scalerqec.util.binomial import binomial_weight
-from scalerqec.Monte.monteLER import MonteLERcalc
-import matplotlib.pyplot as plt
 
 class Scaler:
     """

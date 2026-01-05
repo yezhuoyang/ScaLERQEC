@@ -1,4 +1,4 @@
-from sympy import symbols, binomial, Rational, simplify, latex,Poly
+from sympy import simplify, symbols
 
 # ----------------------------------------------------------------------
 # Physical-error model

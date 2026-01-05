@@ -1,11 +1,11 @@
-from sympy import symbols, binomial,  simplify, latex
-from ..Clifford.clifford import *
-from ..Clifford.stimparser import *
-from ..Clifford.QEPGpython import *
 import pymatching
+from sympy import binomial, latex, simplify, symbols
+from tqdm.notebook import tqdm
+
+from ..Clifford.clifford import CliffordCircuit
+from ..Clifford.QEPGpython import QEPGpython
 from ..QEC.noisemodel import NoiseModel
 from ..QEC.qeccircuit import StabCode
-from tqdm.notebook import tqdm 
 
 # ----------------------------------------------------------------------
 # Physical-error model
@@ -234,7 +234,6 @@ class SymbolicLERcalc:
         MAX_I = self._num_noise
 
         self.initialize_dp()
-        col_size = self._num_detector + 1
 
         # Precompute bit masks for X,Y,Z propagation if not already done
         # (do this once in __init__ ideally)

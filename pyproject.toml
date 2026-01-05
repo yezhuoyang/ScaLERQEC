@@ -30,6 +30,7 @@ dependencies = [
     "matplotlib",
     "numpy",
     "scipy",
+    "sympy",
     "tqdm"
 ]
 

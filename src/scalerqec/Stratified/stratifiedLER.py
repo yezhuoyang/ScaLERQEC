@@ -1,11 +1,17 @@
-
-from ..qepg import return_samples_many_weights_separate_obs, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG
-from ..Clifford.clifford import *
-import pymatching
 import time
+
+import numpy as np
+import pymatching
+
+from ..Clifford.clifford import CliffordCircuit
+from ..qepg import (
+    compile_QEPG,
+    return_samples_many_weights_separate_obs,
+    return_samples_many_weights_separate_obs_with_QEPG,
+)
 from ..QEC.noisemodel import NoiseModel
 from ..QEC.qeccircuit import StabCode
-from ..util import binomial_weight, subspace_size, format_with_uncertainty 
+from ..util import binomial_weight, format_with_uncertainty, subspace_size
 
 
 MIN_NUM_LE_EVENT = 50

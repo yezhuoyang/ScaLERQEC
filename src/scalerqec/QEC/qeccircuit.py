@@ -451,17 +451,16 @@ class StabCode:
         Args:
             scheme (SCHEME): The error correction scheme to use.
         """
-        match scheme:
-            case "Standard":
-                self._scheme = SCHEME.STANDARD
-            case "Shor":
-                self._scheme = SCHEME.SHOR
-            case "Knill":
-                self._scheme = SCHEME.KNILL
-            case "Flag":
-                self._scheme = SCHEME.FLAG
-            case _:
-                raise ValueError(f"Unknown scheme: {scheme}")
+        if scheme == "Standard":
+            self._scheme = SCHEME.STANDARD
+        elif scheme == "Shor":
+            self._scheme = SCHEME.SHOR
+        elif scheme == "Knill":
+            self._scheme = SCHEME.KNILL
+        elif scheme == "Flag":
+            self._scheme = SCHEME.FLAG
+        else:
+            raise ValueError(f"Unknown scheme: {scheme}")
             
 
     def construct_circuit(self):
@@ -480,15 +479,14 @@ class StabCode:
         d0 = Parity c0 c1
         o0 = Parity c0   
         """
-        match self._scheme:
-            case SCHEME.STANDARD:
-                self.construct_IR_standard_scheme()
-                self.compile_stim_circuit_from_IR_standard()
-                if self._noisemodel is not None:
-                    self._circuit = self._noisemodel.reconstruct_clifford_circuit(self._circuit)
-                    self._stimcirc = self._circuit._stimcircuit
-            case _:
-                raise NotImplementedError(f"Scheme {self._scheme} not implemented yet.")
+        if self._scheme == SCHEME.STANDARD:
+            self.construct_IR_standard_scheme()
+            self.compile_stim_circuit_from_IR_standard()
+            if self._noisemodel is not None:
+                self._circuit = self._noisemodel.reconstruct_clifford_circuit(self._circuit)
+                self._stimcirc = self._circuit._stimcircuit
+        else:
+            raise NotImplementedError(f"Scheme {self._scheme} not implemented yet.")
 
 
 
@@ -609,7 +607,6 @@ class StabCode:
         for irinst in self._IRList:
             if isinstance(irinst, StabPropInstruction):
                 stab = irinst.stab
-                dest_index = int(irinst.dest[1:])
                 if irinst.is_observable():
                     helper_qubit_index = self._n + len(self._stabs) + irinst.get_observable_index()
                 else:
@@ -617,23 +614,22 @@ class StabCode:
 
                 self._circuit.add_reset(helper_qubit_index)
                 for qubit_index, pauli in enumerate(stab):
-                    match pauli:
-                        case 'X':
-                            self._circuit.add_hadamard(qubit_index)
-                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
-                            self._circuit.add_hadamard(qubit_index)
-                        case 'Z':
-                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
-                        case 'I':
-                            continue
-                        case 'Y':
-                            # Y = iXZ, so we need to apply both X and Z parity propagation
-                            # First apply X part: H-CNOT-H
-                            self._circuit.add_hadamard(qubit_index)
-                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
-                            self._circuit.add_hadamard(qubit_index)
-                            # Then apply Z part: CNOT
-                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
+                    if pauli == 'X':
+                        self._circuit.add_hadamard(qubit_index)
+                        self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
+                        self._circuit.add_hadamard(qubit_index)
+                    elif pauli == 'Z':
+                        self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
+                    elif pauli == 'I':
+                        continue
+                    elif pauli == 'Y':
+                        # Y = iXZ, so we need to apply both X and Z parity propagation
+                        # First apply X part: H-CNOT-H
+                        self._circuit.add_hadamard(qubit_index)
+                        self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
+                        self._circuit.add_hadamard(qubit_index)
+                        # Then apply Z part: CNOT
+                        self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
                         
                 self._circuit.add_measurement(helper_qubit_index)
                 dest_to_measure_index[irinst.dest] = current_measure_index
@@ -659,10 +655,10 @@ class StabCode:
 
 
 def test_commute():
-    assert commute("IXYZ", "IYZX") == False
-    assert commute("XZZI", "ZXXI") == False
-    assert commute("IIII", "ZZZZ") == True
-    assert commute("XIZY", "YZXI") == True
+    assert not commute("IXYZ", "IYZX")
+    assert not commute("XZZI", "ZXXI")
+    assert commute("IIII", "ZZZZ")
+    assert commute("XIZY", "YZXI")
 
 
 

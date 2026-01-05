@@ -1,5 +1,4 @@
 import stim
-import numpy as np
 
 
 

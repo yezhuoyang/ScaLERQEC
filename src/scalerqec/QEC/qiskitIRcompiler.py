@@ -1,7 +1,3 @@
-import qiskit
-
-
-
 class qiskitIRCompiler:
     """
     A general compiler to convert from IR to Qiskit circuits.

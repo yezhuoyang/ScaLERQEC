@@ -1,19 +1,35 @@
-
-from scalerqec.qepg import compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG
-from scalerqec.Clifford.clifford import *
-import math
-import pymatching
-from scipy.optimize import curve_fit
-import matplotlib.pyplot as plt
-import matplotlib.ticker as mticker
-from contextlib import redirect_stdout
 import pickle
 import time
+from contextlib import redirect_stdout
+
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import numpy as np
+import pymatching
+from scipy.optimize import curve_fit
+
+from scalerqec.Clifford.clifford import CliffordCircuit
+from scalerqec.qepg import (
+    compile_QEPG,
+    return_samples_many_weights_separate_obs_with_QEPG,
+    return_samples_with_fixed_QEPG,
+)
 from ..QEC.noisemodel import NoiseModel
 from ..QEC.qeccircuit import StabCode
 from ..util import binomial_weight, format_with_uncertainty
-from .ScurveModel import *
 from .fitting import r_squared
+from .ScurveModel import (
+    bias_estimator,
+    evenly_spaced_ints,
+    linear_function,
+    modified_linear_function,
+    modified_linear_function_with_d,
+    modified_sigmoid_function,
+    refined_sweet_spot,
+    scurve_function,
+    sigma_estimator,
+    subspace_sigma_estimator,
+)
 
 '''
 Use strafified sampling + Scurve fitting  algorithm to calculate the logical error rate
@@ -243,7 +259,7 @@ class StratifiedScurveLERcalc:
         
         #print("wlist_need_to_sample: ",wlist_need_to_sample)
         for weight in wlist_need_to_sample:
-            if not weight in self._estimated_wlist:
+            if weight not in self._estimated_wlist:
                 self._estimated_wlist.append(weight)
                 self._subspace_LE_count[weight]=0
                 self._subspace_sample_used[weight]=0
@@ -252,8 +268,6 @@ class StratifiedScurveLERcalc:
         self._sample_used=0
         total_LE_count=0
         while True:
-            x_list = [x for x in self._estimated_subspaceLER.keys() if (self._estimated_subspaceLER[x] < 0.5 and self._estimated_subspaceLER[x]>0)]
-
             slist=[]
             wlist=[]
             """
@@ -345,7 +359,7 @@ class StratifiedScurveLERcalc:
 
         wlist=evenly_spaced_ints(self._has_logical_errorw,self._saturatew,self._num_subspace)
         for weight in wlist:
-            if not (weight in self._estimated_wlist):
+            if weight not in self._estimated_wlist:
                 self._estimated_wlist.append(weight)
         slist=[sampleBudget//self._num_subspace]*len(wlist)
 
@@ -355,7 +369,7 @@ class StratifiedScurveLERcalc:
         predictions_result = self._matcher.decode_batch(detector_result)
 
         for w,s in zip(wlist,slist):
-            if not w in self._subspace_LE_count.keys():
+            if w not in self._subspace_LE_count.keys():
                 self._subspace_LE_count[w]=0
                 self._subspace_sample_used[w]=s
                 self._estimated_subspaceLER[w]=0
@@ -482,14 +496,8 @@ class StratifiedScurveLERcalc:
         # print("Sample used: ",self._subspace_sample_used)
 
 
-        non_zero_indices=[x for x in x_list if self._estimated_subspaceLER[x]>0]
-        upper_bound_code_distance=min(non_zero_indices) if len(non_zero_indices)>0 else self._circuit_level_code_distance*10
-
-        center = self._saturatew /2 
-        sigma    = self._saturatew/7          # center in the middle of that span
         b=self._b
         a=self._a
-        c=self._beta
         alpha= -1/self._a
         initial_guess  = (a, b ,alpha)
 
@@ -565,7 +573,7 @@ class StratifiedScurveLERcalc:
 
 
         # Plot histogram-style bars for the y values
-        bar_container = ax.bar(
+        ax.bar(
             x_list,
             y_list,
             width=0.6,  # Adjust width if needed

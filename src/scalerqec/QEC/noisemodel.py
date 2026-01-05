@@ -1,7 +1,14 @@
 #A Noise model class, the purpose is to rewrite stim program and Clifford circuit to support noise model
 #Rewrite all stim program/Clifford circuit to support the noise model
-from ..Clifford.clifford import *
 from enum import Enum
+
+from ..Clifford.clifford import (
+    CliffordCircuit,
+    Measurement,
+    Reset,
+    SingleQGate,
+    TwoQGate,
+)
 
 class ErrorType(Enum):
     MEASUREMENT = 0
@@ -123,42 +130,39 @@ class NoiseModel:
 
             if isinstance(gate, TwoQGate):
                 # Apply CNOT gate with noise
-
-                match gate.name:                    
-                    case "CNOT":
-                        if self._has_CNOT_error:
-                            new_circuit.add_depolarize(gate.control)
-                            new_circuit.add_depolarize(gate.target)
-                        new_circuit.add_cnot(gate.control, gate.target)
-                    case "CZ":
-                        if self._has_CZ_error:
-                            new_circuit.add_depolarize(gate.control)
-                            new_circuit.add_depolarize(gate.target)
-                        new_circuit.add_cz(gate.control, gate.target)
+                if gate.name == "CNOT":
+                    if self._has_CNOT_error:
+                        new_circuit.add_depolarize(gate.control)
+                        new_circuit.add_depolarize(gate.target)
+                    new_circuit.add_cnot(gate.control, gate.target)
+                elif gate.name == "CZ":
+                    if self._has_CZ_error:
+                        new_circuit.add_depolarize(gate.control)
+                        new_circuit.add_depolarize(gate.target)
+                    new_circuit.add_cz(gate.control, gate.target)
 
             elif isinstance(gate, SingleQGate):
                 # Apply single-qubit gate with noise
-                match gate.name:                    
-                    case "H":
-                        if self._has_HADAMARD_error:
-                            new_circuit.add_depolarize(gate.qubitindex)
-                        new_circuit.add_hadamard(gate.qubitindex)
-                    case "P":
-                        if self._has_PHASE_error:
-                            new_circuit.add_depolarize(gate.qubitindex)
-                        new_circuit.add_phase(gate.qubitindex)
-                    case "X":
-                        if self._has_PAULIX_error:
-                            new_circuit.add_depolarize(gate.qubitindex)
-                        new_circuit.add_paulix(gate.qubitindex)
-                    case "Y":
-                        if self._has_PAULIY_error:
-                            new_circuit.add_depolarize(gate.qubitindex)
-                        new_circuit.add_pauliy(gate.qubitindex)
-                    case "Z":
-                        if self._has_PAULIZ_error:
-                            new_circuit.add_depolarize(gate.qubitindex)
-                        new_circuit.add_pauliz(gate.qubitindex)
+                if gate.name == "H":
+                    if self._has_HADAMARD_error:
+                        new_circuit.add_depolarize(gate.qubitindex)
+                    new_circuit.add_hadamard(gate.qubitindex)
+                elif gate.name == "P":
+                    if self._has_PHASE_error:
+                        new_circuit.add_depolarize(gate.qubitindex)
+                    new_circuit.add_phase(gate.qubitindex)
+                elif gate.name == "X":
+                    if self._has_PAULIX_error:
+                        new_circuit.add_depolarize(gate.qubitindex)
+                    new_circuit.add_paulix(gate.qubitindex)
+                elif gate.name == "Y":
+                    if self._has_PAULIY_error:
+                        new_circuit.add_depolarize(gate.qubitindex)
+                    new_circuit.add_pauliy(gate.qubitindex)
+                elif gate.name == "Z":
+                    if self._has_PAULIZ_error:
+                        new_circuit.add_depolarize(gate.qubitindex)
+                    new_circuit.add_pauliz(gate.qubitindex)
 
             elif isinstance(gate, Measurement):
                 # Apply measurement with noise

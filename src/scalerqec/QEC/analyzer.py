@@ -391,7 +391,7 @@ class LogicalOperatorAnalyzer:
         return True
 
     def _candidate_X_ok(self, candidate: str, k: int) -> bool:
-        """
+        r"""
         Check if `candidate` is a valid logical X for qubit k, given whatever
         logical Z operators are currently registered in the code.
 

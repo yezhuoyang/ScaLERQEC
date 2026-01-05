@@ -2,7 +2,7 @@ import numpy as np
 
 
 def format_with_uncertainty(value, std):
-    """
+    r"""
     Format a value and its standard deviation in the form:
     1.23(\pm 0.45)\times 10^k
     """

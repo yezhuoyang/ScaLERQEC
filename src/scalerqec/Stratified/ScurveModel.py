@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.stats import norm
 
 def scurve_function(x, center, sigma):
     return 0.5/(1+np.exp(-(x - center) / sigma))
