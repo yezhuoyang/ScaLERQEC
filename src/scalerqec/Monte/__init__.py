@@ -3,6 +3,4 @@
 from .monteLER import MonteLERcalc
 
 
-__all__ = [
-    "MonteLERcalc"
-]
+__all__ = ["MonteLERcalc"]

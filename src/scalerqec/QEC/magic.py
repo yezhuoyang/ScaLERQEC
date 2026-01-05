@@ -7,10 +7,12 @@ from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit_aer import AerSimulator
 from scalerqec.QEC.logic import CodeBlock
 
+
 @dataclass(frozen=True)
 class StabilizerSpec:
     pauli: str
     support: Tuple[int, ...]
+
 
 class MGDDistillation:
     """
@@ -18,6 +20,7 @@ class MGDDistillation:
     We add state tomography of the (conditional) output qubit by measuring it in X/Y/Z
     bases, conditioned on acceptance (syn == 0).
     """
+
     def __init__(self):
         self.stabilizers: List[StabilizerSpec] = self._rm15_generators()
 
@@ -167,11 +170,11 @@ class MGDDistillation:
 
     @staticmethod
     def reconstruct_density_matrix(x: float, y: float, z: float) -> np.ndarray:
-        I = np.eye(2, dtype=complex)
-        X = np.array([[0, 1], [1, 0]], dtype=complex)
-        Y = np.array([[0, -1j], [1j, 0]], dtype=complex)
-        Z = np.array([[1, 0], [0, -1]], dtype=complex)
-        rho = 0.5 * (I + x * X + y * Y + z * Z)
+        identity = np.eye(2, dtype=complex)
+        pauli_x = np.array([[0, 1], [1, 0]], dtype=complex)
+        pauli_y = np.array([[0, -1j], [1j, 0]], dtype=complex)
+        pauli_z = np.array([[1, 0], [0, -1]], dtype=complex)
+        rho = 0.5 * (identity + x * pauli_x + y * pauli_y + z * pauli_z)
         return rho
 
     @staticmethod
@@ -208,67 +211,60 @@ class MGDDistillation:
         print("Accepted-shot expectations:")
         print(f"  <X>={x:.6f}, <Y>={y:.6f}, <Z>={z:.6f}")
         print("Acceptance rates:")
-        print(f"  acc(X)={accs['X']:.6f}, acc(Y)={accs['Y']:.6f}, acc(Z)={accs['Z']:.6f}")
+        print(
+            f"  acc(X)={accs['X']:.6f}, acc(Y)={accs['Y']:.6f}, acc(Z)={accs['Z']:.6f}"
+        )
         print("Reconstructed rho:")
         print(rho)
         print(f"Fidelity to |T> (conditioned on accept): {F:.8f}")
 
 
-
-
-
-
-
-
 class MagicFactoryIR:
-
     """
     The logical version of IR
     """
+
     def __init__(self):
         pass
-
 
 
 class SuccessCondition(MagicFactoryIR):
     """
     Success condition for RUS
     """
+
     def __init__(self, conditions: list):
         self._conditions = conditions  # List of conditions to check
-
 
 
 class LogicProp(MagicFactoryIR):
     """
     Logical Propagation operation
     """
+
     def __init__(self, dest: str, stabilizer: str):
         self._dest = dest  # Destination qubit
         self._stabilizer = stabilizer  # Stabilizer string representation
-
 
 
 class RepeatUntilSuccess(MagicFactoryIR):
     """
     Repeat-Until construct for logical circuits
     """
+
     def __init__(self, condition: str, body: list[MagicFactoryIR]):
         self._condition = condition  # Condition to check
-        self._body = body            # Body of the loop
-
-
-
+        self._body = body  # Body of the loop
 
 
 class MagicFactory:
     """
     The class of Magic state distillation/Cultivation factory
     """
+
     def __init__(self, name: str, code_block: CodeBlock):
         self._name = name
         self._code_block = code_block
-
 
     def add_IR(self, ir: MagicFactoryIR) -> None:
         """
@@ -276,15 +272,12 @@ class MagicFactory:
         """
         pass
 
-
     def compile_to_qiskit(self) -> None:
         """
         TODO: Should be able to compile the logical level IR to Qiskit circuit
         and test the correctness
         """
         pass
-
-
 
 
 if __name__ == "__main__":

@@ -23,13 +23,13 @@ class fivequbitCode(StabCode):
     - IIXXX
     - XIIXX
     """
-    
+
     def __init__(self, scheme: str):
-        super().__init__(5,1,3)
+        super().__init__(5, 1, 3)
         self.scheme = scheme
         self.construct_stabilizers()
-        self.set_logical_Z(0,"ZZZZZ")
-        
+        self.set_logical_Z(0, "ZZZZZ")
+
     def construct_stabilizers(self):
         """
         Construct the stabilizers for the five-qubit code.
@@ -63,12 +63,12 @@ class steaneCode(StabCode):
     - IIIXXXI
     - IIIIIXX
     """
-    
+
     def __init__(self, scheme: str):
         super().__init__(7, 1, 3)
         self.scheme = scheme
         self.construct_stabilizers()
-        self.set_logical_Z(0,"ZZZZZZZ")
+        self.set_logical_Z(0, "ZZZZZZZ")
 
     def construct_stabilizers(self):
         """
@@ -80,8 +80,8 @@ class steaneCode(StabCode):
         self.add_stab("IIIZZZZ")
         self.add_stab("IZZIIZZ")
         self.add_stab("ZIZIZIZ")
-    
-    
+
+
 class ShorCode(StabCode):
     """
     The Shor code in standard text book representation.
@@ -108,13 +108,12 @@ class ShorCode(StabCode):
     - IIIIIXXII
     - IIIIIIXXI
     """
-    
+
     def __init__(self, scheme: str):
         super().__init__(9, 1, 3)
         self.scheme = scheme
         self.construct_stabilizers()
-        self.set_logical_Z(0,"ZZZZZZZZZ")
-
+        self.set_logical_Z(0, "ZZZZZZZZZ")
 
     def construct_stabilizers(self):
         """

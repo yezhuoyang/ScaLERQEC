@@ -7,12 +7,8 @@ from .qeccircuit import StabCode
 from .analyzer import LogicalOperatorAnalyzer
 
 
-
-
-
-
-
 "----------------------------------------------------------------------------------------------------------------"
+
 
 class LogicQIRType(Enum):
     QECCYCLE = 1
@@ -25,6 +21,7 @@ class LogicQIRInstruction:
     """
     Base class for logical QEC IR instructions.
     """
+
     def __init__(self, ir_type: LogicQIRType):
         self.ir_type = ir_type
 
@@ -39,6 +36,7 @@ class QECCycleInstruction(LogicQIRInstruction):
     This is a high-level instruction that abstracts away the details of
     stabilizer measurements and corrections.
     """
+
     def __init__(self, block_name: str):
         super().__init__(LogicQIRType.QECCYCLE)
         self.block_name = block_name
@@ -53,6 +51,7 @@ class TransversalInstruction(LogicQIRInstruction):
     logical qubits. For transversal CNOT, add a transversal CNOT instruction
     with control and target logical qubits.
     """
+
     def __init__(self, gate: str, logical_qubits: list[str]):
         super().__init__(LogicQIRType.TRANSVERSAL)
         self.gate = gate
@@ -72,6 +71,7 @@ class MeasureInstruction(LogicQIRInstruction):
         c2 = Measure Logic X  q2[1]
         c3 = Measure Logic XZ q1[0],q2[1]
     """
+
     def __init__(self, operator: str, logical_qubits: list[str], classical_bit: str):
         super().__init__(LogicQIRType.MEASURE)
         self.operator = operator
@@ -96,6 +96,7 @@ class LogicInstruction(LogicQIRInstruction):
         Logical X q1[0]
         Logical H q2[1]
     """
+
     def __init__(self, gate: str, logical_qubits: list[str]):
         super().__init__(LogicQIRType.LOGIC)
         self.gate = gate
@@ -121,6 +122,7 @@ class QECCodeBlock:
         - the list of stabilizer strings,
         - a constructed StabCode instance (qeccircuit).
     """
+
     def __init__(
         self,
         name: str,
@@ -183,6 +185,7 @@ class LogicQIRProgram:
         c2 = Measure Logic X  q2[1]
         c3 = Measure Logic XZ q1[0],q2[1]
     """
+
     def __init__(self):
         self.instructions: list[LogicQIRInstruction] = []
         # Map from block name (e.g., "q1") to QECCodeBlock
@@ -215,7 +218,7 @@ class LogicQIRProgram:
         except Exception as e:
             raise ValueError(f"Failed to parse code parameters in: {line}") from e
 
-        rest = line[close_idx + 2:].strip()
+        rest = line[close_idx + 2 :].strip()
         # Expected something like "q1 {" or "q1{"
         if rest.endswith("{"):
             rest = rest[:-1].strip()
@@ -343,9 +346,7 @@ class LogicQIRProgram:
                 if len(parts) < 5 or parts[1] != "Logic":
                     raise ValueError(f"Invalid Measure syntax: {raw_line}")
                 operator = parts[2]
-                logical_qubits = [
-                    q.strip() for q in parts[3].split(",") if q.strip()
-                ]
+                logical_qubits = [q.strip() for q in parts[3].split(",") if q.strip()]
                 if len(parts) >= 5:
                     classical_bit = parts[4]
                 else:
@@ -401,9 +402,7 @@ class LogicQIRProgram:
         self.instructions.append(instruction)
 
     def __repr__(self) -> str:
-        blocks_repr = "\n".join(
-            [repr(block) for block in self.code_blocks.values()]
-        )
+        blocks_repr = "\n".join([repr(block) for block in self.code_blocks.values()])
         instr_repr = "\n".join([repr(instr) for instr in self.instructions])
         if blocks_repr and instr_repr:
             return blocks_repr + "\n\n" + instr_repr
@@ -562,6 +561,7 @@ class QStabIRProgram:
     """
     A QStab IR program consisting of a sequence of QStab IR instructions.
     """
+
     def __init__(self):
         self.instructions: list[QStabIRInstruction] = []
 
@@ -573,6 +573,7 @@ class QStabIRProgram:
 
     def __repr__(self) -> str:
         return "\n".join([repr(instr) for instr in self.instructions])
+
 
 class LogicQCompiler:
     """
@@ -593,6 +594,7 @@ class LogicQCompiler:
 
     Logical CNOT and logical measurements remain unimplemented stubs.
     """
+
     def __init__(self):
         # Map from block name to base (virtual) physical qubit index.
         # These are "virtual" physical qubits; register allocation will later
@@ -677,7 +679,9 @@ class LogicQCompiler:
         else:
             return label, 0
 
-    def _block_physical_range(self, block_name: str, program: LogicQIRProgram) -> list[int]:
+    def _block_physical_range(
+        self, block_name: str, program: LogicQIRProgram
+    ) -> list[int]:
         """
         Return the list of virtual physical qubit indices for a given block.
 
@@ -694,7 +698,9 @@ class LogicQCompiler:
         n = program.code_blocks[block_name].n
         return list(range(base, base + n))
 
-    def _get_analyzer(self, block_name: str, program: LogicQIRProgram) -> LogicalOperatorAnalyzer:
+    def _get_analyzer(
+        self, block_name: str, program: LogicQIRProgram
+    ) -> LogicalOperatorAnalyzer:
         """
         Lazily construct and cache a LogicalOperatorAnalyzer for a given block.
         """
@@ -748,15 +754,18 @@ class LogicQCompiler:
         for s_idx, stab in enumerate(stabilizers):
             c_name = f"{block_name}_s{cycle_idx}_{s_idx}"
             classical_bits.append(c_name)
-            qstab.add_instruction(PropInstruction(pauli_string=stab, classical_bit=c_name))
+            qstab.add_instruction(
+                PropInstruction(pauli_string=stab, classical_bit=c_name)
+            )
 
         # 2) Decode the full syndrome into an error "handle" E_block_cycle.
         error_var = f"E_{block_name}_{cycle_idx}"
-        qstab.add_instruction(DecodeInstruction(classical_bits=classical_bits, error_variable=error_var))
+        qstab.add_instruction(
+            DecodeInstruction(classical_bits=classical_bits, error_variable=error_var)
+        )
 
         # 3) Apply the correction represented by that error variable.
         qstab.add_instruction(CorrectInstruction(error_variable=error_var))
-
 
     def _compile_transversal_cnot(
         self,
@@ -791,10 +800,14 @@ class LogicQCompiler:
 
         control_block = program.code_blocks.get(control_block_name)
         if control_block is None:
-            raise KeyError(f"Transversal CNOT refers to unknown control block {control_block_name!r}")
+            raise KeyError(
+                f"Transversal CNOT refers to unknown control block {control_block_name!r}"
+            )
         target_block = program.code_blocks.get(target_block_name)
         if target_block is None:
-            raise KeyError(f"Transversal CNOT refers to unknown target block {target_block_name!r}")
+            raise KeyError(
+                f"Transversal CNOT refers to unknown target block {target_block_name!r}"
+            )
 
         # For now, only support logical index 0 in each block.
         if control_lidx != 0 or target_lidx != 0:
@@ -812,9 +825,12 @@ class LogicQCompiler:
                 f"(control n={len(control_range)}, target n={len(target_range)})."
             )
 
-        control_target_pairs: list[tuple[int, int]] = list(zip(control_range, target_range))
-        qstab.add_instruction(CNOTInstruction(control_target_pairs=control_target_pairs))
-
+        control_target_pairs: list[tuple[int, int]] = list(
+            zip(control_range, target_range)
+        )
+        qstab.add_instruction(
+            CNOTInstruction(control_target_pairs=control_target_pairs)
+        )
 
     def _compile_transversal(
         self,
@@ -843,7 +859,9 @@ class LogicQCompiler:
         if gate == "H":
             # Expect exactly one logical qubit label, e.g. "q1[0]".
             if len(instr.logical_qubits) != 1:
-                raise ValueError(f"Transversal H expects one logical qubit, got: {instr.logical_qubits}")
+                raise ValueError(
+                    f"Transversal H expects one logical qubit, got: {instr.logical_qubits}"
+                )
             block_name, logical_idx = self._parse_logical_qubit(instr.logical_qubits[0])
 
             # Basic sanity: we only support k=1 for now.
@@ -851,7 +869,9 @@ class LogicQCompiler:
             if block is None:
                 raise KeyError(f"Transversal H refers to unknown block {block_name!r}")
             if block.k != 1:
-                raise NotImplementedError("Transversal H for codes with k != 1 is not implemented.")
+                raise NotImplementedError(
+                    "Transversal H for codes with k != 1 is not implemented."
+                )
 
             # Apply H to all physical qubits in this block.
             qubit_indices = self._block_physical_range(block_name, program)
@@ -861,8 +881,9 @@ class LogicQCompiler:
             self._compile_transversal_cnot(instr, program, qstab)
 
         else:
-            raise NotImplementedError(f"Transversal gate {instr.gate!r} is not implemented.")
-        
+            raise NotImplementedError(
+                f"Transversal gate {instr.gate!r} is not implemented."
+            )
 
     def _compile_transversal_cnot_stub(
         self,
@@ -928,7 +949,9 @@ class LogicQCompiler:
         block_name, logical_idx = self._parse_logical_qubit(instr.logical_qubits[0])
         block = program.code_blocks.get(block_name)
         if block is None:
-            raise KeyError(f"Logical measurement refers to unknown block {block_name!r}")
+            raise KeyError(
+                f"Logical measurement refers to unknown block {block_name!r}"
+            )
 
         if logical_idx < 0 or logical_idx >= block.k:
             raise ValueError(
@@ -1034,8 +1057,13 @@ class LogicQCompiler:
             - If only Y/I → YInstruction
             - Otherwise → CompoundPaulisInstruction "X[i]Z[j]Y[k]..."
         """
-        if block_name not in self._block_offsets or block_name not in program.code_blocks:
-            raise KeyError(f"Unknown block {block_name!r} in _emit_pauli_like_operator.")
+        if (
+            block_name not in self._block_offsets
+            or block_name not in program.code_blocks
+        ):
+            raise KeyError(
+                f"Unknown block {block_name!r} in _emit_pauli_like_operator."
+            )
 
         base = self._block_offsets[block_name]
         n = program.code_blocks[block_name].n
@@ -1097,7 +1125,10 @@ class LogicQCompiler:
         In the placeholder LogicalOperatorAnalyzer, determine_logical_H returns
         "H" * n, but this helper supports sparse patterns as well.
         """
-        if block_name not in self._block_offsets or block_name not in program.code_blocks:
+        if (
+            block_name not in self._block_offsets
+            or block_name not in program.code_blocks
+        ):
             raise KeyError(f"Unknown block {block_name!r} in _emit_H_operator.")
 
         base = self._block_offsets[block_name]
@@ -1125,10 +1156,10 @@ class LogicQCompiler:
             qstab.add_instruction(HInstruction(qubit_indices=h_indices))
 
 
-
 # ----------------------------------------------------------------------
 # Example program and main entry point
 # ----------------------------------------------------------------------
+
 
 def _build_example_program() -> LogicQIRProgram:
     """
@@ -1146,7 +1177,7 @@ def _build_example_program() -> LogicQIRProgram:
         Transversal CNOT q1[0], q2[0]
         QECCycle q1
         QECCycle q2
-        
+
 
         Logical Z q[0]
         QECCycle q
@@ -1224,8 +1255,6 @@ def _build_example_program() -> LogicQIRProgram:
         block_q2.code.set_logical_Z(0, "ZZZZZ")
 
     return program
-
-
 
 
 if __name__ == "__main__":
