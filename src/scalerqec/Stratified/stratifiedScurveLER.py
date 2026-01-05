@@ -29,8 +29,8 @@ from .ScurveModel import (
     refined_sweet_spot,
     scurve_function,
     sigma_estimator,
-    subspace_sigma_estimator,
 )
+from .visualization import plot_log_scurve, plot_scurve, plot_linear_fit
 
 """
 Use strafified sampling + Scurve fitting  algorithm to calculate the logical error rate
@@ -540,6 +540,10 @@ class StratifiedScurveLERcalc:
             )
         ]
 
+        if not x_list:
+            # Not enough data to fit
+            return
+
         sigma_list = [
             sigma_estimator(self._subspace_sample_used[x], self._subspace_LE_count[x])
             for x in x_list
@@ -550,16 +554,11 @@ class StratifiedScurveLERcalc:
             for x in x_list
         ]
 
-        # print("Saturated weight: ",self._saturatew)
-        # print("LE count: ",self._subspace_LE_count)
-        # print("Sample used: ",self._subspace_sample_used)
-
         b = self._b
         a = self._a
-        alpha = -1 / self._a
+        alpha = -1 / self._a if self._a != 0 else 1.0
         initial_guess = (a, b, alpha)
 
-        # print("Initial guess d: ",int((self._circuit_level_code_distance+upper_bound_code_distance)/2))
         sigma = int(
             np.sqrt(self._error_rate * (1 - self._error_rate) * self._num_noise)
         )
@@ -569,20 +568,14 @@ class StratifiedScurveLERcalc:
         self._minw = max(self._t + 1, ep - self._k_range * sigma)
         self._maxw = max(2, ep + self._k_range * sigma)
 
-        self._num_detector
-        self._num_noise
-
         beta = alpha
         initial_guess = (a, b, beta)
-        # ── lower bounds for [param1, param2, param3, param4]
 
         lower = [
             min(self._a * 5, self._a * 0.2),
             min(self._b * 0.2, self._b * 5),
             min(beta * 0.2, beta * 5),
         ]
-
-        # ── upper bounds for [param1, param2, param3, param4]
         upper = [
             max(self._a * 5, self._a * 0.2),
             max(self._b * 0.2, self._b * 5),
@@ -593,16 +586,14 @@ class StratifiedScurveLERcalc:
             modified_linear_function(self._t),
             x_list,
             y_list,
-            p0=initial_guess,  # len(initial_guess) must be 4 and within the bounds above
-            bounds=(lower, upper),  # <-- tuple with two arrays
-            maxfev=50_000,  # or max_nfev in newer SciPy
+            p0=initial_guess,
+            bounds=(lower, upper),
+            maxfev=50_000,
         )
 
         self._codedistance = 0
-        # Extract the best-fit parameter (alpha)
         self._a, self._b, self._c = popt[0], popt[1], popt[2]
 
-        # print("circuit d:",self._circuit_level_code_distance)
         y_list = [
             np.log(0.5 / self._estimated_subspaceLER[x] - 1)
             - bias_estimator(self._subspace_sample_used[x], self._subspace_LE_count[x])
@@ -612,20 +603,11 @@ class StratifiedScurveLERcalc:
             modified_linear_function_with_d(x, self._a, self._b, self._c, self._t)
             for x in x_list
         ]
-        # y_predicted = [scurve_function_with_distance(x,self._mu,self._sigma) for x in self._estimated_wlist]
         self._R_square_score = r_squared(y_list, y_predicted)
-        # print("R^2 score: ", self._R_square_score)
-
-        # Plot the fitted line
-        x_fit = np.linspace(self._t + 1, max(x_list), 1000)
-
-        y_fit = modified_linear_function_with_d(
-            x_fit, self._a, self._b, self._c, self._t
-        )
 
         self.calc_logical_error_rate_after_curve_fitting()
 
-        alpha = -1 / self._a
+        alpha = -1 / self._a if self._a != 0 else 1.0
         self._sweet_spot = int(
             refined_sweet_spot(alpha, self._c, self._t, ratio=self._ratio)
         )
@@ -633,181 +615,44 @@ class StratifiedScurveLERcalc:
             self._sweet_spot = ep
         if self._sweet_spot <= self._t:
             self._sweet_spot = self._t + 1
-        # self._sweet_spot=self._t+100
-
-        sweet_spot_y = modified_linear_function_with_d(
-            self._sweet_spot, self._a, self._b, self._c, self._t
-        )
 
         sample_cost_list = [self._subspace_sample_used[x] for x in x_list]
 
-        # print("Fitted parameters: a={}, b={}, c={}, d={}".format(self._a, self._b, self._c, self._d))
-
-        # Setup the plot
-        fig, ax = plt.subplots(figsize=(7, 5))
-
-        # Plot histogram-style bars for the y values
-        ax.bar(
-            x_list,
-            y_list,
-            width=0.6,  # Adjust width if needed
-            align="center",
-            color="orange",
-            edgecolor="orange",
-            label="Data histogram",
-        )
-
-        # Overlay error bars on top of bars
-        ax.errorbar(
-            x_list,
-            y_list,
-            yerr=sigma_list,
-            fmt="o",
-            color="black",
-            capsize=3,
-            markersize=1,
-            elinewidth=1,
-            label="Error bars",
-        )
-
-        # Fit curve
-        ax.plot(
-            x_fit,
-            y_fit,
-            label=f"Fitted line, R2={self._R_square_score:.4f}",
-            color="blue",
-            linestyle="--",
-        )
-
-        # sweet spot marker
-        ax.scatter(
-            self._sweet_spot,
-            sweet_spot_y,
-            color="purple",
-            marker="o",
-            s=50,
-            label="Sweet Spot",
-        )
-        ax.text(
-            self._sweet_spot * 1.1,
-            sweet_spot_y * 1.1,
-            "Sweet Spot",
-            ha="center",
-            color="purple",
-            fontsize=10,
-        )
-
-        # Region: Fault-tolerant (green)
-        ax.axvspan(0, self._t, color="green", alpha=0.15)
-        ax.text(
-            self._t / 2,
-            max(y_list) * 1.8,
-            "Fault\ntolerant",
-            ha="center",
-            color="green",
-            fontsize=8,
-        )
-
-        ax.axvspan(self._t, self._saturatew, color="yellow", alpha=0.10)
-        ax.text(
-            (self._t + self._saturatew) / 2,
-            max(y_list) * 1.2,
-            "Curve fitting",
-            ha="center",
-            fontsize=15,
-        )
-
-        # Region: Critical area (gray)
-        ax.axvspan(self._minw, self._maxw, color="gray", alpha=0.2)
-        ax.axvline(
-            self._minw, color="red", linestyle="--", linewidth=1.2, label=r"$w_{\min}$"
-        )
-        ax.axvline(
-            self._maxw,
-            color="green",
-            linestyle="--",
-            linewidth=1.2,
-            label=r"$w_{\max}$",
-        )
-        ax.text(
-            (self._minw + self._maxw) / 2,
-            max(y_list) * 1.8,
-            r"$5\sigma$ Critical Region",
-            ha="center",
-            fontsize=10,
-        )
-
-        ax.axvspan(self._saturatew, self._saturatew + 12, color="red", alpha=0.15)
-        ax.text(
-            self._saturatew + 6,
-            max(y_list) * 2.8,
-            "Saturation",
-            ha="center",
-            color="red",
-            fontsize=10,
-        )
-
-        # Sample cost annotations (scientific notation)
-        num_points_to_annotate = 5
-        indices = np.linspace(0, len(x_list) - 1, num=num_points_to_annotate, dtype=int)
-        for i in indices:
-            x, y, s = x_list[i], y_list[i], sample_cost_list[i]
-            if s > 0:
-                s_str = "{0:.1e}".format(s)
-                base, exp = s_str.split("e")
-                label = r"${0}\times 10^{{{1}}}$".format(base, int(exp))
-                ax.annotate(
-                    label,
-                    (x, y),
-                    textcoords="offset points",
-                    xytext=(0, 10),
-                    ha="center",
-                    fontsize=7,
-                )
-
-        # Side annotation box
-        text_lines = [
-            r"$N_{LE}^{Clip}=%d$" % self._MIN_NUM_LE_EVENT,
-            r"$N_{sub}^{Gap}=%d$" % self._MAX_SAMPLE_GAP,
-            r"$N_{sub}^{Max}=%d$" % self._MAX_SUBSPACE_SAMPLE,
-            r"$N_{total}=%d$" % self._sample_used,
-            r"$r_{sweet}=%.2f$" % self._ratio,
-            r"$\alpha=%.4f$" % alpha,
-            r"$\mu =%.4f$" % (alpha * self._b),
-            r"$\beta=%.4f$" % self._c,
-            r"$w_{\min}=%d$" % self._minw,
-            r"$w_{\max}=%d$" % self._maxw,
-            r"$w_{sweet}=%d$" % self._sweet_spot,
-            r"$\#\mathrm{detector}=%d$" % self._num_detector,
-            r"$\#\mathrm{noise}=%d$" % self._num_noise,
-            r"$P_L={0}\times 10^{{{1}}}$".format(
-                *"{0:.2e}".format(self._LER).split("e")
-            ),
-        ]
-        if time is not None:
-            text_lines.append(r"$\mathrm{Time}=%.2f\,\mathrm{s}$" % time)
-
-        fig.subplots_adjust(right=0.75)
-        fig.text(
-            0.78,
-            0.5,
-            "\n".join(text_lines),
-            fontsize=7,
-            va="center",
-            ha="left",
-            bbox=dict(boxstyle="round", facecolor="white", alpha=0.95),
-        )
-
-        # Final formatting
-        ax.set_xlabel("Weight")
-        ax.set_ylabel(r"$\log\left(\frac{0.5}{\mathrm{LER}} - 1\right)$")
-        ax.set_title("Fitted log-S-curve")
-        ax.legend(fontsize=8)
-        fig.tight_layout()
+        # Use common visualization function
         if savefigure:
-            fig.savefig(filename, format="pdf", bbox_inches="tight")  # `dpi` optional
-        plt.show()
-        plt.close()
+            fig = plot_log_scurve(
+                x_list=x_list,
+                y_list=y_list,
+                sigma_list=sigma_list,
+                sample_cost_list=sample_cost_list,
+                a=self._a,
+                b=self._b,
+                c=self._c,
+                t=self._t,
+                minw=self._minw,
+                maxw=self._maxw,
+                saturatew=self._saturatew,
+                sweet_spot=self._sweet_spot,
+                has_logical_errorw=self._has_logical_errorw,
+                num_noise=self._num_noise,
+                num_detector=self._num_detector,
+                error_rate=self._error_rate,
+                code_distance=self._circuit_level_code_distance,
+                r_squared=self._R_square_score,
+                ler=self._LER,
+                time_elapsed=time,
+                total_samples=self._sample_used,
+                filename=filename,
+                title="Fitted log-S-curve",
+                k_range=self._k_range,
+                # Pass hyperparameters for info box
+                min_le_event=self._MIN_NUM_LE_EVENT,
+                max_sample_gap=self._MAX_SAMPLE_GAP,
+                max_subspace_sample=self._MAX_SUBSPACE_SAMPLE,
+                ratio=self._ratio,
+            )
+            plt.show()
+            plt.close(fig)
 
     """
     Fit the distribution by 1/2-e^{alpha/W}
@@ -970,114 +815,23 @@ class StratifiedScurveLERcalc:
         return self._LER
 
     def plot_scurve(self, filename=None, savefigure=False, title="S-curve"):
-        """Plot the S-curve and its discrete estimate."""
-        keys = list(self._estimated_subspaceLER.keys())
-        values = [self._estimated_subspaceLER[k] for k in keys]
-        sigma_list = [
-            subspace_sigma_estimator(
-                self._subspace_sample_used[k], self._subspace_LE_count[k]
-            )
-            for k in keys
-        ]
-        fig, ax = plt.subplots()
-
-        # bars ── discrete estimate
-        ax.bar(
-            keys,
-            values,
-            color="tab:orange",
-            alpha=0.8,
-            label="Estimated subspace LER by sampling",
+        """Plot the S-curve and its discrete estimate using common visualization."""
+        fig = plot_scurve(
+            estimated_subspaceLER=self._estimated_subspaceLER,
+            subspace_sample_used=self._subspace_sample_used,
+            subspace_LE_count=self._subspace_LE_count,
+            a=self._a,
+            b=self._b,
+            c=self._c,
+            t=self._t,
+            minw=self._minw,
+            maxw=self._maxw,
+            saturatew=self._saturatew,
+            ler=self._LER,
+            filename=filename,
+            title=title,
+            savefigure=savefigure,
         )
-
-        ax.errorbar(
-            keys,
-            values,
-            yerr=sigma_list,
-            fmt="none",
-            ecolor="black",
-            capsize=3,
-            elinewidth=1,
-            label="LER error bars",
-        )
-
-        # smooth S-curve
-        x = np.linspace(self._t + 0.1, self._saturatew, 1000)
-        y = modified_sigmoid_function(x, self._a, self._b, self._c, self._t)
-        ax.plot(
-            x,
-            y,
-            color="tab:blue",
-            linewidth=2.0,
-            label="Fitted S-curve",
-            linestyle="--",
-        )
-
-        # Fault-tolerant area
-        ax.axvspan(0, self._t, color="green", alpha=0.15)
-        ax.text(
-            self._t / 2,
-            max(values) / 2,
-            "Fault\ntolerant",
-            ha="center",
-            color="green",
-            fontsize=8,
-        )
-
-        ax.axvspan(self._t, self._saturatew, color="yellow", alpha=0.10)
-        ax.text(
-            (self._t + self._saturatew) / 2,
-            max(values) / 2,
-            "Curve fitting",
-            ha="center",
-            fontsize=10,
-        )
-
-        ax.axvspan(self._saturatew, self._saturatew + 12, color="red", alpha=0.15)
-        ax.text(
-            self._saturatew + 6,
-            max(values) / 2,
-            "Saturation",
-            ha="center",
-            color="red",
-            fontsize=10,
-        )
-
-        # Region: Critical area (gray)
-        ax.axvspan(self._minw, self._maxw, color="gray", alpha=0.2)
-        ax.axvline(
-            self._minw, color="red", linestyle="--", linewidth=1.2, label=r"$w_{\min}$"
-        )
-        ax.axvline(
-            self._maxw,
-            color="green",
-            linestyle="--",
-            linewidth=1.2,
-            label=r"$w_{\max}$",
-        )
-        ax.text(
-            (self._minw + self._maxw) / 2,
-            max(values) / 2,
-            r"$5\sigma$ Critical Region",
-            ha="center",
-            fontsize=10,
-        )
-
-        # Labels and legend
-        ax.set_xlabel("Weight")
-        ax.set_ylabel("Logical Error Rate in subspace")
-        ax.set_title(f"S-curve of {title} (PL={self._LER:.2e})")
-        ax.legend()
-
-        # Integer ticks on x-axis
-        ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
-
-        # Layout and save
-        plt.tight_layout()
-        if savefigure:
-            fig.savefig(
-                filename + ".pdf", format="pdf", bbox_inches="tight"
-            )  # `dpi` optional
         plt.show()
         plt.close(fig)
 
@@ -1097,6 +851,7 @@ class StratifiedScurveLERcalc:
     ):
         self._error_rate = pvalue
         self._circuit_level_code_distance = codedistance
+        self._t = max(0, int((self._circuit_level_code_distance - 1) / 2))
         ler_list = []
         sample_used_list = []
         r_squared_list = []
@@ -1418,6 +1173,7 @@ class StratifiedScurveLERcalc:
     ):
         self._error_rate = pvalue
         self._circuit_level_code_distance = codedistance
+        self._t = max(0, int((self._circuit_level_code_distance - 1) / 2))
         ler_list = []
         sample_used_list = []
         r_squared_list = []

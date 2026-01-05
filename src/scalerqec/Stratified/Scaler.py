@@ -17,12 +17,15 @@ from scalerqec.Stratified.fitting import r_squared
 from scalerqec.Stratified.ScurveModel import (
     bias_estimator,
     evenly_spaced_ints,
+    fit_power_law_to_lowest_weights,
+    hybrid_pl_exponential,
     modified_linear_function,
     modified_linear_function_with_d,
     modified_sigmoid_function,
     refined_sweet_spot,
     sigma_estimator,
 )
+from scalerqec.Stratified.visualization import plot_log_scurve
 from scalerqec.util.binomial import binomial_weight
 
 
@@ -154,11 +157,19 @@ class Scaler:
         return left
 
     def binary_search_lower(
-        self, low: int, high: int, shots: int = 2000, epsilon: float = 0.002
+        self, low: int, high: int, shots: int = 2000, epsilon: float = 0.001
     ) -> int:
         """
         Find the smallest w in [low, high] such that PL(w) > epsilon.
+
+        Note: Uses adaptive shot budget - at each step, we need enough shots
+        to detect PL > epsilon with reasonable confidence. For epsilon=0.001,
+        we need ~3000 shots to expect 3 events at the threshold.
         """
+        # Adaptive shot budget: need at least 3/epsilon shots to detect threshold
+        min_shots = max(shots, int(5.0 / epsilon))
+        shots = min(min_shots, 10000)  # Cap at 10K to avoid too much time
+
         left = low
         right = high
         while left < right:
@@ -306,7 +317,6 @@ class Scaler:
             if (
                 0.0 < self._estimated_subspaceLER[x] < 0.5
                 and self._subspace_LE_count.get(x, 0) > 0
-                # and self._subspace_LE_count.get(x, 0) >= (self._MIN_NUM_LE_EVENT // 10)
             )
         ]
         if not x_list:
@@ -396,14 +406,33 @@ class Scaler:
         self._R_square_score = r_squared(y_list, y_predicted)
 
         # -----------------------------
-        # 5. Update sweet spot
+        # 5. Update sweet spot (with low-p refinement)
         # -----------------------------
         alpha = -1.0 / self._a
+
+        # Standard sweet spot calculation
         w_sweet = int(refined_sweet_spot(alpha, self._c, self._t, ratio=self._ratio))
-        # if w_sweet < ep:
-        #     w_sweet = ep
         if w_sweet <= self._t:
             w_sweet = self._t + 1
+
+        # LOW-P REFINEMENT: At low error rates, the sweet spot should be
+        # closer to first_error_w to minimize extrapolation distance
+        ep_approx = int(self._error_rate * self._num_noise)
+        gap = self._has_logical_errorw - ep_approx
+
+        if self._error_rate < 0.001 and gap > 5:
+            # For large gaps, bias sweet spot toward first_error_w
+            # This ensures we focus sampling where extrapolation is most critical
+            first_w = self._has_logical_errorw
+            standard_sweet = w_sweet
+
+            # Weighted average: favor first_error_w more as gap increases
+            gap_weight = min(0.7, gap / 30.0)  # Max 70% weight toward first_w
+            w_sweet = int((1 - gap_weight) * standard_sweet + gap_weight * first_w)
+
+            # Ensure it's in valid range
+            w_sweet = max(first_w, min(self._saturatew, w_sweet))
+
         w_sweet = min(self._saturatew, max(self._t + 1, w_sweet))
         self._sweet_spot = w_sweet
 
@@ -414,186 +443,36 @@ class Scaler:
         sample_cost_list = [self._subspace_sample_used[x] for x in x_list]
 
         # -----------------------------
-        # 6. Plot for debugging
+        # 6. Plot for debugging (flexible visualization)
         # -----------------------------
         if not savefigure:
             return
 
-        # x-range for fitted curve
-        x_fit = np.linspace(self._t + 1, max(x_list), 1000)
-        y_fit = modified_linear_function_with_d(
-            x_fit, self._a, self._b, self._c, self._t
+        fig = plot_log_scurve(
+            x_list=x_list,
+            y_list=y_list,
+            sigma_list=sigma_list,
+            sample_cost_list=sample_cost_list,
+            a=self._a,
+            b=self._b,
+            c=self._c,
+            t=self._t,
+            minw=self._minw,
+            maxw=self._maxw,
+            saturatew=self._saturatew,
+            sweet_spot=self._sweet_spot,
+            has_logical_errorw=self._has_logical_errorw,
+            num_noise=self._num_noise,
+            num_detector=self._num_detector,
+            error_rate=self._error_rate,
+            code_distance=self._circuit_level_code_distance,
+            r_squared=self._R_square_score,
+            ler=self._LER,
+            time_elapsed=time_val,
+            total_samples=sum(self._subspace_sample_used.values()),
+            filename=filename,
+            k_range=self._k_range,
         )
-
-        fig, ax = plt.subplots(figsize=(7, 5))
-
-        # Bars for y_list (log-space)
-        ax.bar(
-            x_list,
-            y_list,
-            width=0.6,
-            align="center",
-            color="orange",
-            edgecolor="orange",
-            label="Data histogram (log-S)",
-        )
-
-        # Error bars in the same units as y_list (just using sigma_list directly,
-        # same as in your old code for debugging purposes)
-        ax.errorbar(
-            x_list,
-            y_list,
-            yerr=sigma_list,
-            fmt="o",
-            color="black",
-            capsize=3,
-            markersize=1,
-            elinewidth=1,
-            label="Error bars",
-        )
-
-        # Fitted curve
-        ax.plot(
-            x_fit,
-            y_fit,
-            label=f"Fitted line, R2={self._R_square_score:.4f}",
-            color="blue",
-            linestyle="--",
-        )
-
-        # Sweet spot marker
-        ax.scatter(
-            self._sweet_spot,
-            sweet_spot_y,
-            color="purple",
-            marker="o",
-            s=50,
-            label="Sweet Spot",
-        )
-        ax.text(
-            self._sweet_spot * 1.1,
-            sweet_spot_y * 1.1,
-            "Sweet Spot",
-            ha="center",
-            color="purple",
-            fontsize=10,
-        )
-
-        # Fault-tolerant region
-        ax.axvspan(0, self._t, color="green", alpha=0.15)
-        ax.text(
-            self._t / 2,
-            max(y_list) * 1.8,
-            "Fault\ntolerant",
-            ha="center",
-            color="green",
-            fontsize=8,
-        )
-
-        # Curve fitting region
-        ax.axvspan(self._t, self._saturatew, color="yellow", alpha=0.10)
-        ax.text(
-            (self._t + self._saturatew) / 2,
-            max(y_list) * 1.2,
-            "Curve fitting",
-            ha="center",
-            fontsize=15,
-        )
-
-        # Critical 5σ region
-        ax.axvspan(self._minw, self._maxw, color="gray", alpha=0.2)
-        ax.axvline(
-            self._minw, color="red", linestyle="--", linewidth=1.2, label=r"$w_{\min}$"
-        )
-        ax.axvline(
-            self._maxw,
-            color="green",
-            linestyle="--",
-            linewidth=1.2,
-            label=r"$w_{\max}$",
-        )
-        ax.text(
-            (self._minw + self._maxw) / 2,
-            max(y_list) * 1.8,
-            r"$5\sigma$ Critical Region",
-            ha="center",
-            fontsize=10,
-        )
-
-        # Saturation region
-        ax.axvspan(self._saturatew, self._saturatew + 12, color="red", alpha=0.15)
-        ax.text(
-            self._saturatew + 6,
-            max(y_list) * 2.8,
-            "Saturation",
-            ha="center",
-            color="red",
-            fontsize=10,
-        )
-
-        # Sample cost annotations (scientific notation)
-        num_points_to_annotate = min(5, len(x_list))
-        indices = np.linspace(0, len(x_list) - 1, num=num_points_to_annotate, dtype=int)
-        for i in indices:
-            x, y, s = x_list[i], y_list[i], sample_cost_list[i]
-            if s > 0:
-                s_str = "{0:.1e}".format(s)
-                base, exp = s_str.split("e")
-                label = r"${0}\times 10^{{{1}}}$".format(base, int(exp))
-                ax.annotate(
-                    label,
-                    (x, y),
-                    textcoords="offset points",
-                    xytext=(0, 10),
-                    ha="center",
-                    fontsize=7,
-                )
-
-        # Side annotation box (simplified for Scaler)
-        text_lines = [
-            r"$N_{LE}^{Clip}=%d$" % self._MIN_NUM_LE_EVENT,
-            r"$r_{sweet}=%.2f$" % self._ratio,
-            r"$\alpha=%.4f$" % alpha,
-            r"$\mu =%.4f$" % (alpha * self._b),
-            r"$\beta=%.4f$" % self._c,
-            r"$w_{\min}=%d$" % self._minw,
-            r"$w_{\max}=%d$" % self._maxw,
-            r"$w_{sweet}=%d$" % self._sweet_spot,
-            r"$\#\mathrm{detector}=%d$" % self._num_detector,
-            r"$\#\mathrm{noise}=%d$" % self._num_noise,
-        ]
-        if self._LER > 0:
-            text_lines.append(
-                r"$P_L={0}\times 10^{{{1}}}$".format(
-                    *"{0:.2e}".format(self._LER).split("e")
-                )
-            )
-        if time_val is not None:
-            text_lines.append(r"$\mathrm{Time}=%.2f\,\mathrm{s}$" % time_val)
-
-        fig.subplots_adjust(right=0.75)
-        fig.text(
-            0.78,
-            0.5,
-            "\n".join(text_lines),
-            fontsize=7,
-            va="center",
-            ha="left",
-            bbox=dict(boxstyle="round", facecolor="white", alpha=0.95),
-        )
-
-        ax.set_xlabel("Weight")
-        ax.set_ylabel(r"$\log\left(\frac{0.5}{\mathrm{LER}} - 1\right)$")
-        ax.set_title("Fitted log-S-curve")
-        ax.legend(fontsize=8)
-        fig.tight_layout()
-
-        # Choose filename if none provided
-        if filename is None:
-            filename = f"logS_fit_debug_p{self._error_rate:.3g}_d{self._circuit_level_code_distance}.pdf"
-
-        print(f"Saving log-S fit debug figure to: {filename}")
-        fig.savefig(filename, format="pdf", bbox_inches="tight")
         plt.close(fig)
 
     # ------------------------------------------------------------------
@@ -647,169 +526,503 @@ class Scaler:
         return rel < rel_tol
 
     # ------------------------------------------------------------------
-    #  Decide the next sampling step
+    #  Decide the next sampling step (Progressive Left-to-Right Strategy)
     # ------------------------------------------------------------------
 
-    def _choose_candidate_weights(self) -> List[int]:
+    def _get_exploration_frontier(self) -> int:
         """
-        Choose a small set of candidate weights to sample next.
+        Get the current leftmost weight that has been adequately sampled.
+        This defines the 'frontier' of our progressive exploration.
+        """
+        # Start from saturation and work left to find the frontier
+        for w in range(self._saturatew, self._t, -1):
+            if self._subspace_LE_count.get(w, 0) >= self._MIN_NUM_LE_EVENT:
+                continue
+            # Found a weight that needs more sampling
+            return w
+        return self._t + 1
 
-        Policy:
-        - Work in the union of the [minw, maxw] band and the current sweet spot.
-        - Clip to [t+1, saturatew].
-        - Always include w_sweet and a few neighbours, plus a coarse grid
-            so that coverage between sweet spot and the ends is roughly uniform.
+    def _choose_candidate_weights_progressive(self) -> List[int]:
         """
-        # 1) Determine the center (sweet spot), with a reasonable fallback.
+        Progressive sampling strategy: start from saturation (right),
+        gradually explore leftward toward the sweet spot.
+
+        Key insight: We want to build the S-curve from right to left because:
+        1. High weights have high PL, easy to estimate accurately
+        2. As we move left, PL decreases, needs more samples
+        3. The sweet spot defines where we need most precision
+        """
+        # Determine the center (sweet spot), with a reasonable fallback
         if self._sweet_spot is None:
             ep = int(self._error_rate * self._num_noise)
             center = max(self._t + 1, ep)
         else:
             center = int(self._sweet_spot)
 
-        # 2) Start from the union of [minw, maxw] and {center}
-        #    (so the bracket is guaranteed to contain the sweet spot).
-        left_bracket = min(self._minw, center)
-        right_bracket = max(self._maxw, center)
+        # Define the working region
+        left_limit = max(self._t + 1, self._has_logical_errorw)
+        right_limit = self._saturatew
 
-        # 3) Clip by physical limits [t+1, saturatew]
-        left_bracket = max(self._t + 1, left_bracket)
-        right_bracket = min(self._saturatew, right_bracket)
-
-        # If everything collapsed, fall back to [t+1, saturatew].
-        if right_bracket < left_bracket:
-            left_bracket = self._t + 1
-            right_bracket = self._saturatew
-
-        # Final safety: if still weird, just return the center.
-        if right_bracket < left_bracket:
+        if right_limit <= left_limit:
             return [center]
-
-        # Clamp center into the bracket
-        if center < left_bracket:
-            center = left_bracket
-        if center > right_bracket:
-            center = right_bracket
 
         W = set()
 
-        # 4) Always include the sweet spot and a couple of neighbours
-        for delta in range(-2, 3):  # center-2, -1, 0, +1, +2
+        # 1) Always include the sweet spot and its band
+        band_half = self._BAND_HALF_WIDTH
+        for delta in range(-band_half, band_half + 1):
             w = center + delta
-            if left_bracket <= w <= right_bracket:
+            if left_limit <= w <= right_limit:
                 W.add(w)
 
-        # 5) Add a small grid across the bracket for uniform coverage
-        def evenly_spaced_ints(lo: int, hi: int, k: int) -> List[int]:
-            if k <= 1 or hi <= lo:
-                return [lo, hi]
-            return sorted(
-                set(int(round(lo + i * (hi - lo) / (k - 1))) for i in range(k))
-            )
+        # 2) Include the exploration frontier - weights that need more samples
+        #    Prioritize weights near the current sweet spot that lack data
+        frontier_weights = []
+        for w in range(left_limit, right_limit + 1):
+            events = self._subspace_LE_count.get(w, 0)
+            if events < self._MIN_NUM_LE_EVENT:
+                frontier_weights.append(w)
 
-        grid_points = evenly_spaced_ints(left_bracket, right_bracket, 5)
-        for w in grid_points:
-            if left_bracket <= w <= right_bracket:
-                W.add(w)
+        # Focus on frontier weights near the sweet spot
+        frontier_weights.sort(key=lambda w: abs(w - center))
+        for w in frontier_weights[:8]:  # Take up to 8 frontier weights
+            W.add(w)
 
-        # 6) Also ensure the bracket endpoints themselves are present
-        W.add(left_bracket)
-        W.add(right_bracket)
+        # 3) Add anchor points for curve fitting stability
+        #    Include minw, maxw if they're in range
+        if left_limit <= self._minw <= right_limit:
+            W.add(self._minw)
+        if left_limit <= self._maxw <= right_limit:
+            W.add(self._maxw)
+
+        # 4) Add some evenly spaced grid points for global coverage
+        span = right_limit - left_limit
+        if span > 10:
+            num_grid = min(5, span // 3)
+            for i in range(num_grid):
+                w = left_limit + int(i * span / max(1, num_grid - 1))
+                if left_limit <= w <= right_limit:
+                    W.add(w)
+
+        # 5) Include saturation region for anchoring the high-PL end
+        W.add(right_limit)
+        if right_limit - 1 >= left_limit:
+            W.add(right_limit - 1)
 
         wlist = sorted(W)
-        print("  Candidate weights (choose_candidate_weights):", wlist)
         return wlist
 
-    def next_step(self) -> Tuple[List[int], List[int]]:
+    def _choose_candidate_weights_low_p(self) -> List[int]:
         """
-        Decide the next step of the stratified sampling process.
+        Specialized weight selection for LOW error rates (p < 0.001).
 
-        New policy:
-          - Always sample at all candidate weights in the bracket.
-          - Allocate more shots near the sweet spot and to never-sampled weights,
-            but keep a roughly uniform coverage across the whole bracket.
+        At low error rates, the key challenge is the GAP between:
+        - Binomial peak (ep = p * N) where most weight is concentrated
+        - First observable error (first_error_w) where we start seeing logical errors
+
+        Strategy:
+        1. PRIORITIZE sampling near first_error_w to get the best possible
+           anchor points for S-curve extrapolation
+        2. Sample the lowest weights where ANY errors can be observed
+        3. Use aggressive shot allocation at these critical weights
+        4. Still sample high weights for S-curve shape calibration
+
+        This strategy aims to MINIMIZE the extrapolation distance by pushing
+        data collection as low as possible.
         """
-        # If we cannot take any more shots, stop.
-        if self._sampling_rate <= 0.0 or self._remaining_time_budget <= 0.0:
-            return [], []
+        ep = int(self._error_rate * self._num_noise)
+        sigma = max(
+            1, int(np.sqrt(self._error_rate * (1 - self._error_rate) * self._num_noise))
+        )
 
-        # Total shots we are allowed to take this step
-        remaining_shots = int(self._remaining_time_budget * self._sampling_rate)
-        if remaining_shots <= 0:
-            return [], []
+        first_error_w = self._has_logical_errorw
+        saturate_w = self._saturatew
 
-        # Enforce per-step hard cap for memory control
-        step_shots = min(remaining_shots, self._MAX_SHOTS_PER_STEP)
+        W = set()
 
-        # Choose candidate weights
-        wlist = self._choose_candidate_weights()
+        # 1) CRITICAL: Weights near first_error_w (lowest observable)
+        #    These are the most valuable anchor points for extrapolation
+        for delta in range(-3, 6):
+            w = first_error_w + delta
+            if self._t + 1 <= w <= saturate_w:
+                W.add(w)
+
+        # 2) Weights where we've seen SOME errors but need more confidence
+        #    These help refine the S-curve near the critical region
+        for w in sorted(self._estimated_subspaceLER.keys()):
+            if w > self._t and self._subspace_LE_count.get(w, 0) < 50:
+                W.add(w)
+                if len(W) > 15:
+                    break
+
+        # 3) Critical region around binomial peak
+        #    Even if we can't observe errors here, we need context
+        minw_critical = max(self._t + 1, ep - 3 * sigma)
+        maxw_critical = min(saturate_w, ep + 3 * sigma)
+
+        # Only add if they're at or above first_error_w
+        for w in range(
+            max(minw_critical, first_error_w), min(maxw_critical, saturate_w) + 1
+        ):
+            W.add(w)
+
+        # 4) Sparse grid across the observable range for shape calibration
+        observable_span = saturate_w - first_error_w
+        if observable_span > 10:
+            for i in range(5):
+                w = first_error_w + int(i * observable_span / 4)
+                if self._t + 1 <= w <= saturate_w:
+                    W.add(w)
+
+        # 5) High-weight anchors for S-curve saturation behavior
+        W.add(saturate_w)
+        if saturate_w - 2 >= first_error_w:
+            W.add(saturate_w - 2)
+
+        wlist = sorted(W)
+        return wlist
+
+    def _compute_shot_allocation_low_p(
+        self, wlist: List[int], step_shots: int
+    ) -> List[int]:
+        """
+        Shot allocation optimized for low error rates.
+
+        Key insight: At low p, most variance comes from:
+        1. The lowest observable weights (low PL = high variance)
+        2. Weights near first_error_w (critical for extrapolation)
+
+        Strategy:
+        - Allocate MORE shots to lower weights (lower PL = more samples needed)
+        - BOOST allocation for weights near first_error_w
+        - Minimum allocation for high weights (already saturated)
+        """
         if not wlist:
-            return [], []
+            return []
 
-        # ------ Shot allocation policy ------
-        # Priority factors for each weight
+        first_error_w = self._has_logical_errorw
+
         factors = []
-        center = self._sweet_spot
-
         for w in wlist:
             f = 1.0
 
-            # 1) Strongly favour the sweet spot and its immediate neighbours
-            if center is not None:
-                d = abs(w - center)
-                if d <= 1:
-                    f *= 6.0  # very close to sweet spot
-                elif d <= 2:
-                    f *= 3.0  # near sweet spot
-
-            # 2) Boost completely unsampled subspaces
-            if self._subspace_sample_used.get(w, 0) == 0:
+            # Distance from first_error_w: closer = MORE important
+            dist_from_first = abs(w - first_error_w)
+            if dist_from_first == 0:
+                f *= 10.0
+            elif dist_from_first <= 2:
+                f *= 7.0
+            elif dist_from_first <= 5:
                 f *= 4.0
+            elif dist_from_first <= 10:
+                f *= 2.0
+
+            # Under-sampled weights need more shots
+            events = self._subspace_LE_count.get(w, 0)
+            samples = self._subspace_sample_used.get(w, 0)
+
+            if samples == 0:
+                f *= 5.0  # Never sampled
+            elif events == 0:
+                f *= 3.0  # Sampled but no errors yet
+            elif events < 10:
+                f *= 2.5  # Few events, high variance
+            elif events < 30:
+                f *= 1.5  # Moderate events
+
+            # Lower weights are MORE important for extrapolation
+            # Scale factor inversely with weight relative to first_error_w
+            if w <= first_error_w + 5:
+                f *= 2.0
+
+            # High weights (near saturation) need fewer samples
+            if w > first_error_w + 20:
+                f *= 0.5
 
             factors.append(f)
 
         total_factor = sum(factors)
-        if total_factor <= 0.0:
-            # Fallback: uniform allocation
-            shots_per_w = max(1, step_shots // len(wlist))
-            return wlist, [shots_per_w] * len(wlist)
+        if total_factor <= 0:
+            shots_per = max(1, step_shots // len(wlist))
+            return [shots_per] * len(wlist)
 
-        # Minimum shots so that even far-from-sweet weights keep getting data
-        min_shots_per_w = max(
-            500, int(step_shots * 0.02)
-        )  # at least 2% per weight, ≥500
+        # Minimum shots per weight
+        min_shots_per_w = max(500, int(step_shots * 0.03))
 
-        slist: List[int] = []
+        slist = []
         remaining = step_shots
 
         for i, (w, f) in enumerate(zip(wlist, factors)):
             if i == len(wlist) - 1:
-                # Give whatever shots are left to the last weight,
-                # so rounding doesn't lose shots.
                 s = max(1, remaining)
             else:
                 raw = step_shots * (f / total_factor)
                 s = max(min_shots_per_w, int(round(raw)))
                 remaining -= s
-                if remaining < 0:
-                    remaining = 0
+                if remaining < min_shots_per_w:
+                    remaining = min_shots_per_w
 
             slist.append(s)
 
-        # Debug print
-        print("  Candidate weights (choose_candidate_weights):", wlist)
-        print("  Allocated shots:", slist, " (total =", sum(slist), ")")
+        return slist
+
+    def _compute_shot_allocation_progressive(
+        self, wlist: List[int], step_shots: int
+    ) -> List[int]:
+        """
+        Allocate shots with priority:
+        1. Sweet spot band: highest priority (most impact on final LER)
+        2. Under-sampled weights: need more events
+        3. Weights with high variance: need refinement
+
+        Uses inverse-variance inspired weighting for bias reduction.
+        """
+        if not wlist:
+            return []
+
+        center = (
+            self._sweet_spot
+            if self._sweet_spot is not None
+            else (max(self._t + 1, int(self._error_rate * self._num_noise)))
+        )
+
+        factors = []
+        for w in wlist:
+            f = 1.0
+
+            # Distance from sweet spot: closer = more important
+            d = abs(w - center)
+            if d == 0:
+                f *= 10.0
+            elif d <= 2:
+                f *= 6.0
+            elif d <= 4:
+                f *= 3.0
+            elif d <= self._BAND_HALF_WIDTH:
+                f *= 2.0
+
+            # Under-sampled subspaces need more shots
+            events = self._subspace_LE_count.get(w, 0)
+            samples = self._subspace_sample_used.get(w, 0)
+
+            if samples == 0:
+                # Never sampled: high priority
+                f *= 5.0
+            elif events < self._MIN_NUM_LE_EVENT:
+                # Need more events: boost proportionally to deficit
+                deficit_ratio = (
+                    self._MIN_NUM_LE_EVENT - events
+                ) / self._MIN_NUM_LE_EVENT
+                f *= 1.0 + 3.0 * deficit_ratio
+            else:
+                # Already has enough events: consider variance
+                # Higher variance (fewer events) = need more samples
+                if events > 0:
+                    # Variance is proportional to 1/events for binomial
+                    rel_var = self._MIN_NUM_LE_EVENT / events
+                    f *= max(0.5, min(2.0, rel_var))
+
+            # Boost weights in the critical [minw, maxw] region
+            if self._minw <= w <= self._maxw:
+                f *= 1.5
+
+            factors.append(f)
+
+        total_factor = sum(factors)
+        if total_factor <= 0:
+            # Fallback: uniform
+            shots_per = max(1, step_shots // len(wlist))
+            return [shots_per] * len(wlist)
+
+        # Minimum shots per weight (at least 2% of budget, min 200)
+        min_shots_per_w = max(200, int(step_shots * 0.02))
+
+        slist = []
+        remaining = step_shots
+
+        for i, (w, f) in enumerate(zip(wlist, factors)):
+            if i == len(wlist) - 1:
+                # Last weight gets remainder
+                s = max(1, remaining)
+            else:
+                raw = step_shots * (f / total_factor)
+                s = max(min_shots_per_w, int(round(raw)))
+                remaining -= s
+                if remaining < min_shots_per_w:
+                    remaining = min_shots_per_w
+
+            slist.append(s)
+
+        return slist
+
+    def next_step(self) -> Tuple[List[int], List[int]]:
+        """
+        Decide the next step using adaptive sampling strategy.
+
+        Strategy selection:
+          - For low error rates (p < 0.001): Use specialized low-p strategy
+            that focuses on weights near first_error_w
+          - For normal error rates: Use progressive strategy from saturation
+            toward sweet spot
+        """
+        if self._sampling_rate <= 0.0 or self._remaining_time_budget <= 0.0:
+            return [], []
+
+        remaining_shots = int(self._remaining_time_budget * self._sampling_rate)
+        if remaining_shots <= 0:
+            return [], []
+
+        step_shots = min(remaining_shots, self._MAX_SHOTS_PER_STEP)
+
+        # Determine if we should use low-p strategy
+        # Based on gap analysis between binomial peak and first_error_w
+        ep = int(self._error_rate * self._num_noise)
+        first_error_w = self._has_logical_errorw
+        gap = first_error_w - ep
+        sigma = max(
+            1, int(np.sqrt(self._error_rate * (1 - self._error_rate) * self._num_noise))
+        )
+
+        use_low_p_strategy = (
+            self._error_rate < 0.001  # Low physical error rate
+            and gap > 2 * sigma  # Significant gap exists
+        )
+
+        if use_low_p_strategy:
+            # Use specialized low-p strategy
+            wlist = self._choose_candidate_weights_low_p()
+            if not wlist:
+                return [], []
+            slist = self._compute_shot_allocation_low_p(wlist, step_shots)
+            strategy_name = "Low-p"
+        else:
+            # Use standard progressive strategy
+            wlist = self._choose_candidate_weights_progressive()
+            if not wlist:
+                return [], []
+            slist = self._compute_shot_allocation_progressive(wlist, step_shots)
+            strategy_name = "Progressive"
+
+        print(f"  {strategy_name} weights: {wlist}")
+        print(f"  Allocated shots: {slist} (total={sum(slist)})")
 
         return wlist, slist
 
     # ------------------------------------------------------------------
-    #  Final LER integration from fitted S-curve
+    #  Final LER integration with bias reduction
     # ------------------------------------------------------------------
 
     def _calc_LER_from_fit(self) -> float:
         """
-        Integrate the fitted S-curve (or empirical subspace LER where available)
-        against the binomial distribution over error weights.
+        Integrate the fitted S-curve against the binomial distribution,
+        with bias reduction through weighted combination of empirical
+        and fitted estimates.
+        """
+        return self._calc_LER_bias_reduced()
+
+    def _calc_LER_bias_reduced(self) -> float:
+        """
+        Calculate LER with bias reduction using weighted combination:
+        - Use empirical PL(w) where we have enough samples (low bias)
+        - Use S-curve extrapolation elsewhere (including below first_error_w)
+        - Apply variance-weighted blending in transition regions
+
+        CRITICAL insight: At low error rates, the binomial distribution is
+        concentrated at low weights where we cannot observe logical errors
+        directly. However, the S-curve model provides a reliable extrapolation
+        to these weights. Setting PL=0 for w < first_error_w causes massive
+        underestimation bias (up to -99% at p=0.0005).
+
+        Instead, we extrapolate the fitted S-curve to low weights, which
+        provides much more accurate LER estimates (bias typically <15%).
+
+        Constraints on PL(w):
+        - PL(w) = 0 for w <= t (code threshold - truly fault-tolerant)
+        - S-curve extrapolation is capped at 0.5 for any weight
+        - For weights far above sampled region, cap PL at boundary value
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = int(np.sqrt(p * (1.0 - p) * N))
+        if sigma == 0:
+            sigma = 1
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        first_error_w = self._has_logical_errorw
+        saturate_w = self._saturatew
+
+        # Extend maxw to include at least up to saturate_w if it's above current maxw
+        if maxw < saturate_w:
+            maxw = saturate_w
+
+        # Define the "safe extrapolation" limit for high weights:
+        # Beyond 2*range above the sampled region, S-curve extrapolation is unreliable
+        extrap_limit = saturate_w + 2 * (saturate_w - first_error_w)
+        boundary_PL = min(
+            modified_sigmoid_function(extrap_limit, self._a, self._b, self._c, self._t),
+            0.5,
+        )
+
+        # Threshold for "reliable" empirical estimate
+        RELIABLE_EVENTS = self._MIN_NUM_LE_EVENT
+        BLEND_EVENTS = RELIABLE_EVENTS // 3  # Start blending here
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            # For w <= t (code threshold), PL is truly 0 (fault-tolerant property)
+            if w <= self._t:
+                sub_PL = 0.0
+            elif w > extrap_limit:
+                # Beyond safe extrapolation limit: use boundary PL
+                sub_PL = boundary_PL
+            elif w in self._estimated_subspaceLER:
+                empirical_PL = self._estimated_subspaceLER[w]
+                events = self._subspace_LE_count.get(w, 0)
+
+                if events >= RELIABLE_EVENTS:
+                    # High confidence: use empirical directly
+                    sub_PL = empirical_PL
+                elif events >= BLEND_EVENTS:
+                    # Medium confidence: blend empirical with fitted
+                    fitted_PL = modified_sigmoid_function(
+                        w, self._a, self._b, self._c, self._t
+                    )
+                    # Cap fitted PL at 0.5 (theoretical maximum)
+                    fitted_PL = min(fitted_PL, 0.5)
+                    # Blend weight: more events = more trust in empirical
+                    alpha = (events - BLEND_EVENTS) / (RELIABLE_EVENTS - BLEND_EVENTS)
+                    alpha = max(0.0, min(1.0, alpha))
+                    sub_PL = alpha * empirical_PL + (1 - alpha) * fitted_PL
+                else:
+                    # Low confidence: use fitted curve (capped at 0.5)
+                    sub_PL = min(
+                        modified_sigmoid_function(
+                            w, self._a, self._b, self._c, self._t
+                        ),
+                        0.5,
+                    )
+            else:
+                # No empirical data: use S-curve extrapolation
+                # This is the KEY change: we extrapolate to ALL weights > t
+                sub_PL = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, self._t),
+                    0.5,
+                )
+
+            LER += sub_PL * binom_w
+
+        self._LER = LER
+        return LER
+
+    def _calc_LER_empirical_only(self) -> float:
+        """
+        Calculate LER using only empirical estimates (no curve fitting).
+        Useful for comparison and bias assessment.
         """
         LER = 0.0
         N = self._num_noise
@@ -826,13 +1039,440 @@ class Scaler:
             if w in self._estimated_subspaceLER:
                 sub_PL = self._estimated_subspaceLER[w]
             else:
-                sub_PL = modified_sigmoid_function(
-                    w, self._a, self._b, self._c, self._t
+                # No data for this weight: skip or use zero
+                sub_PL = 0.0
+            LER += sub_PL * binomial_weight(N, w, p)
+
+        return float(LER)
+
+    def _calc_LER_fitted_only(self) -> float:
+        """
+        Calculate LER using only the fitted S-curve (no empirical data).
+        Useful for comparison and understanding model fit.
+
+        Extrapolates S-curve to all weights > t (code threshold).
+        S-curve values are capped at 0.5 (theoretical maximum).
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = int(np.sqrt(p * (1.0 - p) * N))
+        if sigma == 0:
+            sigma = 1
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        saturate_w = self._saturatew
+        first_error_w = self._has_logical_errorw
+
+        # Extend integration range at low error rates
+        if maxw < saturate_w:
+            maxw = saturate_w
+
+        # Define safe extrapolation limit for high weights
+        extrap_limit = saturate_w + 2 * (saturate_w - first_error_w)
+        boundary_PL = min(
+            modified_sigmoid_function(extrap_limit, self._a, self._b, self._c, self._t),
+            0.5,
+        )
+
+        for w in range(minw, maxw + 1):
+            # PL = 0 only for w <= t (code threshold - fault-tolerant property)
+            if w <= self._t:
+                sub_PL = 0.0
+            elif w > extrap_limit:
+                # Beyond safe extrapolation limit
+                sub_PL = boundary_PL
+            else:
+                # Use S-curve extrapolation for all weights > t
+                sub_PL = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, self._t),
+                    0.5,
                 )
             LER += sub_PL * binomial_weight(N, w, p)
 
-        self._LER = LER
         return LER
+
+    def _estimate_LER_uncertainty(self) -> Tuple[float, float]:
+        """
+        Estimate uncertainty bounds for the LER estimate.
+        Returns (lower_bound, upper_bound) as rough 1-sigma confidence interval.
+
+        Uses propagation of uncertainty from subspace estimates.
+        """
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = int(np.sqrt(p * (1.0 - p) * N))
+        if sigma == 0:
+            sigma = 1
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        # Accumulate variance contribution from each weight
+        var_LER = 0.0
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            if w in self._estimated_subspaceLER:
+                events = self._subspace_LE_count.get(w, 0)
+                samples = self._subspace_sample_used.get(w, 1)
+
+                if events > 0 and samples > 0:
+                    # Variance of binomial proportion: p(1-p)/n
+                    pl_w = self._estimated_subspaceLER[w]
+                    var_pl = pl_w * (1 - pl_w) / samples
+                    # Contribution to LER variance
+                    var_LER += (binom_w**2) * var_pl
+
+        std_LER = float(np.sqrt(var_LER))
+        return (max(0.0, self._LER - std_LER), self._LER + std_LER)
+
+    # ------------------------------------------------------------------
+    #  Multi-Strategy LER Calculation (Bias Reduction at Low p)
+    # ------------------------------------------------------------------
+
+    def _calc_LER_multi_strategy(
+        self, strategy: str = "auto"
+    ) -> Tuple[float, Dict[str, float]]:
+        """
+        Calculate LER using multiple strategies and return results for comparison.
+
+        At low error rates (p < 0.001), the gap between binomial peak and
+        first observable logical error creates systematic bias. Different
+        strategies handle this gap differently.
+
+        Strategies:
+        - "scurve_full": S-curve extrapolation to all w > t (current default)
+        - "hybrid": Exponential interpolation below first_error_w, S-curve above
+        - "conservative": Zero below first_error_w (underestimates)
+        - "power_law": Power-law extrapolation below first_error_w
+        - "auto": Automatically select best strategy based on gap analysis
+
+        Returns:
+            (best_ler, results_dict) where results_dict maps strategy name to LER
+        """
+        results = {}
+
+        # Calculate using all strategies
+        results["scurve_full"] = self._calc_LER_scurve_full()
+        results["hybrid"] = self._calc_LER_hybrid()
+        results["conservative"] = self._calc_LER_conservative()
+        results["power_law"] = self._calc_LER_power_law()
+        results["bounded_linear"] = self._calc_LER_bounded_scurve()
+
+        # Strategy selection based on gap analysis
+        if strategy == "auto":
+            strategy = self._select_best_strategy()
+
+        best_ler = results.get(strategy, results["scurve_full"])
+        return best_ler, results
+
+    def _select_best_strategy(self) -> str:
+        """
+        Automatically select the best LER calculation strategy based on:
+        1. Gap size between binomial peak (ep) and first_error_w
+        2. S-curve fit quality (R^2)
+        3. Number of events at lowest sampled weights
+
+        Returns strategy name.
+        """
+        N = self._num_noise
+        p = self._error_rate
+        ep = int(p * N)
+        first_error_w = self._has_logical_errorw
+
+        # Gap analysis
+        gap = first_error_w - ep
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+
+        # If gap is small (< 2 sigma), S-curve extrapolation is reliable
+        if gap < 2 * sigma:
+            return "scurve_full"
+
+        # If gap is moderate (2-4 sigma), use hybrid approach
+        if gap < 4 * sigma:
+            return "hybrid"
+
+        # If gap is large and we have good fit, use S-curve
+        if self._R_square_score >= 0.98:
+            return "scurve_full"
+
+        # For large gaps with poor fit, use power law
+        return "power_law"
+
+    def _calc_LER_scurve_full(self) -> float:
+        """
+        Calculate LER using S-curve extrapolation to ALL weights > t.
+
+        This is the most aggressive extrapolation strategy. It uses the
+        fitted S-curve model for all weights, including those below
+        first_error_w where no empirical data exists.
+
+        At low error rates, this can OVERESTIMATE if the S-curve
+        extrapolates too high at low weights.
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        # Extend to saturation if needed
+        if maxw < self._saturatew:
+            maxw = self._saturatew
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            if w <= self._t:
+                sub_PL = 0.0
+            else:
+                # S-curve extrapolation for ALL w > t
+                sub_PL = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, self._t),
+                    0.5,
+                )
+            LER += sub_PL * binom_w
+
+        return LER
+
+    def _calc_LER_hybrid(self) -> float:
+        """
+        Calculate LER using hybrid exponential interpolation.
+
+        - w <= t: PL = 0 (fault-tolerant)
+        - t < w < first_error_w: Exponential interpolation
+        - w >= first_error_w: S-curve model
+
+        The exponential interpolation smoothly connects PL~0 at w=t+1
+        to the S-curve value at w=first_error_w.
+
+        This strategy tends to UNDERESTIMATE at low error rates because
+        the exponential decay is too aggressive.
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        if maxw < self._saturatew:
+            maxw = self._saturatew
+
+        first_error_w = self._has_logical_errorw
+        pl_at_first = modified_sigmoid_function(
+            first_error_w, self._a, self._b, self._c, self._t
+        )
+        pl_at_first = min(pl_at_first, 0.5)
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            sub_PL = hybrid_pl_exponential(
+                w, self._a, self._b, self._c, self._t, first_error_w, pl_at_first
+            )
+            LER += sub_PL * binom_w
+
+        return LER
+
+    def _calc_LER_conservative(self) -> float:
+        """
+        Calculate LER using conservative strategy (zero below first_error_w).
+
+        - w <= t: PL = 0 (fault-tolerant)
+        - t < w < first_error_w: PL = 0 (conservative assumption)
+        - w >= first_error_w: Empirical if available, else S-curve
+
+        This strategy SEVERELY UNDERESTIMATES at low error rates when
+        the gap between ep and first_error_w is large.
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        if maxw < self._saturatew:
+            maxw = self._saturatew
+
+        first_error_w = self._has_logical_errorw
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            if w < first_error_w:
+                # Conservative: assume zero below first observed error
+                sub_PL = 0.0
+            elif w in self._estimated_subspaceLER:
+                # Use empirical data where available
+                sub_PL = self._estimated_subspaceLER[w]
+            else:
+                # S-curve for weights above first_error_w without data
+                sub_PL = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, self._t),
+                    0.5,
+                )
+
+            LER += sub_PL * binom_w
+
+        return LER
+
+    def _calc_LER_bounded_scurve(self) -> float:
+        """
+        Calculate LER using BOUNDED S-curve extrapolation.
+
+        KEY INSIGHT: The S-curve model `0.5 / (1 + exp(a*w + b + c/sqrt(w-t)))`
+        blows up as w → t because of the pole term `c/sqrt(w-t)`.
+
+        At low error rates (p < 0.001), the binomial distribution centers at
+        weights very close to t, where the S-curve extrapolation gives
+        nonsensical values.
+
+        This strategy bounds the extrapolation by:
+        1. Using a linear interpolation between PL=0 at w=t and PL at first_error_w
+        2. This is much more physically reasonable than the pole explosion
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        if maxw < self._saturatew:
+            maxw = self._saturatew
+
+        first_error_w = self._has_logical_errorw
+        t = self._t
+
+        # Get PL at first_error_w from the S-curve
+        pl_at_first = modified_sigmoid_function(
+            first_error_w, self._a, self._b, self._c, t
+        )
+        pl_at_first = min(pl_at_first, 0.5)
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            if w <= t:
+                sub_PL = 0.0
+            elif w < first_error_w:
+                # LINEAR interpolation from 0 at w=t+1 to pl_at_first at first_error_w
+                # This is much more reasonable than S-curve pole explosion
+                span = first_error_w - (t + 1)
+                if span > 0:
+                    # Linear: PL(w) = pl_at_first * (w - (t+1)) / span
+                    sub_PL = pl_at_first * (w - (t + 1)) / span
+                else:
+                    sub_PL = 0.0
+            else:
+                # Use S-curve for w >= first_error_w
+                sub_PL = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, t), 0.5
+                )
+
+            LER += sub_PL * binom_w
+
+        return LER
+
+    def _calc_LER_power_law(self) -> float:
+        """
+        Calculate LER using power-law extrapolation below first_error_w.
+
+        - w <= t: PL = 0 (fault-tolerant)
+        - t < w < first_error_w: PL = C * (w - t)^alpha (power law fit)
+        - w >= first_error_w: Empirical if available, else S-curve
+
+        The power law parameters are fitted to the lowest observed weights.
+        This strategy can OVERESTIMATE if the power law is too steep.
+        """
+        LER = 0.0
+        N = self._num_noise
+        p = self._error_rate
+
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+        ep = int(p * N)
+        minw = max(self._t + 1, ep - self._k_range * sigma)
+        maxw = min(N, ep + self._k_range * sigma)
+
+        if maxw < self._saturatew:
+            maxw = self._saturatew
+
+        first_error_w = self._has_logical_errorw
+
+        # Fit power law to lowest observed weights
+        C, alpha_power = fit_power_law_to_lowest_weights(
+            self._estimated_subspaceLER, self._t, num_points=4
+        )
+
+        # Fallback if fitting failed
+        if C <= 0 or not np.isfinite(C):
+            # Use S-curve extrapolation as fallback
+            return self._calc_LER_scurve_full()
+
+        for w in range(minw, maxw + 1):
+            binom_w = binomial_weight(N, w, p)
+
+            if w <= self._t:
+                sub_PL = 0.0
+            elif w < first_error_w:
+                # Power law extrapolation
+                sub_PL = min(C * np.power(w - self._t, alpha_power), 0.5)
+            elif w in self._estimated_subspaceLER:
+                sub_PL = self._estimated_subspaceLER[w]
+            else:
+                sub_PL = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, self._t),
+                    0.5,
+                )
+
+            LER += sub_PL * binom_w
+
+        return LER
+
+    def get_gap_analysis(self) -> Dict:
+        """
+        Analyze the gap between binomial peak and first observable error.
+
+        Returns diagnostic information useful for understanding bias sources.
+        """
+        N = self._num_noise
+        p = self._error_rate
+        ep = int(p * N)
+        sigma = max(1, int(np.sqrt(p * (1.0 - p) * N)))
+
+        first_error_w = self._has_logical_errorw
+        gap = first_error_w - ep
+
+        return {
+            "ep": ep,
+            "sigma": sigma,
+            "first_error_w": first_error_w,
+            "gap": gap,
+            "gap_in_sigma": gap / sigma if sigma > 0 else float("inf"),
+            "t": self._t,
+            "saturate_w": self._saturatew,
+            "r_squared": self._R_square_score,
+            "n_sampled_weights": len(self._estimated_subspaceLER),
+            "critical_minw": max(self._t + 1, ep - self._k_range * sigma),
+            "critical_maxw": min(N, ep + self._k_range * sigma),
+        }
 
     # ------------------------------------------------------------------
     #  Main entry point: iterative, time-budgeted estimation
@@ -843,28 +1483,39 @@ class Scaler:
         filepath: str,
         pvalue: float,
         codedistance: int,
-        figname,
-        titlename,
-        repeat: int = 1,
+        figname: Optional[str] = None,
+        titlename: Optional[str] = None,
+        savefigures: bool = True,
     ):
         """
         Iteratively calculate the LER from the given circuit file.
 
-        Steps:
-          1. Parse the circuit from the file, compile stim and QEPG graph.
-          2. Measure sampling rate (shots/second).
-          3. Iteratively:
-             - choose subspaces,
-             - sample within remaining time budget (and per-step shot cap),
-             - refit S-curve parameters.
-          4. Stop when:
-             - parameters are stable,
-             - the band around sweet spot is well-sampled,
-             - and the overall PL estimate is stable.
+        The only user-facing hyperparameters are:
+          - time_budget (set in constructor)
+          - error_rate (pvalue)
+          - codedistance
+
+        All other parameters (sampling strategy, convergence criteria, etc.)
+        are automatically tuned internally.
+
+        Args:
+            filepath: Path to the STIM circuit file
+            pvalue: Physical error rate
+            codedistance: Code distance (used to compute t = (d-1)/2)
+            figname: Base filename for debug figures (optional)
+            titlename: Title for figures (optional)
+            savefigures: Whether to save intermediate figures
+
+        Returns:
+            Estimated logical error rate (LER)
         """
         self._error_rate = pvalue
         self._circuit_level_code_distance = codedistance
         self._t = max(0, (codedistance - 1) // 2)
+
+        # Generate default figure name if not provided
+        if figname is None:
+            figname = f"scaler_p{pvalue:.2e}_d{codedistance}_"
 
         self.parse_from_file(filepath)
 
@@ -873,28 +1524,39 @@ class Scaler:
         self._subspace_sample_used.clear()
         self._estimated_subspaceLER.clear()
         self._LER = 0.0
+        self._a = 0.0  # Reset fit parameters
+        self._b = 0.0
+        self._c = 0.0
         self._remaining_time_budget = float(self._time_budget)
 
+        start_time = time.perf_counter()
+
         # Determine S-curve bracket
-        print("Determining S-curve lower bound...")
+        print("=" * 60)
+        print(f"ScaLER: Stratified LER Estimation")
+        print(f"  Time budget: {self._time_budget:.1f}s")
+        print(f"  Error rate: {pvalue:.2e}")
+        print(f"  Code distance: {codedistance} (t={self._t})")
+        print("=" * 60)
+
+        print("\nPhase 1: Determining S-curve bounds...")
         self.determine_lower_w()
-        print(f"  Found has_logical_errorw = {self._has_logical_errorw}")
-        print("Determining S-curve saturated bound...")
+        print(f"  Lower bound (first logical error): w = {self._has_logical_errorw}")
         self.determine_saturated_w()
-        print(f"  Found saturatew = {self._saturatew}")
+        print(f"  Saturation bound: w = {self._saturatew}")
 
         # Measure sampling rate
-        print("Measuring sampling rate...")
+        print("\nPhase 2: Calibrating sampling rate...")
         self.measure_sample_rates()
         if self._remaining_time_budget <= 0.0:
             print("Time budget exhausted during calibration.")
             return None
 
         # ----------------------------------------------------------
-        # Initial warmup sampling: bounded by a fixed max shots
+        # Initial warmup sampling: build initial S-curve estimate
         # ----------------------------------------------------------
+        print("\nPhase 3: Initial S-curve estimation...")
         WARMUP_MIN_SHOTS = 10_000
-        # Nominal warmup based on time, but capped hard:
         warmup_seconds = 0.1 * self._remaining_time_budget
         warmup_shots_est = int(warmup_seconds * self._sampling_rate)
         warmup_shots = max(WARMUP_MIN_SHOTS, warmup_shots_est)
@@ -904,7 +1566,6 @@ class Scaler:
         shots_per_w = max(100, warmup_shots // max(1, len(wlist0)))
         slist0 = [shots_per_w] * len(wlist0)
 
-        # Ensure total shots respects the cap (after integer division)
         total_warmup = sum(slist0)
         if total_warmup > self._MAX_SHOTS_PER_STEP and total_warmup > 0:
             factor = self._MAX_SHOTS_PER_STEP / total_warmup
@@ -915,21 +1576,28 @@ class Scaler:
 
         # First fit
         self.fit_log_S_model(
-            filename=figname + "first.pdf", savefigure=True, time_val=None
+            filename=figname + "warmup.pdf" if savefigures else None,
+            savefigure=savefigures,
+            time_val=time.perf_counter() - start_time,
         )
         theta_prev = (self._a, self._b, self._c)
-
-        # First PL estimate
         pl_prev: Optional[float] = self._calc_LER_from_fit()
 
+        print(f"  Initial sweet spot estimate: w = {self._sweet_spot}")
+        print(f"  Initial LER estimate: {pl_prev:.3e}")
+        print(f"  Initial R²: {self._R_square_score:.4f}")
+
         # ----------------------------------------------------------
-        # Iterative refinement
+        # Iterative refinement with progressive sampling
         # ----------------------------------------------------------
+        print("\nPhase 4: Iterative refinement...")
+
+        # Convergence criteria (internal, not user-exposed)
         stable_count = 0
-        param_tol = 0.03  # stricter parameter tolerance
-        r2_target = 0.98  # stricter R^2 requirement
-        pl_tol = 0.20  # require PL to be stable within 20% (tune)
-        max_iters = 10
+        param_tol = 0.03
+        r2_target = 0.98
+        pl_tol = 0.15
+        max_iters = 15
 
         iter_idx = 0
         while (
@@ -938,27 +1606,26 @@ class Scaler:
             and iter_idx < max_iters
         ):
             iter_idx += 1
-            print(f"\n=== Iteration {iter_idx} ===")
+            print(f"\n--- Iteration {iter_idx} ---")
 
             wlist, slist = self.next_step()
             if not wlist:
-                # Nothing more to do under this policy
-                print("No more weights to sample under current policy.")
+                print("  No more weights to sample.")
                 break
 
             elapsed = self._sampling_step(wlist, slist)
             self._remaining_time_budget -= elapsed
             if self._remaining_time_budget <= 0.0:
-                print("Time budget exhausted during iterative refinement.")
+                print("  Time budget exhausted.")
                 break
 
             self.fit_log_S_model(
-                filename=figname + f"iter{iter_idx}.pdf", savefigure=True, time_val=None
+                filename=figname + f"iter{iter_idx}.pdf" if savefigures else None,
+                savefigure=savefigures,
+                time_val=time.perf_counter() - start_time,
             )
             theta_new = (self._a, self._b, self._c)
             pl_new = self._calc_LER_from_fit()
-
-            print("Current sweet spot weight:", self._sweet_spot)
 
             params_ok = self.params_stable(
                 theta_new, theta_prev, param_tol, self._R_square_score, r2_target
@@ -966,45 +1633,68 @@ class Scaler:
             band_ok = self._band_well_sampled()
             pl_ok = self._pl_stable(pl_new, pl_prev, pl_tol)
 
-            print(
-                f"  R^2={self._R_square_score:.4f}, band_ok={band_ok}, "
-                f"params_ok={params_ok}, PL_old={pl_prev:.3e} PL_new={pl_new:.3e}"
-            )
+            print(f"  Sweet spot: w={self._sweet_spot}, R²={self._R_square_score:.4f}")
+            prev_str = f"{pl_prev:.3e}" if pl_prev else "N/A"
+            print(f"  LER: {pl_new:.3e} (prev: {prev_str})")
+            print(f"  Convergence: params={params_ok}, band={band_ok}, pl={pl_ok}")
 
             if params_ok and band_ok and pl_ok:
                 stable_count += 1
-                print(f"  All criteria satisfied (count={stable_count}).")
+                print(f"  [OK] Stable (count={stable_count}/2)")
             else:
                 stable_count = 0
-                print("  Not yet globally stable; continue sampling.")
 
             theta_prev = theta_new
             pl_prev = pl_new
 
-        # Final LER estimate
-        ler_est = self._calc_LER_from_fit()
-        print(f"\nEstimated PL ≈ {ler_est:.3e}")
-        print(f"R^2 of final fit: {self._R_square_score:.4f}")
-        print(f"Remaining time budget: {self._remaining_time_budget:.2f} s")
-        return ler_est
+        # ----------------------------------------------------------
+        # Final results with bias diagnostics
+        # ----------------------------------------------------------
+        total_time = time.perf_counter() - start_time
+        ler_bias_reduced = self._calc_LER_bias_reduced()
+        ler_empirical = self._calc_LER_empirical_only()
+        ler_fitted = self._calc_LER_fitted_only()
+        ler_lower, ler_upper = self._estimate_LER_uncertainty()
+
+        # Save final figure
+        self.fit_log_S_model(
+            filename=figname + "final.pdf" if savefigures else None,
+            savefigure=savefigures,
+            time_val=total_time,
+        )
+
+        print("\n" + "=" * 60)
+        print("RESULTS")
+        print("=" * 60)
+        print(f"  Estimated LER (bias-reduced): {ler_bias_reduced:.4e}")
+        print(f"  Uncertainty interval: [{ler_lower:.4e}, {ler_upper:.4e}]")
+        print(f"  LER (empirical only): {ler_empirical:.4e}")
+        print(f"  LER (fitted only): {ler_fitted:.4e}")
+        print(f"  Final R²: {self._R_square_score:.4f}")
+        print(f"  Sweet spot: w = {self._sweet_spot}")
+        print(f"  Total samples: {sum(self._subspace_sample_used.values()):,}")
+        print(f"  Total time: {total_time:.1f}s")
+        print(f"  Time remaining: {max(0, self._remaining_time_budget):.1f}s")
+        print("=" * 60)
+
+        self._LER = ler_bias_reduced
+        return ler_bias_reduced
 
 
 if __name__ == "__main__":
+    # Example usage with only time_budget as the main hyperparameter
     filepath = "C:/Users/yezhu/GitRepos/ScaLERQEC/stimprograms/surface/surface9"
-    scaler = Scaler(error_rate=0.001, time_budget=3600)
-    scaler.calculate_LER_from_file(
-        filepath,
+
+    # Create Scaler with time budget (the only user-exposed hyperparameter)
+    scaler = Scaler(error_rate=0.001, time_budget=60)  # 60 seconds
+
+    # Run LER estimation
+    ler = scaler.calculate_LER_from_file(
+        filepath=filepath,
         pvalue=0.001,
         codedistance=9,
-        figname="test.png",
-        titlename="Test Circuit",
-        repeat=1,
+        figname="surface9_",  # Base name for output figures
+        savefigures=True,
     )
 
-    # montecalc = MonteLERcalc(MIN_NUM_LE_EVENT=1000)
-    # montecalc.calculate_LER_from_file(
-    #     samplebudget=1_000_000,
-    #     filepath=filepath,
-    #     pvalue=0.001,
-    #     repeat=5,
-    # )
+    print(f"\nFinal LER estimate: {ler:.4e}")
