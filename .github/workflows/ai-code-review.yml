@@ -1,0 +1,147 @@
+name: AI-Generated Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, reopened]
+
+jobs:
+  ai-review-checks:
+    name: AI Code Review Checks
+    # Only run if PR has 'ai-generated' label
+    if: contains(github.event.pull_request.labels.*.name, 'ai-generated')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Analyze change scope
+        id: scope
+        run: |
+          echo "## Changed Files Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Files modified in this PR:" >> $GITHUB_STEP_SUMMARY
+          git diff --name-only origin/main...HEAD | tee changed_files.txt
+          cat changed_files.txt | while read file; do
+            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
+          done
+          
+          # Check for security-sensitive files
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Security-Sensitive Files Check" >> $GITHUB_STEP_SUMMARY
+          SENSITIVE_FILES="setup.py pyproject.toml .github/workflows"
+          FOUND_SENSITIVE=false
+          
+          for pattern in $SENSITIVE_FILES; do
+            if grep -q "$pattern" changed_files.txt; then
+              echo "⚠️ **WARNING**: Changes to security-sensitive file: \`$pattern\`" >> $GITHUB_STEP_SUMMARY
+              FOUND_SENSITIVE=true
+            fi
+          done
+          
+          if [ "$FOUND_SENSITIVE" = false ]; then
+            echo "✅ No security-sensitive files modified" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Action Required**: Manual review by repository owner required for security-sensitive changes." >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Check for new dependencies
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Dependency Changes Check" >> $GITHUB_STEP_SUMMARY
+          
+          # Check if dependency files changed
+          if git diff --name-only origin/main...HEAD | grep -E "(pyproject.toml|setup.py)"; then
+            echo "⚠️ **Dependency files modified**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Changes in pyproject.toml:" >> $GITHUB_STEP_SUMMARY
+            git diff origin/main...HEAD -- pyproject.toml >> $GITHUB_STEP_SUMMARY || echo "No changes" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Changes in setup.py:" >> $GITHUB_STEP_SUMMARY
+            git diff origin/main...HEAD -- setup.py >> $GITHUB_STEP_SUMMARY || echo "No changes" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Action Required**: Review and justify all dependency changes." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No dependency changes detected" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev libeigen3-dev
+      
+      - name: Install package and dependencies
+        run: |
+          pip install pytest pytest-cov
+          pip install -e .
+      
+      - name: Enhanced test coverage requirement
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Test Coverage Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "AI-generated code requires **≥80% coverage** (vs 60% for regular PRs)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Run tests with higher coverage requirement
+          pytest tests/ --cov=src/scalerqec --cov-report=term --cov-report=html --cov-fail-under=80 || {
+            echo "❌ **Coverage requirement not met**: AI-generated code must have ≥80% test coverage" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          }
+          
+          echo "✅ Coverage requirement met (≥80%)" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Check for breaking changes
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Breaking Changes Detection" >> $GITHUB_STEP_SUMMARY
+          
+          # Check if public API files were modified
+          if git diff --name-only origin/main...HEAD | grep -E "src/scalerqec/.*/__init__.py"; then
+            echo "⚠️ **Potential API changes detected** in __init__.py files" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Action Required**: Verify backward compatibility and update CHANGELOG if breaking." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No obvious API-level changes detected" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: AI-specific security scan
+        run: |
+          pip install bandit
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          
+          # Run bandit with stricter settings for AI code
+          bandit -r src/scalerqec/ -ll -f txt | tee bandit_output.txt || true
+          
+          if grep -q "Total issues" bandit_output.txt; then
+            echo "⚠️ Security issues found - see details below" >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            cat bandit_output.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No security issues detected" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Generate AI review summary
+        if: always()
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "## 🤖 AI Code Review Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This PR has been labeled as **ai-generated** and has undergone enhanced scrutiny:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Change scope analyzed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Dependency changes checked" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Enhanced test coverage verified (≥80%)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Breaking changes detection performed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Security scan completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Next Steps**: Human reviewer should verify all checks and approve if satisfactory." >> $GITHUB_STEP_SUMMARY

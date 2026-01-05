@@ -1,0 +1,323 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches-ignore: [ main ]
+
+jobs:
+  lint-python:
+    name: Python Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install ruff
+        run: pip install ruff
+      
+      - name: Run ruff linting
+        run: ruff check src/scalerqec/ --output-format=github
+        continue-on-error: true
+      
+      - name: Run ruff formatting check
+        run: ruff format --check src/scalerqec/
+
+  lint-cpp:
+    name: C++ Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+      
+      - name: Check C++ formatting
+        run: |
+          find QEPG/src -name "*.cpp" -o -name "*.hpp" | xargs clang-format --dry-run --Werror
+        continue-on-error: true
+
+  build-and-test-linux:
+    name: Build & Test (Linux)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev libeigen3-dev
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+      
+      - name: Build package
+        run: |
+          pip install -e .
+      
+      - name: Verify import
+        run: |
+          python -c "import scalerqec"
+          python -c "import scalerqec.qepg"
+      
+      - name: Run unit tests
+        run: |
+          pytest tests/ --cov=src/scalerqec --cov-report=xml --cov-report=term -v
+      
+      - name: Run additional tests
+        run: |
+          pytest test/ -v
+        continue-on-error: true
+      
+      - name: Upload coverage to Codecov
+        if: matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+        continue-on-error: true
+
+  build-and-test-macos:
+    name: Build & Test (macOS)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install system dependencies
+        run: |
+          brew install boost eigen
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+      
+      - name: Build package
+        run: |
+          pip install -e .
+      
+      - name: Verify import
+        run: |
+          python -c "import scalerqec"
+          python -c "import scalerqec.qepg"
+      
+      - name: Run unit tests
+        run: |
+          pytest tests/ -v
+
+  build-and-test-windows:
+    name: Build & Test (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 'c8696863d371ab7f46e213d8f5ca923c4aef2a00'
+      
+      - name: Install system dependencies
+        run: |
+          vcpkg install boost-dynamic-bitset:x64-windows eigen3:x64-windows
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+      
+      - name: Build package
+        run: |
+          pip install -e .
+        continue-on-error: true
+      
+      - name: Verify import
+        run: |
+          python -c "import scalerqec"
+        continue-on-error: true
+
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install security tools
+        run: |
+          pip install bandit safety
+      
+      - name: Run bandit security linter
+        run: |
+          bandit -r src/scalerqec/ -ll -f json -o bandit-report.json
+        continue-on-error: true
+      
+      - name: Display bandit results
+        if: always()
+        run: |
+          if [ -f bandit-report.json ]; then
+            cat bandit-report.json
+          fi
+        continue-on-error: true
+      
+      - name: Install package for dependency check
+        run: |
+          sudo apt-get update && sudo apt-get install -y libboost-all-dev libeigen3-dev
+          pip install -e .
+        continue-on-error: true
+      
+      - name: Check for known vulnerabilities
+        run: |
+          safety check --json
+        continue-on-error: true
+
+  test-coverage-check:
+    name: Test Coverage Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev libeigen3-dev
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+      
+      - name: Build package
+        run: |
+          pip install -e .
+      
+      - name: Run tests with coverage
+        run: |
+          pytest tests/ --cov=src/scalerqec --cov-report=term --cov-report=html --cov-fail-under=60
+      
+      - name: Upload coverage HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: htmlcov/
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-all-dev libeigen3-dev
+      
+      - name: Install package
+        run: |
+          pip install -e .
+      
+      - name: Test basic QEC circuit construction
+        run: |
+          python -c "
+          from scalerqec.QEC.qeccircuit import StabCode
+          from scalerqec.QEC.noisemodel import NoiseModel
+          
+          # Test repetition code example from README
+          qeccirc = StabCode(n=3, k=1, d=3)
+          qeccirc.add_stab('ZZI')
+          qeccirc.add_stab('IZZ')
+          qeccirc.set_logical_Z(0, 'ZZZ')
+          
+          noise_model = NoiseModel(0.001)
+          qeccirc.scheme = 'Standard'
+          qeccirc.rounds = 2
+          qeccirc.construct_circuit()
+          
+          print('✓ QEC circuit construction successful')
+          "
+      
+      - name: Test QEPG compilation
+        run: |
+          python -c "
+          import scalerqec.qepg as qepg
+          from scalerqec.QEC.qeccircuit import StabCode
+          from scalerqec.QEC.noisemodel import NoiseModel
+          
+          # Create simple circuit
+          qeccirc = StabCode(n=3, k=1, d=3)
+          qeccirc.add_stab('ZZI')
+          qeccirc.add_stab('IZZ')
+          qeccirc.set_logical_Z(0, 'ZZZ')
+          qeccirc.scheme = 'Standard'
+          qeccirc.rounds = 1
+          qeccirc.construct_circuit()
+          
+          # Compile to QEPG
+          stim_circuit = qeccirc.to_stim()
+          graph = qepg.compile_QEPG(stim_circuit)
+          
+          print('✓ QEPG compilation successful')
+          "
+      
+      - name: Test imports of all main modules
+        run: |
+          python -c "
+          import scalerqec
+          import scalerqec.qepg
+          from scalerqec.Clifford import clifford
+          from scalerqec.Monte.monteLER import MonteLERcalc
+          from scalerqec.QEC.qeccircuit import StabCode
+          from scalerqec.QEC.noisemodel import NoiseModel
+          from scalerqec.Stratified.Scaler import StratifiedScurveLERcalc
+          from scalerqec.Symbolic.symbolicLER import SymbolicLERcalc
+          
+          print('✓ All module imports successful')
+          "
