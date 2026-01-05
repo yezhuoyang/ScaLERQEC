@@ -1,8 +1,6 @@
-#This is the file define the semantic of logical circuits
-#This is useful for Magic state distillation which works on logical level
+# This is the file define the semantic of logical circuits
+# This is useful for Magic state distillation which works on logical level
 import re
-from qeccircuit import StabCode
-
 
 
 """
@@ -35,7 +33,6 @@ c2 = LogicMeasure q2[1]
 """
 
 
-
 """
 A compiler translate LogicQ to a slightly lower-level IR which is more specific how to implement logical operations on specific QEC codes.
 
@@ -54,12 +51,6 @@ c2 = Prop LogicZ q2[1]          # Propagate logical Z operator to classical bit 
 
 
 """
-
-
-
-
-
-
 
 
 """
@@ -115,23 +106,21 @@ class CodeBlock:
     The QEC code block to hold logical qubits
     TODO: The type should be StabCode
     """
-    def __init__(self, type:str,name: str, n: int, k: int, d: int):
-        self._name = name  # Name of the code block
-        self._n = n      # Number of physical qubits
-        self._k = k      # Number of logical qubits
-        self._d = d      # Code distance
-        self._type = type  # Type of the code, e.g., 'surface', 'color', 'LDPC'
 
+    def __init__(self, type: str, name: str, n: int, k: int, d: int):
+        self._name = name  # Name of the code block
+        self._n = n  # Number of physical qubits
+        self._k = k  # Number of logical qubits
+        self._d = d  # Code distance
+        self._type = type  # Type of the code, e.g., 'surface', 'color', 'LDPC'
 
     def __repr__(self):
         return f"{self._name}[{self._n},{self._k},{self._d}]"
 
 
-
 class LogicalGate:
     def __init__(self, type: str):
         self._type = type  # Type of the logical gate, e.g., 'CNOT', 'H', 'T'
-
 
     @property
     def type(self):
@@ -143,7 +132,7 @@ class LogicalGate:
 
 class LogicalH(LogicalGate):
     def __init__(self, block: CodeBlock, index: int):
-        super().__init__('H')
+        super().__init__("H")
         self._block = block
         self._index = index
 
@@ -152,8 +141,14 @@ class LogicalH(LogicalGate):
 
 
 class LogicalCNOT(LogicalGate):
-    def __init__(self, control_block: CodeBlock, control_index: int, target_block: CodeBlock, target_index: int):
-        super().__init__('CNOT')
+    def __init__(
+        self,
+        control_block: CodeBlock,
+        control_index: int,
+        target_block: CodeBlock,
+        target_index: int,
+    ):
+        super().__init__("CNOT")
         self._control_block = control_block
         self._target_block = target_block
         self._control_index = control_index
@@ -165,7 +160,7 @@ class LogicalCNOT(LogicalGate):
 
 class LogicalT(LogicalGate):
     def __init__(self, block: CodeBlock, index: int):
-        super().__init__('T')
+        super().__init__("T")
         self._block = block
         self._index = index
 
@@ -173,10 +168,9 @@ class LogicalT(LogicalGate):
         return f"LogicalT {self._block._name}[{self._index}]"
 
 
-
 class InjectT(LogicalGate):
     def __init__(self, dest_block: CodeBlock, dest_index: int, magic_T_handle: str):
-        super().__init__('InjectT')
+        super().__init__("InjectT")
         self._dest_block = dest_block
         self._dest_index = dest_index
         self._magic_T_handle = magic_T_handle
@@ -185,27 +179,26 @@ class InjectT(LogicalGate):
         return f"InjectT {self._dest_block._name}[{self._dest_index}], {self._magic_T_handle}"
 
 
-
-class LogicalMeasure(LogicalGate):    
+class LogicalMeasure(LogicalGate):
     """
     Measure Logical Z
     TODO: Support more general logical measurement, such as MXX, MZX, etc.
     """
+
     def __init__(self, block: CodeBlock, cindex: int, index: int):
-        super().__init__('Measure')
+        super().__init__("Measure")
         self._block = block
         self._cindex = cindex
         self._index = index
 
-
     @property
     def index(self):
         return self._index
-    
+
     @property
     def block(self):
         return self._block
-    
+
     @property
     def cindex(self):
         return self._cindex
@@ -214,13 +207,11 @@ class LogicalMeasure(LogicalGate):
         return f"c[{self._cindex}] = LogicalMeasure {self._block._name}[{self._index}]"
 
 
-
 class LogicalReset(LogicalGate):
     def __init__(self, block: CodeBlock, index: int):
-        super().__init__('Reset')
+        super().__init__("Reset")
         self._block = block
         self._index = index
-
 
     @property
     def index(self):
@@ -230,17 +221,16 @@ class LogicalReset(LogicalGate):
     def block(self):
         return self._block
 
-
     def __repr__(self):
         return f"LogicalReset {self._block._name}[{self._index}]"
-
 
 
 class LogicalCircuit:
     """
     Class of Logical circuit
-    User 
+    User
     """
+
     def __init__(self):
         self.gates = []  # List to hold logical gates in the circuit
         self._blocks = []  # List to hold code blocks in the circuit
@@ -257,32 +247,40 @@ class LogicalCircuit:
 
     def add_block(self, block: CodeBlock) -> None:
         self._blocks.append(block)
-        
+
     def add_gate(self, gate: LogicalGate) -> None:
         """
         Check if the gate is compatible with the code blocks
         """
-        match gate.type:
-            case 'H' | 'T' | 'Measure' | 'Reset':
-                # Single-qubit gates
-                if gate._index >= gate._block._k:
-                    raise ValueError(f"Index {gate._index} out of range for block {gate._block._name} with {gate._block._k} logical qubits.")
-                self.gates.append(gate)
-            case 'CNOT':
-                # Two-qubit gates
-                if gate._control_index >= gate._control_block._k:
-                    raise ValueError(f"Control index {gate._control_index} out of range for block {gate._control_block._name} with {gate._control_block._k} logical qubits.")
-                if gate._target_index >= gate._target_block._k:
-                    raise ValueError(f"Target index {gate._target_index} out of range for block {gate._target_block._name} with {gate._target_block._k} logical qubits.")
-                self.gates.append(gate)
-            case 'InjectT':
-                if gate._dest_index >= gate._dest_block._k:
-                    raise ValueError(f"Index {gate._dest_index} out of range for block {gate._dest_block._name} with {gate._dest_block._k} logical qubits.")
-                if gate._MGT_handle not in self._MGT_handles:
-                    raise ValueError(f"Magic T handle {gate._MGT_handle} not recognized.")
-                self.gates.append(gate)
-            case _:
-                raise ValueError(f"Unsupported gate type: {gate.type}")
+        gate_type = gate.type
+        if gate_type in ("H", "T", "Measure", "Reset"):
+            # Single-qubit gates
+            if gate._index >= gate._block._k:
+                raise ValueError(
+                    f"Index {gate._index} out of range for block {gate._block._name} with {gate._block._k} logical qubits."
+                )
+            self.gates.append(gate)
+        elif gate_type == "CNOT":
+            # Two-qubit gates
+            if gate._control_index >= gate._control_block._k:
+                raise ValueError(
+                    f"Control index {gate._control_index} out of range for block {gate._control_block._name} with {gate._control_block._k} logical qubits."
+                )
+            if gate._target_index >= gate._target_block._k:
+                raise ValueError(
+                    f"Target index {gate._target_index} out of range for block {gate._target_block._name} with {gate._target_block._k} logical qubits."
+                )
+            self.gates.append(gate)
+        elif gate_type == "InjectT":
+            if gate._dest_index >= gate._dest_block._k:
+                raise ValueError(
+                    f"Index {gate._dest_index} out of range for block {gate._dest_block._name} with {gate._dest_block._k} logical qubits."
+                )
+            if gate._MGT_handle not in self._MGT_handles:
+                raise ValueError(f"Magic T handle {gate._MGT_handle} not recognized.")
+            self.gates.append(gate)
+        else:
+            raise ValueError(f"Unsupported gate type: {gate_type}")
 
     def __repr__(self):
         output = ""
@@ -291,15 +289,13 @@ class LogicalCircuit:
         return output
 
 
-
-
 class LogicalParser:
     """
     Parser for logical circuits
     Parse input string into LogicalCircuit object and vice versa
     Example:
 
-    
+
     Type surface
 
     surface q1 [n1,k1,d1]
@@ -314,32 +310,29 @@ class LogicalParser:
     c[1] = LogicalMeasure q2[1]
     """
 
-
     # Patterns defined at class level to avoid AttributeError
     _index_re = re.compile(r"(\w+)\[(\d+)\]")
     _triplet_re = re.compile(r"\[(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\]")
     _param_re = re.compile(r"\[(\w+)\s*=\s*(\d+)\]")  # For [d=25]
-
 
     def __init__(self):
         self._qec_types = []
         self._qec_type_names = []
         self._blocksmap = {}
 
-
     def _parse_indexed(self, text: str) -> tuple[str, int]:
-            """Helper to extract name and index from string like 'q1[0]'"""
-            match = self._index_re.search(text)
-            if not match:
-                raise ValueError(f"Could not parse indexed reference: {text}")
-            return match.group(1), int(match.group(2))
+        """Helper to extract name and index from string like 'q1[0]'"""
+        match = self._index_re.search(text)
+        if not match:
+            raise ValueError(f"Could not parse indexed reference: {text}")
+        return match.group(1), int(match.group(2))
 
     def parse(self, logical_circ_string: str) -> LogicalCircuit:
         circuit = LogicalCircuit()
         # Remove comments and empty lines
         lines = []
         for raw_line in logical_circ_string.strip().split("\n"):
-            clean_line = raw_line.split('#')[0].strip()
+            clean_line = raw_line.split("#")[0].strip()
             if clean_line:
                 lines.append(clean_line)
 
@@ -365,7 +358,9 @@ class LogicalParser:
 
         # Pass 3: Gates and Assignments
         for line in lines:
-            parts = line.replace(',', ' ').split() # Replace comma with space for easy splitting
+            parts = line.replace(
+                ",", " "
+            ).split()  # Replace comma with space for easy splitting
             if parts[0] in circuit._qec_type_names or parts[0] == "Type":
                 continue
 
@@ -374,18 +369,22 @@ class LogicalParser:
                 lhs, rhs_full = line.split("=", 1)
                 lhs_parts = lhs.strip().split()
                 rhs_parts = rhs_full.strip().split()
-                
+
                 # Check for classical assignment
                 if lhs_parts[0].startswith("c["):
                     c_name, c_idx = self._parse_indexed(lhs_parts[0])
                     gate_op = rhs_parts[0]
-                    
+
                     if gate_op == "LogicalMeasure":
                         b_name, b_idx = self._parse_indexed(rhs_parts[1])
-                        circuit.add_gate(LogicalMeasure(self._blocksmap[b_name], c_idx, b_idx))
-                    
+                        circuit.add_gate(
+                            LogicalMeasure(self._blocksmap[b_name], c_idx, b_idx)
+                        )
+
                     else:
-                        raise ValueError(f"Unsupported gate operation in assignment: {gate_op}")
+                        raise ValueError(
+                            f"Unsupported gate operation in assignment: {gate_op}"
+                        )
 
             # Case 2: In-place Gates (e.g., InjectT q1[0], t0)
             else:
@@ -393,28 +392,30 @@ class LogicalParser:
                 if gate_type == "LogicalH":
                     name, idx = self._parse_indexed(parts[1])
                     circuit.add_gate(LogicalH(self._blocksmap[name], idx))
-                
+
                 elif gate_type == "LogicalCNOT":
                     ctrl_name, ctrl_idx = self._parse_indexed(parts[1])
                     tgt_name, tgt_idx = self._parse_indexed(parts[2])
-                    circuit.add_gate(LogicalCNOT(
-                        self._blocksmap[ctrl_name], ctrl_idx, 
-                        self._blocksmap[tgt_name], tgt_idx
-                    ))
-                
+                    circuit.add_gate(
+                        LogicalCNOT(
+                            self._blocksmap[ctrl_name],
+                            ctrl_idx,
+                            self._blocksmap[tgt_name],
+                            tgt_idx,
+                        )
+                    )
+
                 elif gate_type == "InjectT":
                     dest_name, dest_idx = self._parse_indexed(parts[1])
                     handle = parts[2]
-                    circuit.add_gate(InjectT(self._blocksmap[dest_name], dest_idx, handle))
+                    circuit.add_gate(
+                        InjectT(self._blocksmap[dest_name], dest_idx, handle)
+                    )
 
         return circuit
 
 
-
-
-
 if __name__ == "__main__":
-
     parser = LogicalParser()
 
     logical_circ_str = """

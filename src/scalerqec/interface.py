@@ -31,9 +31,9 @@ from pathlib import Path
 def parse_line(line: str):
     """Return (state_row, observable_row) or None for blank lines."""
     bits = line.strip()
-    if not bits:                           # skip empty / whitespace-only lines
+    if not bits:  # skip empty / whitespace-only lines
         return None
-    *state_chars, obs_char = bits          # unpack: last char is observable
+    *state_chars, obs_char = bits  # unpack: last char is observable
     state_row = [c == "1" for c in state_chars]
     observable_row = [obs_char == "1"]
     return state_row, observable_row

@@ -2,12 +2,11 @@
 Useful analyzers for quantum error correction codes.
 Specifically, we provide analyzers for code distance and logical operators.
 """
+
 from scalerqec.QEC import StabCode
 from scalerqec.util import commute, multiply_pauli_strings
 from typing import Literal
 from typing import List, Dict
-
-
 
 
 class StabilizerAnalyzer:
@@ -18,19 +17,15 @@ class StabilizerAnalyzer:
     def __init__(self, code: StabCode):
         self.code = code
 
-
     def verify_commutation(self) -> bool:
         """
         Verify if all stabilizers commute with each other.
         """
         for i, stab1 in enumerate(self.code.stabilizers):
-            for stab2 in self.code.stabilizers[i + 1:]:
+            for stab2 in self.code.stabilizers[i + 1 :]:
                 if not commute(stab1, stab2):
                     return False
         return True
-
-
-
 
 
 class DistanceAnalyzer:
@@ -44,10 +39,14 @@ class DistanceAnalyzer:
 
     supported_methods = {"bruteforce", "smt"}
 
-    def __init__(self, code: StabCode, method: Literal["bruteforce", "smt"] = "bruteforce"):
+    def __init__(
+        self, code: StabCode, method: Literal["bruteforce", "smt"] = "bruteforce"
+    ):
         self.code = code
         if method not in self.supported_methods:
-            raise ValueError(f"Unsupported method '{method}'. Supported methods are: {self.supported_methods}")
+            raise ValueError(
+                f"Unsupported method '{method}'. Supported methods are: {self.supported_methods}"
+            )
         self.method = method
 
     def compute_distance_bruteforce(self) -> int:
@@ -74,7 +73,6 @@ class DistanceAnalyzer:
             computed_distance = self.compute_distance_smt
 
         return computed_distance == self.code.d
-    
 
     def verify_circuit_level_code_distance(self, circuit) -> bool:
         """
@@ -83,7 +81,6 @@ class DistanceAnalyzer:
         # Placeholder implementation
         # In a real implementation, analyze the circuit to determine its distance
         return True
-    
 
 
 # class LogicalOperatorAnalyzer:
@@ -107,7 +104,6 @@ class DistanceAnalyzer:
 #         """
 #         # Placeholder implementation
 #         return True
-
 
 
 #     def is_logical_operator(self, opstring: str) -> bool:
@@ -134,7 +130,7 @@ class DistanceAnalyzer:
 #         """
 #         # Placeholder implementation
 #         return "X" * self.code.n
-    
+
 
 #     def determine_logical_H(self, k: int) -> str:
 #         """
@@ -148,7 +144,7 @@ class DistanceAnalyzer:
 #         """
 #         # Placeholder implementation
 #         return "H" * self.code.n
-    
+
 
 #     def determine_logical_S(self, k: int) -> str:
 #         """
@@ -162,7 +158,6 @@ class DistanceAnalyzer:
 #         """
 #         # Placeholder implementation
 #         return "S" * self.code.n
-    
 
 
 #     def determine_logical_CNOT(self, control_k: int, target_k: int) -> str:
@@ -179,7 +174,6 @@ class DistanceAnalyzer:
 #         # Placeholder implementation
 #         assert control_k != target_k, "Control and target logical qubits must be different."
 #         return "CNOT" * self.code.n
-
 
 
 class LogicalOperatorAnalyzer:
@@ -223,9 +217,7 @@ class LogicalOperatorAnalyzer:
         Bits n..(2n-1)  : Z components
         """
         if len(op) != self._n:
-            raise ValueError(
-                f"Pauli string length {len(op)} != code length {self._n}"
-            )
+            raise ValueError(f"Pauli string length {len(op)} != code length {self._n}")
 
         x_bits = 0
         z_bits = 0
@@ -234,12 +226,12 @@ class LogicalOperatorAnalyzer:
             if ch == "I":
                 continue
             elif ch == "X":
-                x_bits |= (1 << i)
+                x_bits |= 1 << i
             elif ch == "Z":
-                z_bits |= (1 << i)
+                z_bits |= 1 << i
             elif ch == "Y":
-                x_bits |= (1 << i)
-                z_bits |= (1 << i)
+                x_bits |= 1 << i
+                z_bits |= 1 << i
             else:
                 raise ValueError(f"Invalid Pauli character {ch!r} in {op!r}")
 
@@ -391,7 +383,7 @@ class LogicalOperatorAnalyzer:
         return True
 
     def _candidate_X_ok(self, candidate: str, k: int) -> bool:
-        """
+        r"""
         Check if `candidate` is a valid logical X for qubit k, given whatever
         logical Z operators are currently registered in the code.
 
@@ -490,7 +482,9 @@ class LogicalOperatorAnalyzer:
         Naive placeholder: just return 'CNOT' * n. Not actually used in your
         current compiler path.
         """
-        assert control_k != target_k, "Control and target logical qubits must be different."
+        assert control_k != target_k, (
+            "Control and target logical qubits must be different."
+        )
         if control_k < 0 or control_k >= self.code.k:
             raise ValueError(f"control_k {control_k} out of range (k={self.code.k}).")
         if target_k < 0 or target_k >= self.code.k:
@@ -507,15 +501,23 @@ def verify_small_code_logical_operators():
     codes = [fivequbitCode("Standard"), steaneCode("Standard"), ShorCode("Standard")]
     for code in codes:
         analyzer = LogicalOperatorAnalyzer(code)
-        assert analyzer.verify_logical_Z(), f"Logical Z verification failed for {code.__class__.__name__}"
+        assert analyzer.verify_logical_Z(), (
+            f"Logical Z verification failed for {code.__class__.__name__}"
+        )
         for k in range(code.k):
             logical_X = analyzer.determine_logical_X(k)
-            assert analyzer.is_logical_operator(logical_X), f"Logical X verification failed for {code.__class__.__name__}, qubit {k}"
+            assert analyzer.is_logical_operator(logical_X), (
+                f"Logical X verification failed for {code.__class__.__name__}, qubit {k}"
+            )
 
-        #Verify code distance as well
+        # Verify code distance as well
         distance_analyzer = DistanceAnalyzer(code, method="bruteforce")
-        assert distance_analyzer.verify_code_distance(), f"Code distance verification failed for {code.__class__.__name__}"
-        print(f"{code.__class__.__name__} passed logical operator and distance verification.")
+        assert distance_analyzer.verify_code_distance(), (
+            f"Code distance verification failed for {code.__class__.__name__}"
+        )
+        print(
+            f"{code.__class__.__name__} passed logical operator and distance verification."
+        )
 
 
 def verify_surface_code_logical_operators():
@@ -528,17 +530,20 @@ def verify_surface_code_logical_operators():
     for size in sizes:
         code = generate_surface_code(size, size)
         analyzer = LogicalOperatorAnalyzer(code)
-        assert analyzer.verify_logical_Z(), f"Logical Z verification failed for Surface code size {size}x{size}"
+        assert analyzer.verify_logical_Z(), (
+            f"Logical Z verification failed for Surface code size {size}x{size}"
+        )
         for k in range(code.k):
             logical_X = analyzer.determine_logical_X(k)
-            assert analyzer.is_logical_operator(logical_X), f"Logical X verification failed for Surface code size {size}x{size}, qubit {k}"
+            assert analyzer.is_logical_operator(logical_X), (
+                f"Logical X verification failed for Surface code size {size}x{size}, qubit {k}"
+            )
 
-        #Verify code distance as well
+        # Verify code distance as well
         distance_analyzer = DistanceAnalyzer(code, method="smt")
-        assert distance_analyzer.verify_code_distance(), f"Code distance verification failed for Surface code size {size}x{size}"
-
-
-
+        assert distance_analyzer.verify_code_distance(), (
+            f"Code distance verification failed for Surface code size {size}x{size}"
+        )
 
 
 def check_stabilizer_for_small_code():
@@ -550,7 +555,9 @@ def check_stabilizer_for_small_code():
     codes = [fivequbitCode("Standard"), steaneCode("Standard"), ShorCode("Standard")]
     for code in codes:
         analyzer = StabilizerAnalyzer(code)
-        assert analyzer.verify_commutation(), f"Stabilizer commutation failed for {code.__class__.__name__}"
+        assert analyzer.verify_commutation(), (
+            f"Stabilizer commutation failed for {code.__class__.__name__}"
+        )
 
     print("All small codes passed stabilizer commutation check.")
 
@@ -570,7 +577,6 @@ def find_logical_X_for_small_code():
             print(f"  Logical X for qubit {k}: {logical_X}")
 
 
-
 def find_logical_H_for_small_code():
     """
     Find and print logical H operators for small codes: five-qubit code, Steane code, and Shor code.
@@ -586,7 +592,6 @@ def find_logical_H_for_small_code():
             print(f"  Logical H for qubit {k}: {logical_H}")
 
 
-
 def find_logical_S_for_small_code():
     """
     Find and print logical S operators for small codes: five-qubit code, Steane code, and Shor code.
@@ -600,7 +605,6 @@ def find_logical_S_for_small_code():
         for k in range(code.k):
             logical_S = analyzer.determine_logical_S(k)
             print(f"  Logical S for qubit {k}: {logical_S}")
-
 
 
 if __name__ == "__main__":

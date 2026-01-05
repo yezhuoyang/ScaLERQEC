@@ -28,8 +28,7 @@ def commute(stab1: str, stab2: str) -> bool:
     """
     assert len(stab1) == len(stab2), "Pauli strings must be of the same length."
     anti_commute_count = sum(
-        1 for a, b in zip(stab1, stab2)
-        if a != 'I' and b != 'I' and a != b
+        1 for a, b in zip(stab1, stab2) if a != "I" and b != "I" and a != b
     )
     return anti_commute_count % 2 == 0
 

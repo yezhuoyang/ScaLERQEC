@@ -1,19 +1,8 @@
-import stim
-
-
-
-
-
-
 class stimparser:
-
-
     def __init__(self):
         pass
 
-    
-
-    def rewrite_stim_code(self,code: str) -> str:
+    def rewrite_stim_code(self, code: str) -> str:
         """
         Rewrites a Stim program so that each line contains at most one gate or measurement.
         Lines starting with TICK, R, DETECTOR(, and OBSERVABLE_INCLUDE( are kept as-is.
@@ -29,20 +18,22 @@ class stimparser:
                 continue
 
             # Keep lines that we do NOT want to split
-            if (stripped_line.startswith("TICK") or
-                stripped_line.startswith("DETECTOR(") or
-                stripped_line.startswith("QUBIT_COORDS(") or     
-                stripped_line.startswith("OBSERVABLE_INCLUDE(")):
+            if (
+                stripped_line.startswith("TICK")
+                or stripped_line.startswith("DETECTOR(")
+                or stripped_line.startswith("QUBIT_COORDS(")
+                or stripped_line.startswith("OBSERVABLE_INCLUDE(")
+            ):
                 output_lines.append(stripped_line)
                 continue
-            
-            if (stripped_line.startswith("X_ERROR") or
-                stripped_line.startswith("DEPOLARIZE1") or
-                stripped_line.startswith("DEPOLARIZE2") or
-                stripped_line.startswith("SHIFT_COORDS")            
-                ):
+
+            if (
+                stripped_line.startswith("X_ERROR")
+                or stripped_line.startswith("DEPOLARIZE1")
+                or stripped_line.startswith("DEPOLARIZE2")
+                or stripped_line.startswith("SHIFT_COORDS")
+            ):
                 continue
-                
 
             tokens = stripped_line.split()
             gate = tokens[0]
@@ -61,7 +52,6 @@ class stimparser:
                 for q in qubits:
                     output_lines.append(f"M {q}")
 
-
             elif gate == "MX":
                 qubits = tokens[1:]
                 for q in qubits:
@@ -74,10 +64,8 @@ class stimparser:
                     output_lines.append(f"S {q}")
                     output_lines.append(f"S {q}")
                     output_lines.append(f"S {q}")
-                    output_lines.append(f"H {q}")                
+                    output_lines.append(f"H {q}")
                     output_lines.append(f"M {q}")
-
-
 
             elif gate == "H":
                 qubits = tokens[1:]
@@ -87,7 +75,7 @@ class stimparser:
             elif gate == "S":
                 qubits = tokens[1:]
                 for q in qubits:
-                    output_lines.append(f"S {q}")            
+                    output_lines.append(f"S {q}")
 
             # Handle multi-qubit measure+reset "MR 1 3 5 ..." => each on its own line
             elif gate == "MR":
@@ -100,13 +88,12 @@ class stimparser:
                 qubits = tokens[1:]
                 for q in qubits:
                     output_lines.append(f"R {q}")
-            
+
             elif gate == "RX":
                 qubits = tokens[1:]
                 for q in qubits:
                     output_lines.append(f"R {q}")
-                    output_lines.append(f"H {q}")                
-
+                    output_lines.append(f"H {q}")
 
             else:
                 # If there's some other gate we don't specifically handle,
@@ -114,9 +101,6 @@ class stimparser:
                 output_lines.append(stripped_line)
 
         return "\n".join(output_lines)
-
-
-
 
 
 def rewrite_stim_code(code: str) -> str:
@@ -135,20 +119,22 @@ def rewrite_stim_code(code: str) -> str:
             continue
 
         # Keep lines that we do NOT want to split
-        if (stripped_line.startswith("TICK") or
-            stripped_line.startswith("DETECTOR(") or
-            stripped_line.startswith("QUBIT_COORDS(") or     
-            stripped_line.startswith("OBSERVABLE_INCLUDE(")):
+        if (
+            stripped_line.startswith("TICK")
+            or stripped_line.startswith("DETECTOR(")
+            or stripped_line.startswith("QUBIT_COORDS(")
+            or stripped_line.startswith("OBSERVABLE_INCLUDE(")
+        ):
             output_lines.append(stripped_line)
             continue
-        
-        if (stripped_line.startswith("X_ERROR") or
-            stripped_line.startswith("DEPOLARIZE1") or
-            stripped_line.startswith("DEPOLARIZE2") or
-            stripped_line.startswith("SHIFT_COORDS")            
-            ):
+
+        if (
+            stripped_line.startswith("X_ERROR")
+            or stripped_line.startswith("DEPOLARIZE1")
+            or stripped_line.startswith("DEPOLARIZE2")
+            or stripped_line.startswith("SHIFT_COORDS")
+        ):
             continue
-            
 
         tokens = stripped_line.split()
         gate = tokens[0]
@@ -167,7 +153,6 @@ def rewrite_stim_code(code: str) -> str:
             for q in qubits:
                 output_lines.append(f"M {q}")
 
-
         elif gate == "MX":
             qubits = tokens[1:]
             for q in qubits:
@@ -180,10 +165,8 @@ def rewrite_stim_code(code: str) -> str:
                 output_lines.append(f"S {q}")
                 output_lines.append(f"S {q}")
                 output_lines.append(f"S {q}")
-                output_lines.append(f"H {q}")                
+                output_lines.append(f"H {q}")
                 output_lines.append(f"M {q}")
-
-
 
         elif gate == "H":
             qubits = tokens[1:]
@@ -193,7 +176,7 @@ def rewrite_stim_code(code: str) -> str:
         elif gate == "S":
             qubits = tokens[1:]
             for q in qubits:
-                output_lines.append(f"S {q}")            
+                output_lines.append(f"S {q}")
 
         # Handle multi-qubit measure+reset "MR 1 3 5 ..." => each on its own line
         elif gate == "MR":
@@ -206,13 +189,12 @@ def rewrite_stim_code(code: str) -> str:
             qubits = tokens[1:]
             for q in qubits:
                 output_lines.append(f"R {q}")
-        
+
         elif gate == "RX":
             qubits = tokens[1:]
             for q in qubits:
                 output_lines.append(f"R {q}")
-                output_lines.append(f"H {q}")                
-
+                output_lines.append(f"H {q}")
 
         else:
             # If there's some other gate we don't specifically handle,

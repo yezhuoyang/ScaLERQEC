@@ -4,5 +4,5 @@ from .symbolicLER import SymbolicLERcalc
 
 
 __all__ = [
-    "symbolicLER"
+    "SymbolicLERcalc",
 ]

@@ -18,7 +18,7 @@ description = "ScaLER: Scalable testing of logical error rate for quantum error 
 authors = [
     {name = "John Ye", email = "yezhuoyang@cs.ucla.edu"}
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 readme = "README.md"
 
 
@@ -30,6 +30,7 @@ dependencies = [
     "matplotlib",
     "numpy",
     "scipy",
+    "sympy",
     "tqdm"
 ]
 
