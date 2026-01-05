@@ -1,0 +1,30 @@
+# CODEOWNERS file for ScaLERQEC
+# This file defines individuals or teams responsible for code review in specific areas
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owner - all files require review from repository owner by default
+* @yezhuoyang
+
+# C++ backend requires specialized review
+/QEPG/ @yezhuoyang
+/QEPG/src/ @yezhuoyang
+
+# Python package core
+/src/scalerqec/ @yezhuoyang
+
+# Build and configuration files require owner review
+/setup.py @yezhuoyang
+/pyproject.toml @yezhuoyang
+/pytest.ini @yezhuoyang
+
+# GitHub Actions and CI/CD configuration require owner review
+/.github/ @yezhuoyang
+/.github/workflows/ @yezhuoyang
+
+# Documentation
+/docs/ @yezhuoyang
+/README.md @yezhuoyang
+
+# Tests
+/tests/ @yezhuoyang
+/test/ @yezhuoyang
