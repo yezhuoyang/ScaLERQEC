@@ -11,5 +11,6 @@ __all__ = [
     "NoiseModel",
     "fivequbitCode",
     "steaneCode",
-    "ShorCode"
+    "ShorCode",
+    "LogicalOperatorAnalyzer",
 ]

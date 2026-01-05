@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def r_squared(y_true, y_pred, clip=False):
     """
     Compute the coefficient of determination (R²).
@@ -24,8 +25,8 @@ def r_squared(y_true, y_pred, clip=False):
     if y_true.shape != y_pred.shape:
         raise ValueError("y_true and y_pred must have the same shape")
 
-    ss_res = np.sum((y_true - y_pred) ** 2)        # residual sum of squares
-    ss_tot = np.sum((y_true - y_true.mean()) ** 2) # total sum of squares
+    ss_res = np.sum((y_true - y_pred) ** 2)  # residual sum of squares
+    ss_tot = np.sum((y_true - y_true.mean()) ** 2)  # total sum of squares
 
     # Handle the degenerate case where variance is zero
     if ss_tot == 0.0:

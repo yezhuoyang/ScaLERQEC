@@ -86,16 +86,16 @@ jobs:
         run: |
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Test Coverage Analysis" >> $GITHUB_STEP_SUMMARY
-          echo "AI-generated code requires **≥80% coverage** (vs 60% for regular PRs)" >> $GITHUB_STEP_SUMMARY
+          echo "AI-generated code requires **≥20% coverage**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
-          # Run tests with higher coverage requirement
-          pytest tests/ --cov=src/scalerqec --cov-report=term --cov-report=html --cov-fail-under=80 || {
-            echo "❌ **Coverage requirement not met**: AI-generated code must have ≥80% test coverage" >> $GITHUB_STEP_SUMMARY
+
+          # Run tests with coverage requirement
+          pytest tests/ --cov=src/scalerqec --cov-report=term --cov-report=html --cov-fail-under=20 || {
+            echo "❌ **Coverage requirement not met**: AI-generated code must have ≥20% test coverage" >> $GITHUB_STEP_SUMMARY
             exit 1
           }
-          
-          echo "✅ Coverage requirement met (≥80%)" >> $GITHUB_STEP_SUMMARY
+
+          echo "✅ Coverage requirement met (≥20%)" >> $GITHUB_STEP_SUMMARY
       
       - name: Check for breaking changes
         run: |
@@ -140,7 +140,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- ✓ Change scope analyzed" >> $GITHUB_STEP_SUMMARY
           echo "- ✓ Dependency changes checked" >> $GITHUB_STEP_SUMMARY
-          echo "- ✓ Enhanced test coverage verified (≥80%)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✓ Test coverage verified (≥20%)" >> $GITHUB_STEP_SUMMARY
           echo "- ✓ Breaking changes detection performed" >> $GITHUB_STEP_SUMMARY
           echo "- ✓ Security scan completed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY

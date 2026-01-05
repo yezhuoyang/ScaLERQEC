@@ -3,6 +3,4 @@
 from .clifford import CliffordCircuit
 
 
-__all__ = [
-    "CliffordCircuit"
-]
+__all__ = ["CliffordCircuit"]

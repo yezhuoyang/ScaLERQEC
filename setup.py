@@ -47,6 +47,27 @@ else:
     # --- macOS / Linux flags ---
     extra_compile_args = ["-std=c++20", "-O3"]
 
+    # Add OpenMP support
+    if sys.platform == "darwin":
+        # macOS: Use Homebrew's libomp
+        extra_compile_args += ["-Xpreprocessor", "-fopenmp"]
+        extra_link_args = ["-lomp"]
+        # Add libomp include/lib paths from Homebrew
+        libomp_prefix = "/opt/homebrew/opt/libomp"
+        if os.path.isdir(libomp_prefix):
+            include_dirs.append(os.path.join(libomp_prefix, "include"))
+            extra_link_args += [f"-L{libomp_prefix}/lib"]
+        else:
+            # Intel Mac fallback
+            libomp_prefix = "/usr/local/opt/libomp"
+            if os.path.isdir(libomp_prefix):
+                include_dirs.append(os.path.join(libomp_prefix, "include"))
+                extra_link_args += [f"-L{libomp_prefix}/lib"]
+    else:
+        # Linux: Standard OpenMP
+        extra_compile_args += ["-fopenmp"]
+        extra_link_args = ["-fopenmp"]
+
     # 1) Try to find Boost (for boost/dynamic_bitset.hpp)
     boost_roots = [
         os.environ.get("BOOST_ROOT"),

@@ -1,22 +1,30 @@
 # An updated version of the main method
-import numpy as np
 import time
-import math
-from typing import List, Tuple, Optional, Dict
+from typing import Dict, List, Optional, Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pymatching
 from scipy.optimize import curve_fit
-from scalerqec.Stratified.stratifiedScurveLER import format_with_uncertainty
+
+from scalerqec.Clifford.clifford import CliffordCircuit
 from scalerqec.qepg import (
     compile_QEPG,
     return_samples_many_weights_separate_obs_with_QEPG,
     return_samples_with_fixed_QEPG,
 )
-import pymatching
-from scalerqec.Clifford.clifford import *
-from scalerqec.Stratified.ScurveModel import *
 from scalerqec.Stratified.fitting import r_squared
+from scalerqec.Stratified.ScurveModel import (
+    bias_estimator,
+    evenly_spaced_ints,
+    modified_linear_function,
+    modified_linear_function_with_d,
+    modified_sigmoid_function,
+    refined_sweet_spot,
+    sigma_estimator,
+)
 from scalerqec.util.binomial import binomial_weight
-from scalerqec.Monte.monteLER import MonteLERcalc
-import matplotlib.pyplot as plt
+
 
 class Scaler:
     """
@@ -64,7 +72,7 @@ class Scaler:
         self._t: int = 0  # (d-1)/2
         self._k_range: int = 5
         self._beta: float = 4.0
-        self._ratio: float = 0.05 # used in refined_sweet_spot
+        self._ratio: float = 0.05  # used in refined_sweet_spot
 
         # Weight bracketing
         self._has_logical_errorw: int = 1
@@ -101,8 +109,10 @@ class Scaler:
         self._stim_str_after_rewrite = stim_str
 
         # Configure a decoder using the circuit.
-        self._detector_error_model = self._cliffordcircuit.stimcircuit.detector_error_model(
-            decompose_errors=True
+        self._detector_error_model = (
+            self._cliffordcircuit.stimcircuit.detector_error_model(
+                decompose_errors=True
+            )
         )
         self._matcher = pymatching.Matching.from_detector_error_model(
             self._detector_error_model
@@ -143,7 +153,9 @@ class Scaler:
                 left = mid + 1
         return left
 
-    def binary_search_lower(self, low: int, high: int, shots: int = 2000, epsilon: float = 0.002) -> int:
+    def binary_search_lower(
+        self, low: int, high: int, shots: int = 2000, epsilon: float = 0.002
+    ) -> int:
         """
         Find the smallest w in [low, high] such that PL(w) > epsilon.
         """
@@ -207,7 +219,9 @@ class Scaler:
         # Deduct the cost of this calibration from time budget
         self._remaining_time_budget -= elapsed
 
-        print("Elapsed time for sampling rate measurement: {:.6f} seconds".format(elapsed))
+        print(
+            "Elapsed time for sampling rate measurement: {:.6f} seconds".format(elapsed)
+        )
         print(f"Measured sampling rate: {self._sampling_rate:.2f} shots/second")
 
     # ------------------------------------------------------------------
@@ -260,7 +274,9 @@ class Scaler:
                 self._sampling_rate = inst_rate
             else:
                 alpha = 0.5  # EMA smoothing factor
-                self._sampling_rate = alpha * inst_rate + (1.0 - alpha) * self._sampling_rate
+                self._sampling_rate = (
+                    alpha * inst_rate + (1.0 - alpha) * self._sampling_rate
+                )
 
         print(f"  Step elapsed: {elapsed:.6f} s")
         print(f"  Updated sampling rate: {self._sampling_rate:.2f} shots/second")
@@ -486,8 +502,16 @@ class Scaler:
 
         # Critical 5σ region
         ax.axvspan(self._minw, self._maxw, color="gray", alpha=0.2)
-        ax.axvline(self._minw, color="red", linestyle="--", linewidth=1.2, label=r"$w_{\min}$")
-        ax.axvline(self._maxw, color="green", linestyle="--", linewidth=1.2, label=r"$w_{\max}$")
+        ax.axvline(
+            self._minw, color="red", linestyle="--", linewidth=1.2, label=r"$w_{\min}$"
+        )
+        ax.axvline(
+            self._maxw,
+            color="green",
+            linestyle="--",
+            linewidth=1.2,
+            label=r"$w_{\max}$",
+        )
         ax.text(
             (self._minw + self._maxw) / 2,
             max(y_list) * 1.8,
@@ -540,7 +564,9 @@ class Scaler:
         ]
         if self._LER > 0:
             text_lines.append(
-                r"$P_L={0}\times 10^{{{1}}}$".format(*"{0:.2e}".format(self._LER).split("e"))
+                r"$P_L={0}\times 10^{{{1}}}$".format(
+                    *"{0:.2e}".format(self._LER).split("e")
+                )
             )
         if time_val is not None:
             text_lines.append(r"$\mathrm{Time}=%.2f\,\mathrm{s}$" % time_val)
@@ -570,11 +596,6 @@ class Scaler:
         fig.savefig(filename, format="pdf", bbox_inches="tight")
         plt.close(fig)
 
-
-
-
-
-
     # ------------------------------------------------------------------
     #  Parameter / band / PL stability checks
     # ------------------------------------------------------------------
@@ -586,7 +607,7 @@ class Scaler:
         if theta_old is None:
             return False
         num = sum((x - y) ** 2 for x, y in zip(theta_new, theta_old)) ** 0.5
-        den = max(1e-12, sum(y ** 2 for y in theta_old) ** 0.5)
+        den = max(1e-12, sum(y**2 for y in theta_old) ** 0.5)
         rel = num / den
         return (rel < tol) and (r2 >= r2_target)
 
@@ -612,7 +633,9 @@ class Scaler:
                 return False
         return True
 
-    def _pl_stable(self, pl_new: float, pl_old: Optional[float], rel_tol: float) -> bool:
+    def _pl_stable(
+        self, pl_new: float, pl_old: Optional[float], rel_tol: float
+    ) -> bool:
         """
         Check if the overall PL estimate is stable in relative error.
         """
@@ -627,7 +650,7 @@ class Scaler:
     #  Decide the next sampling step
     # ------------------------------------------------------------------
 
-    def _choose_candidate_weights(self) -> list[int]:
+    def _choose_candidate_weights(self) -> List[int]:
         """
         Choose a small set of candidate weights to sample next.
 
@@ -677,10 +700,12 @@ class Scaler:
                 W.add(w)
 
         # 5) Add a small grid across the bracket for uniform coverage
-        def evenly_spaced_ints(lo: int, hi: int, k: int) -> list[int]:
+        def evenly_spaced_ints(lo: int, hi: int, k: int) -> List[int]:
             if k <= 1 or hi <= lo:
                 return [lo, hi]
-            return sorted(set(int(round(lo + i * (hi - lo) / (k - 1))) for i in range(k)))
+            return sorted(
+                set(int(round(lo + i * (hi - lo) / (k - 1))) for i in range(k))
+            )
 
         grid_points = evenly_spaced_ints(left_bracket, right_bracket, 5)
         for w in grid_points:
@@ -694,10 +719,6 @@ class Scaler:
         wlist = sorted(W)
         print("  Candidate weights (choose_candidate_weights):", wlist)
         return wlist
-
-
-
-
 
     def next_step(self) -> Tuple[List[int], List[int]]:
         """
@@ -737,9 +758,9 @@ class Scaler:
             if center is not None:
                 d = abs(w - center)
                 if d <= 1:
-                    f *= 6.0      # very close to sweet spot
+                    f *= 6.0  # very close to sweet spot
                 elif d <= 2:
-                    f *= 3.0      # near sweet spot
+                    f *= 3.0  # near sweet spot
 
             # 2) Boost completely unsampled subspaces
             if self._subspace_sample_used.get(w, 0) == 0:
@@ -754,7 +775,9 @@ class Scaler:
             return wlist, [shots_per_w] * len(wlist)
 
         # Minimum shots so that even far-from-sweet weights keep getting data
-        min_shots_per_w = max(500, int(step_shots * 0.02))  # at least 2% per weight, ≥500
+        min_shots_per_w = max(
+            500, int(step_shots * 0.02)
+        )  # at least 2% per weight, ≥500
 
         slist: List[int] = []
         remaining = step_shots
@@ -778,7 +801,6 @@ class Scaler:
         print("  Allocated shots:", slist, " (total =", sum(slist), ")")
 
         return wlist, slist
-
 
     # ------------------------------------------------------------------
     #  Final LER integration from fitted S-curve
@@ -804,7 +826,9 @@ class Scaler:
             if w in self._estimated_subspaceLER:
                 sub_PL = self._estimated_subspaceLER[w]
             else:
-                sub_PL = modified_sigmoid_function(w, self._a, self._b, self._c, self._t)
+                sub_PL = modified_sigmoid_function(
+                    w, self._a, self._b, self._c, self._t
+                )
             LER += sub_PL * binomial_weight(N, w, p)
 
         self._LER = LER
@@ -890,7 +914,9 @@ class Scaler:
         self._remaining_time_budget -= elapsed
 
         # First fit
-        self.fit_log_S_model(filename=figname+"first.pdf", savefigure=True, time_val=None)
+        self.fit_log_S_model(
+            filename=figname + "first.pdf", savefigure=True, time_val=None
+        )
         theta_prev = (self._a, self._b, self._c)
 
         # First PL estimate
@@ -900,9 +926,9 @@ class Scaler:
         # Iterative refinement
         # ----------------------------------------------------------
         stable_count = 0
-        param_tol = 0.03     # stricter parameter tolerance
-        r2_target = 0.98     # stricter R^2 requirement
-        pl_tol = 0.20        # require PL to be stable within 20% (tune)
+        param_tol = 0.03  # stricter parameter tolerance
+        r2_target = 0.98  # stricter R^2 requirement
+        pl_tol = 0.20  # require PL to be stable within 20% (tune)
         max_iters = 10
 
         iter_idx = 0
@@ -926,7 +952,9 @@ class Scaler:
                 print("Time budget exhausted during iterative refinement.")
                 break
 
-            self.fit_log_S_model(filename=figname+f"iter{iter_idx}.pdf", savefigure=True, time_val=None)
+            self.fit_log_S_model(
+                filename=figname + f"iter{iter_idx}.pdf", savefigure=True, time_val=None
+            )
             theta_new = (self._a, self._b, self._c)
             pl_new = self._calc_LER_from_fit()
 
