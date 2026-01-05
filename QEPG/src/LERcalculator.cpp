@@ -32,10 +32,11 @@ inline py::array_t<bool> bitset_rows_to_numpy(const std::vector<QEPG::Row>& rows
 
     const std::size_t n_rows = rows.size();
     const std::size_t n_cols = n_rows ? rows.front().size() : 0;
+    std::vector<py::ssize_t> shape = {static_cast<py::ssize_t>(n_rows), static_cast<py::ssize_t>(n_cols)};
     if(n_cols==0)
-        return py::array_t<bool>({n_rows, n_cols});
+        return py::array_t<bool>(shape);
 
-    py::array_t<bool> out({n_rows, n_cols});
+    py::array_t<bool> out(shape);
     auto req=out.request();
     auto* base=static_cast<std::uint8_t*>(req.ptr);
     const auto row_stride=n_cols;
@@ -336,11 +337,12 @@ std::vector<py::array_t<bool>> return_samples_many_weights_numpy(const std::stri
 std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs_with_QEPG(const QEPG::QEPG& graph,const double& error_rate, const size_t& shot){
     SAMPLE::sampler sampler(graph.get_total_noise());
     std::vector<QEPG::Row> samplecontainer;
-    py::array_t<bool> detectorresult({shot,graph.get_total_detector()});
+    std::vector<py::ssize_t> det_shape = {static_cast<py::ssize_t>(shot), static_cast<py::ssize_t>(graph.get_total_detector())};
+    py::array_t<bool> detectorresult(det_shape);
     py::array_t<bool> obsresult(shot);
     sampler.generate_many_output_samples_Monte(graph,samplecontainer,error_rate,shot);
     convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,0,samplecontainer);
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return std::make_pair(std::move(detectorresult), std::move(obsresult));
 }
 
 
@@ -353,7 +355,8 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
     for(size_t i=0;i<weight.size();i++){
         shot_sum+=shots[i];
     }
-    py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
+    std::vector<py::ssize_t> det_shape = {static_cast<py::ssize_t>(shot_sum), static_cast<py::ssize_t>(graph.get_total_detector())};
+    py::array_t<bool> detectorresult(det_shape);
     py::array_t<bool> obsresult(shot_sum);
     size_t begin_index=0;
     for(size_t i=0;i<weight.size();++i){
@@ -362,7 +365,7 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
         convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
         begin_index+=shots[i];
     }
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return std::make_pair(std::move(detectorresult), std::move(obsresult));
 }
 
 
@@ -384,7 +387,8 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
         shot_sum+=shots[i];
     }
 
-    py::array_t<bool> detectorresult({shot_sum,c.get_num_detector()});
+    std::vector<py::ssize_t> det_shape = {static_cast<py::ssize_t>(shot_sum), static_cast<py::ssize_t>(c.get_num_detector())};
+    py::array_t<bool> detectorresult(det_shape);
     py::array_t<bool> obsresult(shot_sum);
 
     size_t begin_index=0;
@@ -394,7 +398,7 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
         convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
         begin_index+=shots[i];
     }
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return std::make_pair(std::move(detectorresult), std::move(obsresult));
 }
 
 
@@ -431,10 +435,11 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
     // Get matrix dimensions
     const auto& dm = graph.get_parityPropMatrixTrans();
     if (dm.empty()) {
-        return std::pair<py::array_t<bool>,py::array_t<bool>>{
-            py::array_t<bool>({size_t(0), graph.get_total_detector()}),
-            py::array_t<bool>(size_t(0))
-        };
+        std::vector<py::ssize_t> det_shape = {0, static_cast<py::ssize_t>(graph.get_total_detector())};
+        return std::make_pair(
+            py::array_t<bool>(det_shape),
+            py::array_t<bool>(0)
+        );
     }
 
     const size_t n_rows = dm.size();
@@ -449,7 +454,8 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
     }
 
     // Allocate output arrays
-    py::array_t<bool> detectorresult({shot_sum, n_det});
+    std::vector<py::ssize_t> det_result_shape = {static_cast<py::ssize_t>(shot_sum), static_cast<py::ssize_t>(n_det)};
+    py::array_t<bool> detectorresult(det_result_shape);
     py::array_t<bool> obsresult(shot_sum);
 
     // Get raw pointers
@@ -486,7 +492,7 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
         begin_index += shots[i];
     }
 
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return std::make_pair(std::move(detectorresult), std::move(obsresult));
 }
 
 
@@ -494,10 +500,11 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs
     // Get matrix dimensions
     const auto& dm = graph.get_parityPropMatrixTrans();
     if (dm.empty()) {
-        return std::pair<py::array_t<bool>,py::array_t<bool>>{
-            py::array_t<bool>({size_t(0), graph.get_total_detector()}),
-            py::array_t<bool>(size_t(0))
-        };
+        std::vector<py::ssize_t> det_shape = {0, static_cast<py::ssize_t>(graph.get_total_detector())};
+        return std::make_pair(
+            py::array_t<bool>(det_shape),
+            py::array_t<bool>(0)
+        );
     }
 
     const size_t n_rows = dm.size();
@@ -506,7 +513,8 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs
     const size_t n_cols = n_det + 1;
 
     // Allocate output arrays
-    py::array_t<bool> detectorresult({shot, n_det});
+    std::vector<py::ssize_t> det_result_shape = {static_cast<py::ssize_t>(shot), static_cast<py::ssize_t>(n_det)};
+    py::array_t<bool> detectorresult(det_result_shape);
     py::array_t<bool> obsresult(shot);
 
     // Get raw pointers
@@ -539,7 +547,7 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs
         0  // begin_index
     );
 
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return std::make_pair(std::move(detectorresult), std::move(obsresult));
 }
 
 
