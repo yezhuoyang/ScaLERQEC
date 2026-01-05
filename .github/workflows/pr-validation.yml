@@ -81,12 +81,7 @@ jobs:
       - name: Run unit tests
         run: |
           pytest tests/ --cov=src/scalerqec --cov-report=xml --cov-report=term -v
-      
-      - name: Run additional tests
-        run: |
-          pytest test/ -v
-        continue-on-error: true
-      
+
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.11'
         uses: codecov/codecov-action@v4
