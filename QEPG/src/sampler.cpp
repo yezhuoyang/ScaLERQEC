@@ -38,6 +38,10 @@ inline std::vector<singlePauli> sampler::generate_sample_Floyd(size_t weight, st
 
 inline std::vector<singlePauli> sampler::generate_sample_Monte(double error_prob,size_t ErrorSize,std::mt19937& gen){
     std::vector<singlePauli> result;
+    // Special case: zero error rate means no errors
+    if (error_prob <= 0.0) {
+        return result;
+    }
     result.reserve(size_t(error_prob*ErrorSize));
     std::uniform_int_distribution<> typedistrib(1, 3);
     std::bernoulli_distribution dist(error_prob);
@@ -339,6 +343,11 @@ inline size_t sampler::generate_sample_Monte_fast(
     double error_prob,
     uint64_t* rng_state)
 {
+    // Special case: zero error rate means no errors
+    if (error_prob <= 0.0) {
+        return 0;
+    }
+
     size_t count = 0;
     // Use geometric distribution to skip ahead
     // For low error rates, this is much faster than checking each position
