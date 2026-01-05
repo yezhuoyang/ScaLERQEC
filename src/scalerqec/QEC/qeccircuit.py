@@ -1,14 +1,21 @@
 
+"""
+Quantum Error Correction Circuit Module.
 
+This module provides the core StabCode class for representing and compiling
+stabilizer-based quantum error correction codes.
+"""
+from __future__ import annotations
 
 from enum import Enum
 from typing import Optional
-from scalerqec.Clifford.clifford import CliffordCircuit
+
 import numpy as np
+from numpy.typing import NDArray
+
+from scalerqec.Clifford.clifford import CliffordCircuit
 from scalerqec.QEC.noisemodel import NoiseModel
 from scalerqec.util import commute
-from numpy.typing import NDArray
-import numpy as np
 
 class SCHEME(Enum):
     STANDARD = 0
