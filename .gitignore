@@ -1,6 +1,12 @@
 *.exe
 .vscode/*
-__pycache__/*
+
+# Python cache - use recursive pattern to catch all __pycache__ dirs
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
 output
 output.txt
 example.cpp
@@ -40,6 +46,7 @@ tmp.py
 *.stim
 !Figures/*.pdf
 !Figures/*.png
-src/scalerqec/__pycache__/
 !Tutorial.ipynb
-src/scalerqec/QEC/__pycache__/
+
+# Pytest cache
+.pytest_cache/

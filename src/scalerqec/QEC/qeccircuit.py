@@ -2,32 +2,19 @@
 
 
 from enum import Enum
+from typing import Optional
 from scalerqec.Clifford.clifford import CliffordCircuit
 import numpy as np
 from scalerqec.QEC.noisemodel import NoiseModel
+from scalerqec.util import commute
+from numpy.typing import NDArray
+import numpy as np
 
 class SCHEME(Enum):
     STANDARD = 0
     SHOR = 1
     KNILL = 2
     FLAG = 3
-
-
-
-def commute(stab1: str, stab2: str) -> bool:
-    """
-    Check if two stabilizer generators commute.
-
-    Args:
-        stab1 (str): The first stabilizer generator.
-        stab2 (str): The second stabilizer generator.
-
-    Returns:
-        bool: True if the stabilizers commute, False otherwise.
-    """
-    assert len(stab1) == len(stab2), "Stabilizers must be of the same length."
-    anti_commute_count = sum(1 for a, b in zip(stab1, stab2) if a != 'I' and b != 'I' and a != b)
-    return anti_commute_count % 2 == 0
 
 
 
@@ -50,7 +37,7 @@ class IRInstruction:
     """
     A class representing an intermediate representation (IR) instruction for quantum circuits.
     """
-    def __init__(self, instr_type) -> None:
+    def __init__(self, instr_type: IRType) -> None:
         self._instr_type = instr_type
 
 
@@ -224,19 +211,19 @@ class StabCode:
     A class representing a quantum error-correcting code (QECC) using the stabilizer formalism.
     """
     def __init__(self, n: int, k: int, d: int) -> None:
-        self._n = n
-        self._k = k
-        self._d = d
-        self._stabs = []
-        self._scheme = SCHEME.STANDARD
+        self._n : int = n
+        self._k : int = k
+        self._d : int = d
+        self._stabs : list[str] = []
+        self._scheme : SCHEME = SCHEME.STANDARD
         self._circuit = None
-        self._stimcirc=None
-        self._IRList = []
-        self._rounds = 3*d
+        self._stimcirc = None
+        self._IRList : list[IRInstruction] = []
+        self._rounds : int = 3*d
         #Define the k different logical Z operators
-        self._logicalZ = {}
-        self._paritymatrix = None
-        self._noisemodel = None
+        self._logicalZ : dict[int, str] = {}
+        self._paritymatrix : Optional[NDArray[np.int_]] = None
+        self._noisemodel : Optional[NoiseModel] = None
         self._IR_compiled = False
         self._circuit_compiled = False
 
@@ -296,7 +283,7 @@ class StabCode:
 
 
     @property
-    def noisemodel(self) -> NoiseModel:
+    def noisemodel(self) -> Optional[NoiseModel]:
         """
         Get the noise model associated with the QECC.
 
@@ -318,7 +305,7 @@ class StabCode:
 
 
 
-    def init_by_parity_check_matrix(self, paritymatrix: np.ndarray) -> None:
+    def init_by_parity_check_matrix(self, paritymatrix: NDArray[np.int_]) -> None:
         """
         Initialize the QECC stabilizer structures using a given parity check matrix.
 
@@ -344,7 +331,7 @@ class StabCode:
 
 
 
-    def get_parity_check_matrix(self) -> None:
+    def get_parity_check_matrix(self) -> Optional[NDArray[np.int_]]:
         """
         Get the standard XZ parity check matrix for the quantum error-correcting code.
 
@@ -357,23 +344,23 @@ class StabCode:
 
 
     @property
-    def circuit(self) -> None:
+    def circuit(self) -> Optional[CliffordCircuit]:
         """
         Get the Clifford circuit for the quantum error-correcting code.
 
         Returns:
-            The Clifford circuit.
+            The Clifford circuit, or None if not yet compiled.
         """
         return self._circuit
 
 
     @property
-    def stimcirc(self) -> None:
+    def stimcirc(self):
         """
-        Get the stimulus circuit for the quantum error-correcting code.
+        Get the STIM circuit for the quantum error-correcting code.
 
         Returns:
-            The stimulus circuit.
+            The STIM circuit, or None if not yet compiled.
         """
         return self._stimcirc
 
@@ -565,6 +552,11 @@ class StabCode:
                 prev_stab_meas_addr[stab] = dest
         #Logical observables
         for logical_idx in range(self._k):
+            if logical_idx not in self._logicalZ:
+                raise ValueError(
+                    f"Logical Z operator for logical qubit {logical_idx} not defined. "
+                    f"Use set_logical_Z({logical_idx}, '<pauli_string>') before constructing the circuit."
+                )
             logicalZ = self._logicalZ[logical_idx]
 
             dest = f"c{current_measurement_idx}"
@@ -627,8 +619,14 @@ class StabCode:
                             self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
                         case 'I':
                             continue
-                        case 'Y':   
-                            raise NotImplementedError("Y parity propagation not supported.")
+                        case 'Y':
+                            # Y = iXZ, so we need to apply both X and Z parity propagation
+                            # First apply X part: H-CNOT-H
+                            self._circuit.add_hadamard(qubit_index)
+                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
+                            self._circuit.add_hadamard(qubit_index)
+                            # Then apply Z part: CNOT
+                            self._circuit.add_cnot(control=qubit_index, target=helper_qubit_index)
                         
                 self._circuit.add_measurement(helper_qubit_index)
                 dest_to_measure_index[irinst.dest] = current_measure_index

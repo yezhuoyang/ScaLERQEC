@@ -577,48 +577,40 @@ class CliffordCircuit:
         lines.append("\\end{yquant}")
         
         return "\n".join(lines)
-    
 
 
-
-
-def example():
-
-    circ= CliffordCircuit(3)
-    circ.error_rate=0.1
+def example_basic():
+    """Basic example without noise."""
+    circ = CliffordCircuit(3)
+    circ.error_rate = 0.1
     circ.add_hadamard(0)
-    circ.add_cnot(0,1)
-    circ.add_cnot(0,2)
+    circ.add_cnot(0, 1)
+    circ.add_cnot(0, 2)
     circ.add_measurement(1)
     circ.add_measurement(2)
-    #Convert scaler circuit to stim circuit
-    stimcirc=circ.stimcircuit
+    # Convert scaler circuit to stim circuit
+    stimcirc = circ.stimcircuit
     print(stimcirc)
-    #print(circ)
 
 
-
-
-
-def example():
-
-    circ= CliffordCircuit(3)
-    circ.set_error_rate(0.1)
+def example_with_noise():
+    """Example with depolarizing noise."""
+    circ = CliffordCircuit(3)
+    circ.error_rate = 0.1
     circ.add_depolarize(0)
     circ.add_hadamard(0)
     circ.add_depolarize(0)
     circ.add_depolarize(1)
-    circ.add_cnot(0,1)
-    circ.add_cnot(0,2)
+    circ.add_cnot(0, 1)
+    circ.add_cnot(0, 2)
     circ.add_depolarize(1)
     circ.add_measurement(1)
     circ.add_measurement(2)
-    #Convert scaler circuit to stim circuit
-    stimcirc=circ.get_stim_circuit()
+    # Convert scaler circuit to stim circuit
+    stimcirc = circ.stimcircuit
     print(stimcirc)
-    #print(circ)
-
 
 
 if __name__ == "__main__":
-    example()
+    example_basic()
+    example_with_noise()

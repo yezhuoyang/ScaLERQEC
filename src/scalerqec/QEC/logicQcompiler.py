@@ -3,8 +3,8 @@ from __future__ import annotations
 from enum import Enum
 import ast
 
-from logic import LogicalCircuit
-from qeccircuit import StabCode
+from .qeccircuit import StabCode
+from .analyzer import LogicalOperatorAnalyzer
 
 
 
@@ -573,8 +573,6 @@ class QStabIRProgram:
 
     def __repr__(self) -> str:
         return "\n".join([repr(instr) for instr in self.instructions])
-
-from analyzer import LogicalOperatorAnalyzer
 
 class LogicQCompiler:
     """

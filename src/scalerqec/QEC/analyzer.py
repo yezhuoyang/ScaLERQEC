@@ -3,24 +3,9 @@ Useful analyzers for quantum error correction codes.
 Specifically, we provide analyzers for code distance and logical operators.
 """
 from scalerqec.QEC import StabCode
+from scalerqec.util import commute, multiply_pauli_strings
 from typing import Literal
 from typing import List, Dict
-
-
-def commute(stab1: str, stab2: str) -> bool:
-    """
-    Check if two stabilizer generators commute.
-
-    Args:
-        stab1 (str): The first stabilizer generator.
-        stab2 (str): The second stabilizer generator.
-
-    Returns:
-        bool: True if the stabilizers commute, False otherwise.
-    """
-    assert len(stab1) == len(stab2), "Stabilizers must be of the same length."
-    anti_commute_count = sum(1 for a, b in zip(stab1, stab2) if a != 'I' and b != 'I' and a != b)
-    return anti_commute_count % 2 == 0
 
 
 
@@ -322,40 +307,9 @@ class LogicalOperatorAnalyzer:
         """
         Multiply two Pauli strings p and q (same length), ignoring global phase.
 
-        Uses the standard Pauli multiplication table modulo phases:
-            I*P = P*I = P
-            X*X = Y*Y = Z*Z = I
-            X*Z = Z*X = Y
-            X*Y = Y*X = Z
-            Y*Z = Z*Y = X
+        Delegates to the utility function multiply_pauli_strings.
         """
-        assert len(p) == len(q), "Pauli strings must have same length."
-        result: List[str] = []
-
-        def mul_single(a: str, b: str) -> str:
-            a = a.upper()
-            b = b.upper()
-            if a == "I":
-                return b
-            if b == "I":
-                return a
-            if a == b:
-                return "I"
-            # Remaining combinations:
-            # XZ, ZX → Y
-            # XY, YX → Z
-            # YZ, ZY → X
-            if (a, b) in (("X", "Z"), ("Z", "X")):
-                return "Y"
-            if (a, b) in (("X", "Y"), ("Y", "X")):
-                return "Z"
-            if (a, b) in (("Y", "Z"), ("Z", "Y")):
-                return "X"
-            raise ValueError(f"Unexpected Pauli pair ({a}, {b})")
-
-        for ca, cb in zip(p, q):
-            result.append(mul_single(ca, cb))
-        return "".join(result)
+        return multiply_pauli_strings(p, q)
 
     @staticmethod
     def _anticommutes(op1: str, op2: str) -> bool:

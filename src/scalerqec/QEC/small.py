@@ -1,4 +1,4 @@
-from qeccircuit import StabCode
+from .qeccircuit import StabCode
 
 
 class fivequbitCode(StabCode):
