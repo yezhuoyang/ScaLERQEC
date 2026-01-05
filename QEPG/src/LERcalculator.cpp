@@ -1,4 +1,5 @@
 #include "LERcalculator.hpp"
+#include "simd_matrix.hpp"
 
 
 
@@ -238,28 +239,6 @@ py::array_t<bool> return_samples_numpy(const std::string& prog_str,size_t weight
 
 
 
- std::vector<std::vector<bool>> return_all_samples_with_fixed_weights(const std::string& prog_str,const size_t& weight){
-    clifford::cliffordcircuit c;
-    c.compile_from_rewrited_stim_string(prog_str);
-
-    QEPG::QEPG graph(c,c.get_num_detector(),c.get_num_noise());
-    graph.backward_graph_construction();
-
-
-    SAMPLE::sampler sampler(c.get_num_noise());
-
-    std::vector<QEPG::Row> samplecontainer;
-
-    sampler.generate_all_samples_with_fixed_weight(graph,samplecontainer,weight);
-
-
-    std::vector<std::vector<bool>> result;
-    convert_bitset_row_to_boolean(result,samplecontainer);
-
-    return result;
-}
-
-
 std::pair<std::vector<std::vector<std::pair<int,int>>> ,std::vector<std::vector<bool>>> 
 return_samples_with_noise_vector(const std::string & prog_str,size_t weight, size_t shots){
     clifford::cliffordcircuit c;
@@ -371,12 +350,12 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
     SAMPLE::sampler sampler(graph.get_total_noise());
     std::vector<QEPG::Row> samplecontainer;
     size_t shot_sum=0;
-    for(int i=0;i<weight.size();i++){
+    for(size_t i=0;i<weight.size();i++){
         shot_sum+=shots[i];
     }
     py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
     py::array_t<bool> obsresult(shot_sum);
-    auto begin_index=0;
+    size_t begin_index=0;
     for(size_t i=0;i<weight.size();++i){
         samplecontainer.clear();
         sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
@@ -401,14 +380,14 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
     std::vector<QEPG::Row> samplecontainer;
 
     size_t shot_sum=0;
-    for(int i=0;i<weight.size();i++){
+    for(size_t i=0;i<weight.size();i++){
         shot_sum+=shots[i];
     }
 
     py::array_t<bool> detectorresult({shot_sum,c.get_num_detector()});
     py::array_t<bool> obsresult(shot_sum);
 
-    auto begin_index=0;
+    size_t begin_index=0;
     for(size_t i=0;i<weight.size();++i){
         samplecontainer.clear();
         sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
@@ -446,6 +425,122 @@ std::vector<std::vector<bool>> return_detector_matrix(const std::string& prog_st
 }
 
 
+/*---------------------------------------SIMD-accelerated sampling functions----------*/
+
+std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG_simd(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots){
+    // Get matrix dimensions
+    const auto& dm = graph.get_parityPropMatrixTrans();
+    if (dm.empty()) {
+        return std::pair<py::array_t<bool>,py::array_t<bool>>{
+            py::array_t<bool>({size_t(0), graph.get_total_detector()}),
+            py::array_t<bool>(size_t(0))
+        };
+    }
+
+    const size_t n_rows = dm.size();
+    const size_t n_noise = n_rows / 3;
+    const size_t n_det = graph.get_total_detector();
+    const size_t n_cols = n_det + 1;  // detectors + observable
+
+    // Calculate total shots
+    size_t shot_sum = 0;
+    for (size_t i = 0; i < weight.size(); i++) {
+        shot_sum += shots[i];
+    }
+
+    // Allocate output arrays
+    py::array_t<bool> detectorresult({shot_sum, n_det});
+    py::array_t<bool> obsresult(shot_sum);
+
+    // Get raw pointers
+    auto det_info = detectorresult.request();
+    auto obs_info = obsresult.request();
+    uint8_t* det_ptr = static_cast<uint8_t*>(det_info.ptr);
+    uint8_t* obs_ptr = static_cast<uint8_t*>(obs_info.ptr);
+    const size_t det_row_stride = static_cast<size_t>(det_info.strides[0]);
+
+    // Build SIMD matrix once (shared across all weight batches)
+    SIMD::SIMDMatrix simd_matrix(n_rows, n_cols);
+    simd_matrix.copy_from_bitset_matrix(dm);
+
+    // Create sampler
+    SAMPLE::sampler sampler(n_noise);
+
+    // Release GIL for parallel computation
+    py::gil_scoped_release release;
+
+    // Process each weight batch
+    size_t begin_index = 0;
+    for (size_t i = 0; i < weight.size(); ++i) {
+        sampler.generate_samples_to_buffer_simd(
+            simd_matrix,
+            det_ptr,
+            obs_ptr,
+            det_row_stride,
+            n_det,
+            n_noise,
+            weight[i],
+            shots[i],
+            begin_index
+        );
+        begin_index += shots[i];
+    }
+
+    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+}
+
+
+std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs_with_QEPG_simd(const QEPG::QEPG& graph,const double& error_rate, const size_t& shot){
+    // Get matrix dimensions
+    const auto& dm = graph.get_parityPropMatrixTrans();
+    if (dm.empty()) {
+        return std::pair<py::array_t<bool>,py::array_t<bool>>{
+            py::array_t<bool>({size_t(0), graph.get_total_detector()}),
+            py::array_t<bool>(size_t(0))
+        };
+    }
+
+    const size_t n_rows = dm.size();
+    const size_t n_noise = n_rows / 3;
+    const size_t n_det = graph.get_total_detector();
+    const size_t n_cols = n_det + 1;
+
+    // Allocate output arrays
+    py::array_t<bool> detectorresult({shot, n_det});
+    py::array_t<bool> obsresult(shot);
+
+    // Get raw pointers
+    auto det_info = detectorresult.request();
+    auto obs_info = obsresult.request();
+    uint8_t* det_ptr = static_cast<uint8_t*>(det_info.ptr);
+    uint8_t* obs_ptr = static_cast<uint8_t*>(obs_info.ptr);
+    const size_t det_row_stride = static_cast<size_t>(det_info.strides[0]);
+
+    // Build SIMD matrix
+    SIMD::SIMDMatrix simd_matrix(n_rows, n_cols);
+    simd_matrix.copy_from_bitset_matrix(dm);
+
+    // Create sampler
+    SAMPLE::sampler sampler(n_noise);
+
+    // Release GIL for parallel computation
+    py::gil_scoped_release release;
+
+    // Generate samples directly to output buffer
+    sampler.generate_samples_Monte_to_buffer_simd(
+        simd_matrix,
+        det_ptr,
+        obs_ptr,
+        det_row_stride,
+        n_det,
+        n_noise,
+        error_rate,
+        shot,
+        0  // begin_index
+    );
+
+    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+}
 
 
 }

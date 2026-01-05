@@ -4,7 +4,6 @@
 
 #include "QEPG.hpp"
 #include "sampler.hpp"
-#include <chrono>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>          // <-- defines py::array_t
 namespace LERcalculator{
@@ -40,9 +39,6 @@ namespace py = pybind11;
  std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs_with_QEPG(const QEPG::QEPG& graph,const double& error_rate, const size_t& shot);
 
 
- std::vector<std::vector<bool>> return_all_samples_with_fixed_weights(const std::string& prog_str,const size_t& weight);
-
-
  std::vector<std::vector<bool>> return_detector_matrix(const std::string& prog_str);
 
 
@@ -50,6 +46,12 @@ namespace py = pybind11;
 
 
  QEPG::QEPG compile_QEPG(const std::string& prog_str);
+
+
+ // SIMD-accelerated sampling functions
+ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG_simd(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots);
+
+ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_Monte_separate_obs_with_QEPG_simd(const QEPG::QEPG& graph,const double& error_rate, const size_t& shot);
 
 
 }

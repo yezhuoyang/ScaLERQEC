@@ -30,7 +30,7 @@ void cliffordcircuit::add_XError(size_t qindex) {
 }
 
 void cliffordcircuit::add_ZError(size_t qindex) {
-    circuit_.push_back({"X_ZRROR", {qindex}});
+    circuit_.push_back({"Z_ERROR", {qindex}});
     num_qubit_=std::max(num_qubit_,qindex+1);
 }
 

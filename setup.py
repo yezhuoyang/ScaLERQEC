@@ -32,7 +32,8 @@ def _maybe_add_include(root: str, header_subpath: str) -> bool:
 
 if sys.platform == "win32":
     # --- Windows flags & includes ---
-    extra_compile_args = ["/std:c++20", "/EHsc", "/O2", "/openmp:llvm"]
+    # /arch:AVX2 enables AVX2 SIMD instructions
+    extra_compile_args = ["/std:c++20", "/EHsc", "/O2", "/openmp:llvm", "/arch:AVX2"]
     extra_link_args = ["/DEBUG"]
 
     win_includes = [
@@ -45,7 +46,8 @@ if sys.platform == "win32":
 
 else:
     # --- macOS / Linux flags ---
-    extra_compile_args = ["-std=c++20", "-O3"]
+    # -mavx2 enables AVX2 SIMD instructions
+    extra_compile_args = ["-std=c++20", "-O3", "-mavx2"]
 
     # Add OpenMP support
     if sys.platform == "darwin":
@@ -106,6 +108,7 @@ ext_modules = [
             "QEPG/src/QEPG.cpp",
             "QEPG/src/clifford.cpp",
             "QEPG/src/sampler.cpp",
+            "QEPG/src/simd_matrix.cpp",
             "QEPG/src/LERcalculator.cpp",
         ],
         include_dirs=include_dirs,

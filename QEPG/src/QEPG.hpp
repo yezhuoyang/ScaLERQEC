@@ -14,8 +14,6 @@ namespace QEPG{
 
 using Row=boost::dynamic_bitset<>;
 
-std::vector<Row> bitset_matrix_multiplication(const std::vector<Row>& mat1,const std::vector<Row>& mat2);
-
 
 template <typename Bitset>
 inline std::size_t and_popcount(const Bitset& a, const Bitset&b)
@@ -87,13 +85,7 @@ class QEPG{
 
         void print_detectorMatrix(char zero = '0', char one='1') const;
 
-        const std::vector<Row>& get_detectorMatrix() const noexcept; 
-
-        const std::vector<Row>& get_dectorMatrixTrans() const noexcept;
-
-        const std::vector<Row>& get_parityPropMatrix() const noexcept; 
-
-        const std::vector<Row>& get_parityPropMatrixTrans() const noexcept; 
+        const std::vector<Row>& get_parityPropMatrixTrans() const noexcept;
 
         const size_t& get_total_noise() const noexcept;
 
@@ -106,17 +98,7 @@ class QEPG{
         std::size_t total_detectors_ = 0;
         std::size_t total_noise_=0;
 
-        std::size_t COLS = 3*total_noise_;
-
-        std::vector<Row> parityPropMatrix_;    
-        
-        std::vector<Row> parityPropMatrixTranspose_;     
-
-        std::vector<Row> detectorMatrix_;
-
-        std::vector<Row> detectorMatrixTranspose_;
-
-        void compute_parityPropMatrix();
+        std::vector<Row> parityPropMatrixTranspose_;
 };
 }
 
