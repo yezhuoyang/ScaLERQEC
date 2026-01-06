@@ -16,6 +16,8 @@ from scalerqec.qepg import (
 from scalerqec.Stratified.fitting import r_squared
 from scalerqec.Stratified.ScurveModel import (
     bias_estimator,
+    compute_mse_optimal_allocation,
+    compute_turning_point,
     evenly_spaced_ints,
     fit_power_law_to_lowest_weights,
     hybrid_pl_exponential,
@@ -69,6 +71,7 @@ class Scaler:
         self._c: float = 0.0
         self._R_square_score: float = 0.0
         self._sweet_spot: Optional[int] = None
+        self._turning_point: Optional[float] = None  # MSE-optimal turning point
 
         # QEC parameters
         self._circuit_level_code_distance: int = 1
@@ -406,33 +409,30 @@ class Scaler:
         self._R_square_score = r_squared(y_list, y_predicted)
 
         # -----------------------------
-        # 5. Update sweet spot (with low-p refinement)
+        # 5. Update turning point (MSE-optimal) and sweet spot
         # -----------------------------
         alpha = -1.0 / self._a
+        beta = self._c
 
-        # Standard sweet spot calculation
-        w_sweet = int(refined_sweet_spot(alpha, self._c, self._t, ratio=self._ratio))
-        if w_sweet <= self._t:
-            w_sweet = self._t + 1
+        # Compute theoretical turning point where dy/dw = 0
+        # This is where sampling minimizes parameter estimation bias
+        self._turning_point = compute_turning_point(alpha, beta, self._t)
 
-        # LOW-P REFINEMENT: At low error rates, the sweet spot should be
-        # closer to first_error_w to minimize extrapolation distance
+        # For backward compatibility, also set sweet_spot based on MSE considerations
+        # Blend turning point and binomial peak based on R² quality
         ep_approx = int(self._error_rate * self._num_noise)
-        gap = self._has_logical_errorw - ep_approx
+        r2 = self._R_square_score
 
-        if self._error_rate < 0.001 and gap > 5:
-            # For large gaps, bias sweet spot toward first_error_w
-            # This ensures we focus sampling where extrapolation is most critical
-            first_w = self._has_logical_errorw
-            standard_sweet = w_sweet
+        # At low R², favor turning point (need better curve fit)
+        # At high R², favor binomial peak (need variance reduction)
+        if self._turning_point is not None:
+            w_sweet = int(r2 * ep_approx + (1 - r2) * self._turning_point)
+        else:
+            w_sweet = int(
+                refined_sweet_spot(alpha, self._c, self._t, ratio=self._ratio)
+            )
 
-            # Weighted average: favor first_error_w more as gap increases
-            gap_weight = min(0.7, gap / 30.0)  # Max 70% weight toward first_w
-            w_sweet = int((1 - gap_weight) * standard_sweet + gap_weight * first_w)
-
-            # Ensure it's in valid range
-            w_sweet = max(first_w, min(self._saturatew, w_sweet))
-
+        # Ensure valid range
         w_sweet = min(self._saturatew, max(self._t + 1, w_sweet))
         self._sweet_spot = w_sweet
 
@@ -544,20 +544,37 @@ class Scaler:
 
     def _choose_candidate_weights_progressive(self) -> List[int]:
         """
-        Progressive sampling strategy: start from saturation (right),
-        gradually explore leftward toward the sweet spot.
+        MSE-optimal weight selection strategy.
 
-        Key insight: We want to build the S-curve from right to left because:
-        1. High weights have high PL, easy to estimate accurately
-        2. As we move left, PL decreases, needs more samples
-        3. The sweet spot defines where we need most precision
+        Key insight: We want to balance two objectives:
+        1. Bias reduction: Sample near the turning point where parameter
+           estimation is most stable (dy/dw = 0)
+        2. Variance reduction: Sample where binomial weights are high
+
+        The turning point w* = t + (βα/2)^(2/3) is where the S-curve has
+        an inflection and provides the most stable parameter estimates.
         """
-        # Determine the center (sweet spot), with a reasonable fallback
-        if self._sweet_spot is None:
-            ep = int(self._error_rate * self._num_noise)
-            center = max(self._t + 1, ep)
+        # Compute turning point if we have valid S-curve parameters
+        alpha = -1.0 / self._a if self._a != 0 else 1.0
+        beta = self._c if self._c > 0 else 1.0
+
+        # Update turning point
+        self._turning_point = compute_turning_point(alpha, beta, self._t)
+
+        # Determine center based on MSE optimization
+        # Use turning point for bias reduction, but also consider binomial peak
+        ep = int(self._error_rate * self._num_noise)
+        if self._turning_point is not None:
+            # Adaptive center: blend turning point and binomial peak based on R²
+            # Low R² → favor turning point (need better fit)
+            # High R² → favor binomial peak (need variance reduction)
+            r2 = self._R_square_score
+            center = int(r2 * ep + (1 - r2) * self._turning_point)
         else:
-            center = int(self._sweet_spot)
+            center = max(self._t + 1, ep)
+
+        # Legacy: also update sweet_spot for backward compatibility
+        self._sweet_spot = center
 
         # Define the working region
         left_limit = max(self._t + 1, self._has_logical_errorw)
@@ -568,34 +585,42 @@ class Scaler:
 
         W = set()
 
-        # 1) Always include the sweet spot and its band
-        band_half = self._BAND_HALF_WIDTH
-        for delta in range(-band_half, band_half + 1):
-            w = center + delta
+        # 1) Include region around the turning point (for bias reduction)
+        if self._turning_point is not None:
+            w_turn = int(self._turning_point)
+            for delta in range(-3, 4):
+                w = w_turn + delta
+                if left_limit <= w <= right_limit:
+                    W.add(w)
+
+        # 2) Include region around binomial peak (for variance reduction)
+        sigma = max(
+            1, int(np.sqrt(self._error_rate * (1 - self._error_rate) * self._num_noise))
+        )
+        for delta in range(-2 * sigma, 2 * sigma + 1):
+            w = ep + delta
             if left_limit <= w <= right_limit:
                 W.add(w)
 
-        # 2) Include the exploration frontier - weights that need more samples
-        #    Prioritize weights near the current sweet spot that lack data
+        # 3) Include the exploration frontier - weights that need more samples
         frontier_weights = []
         for w in range(left_limit, right_limit + 1):
             events = self._subspace_LE_count.get(w, 0)
             if events < self._MIN_NUM_LE_EVENT:
                 frontier_weights.append(w)
 
-        # Focus on frontier weights near the sweet spot
+        # Focus on frontier weights near the center
         frontier_weights.sort(key=lambda w: abs(w - center))
         for w in frontier_weights[:8]:  # Take up to 8 frontier weights
             W.add(w)
 
-        # 3) Add anchor points for curve fitting stability
-        #    Include minw, maxw if they're in range
+        # 4) Add anchor points for curve fitting stability
         if left_limit <= self._minw <= right_limit:
             W.add(self._minw)
         if left_limit <= self._maxw <= right_limit:
             W.add(self._maxw)
 
-        # 4) Add some evenly spaced grid points for global coverage
+        # 5) Add evenly spaced grid points for global coverage
         span = right_limit - left_limit
         if span > 10:
             num_grid = min(5, span // 3)
@@ -604,7 +629,7 @@ class Scaler:
                 if left_limit <= w <= right_limit:
                     W.add(w)
 
-        # 5) Include saturation region for anchoring the high-PL end
+        # 6) Include saturation region for anchoring the high-PL end
         W.add(right_limit)
         if right_limit - 1 >= left_limit:
             W.add(right_limit - 1)
@@ -766,94 +791,78 @@ class Scaler:
 
         return slist
 
-    def _compute_shot_allocation_progressive(
+    def _compute_shot_allocation_mse_optimal(
         self, wlist: List[int], step_shots: int
     ) -> List[int]:
         """
-        Allocate shots with priority:
-        1. Sweet spot band: highest priority (most impact on final LER)
-        2. Under-sampled weights: need more events
-        3. Weights with high variance: need refinement
+        MSE-optimal sample allocation balancing bias and variance.
 
-        Uses inverse-variance inspired weighting for bias reduction.
+        This method minimizes MSE = Bias² + Variance by:
+        1. Bias reduction: Focus samples near the turning point where
+           parameter estimation is most stable
+        2. Variance reduction: Focus samples where binomial weights are high
+
+        The balance between bias and variance reduction adapts based on
+        the current R² fit quality:
+        - Low R²: Focus on bias reduction (need better curve fit)
+        - High R²: Focus on variance reduction (refine LER estimate)
         """
         if not wlist:
             return []
 
-        center = (
-            self._sweet_spot
-            if self._sweet_spot is not None
-            else (max(self._t + 1, int(self._error_rate * self._num_noise)))
+        N = self._num_noise
+        p = self._error_rate
+
+        # Compute S-curve parameters for turning point
+        alpha = -1.0 / self._a if self._a != 0 else 1.0
+        beta = self._c if self._c > 0 else 1.0
+
+        # Compute binomial weights for each candidate weight
+        binomial_weights = {w: binomial_weight(N, w, p) for w in wlist}
+
+        # Get current PL estimates (empirical or fitted)
+        estimated_PL: Dict[int, float] = {}
+        for w in wlist:
+            if w in self._estimated_subspaceLER:
+                estimated_PL[w] = self._estimated_subspaceLER[w]
+            else:
+                # Use S-curve extrapolation for weights without data
+                estimated_PL[w] = min(
+                    modified_sigmoid_function(w, self._a, self._b, self._c, self._t),
+                    0.5,
+                )
+                # Ensure non-zero for variance calculation
+                estimated_PL[w] = max(0.001, estimated_PL[w])
+
+        # Minimum samples per weight
+        min_samples = max(100, step_shots // (10 * max(1, len(wlist))))
+
+        # Use MSE-optimal allocation from ScurveModel
+        allocation = compute_mse_optimal_allocation(
+            weights=wlist,
+            estimated_PL=estimated_PL,
+            binomial_weights=binomial_weights,
+            total_budget=step_shots,
+            alpha=alpha,
+            beta=beta,
+            t=self._t,
+            r_squared=self._R_square_score,
+            min_samples_per_weight=min_samples,
         )
 
-        factors = []
-        for w in wlist:
-            f = 1.0
+        # Convert dict to list in same order as wlist
+        return [allocation.get(w, min_samples) for w in wlist]
 
-            # Distance from sweet spot: closer = more important
-            d = abs(w - center)
-            if d == 0:
-                f *= 10.0
-            elif d <= 2:
-                f *= 6.0
-            elif d <= 4:
-                f *= 3.0
-            elif d <= self._BAND_HALF_WIDTH:
-                f *= 2.0
+    def _compute_shot_allocation_progressive(
+        self, wlist: List[int], step_shots: int
+    ) -> List[int]:
+        """
+        Legacy progressive allocation - now delegates to MSE-optimal.
 
-            # Under-sampled subspaces need more shots
-            events = self._subspace_LE_count.get(w, 0)
-            samples = self._subspace_sample_used.get(w, 0)
-
-            if samples == 0:
-                # Never sampled: high priority
-                f *= 5.0
-            elif events < self._MIN_NUM_LE_EVENT:
-                # Need more events: boost proportionally to deficit
-                deficit_ratio = (
-                    self._MIN_NUM_LE_EVENT - events
-                ) / self._MIN_NUM_LE_EVENT
-                f *= 1.0 + 3.0 * deficit_ratio
-            else:
-                # Already has enough events: consider variance
-                # Higher variance (fewer events) = need more samples
-                if events > 0:
-                    # Variance is proportional to 1/events for binomial
-                    rel_var = self._MIN_NUM_LE_EVENT / events
-                    f *= max(0.5, min(2.0, rel_var))
-
-            # Boost weights in the critical [minw, maxw] region
-            if self._minw <= w <= self._maxw:
-                f *= 1.5
-
-            factors.append(f)
-
-        total_factor = sum(factors)
-        if total_factor <= 0:
-            # Fallback: uniform
-            shots_per = max(1, step_shots // len(wlist))
-            return [shots_per] * len(wlist)
-
-        # Minimum shots per weight (at least 2% of budget, min 200)
-        min_shots_per_w = max(200, int(step_shots * 0.02))
-
-        slist = []
-        remaining = step_shots
-
-        for i, (w, f) in enumerate(zip(wlist, factors)):
-            if i == len(wlist) - 1:
-                # Last weight gets remainder
-                s = max(1, remaining)
-            else:
-                raw = step_shots * (f / total_factor)
-                s = max(min_shots_per_w, int(round(raw)))
-                remaining -= s
-                if remaining < min_shots_per_w:
-                    remaining = min_shots_per_w
-
-            slist.append(s)
-
-        return slist
+        This method is kept for backward compatibility but now uses
+        the MSE-optimal allocation strategy internally.
+        """
+        return self._compute_shot_allocation_mse_optimal(wlist, step_shots)
 
     def next_step(self) -> Tuple[List[int], List[int]]:
         """

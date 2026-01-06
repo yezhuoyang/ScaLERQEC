@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Tuple, Callable
+from typing import Tuple, Callable, Dict, List
 
 
 def scurve_function(x, center, sigma):
@@ -66,6 +66,316 @@ def refined_sweet_spot(alpha, beta, t, ratio=0.05):
     # => (w - t)^{3/2} = (ratio * beta * alpha) / 2
     # => w = t + [(ratio * beta * alpha / 2)]^{2/3}
     return t + ((ratio * beta * alpha / 2) ** (2 / 3))
+
+
+# =============================================================================
+# MSE-OPTIMAL SAMPLE ALLOCATION FUNCTIONS
+# =============================================================================
+
+
+def compute_turning_point(alpha: float, beta: float, t: int) -> float:
+    """
+    Compute the theoretical turning point where dy/dw = 0.
+
+    From the log-S-curve model: y(w) = (1/α)w + β/√(w-t) + μ/α
+    First derivative: dy/dw = 1/α - (1/2)β/(w-t)^(3/2)
+
+    Setting dy/dw = 0:
+        1/α = (1/2)β/(w-t)^(3/2)
+        (w-t)^(3/2) = βα/2
+        w = t + (βα/2)^(2/3)
+
+    Sampling near this point minimizes bias in parameter estimation because
+    this is where the curve has an inflection - the linear and nonlinear
+    terms balance.
+
+    Parameters:
+    - alpha: Scale parameter (related to slope, α = -1/a)
+    - beta: Pole strength parameter (β = c)
+    - t: Threshold (d-1)/2 where d is code distance
+
+    Returns:
+    - Theoretical turning point weight
+    """
+    if alpha <= 0 or beta <= 0:
+        return float(t + 1)
+    return t + ((beta * alpha / 2) ** (2.0 / 3.0))
+
+
+def compute_mse_optimal_allocation(
+    weights: List[int],
+    estimated_PL: Dict[int, float],
+    binomial_weights: Dict[int, float],
+    total_budget: int,
+    alpha: float,
+    beta: float,
+    t: int,
+    r_squared: float = 0.0,
+    min_samples_per_weight: int = 100,
+) -> Dict[int, int]:
+    """
+    Compute MSE-optimal sample allocation balancing bias and variance.
+
+    The total MSE of the LER estimate is: MSE = Bias² + Variance
+
+    Where:
+    - Bias: From curve fitting extrapolation, minimized by sampling near
+            the turning point where parameter estimation is most stable
+    - Variance: From limited samples at each weight, reduced by focusing
+                samples where binomial weights are high
+
+    Optimal allocation factor:
+        factor(w) = λ_bias × f_bias(w) + λ_var × f_var(w)
+
+    Where:
+    - f_bias(w) = exp(-|w - w*|² / (2σ²)) - Gaussian centered at turning point
+    - f_var(w) = Binom(w) × √(PL(w)(1-PL(w))) - Variance-optimal allocation
+    - λ_bias, λ_var adapt based on R² quality
+
+    Parameters:
+    - weights: List of weights to allocate samples to
+    - estimated_PL: Current PL estimates for each weight
+    - binomial_weights: Binomial distribution weights Binom(N,w,p)
+    - total_budget: Total sample budget to distribute
+    - alpha, beta, t: S-curve parameters (for turning point calculation)
+    - r_squared: Current R² of curve fit (for adaptive weighting)
+    - min_samples_per_weight: Minimum samples per weight
+
+    Returns:
+    - Dictionary mapping weight -> number of samples allocated
+    """
+    if not weights:
+        return {}
+
+    # Compute turning point for bias reduction
+    w_turn = compute_turning_point(alpha, beta, t)
+
+    # Adaptive weighting based on fit quality
+    # Low R² → focus on bias reduction (need better curve fit first)
+    # High R² → focus on variance reduction (curve fit is good, refine LER)
+    lambda_bias = max(0.2, 1.0 - r_squared)  # [0.2, 1.0]
+    lambda_var = max(0.2, r_squared)  # [0.2, 1.0]
+
+    # Bandwidth for bias term (how far from turning point matters)
+    weight_range = max(weights) - min(weights) if len(weights) > 1 else 10
+    sigma_bias = max(5.0, weight_range / 4.0)
+
+    allocation_factors: Dict[int, float] = {}
+
+    for w in weights:
+        # Bias reduction factor: Gaussian centered at turning point
+        dist_from_turn = abs(w - w_turn)
+        f_bias = np.exp(-(dist_from_turn**2) / (2 * sigma_bias**2))
+
+        # Variance reduction factor
+        pl = estimated_PL.get(w, 0.25)
+        pl = max(0.001, min(0.499, pl))  # Clip to valid range
+        binom_w = binomial_weights.get(w, 0.0)
+
+        if binom_w > 0:
+            variance = pl * (1 - pl)
+            f_var = binom_w * np.sqrt(variance)
+        else:
+            f_var = 0.0
+
+        # Combined factor
+        factor = lambda_bias * f_bias + lambda_var * f_var
+        allocation_factors[w] = max(factor, 1e-10)
+
+    # Normalize and allocate
+    total_factor = sum(allocation_factors.values())
+    if total_factor <= 0:
+        # Fallback: uniform allocation
+        per_weight = max(1, total_budget // len(weights))
+        return {w: per_weight for w in weights}
+
+    allocation: Dict[int, int] = {}
+    remaining = total_budget
+
+    for w in weights:
+        raw = total_budget * (allocation_factors[w] / total_factor)
+        n_w = max(min_samples_per_weight, int(round(raw)))
+        n_w = min(n_w, remaining)
+        allocation[w] = n_w
+        remaining -= n_w
+
+    # Distribute remaining budget to highest-factor weight
+    if remaining > 0 and weights:
+        sorted_w = sorted(weights, key=lambda w: allocation_factors[w], reverse=True)
+        allocation[sorted_w[0]] += remaining
+
+    return allocation
+
+
+def estimate_parameter_bias(
+    w: int,
+    alpha: float,
+    beta: float,
+    t: int,
+    n_samples: int,
+    n_errors: int,
+) -> float:
+    """
+    Estimate bias contribution from sampling at weight w.
+
+    Bias in parameter estimation is minimized when sampling near the
+    turning point. This function returns a bias penalty score
+    (higher = more bias contribution).
+
+    Parameters:
+    - w: Weight being sampled
+    - alpha, beta, t: S-curve parameters
+    - n_samples: Number of samples taken at this weight
+    - n_errors: Number of logical errors observed
+
+    Returns:
+    - Bias penalty score (higher = more bias)
+    """
+    w_turn = compute_turning_point(alpha, beta, t)
+
+    # Distance from turning point contributes to bias
+    dist = abs(w - w_turn)
+
+    # Also consider estimation uncertainty
+    if n_samples > 0 and 0 < n_errors < n_samples:
+        pl = n_errors / n_samples
+        # Variance of log-transform increases as PL → 0 or PL → 0.5
+        denom = abs(1 - 2 * pl)
+        if denom > 0.01:
+            var_factor = 1.0 / (pl * denom**2)
+        else:
+            var_factor = 100.0
+    else:
+        var_factor = 100.0
+
+    return dist * np.sqrt(var_factor)
+
+
+def estimate_total_mse(
+    subspace_data: Dict[int, Tuple[int, int, float]],
+    binomial_weights: Dict[int, float],
+    alpha: float,
+    beta: float,
+    t: int,
+) -> Tuple[float, float, float]:
+    """
+    Estimate total MSE = Bias² + Variance of the current LER estimate.
+
+    This provides a quality metric for the current sampling strategy,
+    helping to decide whether to focus more on bias or variance reduction.
+
+    Parameters:
+    - subspace_data: Dict mapping w -> (n_samples, n_errors, pl)
+    - binomial_weights: Binomial distribution weights
+    - alpha, beta, t: S-curve parameters
+
+    Returns:
+    - (total_mse, bias_term, variance_term)
+    """
+    w_turn = compute_turning_point(alpha, beta, t)
+
+    bias_sum = 0.0
+    var_sum = 0.0
+
+    for w, (n_samples, n_errors, pl) in subspace_data.items():
+        binom_w = binomial_weights.get(w, 0.0)
+
+        if n_samples > 0 and binom_w > 0:
+            # Variance contribution: Var[LER_w] × (binomial_weight)²
+            if 0 < pl < 1:
+                var_pl = pl * (1 - pl) / n_samples
+                var_sum += (binom_w**2) * var_pl
+
+            # Bias contribution (from extrapolation distance)
+            dist = abs(w - w_turn)
+            bias_sum += dist * binom_w
+
+    # Normalize bias (heuristic scaling based on number of weights)
+    n_weights = max(1, len(subspace_data))
+    bias_term = (bias_sum / n_weights) ** 2
+    variance_term = var_sum
+
+    return bias_term + variance_term, bias_term, variance_term
+
+
+def compute_adaptive_weight_range(
+    alpha: float,
+    beta: float,
+    t: int,
+    saturatew: int,
+    binomial_weights: Dict[int, float],
+    r_squared: float = 0.0,
+    k_sigma: float = 5.0,
+) -> Tuple[int, int]:
+    """
+    Compute adaptive weight range for sampling based on MSE considerations.
+
+    Combines:
+    1. Region around turning point (for bias reduction)
+    2. Region of high binomial weights (for variance reduction)
+
+    Parameters:
+    - alpha, beta, t: S-curve parameters
+    - saturatew: Saturation weight (upper bound)
+    - binomial_weights: Binomial distribution weights
+    - r_squared: Current R² (affects bias vs variance focus)
+    - k_sigma: Number of standard deviations for range
+
+    Returns:
+    - (min_weight, max_weight) tuple
+    """
+    w_turn = compute_turning_point(alpha, beta, t)
+
+    # Find weights with significant binomial mass
+    if binomial_weights:
+        total_mass = sum(binomial_weights.values())
+        if total_mass > 0:
+            # Find range containing most of the mass
+            sorted_weights = sorted(binomial_weights.keys())
+            cumsum = 0.0
+            w_low = sorted_weights[0]
+            w_high = sorted_weights[-1]
+
+            for w in sorted_weights:
+                cumsum += binomial_weights[w]
+                if cumsum / total_mass >= 0.001:
+                    w_low = w
+                    break
+
+            cumsum = 0.0
+            for w in reversed(sorted_weights):
+                cumsum += binomial_weights[w]
+                if cumsum / total_mass >= 0.001:
+                    w_high = w
+                    break
+        else:
+            w_low = t + 1
+            w_high = saturatew
+    else:
+        w_low = t + 1
+        w_high = saturatew
+
+    # Adaptive weighting: more emphasis on turning point if R² is low
+    lambda_bias = max(0.2, 1.0 - r_squared)
+    lambda_var = max(0.2, r_squared)
+
+    # Compute weighted center
+    weighted_center = lambda_bias * w_turn + lambda_var * (w_low + w_high) / 2
+    weighted_center /= lambda_bias + lambda_var
+
+    # Compute range that covers both turning point and high-mass region
+    spread = max(w_high - w_low, abs(w_turn - (w_low + w_high) / 2) * 2)
+    sigma_eff = spread / (2 * k_sigma)
+
+    min_w = max(t + 1, int(weighted_center - k_sigma * sigma_eff))
+    max_w = min(saturatew, int(weighted_center + k_sigma * sigma_eff))
+
+    # Ensure we include the turning point region if fit quality is poor
+    if r_squared < 0.5:
+        min_w = min(min_w, max(t + 1, int(w_turn - 3)))
+        max_w = max(max_w, min(saturatew, int(w_turn + 3)))
+
+    return min_w, max_w
 
 
 """
