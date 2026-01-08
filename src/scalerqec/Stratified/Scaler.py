@@ -1,7 +1,6 @@
 # An updated version of the main method
 import numpy as np
 import time
-import math
 from typing import List, Tuple, Optional, Dict
 from scipy.optimize import curve_fit
 from scalerqec.Stratified.stratifiedScurveLER import format_with_uncertainty
@@ -15,7 +14,6 @@ from scalerqec.Clifford.clifford import *
 from scalerqec.Stratified.ScurveModel import *
 from scalerqec.Stratified.fitting import r_squared
 from scalerqec.util.binomial import binomial_weight
-from scalerqec.Monte.monteLER import MonteLERcalc
 import matplotlib.pyplot as plt
 
 class Scaler:
@@ -45,7 +43,7 @@ class Scaler:
         self._stim_str_after_rewrite: str = ""
         self._detector_error_model = None
         self._matcher: Optional[pymatching.Matching] = None
-        self._QEPG_graph = None
+        self._QEPG_graph: Optional[QEPGGraph] = None
 
         # Subspace statistics
         self._subspace_LE_count: Dict[int, int] = {}
@@ -71,23 +69,27 @@ class Scaler:
         self._saturatew: int = 1
         self._minw: int = 1
         self._maxw: int = 1
-        self._max_PL: float = 0.005  # plateau threshold
+        self._max_PL: float = 0.15  # plateau threshold (matches stratifiedScurveLER)
 
         # Sampling policy constants (internal, not user-exposed)
-        self._MIN_NUM_LE_EVENT: int = 30  # min LE events to trust subspace LER
+        self._min_num_ke_event: int = 30  # min LE events to trust subspace LER
 
         # NEW: tighter requirements in the band around sweet spot
         self._BAND_HALF_WIDTH: int = 4
         self._TARGET_EVENTS_BAND: int = 160  # target LE events per band weight
 
+        # Progressive sampling state
+        self._current_frontier: int = 0  # Current leftmost sampled weight (moves left)
+        self._SHOTS_PER_SUBSPACE: int = 5000  # Shots per subspace in progressive phase
+
         # Final LER
-        self._LER: float = 0.0
+        self._ler: float = 0.0
 
     # ------------------------------------------------------------------
     #  Circuit / QEPG setup and basic helpers
     # ------------------------------------------------------------------
 
-    def parse_from_file(self, filepath: str):
+    def parse_from_file(self, filepath: str) -> None:
         """
         Read the circuit, parse from the file, compile stim circuit and QEPG graph.
         """
@@ -115,6 +117,8 @@ class Scaler:
         """
         Calculate the logical error rate with fixed Pauli weight w.
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
+        assert self._matcher is not None, "Matcher must be initialized before decoding"
         result = return_samples_with_fixed_QEPG(self._QEPG_graph, w, shots)
         arr = np.asarray(result)
         states = arr[:, :-1]
@@ -158,14 +162,15 @@ class Scaler:
                 left = mid + 1
         return left
 
-    def determine_lower_w(self):
+    def determine_lower_w(self) -> None:
         """Determine the first weight where PL is noticeably non-zero."""
         if self._num_noise <= 8:
-            self._has_logical_errorw = 1
+            self._has_logical_errorw = self._t + 1
         else:
-            self._has_logical_errorw = self.binary_search_lower(1, self._num_noise)
+            # Start binary search from t+1 (fault-tolerant threshold)
+            self._has_logical_errorw = self.binary_search_lower(self._t + 1, self._num_noise)
 
-    def determine_saturated_w(self):
+    def determine_saturated_w(self) -> None:
         """Determine the weight where PL is essentially saturated (near plateau)."""
         if self._num_noise <= 8:
             self._saturatew = self._num_noise
@@ -181,12 +186,13 @@ class Scaler:
     #  Sampling rate measurement
     # ------------------------------------------------------------------
 
-    def measure_sample_rates(self):
+    def measure_sample_rates(self) -> None:
         """
         Measure the sampling rate of the given circuit.
         This method is used to estimate how many samples can be done within
         the time budget (shots per second).
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
         # Use a central weight as a proxy.
         wlist = [max(1, self._num_noise // 2)]
         slist = [1000]
@@ -221,6 +227,8 @@ class Scaler:
 
         Returns the elapsed time for this step (seconds).
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
+        assert self._matcher is not None, "Matcher must be initialized before decoding"
         if not wlist:
             return 0.0
 
@@ -253,6 +261,14 @@ class Scaler:
 
             begin_index = end_index
 
+        # Debug: print PL values
+        print("  PL values:")
+        for w in wlist:
+            pl = self._estimated_subspaceLER.get(w, 0)
+            le = self._subspace_LE_count.get(w, 0)
+            samples = self._subspace_sample_used.get(w, 0)
+            print(f"    w={w}: PL={pl:.4f}, LE_count={le}, samples={samples}")
+
         # Refine sampling rate using this step (to capture memory / overhead effects).
         if elapsed > 0 and total_shots > 0:
             inst_rate = total_shots / elapsed
@@ -271,7 +287,7 @@ class Scaler:
     #  Fitting the log-S model
     # ------------------------------------------------------------------
 
-    def fit_log_S_model(self, filename=None, savefigure: bool = False, time_val=None):
+    def fit_log_S_model(self, filename: str | None = None, savefigure: bool = False, time_val: float | None = None) -> None:
         """
         Fit log(0.5 / PL - 1) ≈ modified_linear_function(w; a, b, c, t)
         and update (a, b, c), R^2, and sweet_spot.
@@ -290,7 +306,7 @@ class Scaler:
             if (
                 0.0 < self._estimated_subspaceLER[x] < 0.5
                 and self._subspace_LE_count.get(x, 0) > 0
-                # and self._subspace_LE_count.get(x, 0) >= (self._MIN_NUM_LE_EVENT // 10)
+                # and self._subspace_LE_count.get(x, 0) >= (self._min_num_ke_event // 10)
             )
         ]
         if not x_list:
@@ -527,7 +543,7 @@ class Scaler:
 
         # Side annotation box (simplified for Scaler)
         text_lines = [
-            r"$N_{LE}^{Clip}=%d$" % self._MIN_NUM_LE_EVENT,
+            r"$N_{LE}^{Clip}=%d$" % self._min_num_ke_event,
             r"$r_{sweet}=%.2f$" % self._ratio,
             r"$\alpha=%.4f$" % alpha,
             r"$\mu =%.4f$" % (alpha * self._b),
@@ -538,9 +554,9 @@ class Scaler:
             r"$\#\mathrm{detector}=%d$" % self._num_detector,
             r"$\#\mathrm{noise}=%d$" % self._num_noise,
         ]
-        if self._LER > 0:
+        if self._ler > 0:
             text_lines.append(
-                r"$P_L={0}\times 10^{{{1}}}$".format(*"{0:.2e}".format(self._LER).split("e"))
+                r"$P_L={0}\times 10^{{{1}}}$".format(*"{0:.2e}".format(self._ler).split("e"))
             )
         if time_val is not None:
             text_lines.append(r"$\mathrm{Time}=%.2f\,\mathrm{s}$" % time_val)
@@ -579,7 +595,7 @@ class Scaler:
     #  Parameter / band / PL stability checks
     # ------------------------------------------------------------------
 
-    def params_stable(self, theta_new, theta_old, tol, r2, r2_target):
+    def params_stable(self, theta_new: tuple[float, ...], theta_old: tuple[float, ...] | None, tol: float, r2: float, r2_target: float) -> bool:
         """
         Decide if the parameters are stable enough throughout iterations.
         """
@@ -627,7 +643,39 @@ class Scaler:
     #  Decide the next sampling step
     # ------------------------------------------------------------------
 
-    def _choose_candidate_weights(self) -> list[int]:
+    def _choose_candidate_weights_progressive(self) -> List[int]:
+        """
+        Progressive sampling: move LEFT from current frontier toward sweet spot.
+
+        Step size = (w_sweet - w_has_error) / 5
+        Returns the next weight(s) to sample.
+        """
+        if self._sweet_spot is None:
+            ep = int(self._error_rate * self._num_noise)
+            self._sweet_spot = max(self._t + 1, ep)
+
+        # Compute step size
+        span = max(1, self._sweet_spot - self._has_logical_errorw)
+        step_size = max(1, span // 5)
+
+        # Next weight: move left from current frontier
+        next_w = self._current_frontier - step_size
+
+        # Check if we've reached or passed the sweet spot
+        if next_w <= self._sweet_spot:
+            # Sample at sweet spot if not already sampled
+            if self._sweet_spot not in self._subspace_sample_used:
+                next_w = self._sweet_spot
+            else:
+                return []  # Done - reached sweet spot
+
+        # Ensure we don't go below minimum valid weight
+        if next_w <= self._t:
+            return []
+
+        return [next_w]
+
+    def _choose_candidate_weights(self) -> List[int]:
         """
         Choose a small set of candidate weights to sample next.
 
@@ -677,11 +725,6 @@ class Scaler:
                 W.add(w)
 
         # 5) Add a small grid across the bracket for uniform coverage
-        def evenly_spaced_ints(lo: int, hi: int, k: int) -> list[int]:
-            if k <= 1 or hi <= lo:
-                return [lo, hi]
-            return sorted(set(int(round(lo + i * (hi - lo) / (k - 1))) for i in range(k)))
-
         grid_points = evenly_spaced_ints(left_bracket, right_bracket, 5)
         for w in grid_points:
             if left_bracket <= w <= right_bracket:
@@ -807,7 +850,7 @@ class Scaler:
                 sub_PL = modified_sigmoid_function(w, self._a, self._b, self._c, self._t)
             LER += sub_PL * binomial_weight(N, w, p)
 
-        self._LER = LER
+        self._ler = LER
         return LER
 
     # ------------------------------------------------------------------
@@ -819,24 +862,25 @@ class Scaler:
         filepath: str,
         pvalue: float,
         codedistance: int,
-        figname,
-        titlename,
+        figname: str | None,
+        titlename: str | None,
         repeat: int = 1,
-    ):
+    ) -> None:
         """
-        Iteratively calculate the LER from the given circuit file.
+        Calculate LER using simplified progressive sampling algorithm.
 
-        Steps:
-          1. Parse the circuit from the file, compile stim and QEPG graph.
-          2. Measure sampling rate (shots/second).
-          3. Iteratively:
-             - choose subspaces,
-             - sample within remaining time budget (and per-step shot cap),
-             - refit S-curve parameters.
-          4. Stop when:
-             - parameters are stable,
-             - the band around sweet spot is well-sampled,
-             - and the overall PL estimate is stable.
+        Algorithm:
+        1. Phase 1 (Initialization):
+           - Binary search to find w_has_error (first weight with logical errors)
+           - Binary search to find w_saturated (weight where PL saturates)
+           - Uniformly sample 5 points between w_saturated and w_has_error
+           - Fit initial S-curve and estimate w_sweet
+
+        2. Phase 2 (Progressive refinement):
+           - Iteratively sample one subspace moving LEFT from w_saturated toward w_sweet
+           - Step size = (w_sweet - w_has_error) / 5
+           - After each iteration, re-estimate w_sweet from updated fit
+           - Stop when reaching w_sweet or timeout
         """
         self._error_rate = pvalue
         self._circuit_level_code_distance = codedistance
@@ -848,135 +892,177 @@ class Scaler:
         self._subspace_LE_count.clear()
         self._subspace_sample_used.clear()
         self._estimated_subspaceLER.clear()
-        self._LER = 0.0
+        self._ler = 0.0
+        self._a = 0.0
+        self._b = 0.0
+        self._c = 0.0
         self._remaining_time_budget = float(self._time_budget)
 
-        # Determine S-curve bracket
-        print("Determining S-curve lower bound...")
-        self.determine_lower_w()
-        print(f"  Found has_logical_errorw = {self._has_logical_errorw}")
-        print("Determining S-curve saturated bound...")
-        self.determine_saturated_w()
-        print(f"  Found saturatew = {self._saturatew}")
+        start_time = time.perf_counter()
 
-        # Measure sampling rate
-        print("Measuring sampling rate...")
+        print("=" * 60)
+        print("ScaLER: Simplified Progressive Sampling")
+        print(f"  Time budget: {self._time_budget:.1f}s")
+        print(f"  Error rate: {pvalue:.2e}")
+        print(f"  Code distance: {codedistance} (t={self._t})")
+        print("=" * 60)
+
+        # ============================================================
+        # PHASE 1: Binary search + uniform 5-point sampling
+        # ============================================================
+        print("\nPhase 1: Determining S-curve bounds...")
+        self.determine_lower_w()
+        print(f"  w_has_error = {self._has_logical_errorw}")
+        self.determine_saturated_w()
+        print(f"  w_saturated = {self._saturatew}")
+
+        print("\nMeasuring sampling rate...")
         self.measure_sample_rates()
         if self._remaining_time_budget <= 0.0:
             print("Time budget exhausted during calibration.")
             return None
 
-        # ----------------------------------------------------------
-        # Initial warmup sampling: bounded by a fixed max shots
-        # ----------------------------------------------------------
-        WARMUP_MIN_SHOTS = 10_000
-        # Nominal warmup based on time, but capped hard:
-        warmup_seconds = 0.1 * self._remaining_time_budget
-        warmup_shots_est = int(warmup_seconds * self._sampling_rate)
-        warmup_shots = max(WARMUP_MIN_SHOTS, warmup_shots_est)
-        warmup_shots = min(warmup_shots, self._MAX_SHOTS_PER_STEP)
+        # Uniform 5-point sampling between w_has_error and w_saturated
+        print("\nPhase 1: Initial 5-point uniform sampling...")
+        wlist_init = evenly_spaced_ints(self._has_logical_errorw, self._saturatew, 5)
+        shots_per_w = max(2000, self._SHOTS_PER_SUBSPACE)
+        slist_init = [shots_per_w] * len(wlist_init)
 
-        wlist0 = evenly_spaced_ints(self._has_logical_errorw, self._saturatew, 6)
-        shots_per_w = max(100, warmup_shots // max(1, len(wlist0)))
-        slist0 = [shots_per_w] * len(wlist0)
-
-        # Ensure total shots respects the cap (after integer division)
-        total_warmup = sum(slist0)
-        if total_warmup > self._MAX_SHOTS_PER_STEP and total_warmup > 0:
-            factor = self._MAX_SHOTS_PER_STEP / total_warmup
-            slist0 = [max(1, int(round(s * factor))) for s in slist0]
-
-        elapsed = self._sampling_step(wlist0, slist0)
+        elapsed = self._sampling_step(wlist_init, slist_init)
         self._remaining_time_budget -= elapsed
 
-        # First fit
-        self.fit_log_S_model(filename=figname+"first.pdf", savefigure=True, time_val=None)
-        theta_prev = (self._a, self._b, self._c)
+        # Initial fit
+        self.fit_log_S_model(
+            filename=figname + "phase1.pdf",
+            savefigure=True,
+            time_val=time.perf_counter() - start_time,
+        )
 
-        # First PL estimate
-        pl_prev: Optional[float] = self._calc_LER_from_fit()
+        print(f"  Initial sweet_spot = {self._sweet_spot}")
+        print(f"  Initial R^2 = {self._R_square_score:.4f}")
+        self._calc_LER_from_fit()
+        print(f"  Initial LER = {self._ler:.3e}")
 
-        # ----------------------------------------------------------
-        # Iterative refinement
-        # ----------------------------------------------------------
-        stable_count = 0
-        param_tol = 0.03     # stricter parameter tolerance
-        r2_target = 0.98     # stricter R^2 requirement
-        pl_tol = 0.20        # require PL to be stable within 20% (tune)
-        max_iters = 10
+        # ============================================================
+        # PHASE 2: Sample between sweet_spot and w_has_error
+        # ============================================================
+        print("\nPhase 2: Sampling between sweet_spot and w_has_error...")
+        print(f"  sweet_spot = {self._sweet_spot}")
+        print(f"  w_has_error = {self._has_logical_errorw}")
 
-        iter_idx = 0
-        while (
-            self._remaining_time_budget > 0.0
-            and stable_count < 2
-            and iter_idx < max_iters
-        ):
-            iter_idx += 1
-            print(f"\n=== Iteration {iter_idx} ===")
+        # Sample 6 points uniformly between sweet_spot and w_has_error
+        assert self._sweet_spot is not None, "Sweet spot must be determined before Phase 2"
+        num_subspaces_phase2 = 6
+        wlist_phase2 = evenly_spaced_ints(self._sweet_spot, self._has_logical_errorw, num_subspaces_phase2)
 
-            wlist, slist = self.next_step()
-            if not wlist:
-                # Nothing more to do under this policy
-                print("No more weights to sample under current policy.")
-                break
+        # Filter out already sampled weights
+        wlist_phase2 = [w for w in wlist_phase2 if w not in self._subspace_sample_used]
 
-            elapsed = self._sampling_step(wlist, slist)
+        if wlist_phase2:
+            print(f"  Phase 2 weights to sample: {wlist_phase2}")
+            slist_phase2 = [self._SHOTS_PER_SUBSPACE] * len(wlist_phase2)
+
+            elapsed = self._sampling_step(wlist_phase2, slist_phase2)
             self._remaining_time_budget -= elapsed
-            if self._remaining_time_budget <= 0.0:
-                print("Time budget exhausted during iterative refinement.")
+
+            # Re-fit after Phase 2 sampling
+            self.fit_log_S_model(
+                filename=figname + "phase2.pdf",
+                savefigure=True,
+                time_val=time.perf_counter() - start_time,
+            )
+            self._calc_LER_from_fit()
+
+            print(f"  Updated sweet_spot = {self._sweet_spot}")
+            print(f"  R^2 = {self._R_square_score:.4f}")
+            print(f"  LER = {self._ler:.3e}")
+        else:
+            print("  No new weights to sample in Phase 2.")
+
+        # ============================================================
+        # PHASE 3: Iterative refinement - sample more around sweet spot
+        # ============================================================
+        print("\nPhase 3: Iterative refinement around sweet spot...")
+
+        max_iters = 10
+        iter_idx = 0
+
+        while self._remaining_time_budget > 0.0 and iter_idx < max_iters:
+            iter_idx += 1
+
+            # Find weights that need more samples (low LE count)
+            wlist_refine = []
+            for w in sorted(self._subspace_sample_used.keys()):
+                le_count = self._subspace_LE_count.get(w, 0)
+                if le_count < self._min_num_ke_event and self._subspace_sample_used[w] < 50000:
+                    wlist_refine.append(w)
+
+            if not wlist_refine:
+                print(f"  All weights have sufficient LE events. Stopping.")
                 break
 
-            self.fit_log_S_model(filename=figname+f"iter{iter_idx}.pdf", savefigure=True, time_val=None)
-            theta_new = (self._a, self._b, self._c)
-            pl_new = self._calc_LER_from_fit()
+            # Limit to a few weights per iteration
+            wlist_refine = wlist_refine[:5]
 
-            print("Current sweet spot weight:", self._sweet_spot)
+            print(f"\n--- Iteration {iter_idx} ---")
+            print(f"  Weights needing more samples: {wlist_refine}")
 
-            params_ok = self.params_stable(
-                theta_new, theta_prev, param_tol, self._R_square_score, r2_target
+            slist_refine = [self._SHOTS_PER_SUBSPACE] * len(wlist_refine)
+            elapsed = self._sampling_step(wlist_refine, slist_refine)
+            self._remaining_time_budget -= elapsed
+
+            if self._remaining_time_budget <= 0.0:
+                print("  Time budget exhausted.")
+                break
+
+            # Re-fit and update
+            self.fit_log_S_model(
+                filename=figname + f"iter{iter_idx}.pdf",
+                savefigure=True,
+                time_val=time.perf_counter() - start_time,
             )
-            band_ok = self._band_well_sampled()
-            pl_ok = self._pl_stable(pl_new, pl_prev, pl_tol)
+            self._calc_LER_from_fit()
 
-            print(
-                f"  R^2={self._R_square_score:.4f}, band_ok={band_ok}, "
-                f"params_ok={params_ok}, PL_old={pl_prev:.3e} PL_new={pl_new:.3e}"
-            )
+            print(f"  Updated sweet_spot = {self._sweet_spot}")
+            print(f"  R^2 = {self._R_square_score:.4f}")
+            print(f"  LER = {self._ler:.3e}")
 
-            if params_ok and band_ok and pl_ok:
-                stable_count += 1
-                print(f"  All criteria satisfied (count={stable_count}).")
-            else:
-                stable_count = 0
-                print("  Not yet globally stable; continue sampling.")
+        # ============================================================
+        # Final results
+        # ============================================================
+        total_time = time.perf_counter() - start_time
 
-            theta_prev = theta_new
-            pl_prev = pl_new
-
-        # Final LER estimate
+        # Final fit
+        self.fit_log_S_model(
+            filename=figname + "final.pdf",
+            savefigure=True,
+            time_val=total_time,
+        )
         ler_est = self._calc_LER_from_fit()
-        print(f"\nEstimated PL ≈ {ler_est:.3e}")
-        print(f"R^2 of final fit: {self._R_square_score:.4f}")
-        print(f"Remaining time budget: {self._remaining_time_budget:.2f} s")
+
+        print("\n" + "=" * 60)
+        print("RESULTS")
+        print("=" * 60)
+        print(f"  Estimated LER: {ler_est:.4e}")
+        print(f"  Final R^2: {self._R_square_score:.4f}")
+        print(f"  Sweet spot: w = {self._sweet_spot}")
+        print(f"  Sampled weights: {sorted(self._subspace_sample_used.keys())}")
+        print(f"  Total samples: {sum(self._subspace_sample_used.values()):,}")
+        print(f"  Total time: {total_time:.1f}s")
+        print("=" * 60)
+
         return ler_est
 
 
 if __name__ == "__main__":
-    filepath = "C:/Users/yezhu/GitRepos/ScaLERQEC/stimprograms/surface/surface9"
-    scaler = Scaler(error_rate=0.001, time_budget=3600)
+    # Test on repetition code
+    filepath = "C:/Users/yezhu/Documents/ScaLER/stimprograms/repetition/repetition5"
+    scaler = Scaler(error_rate=0.01, time_budget=60)
     scaler.calculate_LER_from_file(
         filepath,
-        pvalue=0.001,
-        codedistance=9,
-        figname="test.png",
-        titlename="Test Circuit",
+        pvalue=0.01,
+        codedistance=5,
+        figname="rep5_test_",
+        titlename="Repetition-5 Test",
         repeat=1,
     )
-
-    # montecalc = MonteLERcalc(MIN_NUM_LE_EVENT=1000)
-    # montecalc.calculate_LER_from_file(
-    #     samplebudget=1_000_000,
-    #     filepath=filepath,
-    #     pvalue=0.001,
-    #     repeat=5,
-    # )

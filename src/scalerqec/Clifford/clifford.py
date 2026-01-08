@@ -1,6 +1,4 @@
 import stim
-import numpy as np
-
 
 
 
@@ -16,38 +14,38 @@ pauliNoiseindices={"I":0,"X":1, "Y":2, "Z":3}
 
 
 class SingleQGate:
-    def __init__(self, gateindex, qubitindex):
+    def __init__(self, gateindex: int, qubitindex: int):
         self._name = oneQGate_[gateindex]
         self._qubitindex = qubitindex
 
     @property
-    def qubitindex(self):
+    def qubitindex(self) -> int:
         return self._qubitindex
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name + "[" + str(self._qubitindex) + "]"
 
 
 class TwoQGate:
-    def __init__(self, gateindex, control, target):
+    def __init__(self, gateindex: int, control: int, target: int):
         self._name = twoQGate_[gateindex]
         self._control = control
         self._target = target
 
     @property
-    def control(self):
+    def control(self) -> int:
         return self._control
 
     @property
-    def target(self):
+    def target(self) -> int:
         return self._target
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self._name
 
 
@@ -56,49 +54,50 @@ class TwoQGate:
 
 
 class pauliNoise:
-    def __init__(self, noiseindex, qubitindex):
+    def __init__(self, noiseindex: int, qubitindex: int):
         self._name="n"+str(noiseindex)
-        self._noiseindex= noiseindex
-        self._qubitindex = qubitindex
-        self._noisetype=0
+        self._noiseindex : int= noiseindex
+        self._qubitindex : int = qubitindex
+        self._noisetype : int = 0
 
     @property
-    def noisetype(self):
+    def noisetype(self) -> int:
         return self._noisetype
 
     @noisetype.setter
-    def noisetype(self, noisetype):
-        self._noisetype=noisetype
+    def noisetype(self, noisetype: int):
+        self._noisetype = noisetype
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name +"("+pauliNoise_[self._noisetype] +")" +"[" + str(self._qubitindex) + "]"
 
 
 class Measurement:
-    def __init__(self,measureindex ,qubitindex):
+    def __init__(self,measureindex: int, qubitindex: int):
         self._name="M"+str(measureindex)
         self._qubitindex = qubitindex
         self._measureindex=measureindex
 
     @property
-    def qubitindex(self):
+    def qubitindex(self) -> int:
         return self._qubitindex
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name + "[" + str(self._qubitindex) + "]"
 
 
+
 class Reset:
-    def __init__(self, qubitindex):
+    def __init__(self, qubitindex: int):
         self._name="R"
         self._qubitindex = qubitindex
 
     @property
-    def qubitindex(self):
+    def qubitindex(self) -> int:
         return self._qubitindex
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self._name + "[" + str(self._qubitindex) + "]"
 
 
@@ -107,28 +106,28 @@ class Reset:
 class CliffordCircuit:
 
 
-    def __init__(self, qubit_num):
-        self._qubit_num = qubit_num
-        self._totalnoise=0
-        self._totalMeas=0
-        self._totalgates=0
-        self._gatelists=[]
-        self._error_rate=0
-        self._index_to_noise={}
-        self._index_to_measurement={}
+    def __init__(self, qubit_num : int):
+        self._qubit_num : int = qubit_num
+        self._totalnoise : int=0
+        self._totalMeas : int=0
+        self._totalgates : int=0
+        self._gatelists: list[SingleQGate | TwoQGate | pauliNoise | Measurement | Reset] = []
+        self._error_rate : float=0
+        self._index_to_noise: dict[int, pauliNoise] = {}
+        self._index_to_measurement: dict[int, Measurement] = {}
 
         #self._index_to_measurement={}
 
-        self._shownoise=False
-        self._syndromeErrorTable={}
+        self._shownoise: bool = False
+        self._syndromeErrorTable: dict[str, int] = {}
         #Store the repeat match group
         #For example, if we require M0=M1, M2=M3, then the match group is [[0,1],[2,3]]
-        self._parityMatchGroup=[]
-        self._observable=[]
+        self._parityMatchGroup: list[list[int]] = []
+        self._observable: list[int] = []
 
-        self._measIdx_to_parityIdx={}
+        self._measIdx_to_parityIdx: dict[int, int] = {}
 
-        self._stim_str=None
+        self._stim_str: str | None = None
         self._stimcircuit: stim.Circuit = stim.Circuit()
 
 
@@ -136,39 +135,39 @@ class CliffordCircuit:
 
 
     @property
-    def gatelists(self):
+    def gatelists(self) -> list:
         return self._gatelists
 
 
     @property
-    def qubitnum(self):
+    def qubitnum(self) -> int:
         return self._qubit_num
 
 
     @qubitnum.setter
-    def qubitnum(self, qubit_num):
+    def qubitnum(self, qubit_num : int):
         self._qubit_num = qubit_num
 
-    def get_measIdx_to_parityIdx(self,measIdx):
+    def get_measIdx_to_parityIdx(self,measIdx : int) -> int:
         return self._measIdx_to_parityIdx[measIdx]
 
 
     @property
-    def stim_str(self):
+    def stim_str(self) -> str:
         return self._stim_str
 
 
     @stim_str.setter
-    def stim_str(self, stim_str):
+    def stim_str(self, stim_str: str):
         self._stim_str=stim_str
 
 
     @property
-    def error_rate(self):
+    def error_rate(self) -> float:
         return self._error_rate
 
     @error_rate.setter
-    def error_rate(self, error_rate):
+    def error_rate(self, error_rate: float):
         self._error_rate=error_rate
 
     @property
@@ -282,7 +281,7 @@ class CliffordCircuit:
     '''
     Compile from a stim circuit string.
     '''
-    def compile_from_stim_circuit_str(self, stim_str):
+    def compile_from_stim_circuit_str(self, stim_str : str):
         #self._totalnoise=0
         self._totalnoise=0
         self._totalMeas=0
@@ -333,15 +332,15 @@ class CliffordCircuit:
         for line in lines:
             stripped_line = line.strip()
             if stripped_line.startswith("DETECTOR("):
-                meas_index = [token.strip() for token in stripped_line.split() if token.strip().startswith("rec")]
-                meas_index = [int(x[4:-1]) for x in meas_index]
-                parityMatchGroup.append([measure_line_to_measure_index[measure_stack[x]] for x in meas_index])
+                meas_index_str = [token.strip() for token in stripped_line.split() if token.strip().startswith("rec")]
+                meas_index = [int(x[4:-1]) for x in meas_index_str]
+                parityMatchGroup.append([measure_line_to_measure_index[measure_stack[idx]] for idx in meas_index])
                 current_line_index+=1
                 continue
             elif stripped_line.startswith("OBSERVABLE_INCLUDE("):
-                meas_index = [token.strip() for token in stripped_line.split() if token.strip().startswith("rec")]
-                meas_index = [int(x[4:-1]) for x in meas_index]
-                observable=[measure_line_to_measure_index[measure_stack[x]] for x in meas_index]
+                meas_index_str = [token.strip() for token in stripped_line.split() if token.strip().startswith("rec")]
+                meas_index = [int(x[4:-1]) for x in meas_index_str]
+                observable=[measure_line_to_measure_index[measure_stack[idx]] for idx in meas_index]
                 current_line_index+=1
                 continue
 
@@ -424,7 +423,7 @@ class CliffordCircuit:
 
 
 
-    def set_noise_type(self, noiseindex, noisetype):
+    def set_noise_type(self, noiseindex: int, noisetype: int):
         self._index_to_noise[noiseindex].set_noisetype(noisetype)
 
 
@@ -437,14 +436,14 @@ class CliffordCircuit:
             print(self._index_to_noise[i])
 
 
-    def add_xflip_noise(self, qubit):
+    def add_xflip_noise(self, qubit : int):
         self._stimcircuit.append("X_ERROR", [qubit], self._error_rate)
         self._gatelists.append(pauliNoise(self._totalnoise, qubit))
         self._index_to_noise[self._totalnoise]=self._gatelists[-1]
         self._totalnoise+=1           
 
 
-    def add_depolarize(self, qubit):
+    def add_depolarize(self, qubit : int):
         self._stimcircuit.append("DEPOLARIZE1", [qubit], self._error_rate)
         self._gatelists.append(pauliNoise(self._totalnoise, qubit))
         self._index_to_noise[self._totalnoise]=self._gatelists[-1]
@@ -455,34 +454,34 @@ class CliffordCircuit:
         self._stimcircuit.append("CNOT", [control, target])
 
 
-    def add_hadamard(self, qubit):      
+    def add_hadamard(self, qubit: int):      
         self._gatelists.append(SingleQGate(oneQGateindices["H"], qubit))
         self._stimcircuit.append("H", [qubit])
 
 
-    def add_phase(self, qubit):         
+    def add_phase(self, qubit: int):         
         self._gatelists.append(SingleQGate(oneQGateindices["P"], qubit))
         self._stimcircuit.append("S", [qubit])
 
-    def add_cz(self, qubit1, qubit2):
+    def add_cz(self, qubit1: int, qubit2 : int):
         self._gatelists.append(TwoQGate(twoQGateindices["CZ"], qubit1, qubit2))     
 
 
-    def add_paulix(self, qubit):
+    def add_paulix(self, qubit : int):
         self._gatelists.append(SingleQGate(oneQGateindices["X"], qubit))
         self._stimcircuit.append("X", [qubit])
 
-    def add_pauliy(self, qubit):
+    def add_pauliy(self, qubit: int):
         self._gatelists.append(SingleQGate(oneQGateindices["Y"], qubit))
         self._stimcircuit.append("Y", [qubit])
 
-    def add_pauliz(self, qubit):
+    def add_pauliz(self, qubit : int):
         self._gatelists.append(SingleQGate(oneQGateindices["Z"], qubit))
         self._stimcircuit.append("Z", [qubit])
 
 
-    def add_measurement(self, qubit):
-        self._gatelists.append(Measurement(self._totalMeas,qubit))
+    def add_measurement(self, qubit: int):
+        self._gatelists.append(Measurement(self._totalMeas, qubit))
         self._stimcircuit.append("M", [qubit])
         #self._stimcircuit.append("DETECTOR", [stim.target_rec(-1)])
         self._index_to_measurement[self._totalMeas]=self._gatelists[-1]
@@ -503,12 +502,11 @@ class CliffordCircuit:
             detectorIdx+=1
         self._stimcircuit.append("OBSERVABLE_INCLUDE", [stim.target_rec(k-totalMeas) for k in self._observable], 0)
 
-
-    def add_reset(self, qubit):
+    def add_reset(self, qubit: int):
         self._gatelists.append(Reset(qubit))
         self._stimcircuit.append("R", [qubit])
 
-    def setShowNoise(self, show):
+    def setShowNoise(self, show: bool):
         self._shownoise=show
 
     def __str__(self):

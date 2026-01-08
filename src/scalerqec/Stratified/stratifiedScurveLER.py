@@ -114,6 +114,7 @@ class StratifiedScurveLERcalc:
         """
         Calculate the logical error rate with fixed w
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
         result= return_samples_with_fixed_QEPG(self._QEPG_graph,w,shots)
         # self._sample_used+=shots
         # if w not in self._subspace_LE_count.keys():
@@ -232,14 +233,15 @@ class StratifiedScurveLERcalc:
         """
         wlist store the subset of weights we need to sample and get
         correct logical error rate.
-        
+
         In each subspace, we stop sampling until 100 logical error events are detected, or we hit the total budget.
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
         #wlist_need_to_sample = list(range(self._minw, self._maxw + 1))
         #wlist_need_to_sample=evenly_spaced_ints(self._sweet_spot,self._saturatew,self._num_subspace)
-        
-        
-        wlist_need_to_sample=evenly_spaced_ints(self._sweet_spot,self._has_logical_errorw,self._num_subspace)
+
+
+        wlist_need_to_sample=evenly_spaced_ints(int(self._sweet_spot),self._has_logical_errorw,self._num_subspace)
         
         
         #print("wlist_need_to_sample: ",wlist_need_to_sample)
@@ -338,11 +340,12 @@ class StratifiedScurveLERcalc:
     def subspace_sampling_to_fit_curve(self,sampleBudget):
 
         """
-        After we determine the minw and maxw, we generate an even distribution of points 
+        After we determine the minw and maxw, we generate an even distribution of points
         between minw and maxw.
 
         The goal is for the curve fitting in the next step to get more accurate.
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
 
         wlist=evenly_spaced_ints(self._has_logical_errorw,self._saturatew,self._num_subspace)
         for weight in wlist:
@@ -692,6 +695,7 @@ class StratifiedScurveLERcalc:
         Sample around the subspaces.
         This is the ground truth value to test the accuracy of the curve fitting.
         """
+        assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
         sigma=int(np.sqrt(self._error_rate*(1-self._error_rate)*self._num_noise))
         if sigma==0:
             sigma=1
@@ -942,21 +946,22 @@ class StratifiedScurveLERcalc:
             Sample all subspaces from minw to maxw
             return the result of these samples as two dictionary
             """
+            assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
             self.determine_saturated_w()
             wlist_to_sample = np.arange(self._t+1, self._saturatew, step=1)
-            sample_used={}
-            ler_count={}
-            subspaceLER={}
+            sample_used: dict[int, int] = {}
+            ler_count: dict[int, int] = {}
+            subspaceLER: dict[int, float] = {}
             for w in wlist_to_sample:
-                sample_used[w]=0
-                ler_count[w]=0
-                subspaceLER[w]=0
+                sample_used[int(w)]=0
+                ler_count[int(w)]=0
+                subspaceLER[int(w)]=0.0
             """
             First round of sampling
             """
             slist=[8000]*len(wlist_to_sample)
-            wlist=wlist_to_sample
-            detector_result,obsresult=return_samples_many_weights_separate_obs_with_QEPG(self._QEPG_graph,wlist,slist)
+            wlist: list[int] | np.ndarray = wlist_to_sample
+            detector_result,obsresult=return_samples_many_weights_separate_obs_with_QEPG(self._QEPG_graph,list(wlist),slist)
             predictions_result = self._matcher.decode_batch(detector_result)      
             begin_index=0        
             for w_idx, (w, quota) in enumerate(zip(wlist, slist)):
