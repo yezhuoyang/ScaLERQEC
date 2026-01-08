@@ -118,7 +118,7 @@ class StratifiedLERcalc:
             sigma=1
         ep=int(self._error_rate*self._num_noise)
         self._minW=max(1,ep-5*sigma)
-        self._maxW=max(2,ep+5*sigma)
+        self._maxW=max(2,min(self._num_noise, ep+5*sigma))  # Cap at num_noise to avoid infinite loop
 
 
     def subspace_sampling(self):
@@ -126,6 +126,8 @@ class StratifiedLERcalc:
         Sample around the subspaces.
         """
         self.determine_range_to_sample()
+
+        print("Sampling weights from {} to {}".format(self._minW,self._maxW))
         """
         wlist store the subset of weights we need to sample and get
         correct logical error rate.
@@ -196,13 +198,15 @@ class StratifiedLERcalc:
             if(len(wlist)==0):
                 break
 
-            # print("wlist: ",wlist)
-            # print("slist: ",slist)
+            print("wlist: ",wlist)
+            print("slist: ",slist)
             #detector_result,obsresult=return_samples_many_weights_separate_obs(self._stim_str_after_rewrite,wlist,slist)
             assert self._QEPG_graph is not None, "QEPG graph must be initialized before sampling"
+
+
             detector_result,obsresult=return_samples_many_weights_separate_obs_with_QEPG(self._QEPG_graph,wlist,slist)
             predictions_result = self._matcher.decode_batch(detector_result)
-            #print("Result get!")
+            print("Result get!")
 
             
             begin_index=0
@@ -220,8 +224,8 @@ class StratifiedLERcalc:
                 #print(f"Logical error rate when w={w}: {self._estimated_subspaceLER[w]*binomial_weight(self._num_noise, w,self._error_rate):.6g}")
 
                 begin_index+=quota
-            # print(self._subspace_LE_count)
-            # print(self._subspace_sample_used)
+            print(self._subspace_LE_count)
+            print(self._subspace_sample_used)
         # print("Samples used:{}".format(self._sample_used))
         # print("circuit level code distance:{}".format(self._circuit_level_code_distance))
 
