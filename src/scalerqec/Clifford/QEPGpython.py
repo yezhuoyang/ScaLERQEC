@@ -1,4 +1,5 @@
 from .clifford import *
+import numpy as np
 
 
 

@@ -1,5 +1,6 @@
-
-from scalerqec.qepg import compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG
+from __future__ import annotations
+from typing import Optional
+from scalerqec.qepg import compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, return_samples_with_fixed_QEPG, QEPGGraph
 from scalerqec.Clifford.clifford import *
 import math
 import pymatching
@@ -20,78 +21,78 @@ Use strafified sampling + Scurve fitting  algorithm to calculate the logical err
 '''
 class StratifiedScurveLERcalc:
 
-    def __init__(self, error_rate=0., sampleBudget=10000, k_range=3, num_subspace=5,beta=4):
-        self._num_detector=0
-        self._num_noise=0
-        self._error_rate=error_rate
-        self._cliffordcircuit=CliffordCircuit(4)  
+    def __init__(self, error_rate : float=0., sampleBudget : int=10000, k_range: int=3, num_subspace: int=5, beta: float=4):
+        self._num_detector : int=0
+        self._num_noise : int=0
+        self._error_rate : float = error_rate
+        self._cliffordcircuit : CliffordCircuit = CliffordCircuit(4)
 
-        self._LER=0
+        self._ler : float = 0
         """
         Use a dictionary to store the estimated subspace logical error rate,
         how many samples have been used in each subspace
         """
-        self._estimated_subspaceLER={}
-        self._subspace_LE_count={}
-        self._estimated_subspaceLER_second={}
-        self._subspace_sample_used={}
+        self._estimated_subspaceLER : dict[int, float] = {}
+        self._subspace_LE_count : dict[int, int] = {}
+        self._estimated_subspaceLER_second : dict[int, float] = {}
+        self._subspace_sample_used : dict[int, int] = {}
 
-        self._sampleBudget=sampleBudget
-        self._sample_used=0
-        self._circuit_level_code_distance=1
-        self._t=1
-        self._num_subspace=num_subspace
+        self._sampleBudget : int = sampleBudget
+        self._sample_used : int = 0
+        self._circuit_level_code_distance : int = 1
+        self._t : int = 1
+        self._num_subspace : int = num_subspace
         """
         minw and maxw store the range of subspace we need to fit.
         This is determined by the uncertainty value
         """
-        self._minw=1
-        self._maxw=10000000000000
+        self._minw : int = 1
+        self._maxw : int = 10000000000000
         """
         self._saturatew is the weight of the subspace where the 
         logical error get saturated
         """
-        self._saturatew=10000000000000       
-        self._has_logical_errorw=0
-        self._estimated_wlist=[]
+        self._saturatew : int = 10000000000000
+        self._has_logical_errorw : int = 0
+        self._estimated_wlist : list[int] = []
 
-        self._stim_str_after_rewrite=""
+        self._stim_str_after_rewrite : str = ""
 
-        self._mu=0
-        self._sigma=0
+        self._mu : float = 0
+        self._sigma : float = 0
 
         #In the area we are interested in, the maximum value of the logical error rate
-        self._rough_value_for_subspace_LER=0
+        self._rough_value_for_subspace_LER : float = 0
 
-        self._stratified_succeed=False
+        self._stratified_succeed : bool = False
 
-        self._k_range=k_range
-        self._QEPG_graph=None
+        self._k_range : int = k_range
+        self._QEPG_graph: Optional[QEPGGraph] = None
 
-        self._R_square_score=0
-        self._beta=beta
+        self._R_square_score : float = 0
+        self._beta : float = beta
 
-        self._sweet_spot=None
+        self._sweet_spot : float = 0.000
 
 
-        self._MIN_NUM_LE_EVENT = 100
-        self._SAMPLE_GAP=100
-        self._MAX_SAMPLE_GAP=1000000
-        self._MAX_SUBSPACE_SAMPLE=5000000
+        self._min_num_ke_event : int = 100
+        self._sample_gap : int = 100
+        self._max_sample_gap : int = 1000000
+        self._max_subspace_sample: int = 5000000
 
-        self._ratio=0.05
-        self._max_PL= 0.15
+        self._ratio: float = 0.05
+        self._max_PL: float = 0.15
         
 
 
-    def set_sample_bound(self, MIN_NUM_LE_EVENT,SAMPLE_GAP, MAX_SAMPLE_GAP, MAX_SUBSPACE_SAMPLE):
+    def set_sample_bound(self, MIN_NUM_LE_EVENT: int, SAMPLE_GAP: int, MAX_SAMPLE_GAP: int, MAX_SUBSPACE_SAMPLE: int):
         """
         Set the sample bound for the subspace sampling
         """
-        self._MIN_NUM_LE_EVENT=MIN_NUM_LE_EVENT
-        self._SAMPLE_GAP=SAMPLE_GAP
-        self._MAX_SAMPLE_GAP=MAX_SAMPLE_GAP
-        self._MAX_SUBSPACE_SAMPLE=MAX_SUBSPACE_SAMPLE
+        self._min_num_ke_event=MIN_NUM_LE_EVENT
+        self._sample_gap=SAMPLE_GAP
+        self._max_sample_gap=MAX_SAMPLE_GAP
+        self._max_subspace_sample=MAX_SUBSPACE_SAMPLE
 
 
     def clear_all(self):
@@ -100,7 +101,7 @@ class StratifiedScurveLERcalc:
         self._estimated_subspaceLER_second={}
         self._subspace_sample_used={}
         self._sample_used=0
-        self._LER=0        
+        self._ler=0        
         self._estimated_wlist=[]
         self._saturatew=10000000000000               
         self._minw=self._t+1
@@ -109,7 +110,7 @@ class StratifiedScurveLERcalc:
         self._R_square_score=0
 
 
-    def calc_logical_error_rate_with_fixed_w(self, shots, w):
+    def calc_logical_error_rate_with_fixed_w(self, shots : int, w : int):
         """
         Calculate the logical error rate with fixed w
         """
@@ -137,10 +138,10 @@ class StratifiedScurveLERcalc:
     TODO: Restructure the function.
     Add the threshold as an input parameter.
     '''
-    def binary_search_upper(self,low,high, shots):
-        left=low
-        right=high
-        epsion=self._max_PL
+    def binary_search_upper(self,low : int, high : int, shots : int):
+        left : int =low
+        right : int =high
+        epsion : float = self._max_PL
         while left<right:
             mid=(left+right)//2
             er=self.calc_logical_error_rate_with_fixed_w(shots,mid)
@@ -151,10 +152,10 @@ class StratifiedScurveLERcalc:
         return left
 
 
-    def binary_search_lower(self,low,high, shots=5000):
-        left=low
-        right=high
-        epsion=0.002
+    def binary_search_lower(self,low : int ,high : int , shots : int = 5000):
+        left : int = low
+        right : int = high
+        epsion : float = 0.002
         while left<right:
             mid=(left+right)//2
             er=self.calc_logical_error_rate_with_fixed_w(shots,mid)
@@ -173,7 +174,7 @@ class StratifiedScurveLERcalc:
         #self._has_logical_errorw=self._t+100
 
 
-    def determine_saturated_w(self,shots=1000):
+    def determine_saturated_w(self,shots: int =1000):
         """
         Use binary search to determine the minw and maxw
         """
@@ -188,7 +189,7 @@ class StratifiedScurveLERcalc:
 
 
 
-    def parse_from_file(self,filepath):
+    def parse_from_file(self,filepath: str):
         """
         Read the circuit, parse from the file
         """
@@ -266,19 +267,19 @@ class StratifiedScurveLERcalc:
                 """
                 When we declare the circuit level code distance, we don't need to sample these subspaces
                 """
-                if(self._subspace_sample_used[weight]>self._MAX_SUBSPACE_SAMPLE):
+                if(self._subspace_sample_used[weight]>self._max_subspace_sample):
                     continue
 
 
-                if(self._subspace_LE_count[weight]<self._MIN_NUM_LE_EVENT):
+                if(self._subspace_LE_count[weight]<self._min_num_ke_event):
                     if(self._subspace_LE_count[weight]>=1):
                         """
                         For larger subspaces, when we have already get some logical error, 
                         we can estimate how many we still need to sample
                         """
-                        sample_num_required=int(self._MIN_NUM_LE_EVENT/self._subspace_LE_count[weight])* self._subspace_sample_used[weight]
-                        if sample_num_required>self._MAX_SAMPLE_GAP:
-                            sample_num_required=self._MAX_SAMPLE_GAP
+                        sample_num_required=int(self._min_num_ke_event/self._subspace_LE_count[weight])* self._subspace_sample_used[weight]
+                        if sample_num_required>self._max_sample_gap:
+                            sample_num_required=self._max_sample_gap
                         slist.append(sample_num_required)
                         self._subspace_sample_used[weight]+=sample_num_required  
                         self._sample_used+=sample_num_required
@@ -286,9 +287,9 @@ class StratifiedScurveLERcalc:
                         """
                         For larger subspaces, if we have not get any logical error, then we double the sample size
                         """
-                        sample_num_required=max(self._SAMPLE_GAP,self._subspace_sample_used[weight]*10)
-                        if sample_num_required>self._MAX_SAMPLE_GAP:
-                            sample_num_required=self._MAX_SAMPLE_GAP
+                        sample_num_required=max(self._sample_gap,self._subspace_sample_used[weight]*10)
+                        if sample_num_required>self._max_sample_gap:
+                            sample_num_required=self._max_sample_gap
                         slist.append(sample_num_required)
                         self._subspace_sample_used[weight]+=sample_num_required
                         self._sample_used+=sample_num_required
@@ -391,11 +392,11 @@ class StratifiedScurveLERcalc:
     # Calculate logical error rate
     # The input is a list of rows with logical errors
     def calculate_LER(self):
-        self._LER=0
+        self._ler=0
         for weight in range(1,self._num_noise+1):
             if weight in self._estimated_subspaceLER.keys():
-                self._LER+=self._estimated_subspaceLER[weight]*binomial_weight(self._num_noise, weight,self._error_rate)
-        return self._LER    
+                self._ler+=self._estimated_subspaceLER[weight]*binomial_weight(self._num_noise, weight,self._error_rate)
+        return self._ler    
 
 
     def get_LER_subspace(self,weight):
@@ -472,7 +473,7 @@ class StratifiedScurveLERcalc:
 
  
     def fit_log_S_model(self,filename,savefigure=True,time=None):
-        x_list = [x for x in self._estimated_subspaceLER.keys() if (self._estimated_subspaceLER[x] < 0.5 and self._estimated_subspaceLER[x]>0 and self._subspace_LE_count[x]>=(self._MIN_NUM_LE_EVENT//5))]
+        x_list = [x for x in self._estimated_subspaceLER.keys() if (self._estimated_subspaceLER[x] < 0.5 and self._estimated_subspaceLER[x]>0 and self._subspace_LE_count[x]>=(self._min_num_ke_event//5))]
 
         sigma_list= [sigma_estimator( self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
         y_list = [np.log(0.5/self._estimated_subspaceLER[x]-1)-bias_estimator(self._subspace_sample_used[x],self._subspace_LE_count[x]) for x in x_list]
@@ -626,9 +627,9 @@ class StratifiedScurveLERcalc:
 
         # Side annotation box
         text_lines = [
-            r'$N_{LE}^{Clip}=%d$' % self._MIN_NUM_LE_EVENT,
-            r'$N_{sub}^{Gap}=%d$' % self._MAX_SAMPLE_GAP,
-            r'$N_{sub}^{Max}=%d$' % self._MAX_SUBSPACE_SAMPLE,
+            r'$N_{LE}^{Clip}=%d$' % self._min_num_ke_event,
+            r'$N_{sub}^{Gap}=%d$' % self._max_sample_gap,
+            r'$N_{sub}^{Max}=%d$' % self._max_subspace_sample,
             r'$N_{total}=%d$' % self._sample_used,
             r'$r_{sweet}=%.2f$' % self._ratio,
             r'$\alpha=%.4f$' % alpha,
@@ -639,7 +640,7 @@ class StratifiedScurveLERcalc:
             r'$w_{sweet}=%d$' % self._sweet_spot,
             r'$\#\mathrm{detector}=%d$' % self._num_detector,
             r'$\#\mathrm{noise}=%d$' % self._num_noise,
-            r'$P_L={0}\times 10^{{{1}}}$'.format(*"{0:.2e}".format(self._LER).split('e'))
+            r'$P_L={0}\times 10^{{{1}}}$'.format(*"{0:.2e}".format(self._ler).split('e'))
         ]
         if time is not None:
             text_lines.append(r'$\mathrm{Time}=%.2f\,\mathrm{s}$' % time)
@@ -715,19 +716,19 @@ class StratifiedScurveLERcalc:
                 break
             
             for weight in wlist_need_to_sample:
-                if(self._ground_subspace_sample_used[weight]>self._MAX_SUBSPACE_SAMPLE):
+                if(self._ground_subspace_sample_used[weight]>self._max_subspace_sample):
                     continue
                 if(self._ground_subspace_LE_count[weight]==0):
                     wlist.append(weight)
-                    sample_num_required=min(self._MAX_SAMPLE_GAP,self._ground_subspace_sample_used[weight]*10)
+                    sample_num_required=min(self._max_sample_gap,self._ground_subspace_sample_used[weight]*10)
                     self._ground_subspace_sample_used[weight]+=sample_num_required  
                     self._ground_sample_used+=sample_num_required
                     slist.append(sample_num_required)
                     continue
-                if(self._ground_subspace_LE_count[weight]<self._MIN_NUM_LE_EVENT):
-                    sample_num_required=int(self._MIN_NUM_LE_EVENT/self._ground_subspace_LE_count[weight])* self._ground_subspace_sample_used[weight]
-                    if sample_num_required>self._MAX_SAMPLE_GAP:
-                        sample_num_required=self._MAX_SAMPLE_GAP
+                if(self._ground_subspace_LE_count[weight]<self._min_num_ke_event):
+                    sample_num_required=int(self._min_num_ke_event/self._ground_subspace_LE_count[weight])* self._ground_subspace_sample_used[weight]
+                    if sample_num_required>self._max_sample_gap:
+                        sample_num_required=self._max_sample_gap
                     self._ground_subspace_sample_used[weight]+=sample_num_required  
                     self._ground_sample_used+=sample_num_required
                     wlist.append(weight)
@@ -766,7 +767,7 @@ class StratifiedScurveLERcalc:
 
     def calc_logical_error_rate_after_curve_fitting(self):
         #self.fit_Scurve()
-        self._LER=0
+        self._ler=0
 
         sigma=int(np.sqrt(self._error_rate*(1-self._error_rate)*self._num_noise))
         if sigma==0:
@@ -784,14 +785,14 @@ class StratifiedScurveLERcalc:
             If the weight is less than the minw, we just declare it as 0
             """
             if weight in self._estimated_subspaceLER.keys():
-                self._LER+=self._estimated_subspaceLER[weight]*binomial_weight(self._num_noise, weight,self._error_rate)
+                self._ler+=self._estimated_subspaceLER[weight]*binomial_weight(self._num_noise, weight,self._error_rate)
                 #print("Weight: ",weight," LER: ",self._estimated_subspaceLER[weight]*binomial_weight(self._num_noise, weight,self._error_rate))
             else:
                 fitted_subspace_LER=modified_sigmoid_function(weight,self._a,self._b,self._c,self._t)
-                self._LER+=fitted_subspace_LER*binomial_weight(self._num_noise,weight,self._error_rate)
+                self._ler+=fitted_subspace_LER*binomial_weight(self._num_noise,weight,self._error_rate)
                 #print("Weight: ",weight," LER: ",fitted_subspace_LER*binomial_weight(self._num_noise, weight,self._error_rate))
-            #self._LER+=scurve_function(weight,self._mu,self._sigma)*binomial_weight(self._num_noise,weight,self._error_rate)
-        return self._LER
+            #self._ler+=scurve_function(weight,self._mu,self._sigma)*binomial_weight(self._num_noise,weight,self._error_rate)
+        return self._ler
 
 
 
@@ -850,7 +851,7 @@ class StratifiedScurveLERcalc:
         # Labels and legend
         ax.set_xlabel('Weight')
         ax.set_ylabel('Logical Error Rate in subspace')
-        ax.set_title(f"S-curve of {title} (PL={self._LER:.2e})")
+        ax.set_title(f"S-curve of {title} (PL={self._ler:.2e})")
         ax.legend()
 
         # Integer ticks on x-axis
@@ -903,26 +904,26 @@ class StratifiedScurveLERcalc:
             self.plot_scurve(figname+".pdf",titlename)
             r_squared_list.append(self._R_square_score)
             self._sample_used=np.sum(list(self._subspace_sample_used.values()))
-            # print("Final LER: ",self._LER)
+            # print("Final LER: ",self._ler)
             # print("Total samples used: ",self._sample_used)
-            ler_list.append(self._LER)
+            ler_list.append(self._ler)
             sample_used_list.append(self._sample_used)
             Nerror_list.append(sum(self._subspace_LE_count.values()))
 
         # Compute means
-        self._LER = np.mean(ler_list)
-        self._sample_used = np.mean(sample_used_list)
+        self._ler = float(np.mean(ler_list))
+        self._sample_used = int(np.mean(sample_used_list))
 
         # Compute standard deviations
-        ler_std = np.std(ler_list)
-        sample_used_std = np.std(sample_used_list)
-        r2_mean = np.mean(r_squared_list)
-        r2_std = np.std(r_squared_list)
-        Nerror_mean = np.mean(Nerror_list)
-        Nerror_std = np.std(Nerror_list)
+        ler_std = float(np.std(ler_list))
+        sample_used_std = float(np.std(sample_used_list))
+        r2_mean = float(np.mean(r_squared_list))
+        r2_std = float(np.std(r_squared_list))
+        Nerror_mean = float(np.mean(Nerror_list))
+        Nerror_std = float(np.std(Nerror_list))
 
-        time_mean = np.mean(time_list)
-        time_std = np.std(time_list)
+        time_mean = float(np.mean(time_list))
+        time_std = float(np.std(time_list))
 
         # Print with scientific ± formatting
         print("k: ", self._k_range)
@@ -931,7 +932,7 @@ class StratifiedScurveLERcalc:
         print("R2: ", format_with_uncertainty(r2_mean, r2_std))
         print("Samples(ours): ", format_with_uncertainty(self._sample_used, sample_used_std))
         print("Time(our): ", format_with_uncertainty(time_mean, time_std))
-        print("PL(ours): ", format_with_uncertainty(self._LER, ler_std))
+        print("PL(ours): ", format_with_uncertainty(self._ler, ler_std))
         print("Nerror(ours): ", format_with_uncertainty(Nerror_mean, Nerror_std))
 
 
@@ -1205,26 +1206,26 @@ class StratifiedScurveLERcalc:
             self.plot_scurve(figname,titlename)
             r_squared_list.append(self._R_square_score)
             self._sample_used=np.sum(list(self._subspace_sample_used.values()))
-            # print("Final LER: ",self._LER)
+            # print("Final LER: ",self._ler)
             # print("Total samples used: ",self._sample_used)
-            ler_list.append(self._LER)
+            ler_list.append(self._ler)
             sample_used_list.append(self._sample_used)
             Nerror_list.append(sum(self._subspace_LE_count.values()))
 
         # Compute means
-        self._LER = np.mean(ler_list)
-        self._sample_used = np.mean(sample_used_list)
+        self._ler = float(np.mean(ler_list))
+        self._sample_used = int(np.mean(sample_used_list))
 
         # Compute standard deviations
-        ler_std = np.std(ler_list)
-        sample_used_std = np.std(sample_used_list)
-        r2_mean = np.mean(r_squared_list)
-        r2_std = np.std(r_squared_list)
-        Nerror_mean = np.mean(Nerror_list)
-        Nerror_std = np.std(Nerror_list)
+        ler_std = float(np.std(ler_list))
+        sample_used_std = float(np.std(sample_used_list))
+        r2_mean = float(np.mean(r_squared_list))
+        r2_std = float(np.std(r_squared_list))
+        Nerror_mean = float(np.mean(Nerror_list))
+        Nerror_std = float(np.std(Nerror_list))
 
-        time_mean = np.mean(time_list)
-        time_std = np.std(time_list)
+        time_mean = float(np.mean(time_list))
+        time_std = float(np.std(time_list))
 
         # Print with scientific ± formatting
         print("k: ", self._k_range)
@@ -1233,7 +1234,7 @@ class StratifiedScurveLERcalc:
         print("R2: ", format_with_uncertainty(r2_mean, r2_std))
         print("Samples(ours): ", format_with_uncertainty(self._sample_used, sample_used_std))
         print("Time(our): ", format_with_uncertainty(time_mean, time_std))
-        print("PL(ours): ", format_with_uncertainty(self._LER, ler_std))
+        print("PL(ours): ", format_with_uncertainty(self._ler, ler_std))
         print("Nerror(ours): ", format_with_uncertainty(Nerror_mean, Nerror_std))
 
 
@@ -1304,26 +1305,26 @@ class StratifiedScurveLERcalc:
             self.plot_scurve(figname, savefigure=savefigure, title=titlename)
             r_squared_list.append(self._R_square_score)
             self._sample_used=np.sum(list(self._subspace_sample_used.values()))
-            # print("Final LER: ",self._LER)
+            # print("Final LER: ",self._ler)
             # print("Total samples used: ",self._sample_used)
-            ler_list.append(self._LER)
+            ler_list.append(self._ler)
             sample_used_list.append(self._sample_used)
             Nerror_list.append(sum(self._subspace_LE_count.values()))
 
         # Compute means
-        self._LER = np.mean(ler_list)
-        self._sample_used = np.mean(sample_used_list)
+        self._ler = float(np.mean(ler_list))
+        self._sample_used = int(np.mean(sample_used_list))
 
         # Compute standard deviations
-        ler_std = np.std(ler_list)
-        sample_used_std = np.std(sample_used_list)
-        r2_mean = np.mean(r_squared_list)
-        r2_std = np.std(r_squared_list)
-        Nerror_mean = np.mean(Nerror_list)
-        Nerror_std = np.std(Nerror_list)
+        ler_std = float(np.std(ler_list))
+        sample_used_std = float(np.std(sample_used_list))
+        r2_mean = float(np.mean(r_squared_list))
+        r2_std = float(np.std(r_squared_list))
+        Nerror_mean = float(np.mean(Nerror_list))
+        Nerror_std = float(np.std(Nerror_list))
 
-        time_mean = np.mean(time_list)
-        time_std = np.std(time_list)
+        time_mean = float(np.mean(time_list))
+        time_std = float(np.std(time_list))
 
         # Print with scientific ± formatting
         print("k: ", self._k_range)
@@ -1332,7 +1333,7 @@ class StratifiedScurveLERcalc:
         print("R2: ", format_with_uncertainty(r2_mean, r2_std))
         print("Samples(ours): ", format_with_uncertainty(self._sample_used, sample_used_std))
         print("Time(our): ", format_with_uncertainty(time_mean, time_std))
-        print("PL(ours): ", format_with_uncertainty(self._LER, ler_std))
+        print("PL(ours): ", format_with_uncertainty(self._ler, ler_std))
         print("Nerror(ours): ", format_with_uncertainty(Nerror_mean, Nerror_std))        
 
 
