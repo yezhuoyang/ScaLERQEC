@@ -24,8 +24,8 @@ def linear_function(x: float | NDArray[np.floating], a: float, b: float) -> floa
 def modified_linear_function_with_d(x: float | NDArray[np.floating], a: float, b: float, c: float, d: float) -> float | NDArray[np.floating]:
     eps   = 1e-12
     delta = (x - d)**0.5
-    delta = float(np.where(np.abs(delta) < eps, np.sign(delta)*eps, delta))  # type: ignore[arg-type]
-    return float(a * x + b + c / delta)  # type: ignore[arg-type]
+    delta = np.where(np.abs(delta) < eps, np.sign(delta)*eps, delta)
+    return a * x + b + c / delta
 
 
 
@@ -45,7 +45,7 @@ def modified_sigmoid_function(x: float | NDArray[np.floating], a: float, b: floa
     # ignore overflows in exp → exp(z) becomes np.inf, so 0.5/(1+inf) = 0.0
     with np.errstate(over='ignore'):
         y = 0.5 / (1 + np.exp(z))
-    return float(y)
+    return y
 
 def quadratic_function(x: float, a: float, b: float, c: float) -> float:
     """

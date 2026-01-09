@@ -565,14 +565,24 @@ class StratifiedScurveLERcalc:
         #print("Fitted parameters: a={}, b={}, c={}, d={}".format(self._a, self._b, self._c, self._d))
 
         # Setup the plot
-        fig, ax = plt.subplots(figsize=(7, 5))
+        fig, ax = plt.subplots(figsize=(10, 6))
 
+        # Calculate adaptive ranges for positioning
+        x_min_data, x_max_data = min(x_list), max(x_list)
+        y_min_data, y_max_data = min(y_list), max(y_list)
+        y_range = y_max_data - y_min_data if y_max_data != y_min_data else 1.0
+        x_range = x_max_data - x_min_data if x_max_data != x_min_data else 1.0
+
+        # Adaptive saturation region width (proportional to data range)
+        saturation_width = max(3, x_range * 0.3)
+        x_plot_max = self._saturatew + saturation_width
 
         # Plot histogram-style bars for the y values
+        bar_width = max(0.4, min(0.8, x_range / len(x_list) * 0.6))
         bar_container = ax.bar(
             x_list,
             y_list,
-            width=0.6,  # Adjust width if needed
+            width=bar_width,
             align='center',
             color='orange',
             edgecolor='orange',
@@ -592,41 +602,57 @@ class StratifiedScurveLERcalc:
             label='Error bars'
         )
 
-
         # Fit curve
         ax.plot(x_fit, y_fit, label=f'Fitted line, R2={self._R_square_score:.4f}', color='blue', linestyle='--')
 
         # sweet spot marker
         ax.scatter(self._sweet_spot, sweet_spot_y, color='purple', marker='o', s=50, label='Sweet Spot')
-        ax.text(self._sweet_spot*1.1, sweet_spot_y*1.1, 'Sweet Spot', ha='center',color='purple', fontsize=10)
+
+        # Set axis limits before adding regions and text
+        y_plot_min = y_min_data - y_range * 0.1
+        y_plot_max = y_max_data + y_range * 0.5  # Extra space at top for labels
+        ax.set_xlim(-0.5, x_plot_max)
+        ax.set_ylim(y_plot_min, y_plot_max)
+
+        # Helper function to position text in data coordinates based on region
+        def region_text_y():
+            return y_max_data + y_range * 0.35
 
         # Region: Fault-tolerant (green)
-        ax.axvspan(0, self._t, color='green', alpha=0.15)
-        ax.text(self._t / 2, max(y_list) * 1.8, 'Fault\ntolerant', ha='center', color='green',fontsize=8)
+        if self._t > 0:
+            ax.axvspan(0, self._t, color='green', alpha=0.15)
+            ax.text(self._t / 2, region_text_y(), 'Fault\ntolerant',
+                    ha='center', va='bottom', color='green', fontsize=8)
 
-
+        # Region: Curve fitting (yellow)
         ax.axvspan(self._t, self._saturatew, color='yellow', alpha=0.10)
-        ax.text((self._t+ self._saturatew) / 2, max(y_list)*1.2, 'Curve fitting', ha='center', fontsize=15)
+        ax.text((self._t + self._saturatew) / 2, region_text_y(), 'Curve fitting',
+                ha='center', va='bottom', fontsize=10)
 
         # Region: Critical area (gray)
         ax.axvspan(self._minw, self._maxw, color='gray', alpha=0.2)
         ax.axvline(self._minw, color='red', linestyle='--', linewidth=1.2, label=r'$w_{\min}$')
         ax.axvline(self._maxw, color='green', linestyle='--', linewidth=1.2, label=r'$w_{\max}$')
-        ax.text((self._minw + self._maxw) / 2, max(y_list) * 1.8, r'$5\sigma$ Critical Region', ha='center', fontsize=10)
+        ax.text((self._minw + self._maxw) / 2, region_text_y(), r'Critical Region',
+                ha='center', va='bottom', fontsize=9)
 
-        ax.axvspan(self._saturatew,self._saturatew+12, color='red', alpha=0.15)
-        ax.text(self._saturatew+6, max(y_list) * 2.8, 'Saturation', ha='center',color='red', fontsize=10)
+        # Region: Saturation (red)
+        ax.axvspan(self._saturatew, x_plot_max, color='red', alpha=0.15)
+        ax.text((self._saturatew + x_plot_max) / 2, region_text_y(), 'Saturation',
+                ha='center', va='bottom', color='red', fontsize=10)
 
-        # Sample cost annotations (scientific notation)
-        num_points_to_annotate = 5
-        indices = np.linspace(0, len(x_list) - 1, num=num_points_to_annotate, dtype=int)
-        for i in indices:
-            x, y, s = x_list[i], y_list[i], sample_cost_list[i]
-            if s > 0:
-                s_str = "{0:.1e}".format(s)
-                base, exp = s_str.split('e')
-                label = r'${0}\times 10^{{{1}}}$'.format(base, int(exp))
-                ax.annotate(label, (x, y), textcoords="offset points", xytext=(0, 10), ha='center', fontsize=7)
+        # Sample cost annotations (scientific notation) - position above bars
+        num_points_to_annotate = min(5, len(x_list))
+        if num_points_to_annotate > 0:
+            indices = np.linspace(0, len(x_list) - 1, num=num_points_to_annotate, dtype=int)
+            for i in indices:
+                x, y, s = x_list[i], y_list[i], sample_cost_list[i]
+                if s > 0:
+                    s_str = "{0:.1e}".format(s)
+                    base, exp = s_str.split('e')
+                    label = r'${0}\times 10^{{{1}}}$'.format(base, int(exp))
+                    ax.annotate(label, (x, y), textcoords="offset points", xytext=(0, 8),
+                                ha='center', fontsize=7)
 
         # Side annotation box
         text_lines = [
@@ -643,24 +669,25 @@ class StratifiedScurveLERcalc:
             r'$w_{sweet}=%d$' % self._sweet_spot,
             r'$\#\mathrm{detector}=%d$' % self._num_detector,
             r'$\#\mathrm{noise}=%d$' % self._num_noise,
-            r'$P_L={0}\times 10^{{{1}}}$'.format(*"{0:.2e}".format(self._ler).split('e'))
+            r'$P_L=%.2e$' % self._ler
         ]
         if time is not None:
             text_lines.append(r'$\mathrm{Time}=%.2f\,\mathrm{s}$' % time)
 
-        fig.subplots_adjust(right=0.75)
-        fig.text(0.78, 0.5, '\n'.join(text_lines),
-                 fontsize=7, va='center', ha='left',
-                 bbox=dict(boxstyle='round', facecolor='white', alpha=0.95))
+        # Place annotation box in upper right corner using axes coordinates
+        ax.text(0.98, 0.98, '\n'.join(text_lines),
+                transform=ax.transAxes,
+                fontsize=7, va='top', ha='right',
+                bbox=dict(boxstyle='round', facecolor='white', alpha=0.95))
 
         # Final formatting
         ax.set_xlabel('Weight')
         ax.set_ylabel(r'$\log\left(\frac{0.5}{\mathrm{LER}} - 1\right)$')
         ax.set_title('Fitted log-S-curve')
-        ax.legend(fontsize=8)
+        ax.legend(fontsize=8, loc='upper left')
         fig.tight_layout()
         if savefigure:
-            fig.savefig(filename, format='pdf', bbox_inches='tight')  # `dpi` optional
+            fig.savefig(filename, format='pdf', bbox_inches='tight')
         plt.show()
         plt.close()
 
@@ -806,10 +833,23 @@ class StratifiedScurveLERcalc:
         keys   = list(self._estimated_subspaceLER.keys())
         values = [self._estimated_subspaceLER[k] for k in keys]
         sigma_list= [subspace_sigma_estimator(self._subspace_sample_used[k],self._subspace_LE_count[k]) for k in keys]
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(10, 6))
+
+        # Calculate adaptive ranges
+        x_min_data, x_max_data = min(keys), max(keys)
+        y_max_data = max(values) if values else 0.5
+        x_range = x_max_data - x_min_data if x_max_data != x_min_data else 1.0
+
+        # Adaptive saturation region width
+        saturation_width = max(3, x_range * 0.3)
+        x_plot_max = self._saturatew + saturation_width
+
+        # Adaptive bar width
+        bar_width = max(0.4, min(0.8, x_range / len(keys) * 0.6)) if len(keys) > 0 else 0.6
 
         # bars ── discrete estimate
         ax.bar(keys, values,
+            width=bar_width,
             color='tab:orange',
             alpha=0.8,
             label='Estimated subspace LER by sampling')
@@ -833,30 +873,41 @@ class StratifiedScurveLERcalc:
                 linewidth=2.0,
                 label='Fitted S-curve',linestyle='--')
 
+        # Set axis limits
+        ax.set_xlim(-0.5, x_plot_max)
+        ax.set_ylim(0, y_max_data * 1.3)
+
+        # Region text y position (use axes transform for consistent positioning)
+        region_text_y = y_max_data * 1.15
+
         # Fault-tolerant area
-        ax.axvspan(0, self._t, color='green', alpha=0.15)
-        ax.text(self._t / 2, max(values)/2, 'Fault\ntolerant', ha='center', color='green', fontsize=8)
+        if self._t > 0:
+            ax.axvspan(0, self._t, color='green', alpha=0.15)
+            ax.text(self._t / 2, region_text_y, 'Fault\ntolerant',
+                    ha='center', va='bottom', color='green', fontsize=8)
 
-
+        # Curve fitting region
         ax.axvspan(self._t, self._saturatew, color='yellow', alpha=0.10)
-        ax.text((self._t+ self._saturatew) / 2, max(values)/2, 'Curve fitting', ha='center', fontsize=10)
+        ax.text((self._t + self._saturatew) / 2, region_text_y, 'Curve fitting',
+                ha='center', va='bottom', fontsize=10)
 
-
-        ax.axvspan(self._saturatew,self._saturatew+12, color='red', alpha=0.15)
-        ax.text(self._saturatew+6, max(values)/2, 'Saturation', ha='center',color='red', fontsize=10)
+        # Saturation region
+        ax.axvspan(self._saturatew, x_plot_max, color='red', alpha=0.15)
+        ax.text((self._saturatew + x_plot_max) / 2, region_text_y, 'Saturation',
+                ha='center', va='bottom', color='red', fontsize=10)
 
         # Region: Critical area (gray)
         ax.axvspan(self._minw, self._maxw, color='gray', alpha=0.2)
         ax.axvline(self._minw, color='red', linestyle='--', linewidth=1.2, label=r'$w_{\min}$')
         ax.axvline(self._maxw, color='green', linestyle='--', linewidth=1.2, label=r'$w_{\max}$')
-        ax.text((self._minw + self._maxw) / 2, max(values)/2, r'$5\sigma$ Critical Region', ha='center', fontsize=10)
-
+        ax.text((self._minw + self._maxw) / 2, region_text_y, r'Critical Region',
+                ha='center', va='bottom', fontsize=9)
 
         # Labels and legend
         ax.set_xlabel('Weight')
         ax.set_ylabel('Logical Error Rate in subspace')
         ax.set_title(f"S-curve of {title} (PL={self._ler:.2e})")
-        ax.legend()
+        ax.legend(loc='upper left', fontsize=8)
 
         # Integer ticks on x-axis
         ax.xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
@@ -864,7 +915,7 @@ class StratifiedScurveLERcalc:
         # Layout and save
         plt.tight_layout()
         if savefigure:
-            fig.savefig(filename+".pdf", format='pdf', bbox_inches='tight')  # `dpi` optional
+            fig.savefig(filename+".pdf", format='pdf', bbox_inches='tight')
         plt.show()
         plt.close(fig)
 
