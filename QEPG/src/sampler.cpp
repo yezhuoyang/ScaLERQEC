@@ -159,8 +159,8 @@ void sampler::generate_many_output_samples_with_noise_vector(const QEPG::QEPG& g
     std::mt19937 gen(seed);
     for(size_t i=0;i<samplenumber;i++){
         std::vector<singlePauli> sample = generate_sample_Floyd(pauliweight,gen);
-        noisecontainer.push_back(std::move(sample));
         samplecontainer.push_back(std::move(calculate_parity_output_from_one_sample(graph,sample)));
+        noisecontainer.push_back(std::move(sample));
     }
 }
 

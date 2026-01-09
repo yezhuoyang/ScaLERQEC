@@ -404,7 +404,7 @@ class CliffordCircuit:
             elif gate == "R":
                 qubits = int(tokens[1])
                 maxum_q_index=maxum_q_index if maxum_q_index>qubits else qubits
-                self.add_depolarize(qubits)
+                # No depolarize before reset - noise before reset is irrelevant
                 self.add_reset(qubits)
             
         '''

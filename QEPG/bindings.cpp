@@ -88,6 +88,8 @@ PYBIND11_MODULE(qepg, m) {
         .def(py::init<clifford::cliffordcircuit, size_t, size_t>(), // Takes a CliffordCircuit object
              py::arg("circuit"), py::arg("num_detector"), py::arg("num_noise"))
         .def("backward_graph_construction", &QEPG::QEPG::backward_graph_construction)
+        .def("get_total_noise", &QEPG::QEPG::get_total_noise)
+        .def("get_total_detector", &QEPG::QEPG::get_total_detector)
         ;
 
     // 4. Bind SAMPLE::sampler class

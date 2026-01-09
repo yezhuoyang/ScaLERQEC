@@ -6,6 +6,7 @@ produces results that match stim Monte Carlo within sampling error.
 """
 import os
 import pytest
+import numpy as np
 from scalerqec.Stratified.stratifiedLER import StratifiedLERcalc
 from scalerqec.Monte.monteLER import MonteLERcalc
 
@@ -160,15 +161,26 @@ class TestStratifiedVsStim:
         stratified_ler = stratified_calc._ler
         print(f"  Stratified LER: {stratified_ler:.6e}")
 
-        # Step 2: Run STIM Monte Carlo
+        # Step 2: Run STIM Monte Carlo (using STIM directly for fair comparison)
         print(f"\n[Step 2] Running STIM Monte Carlo...")
         print(f"  Total samples: {stim_samples:,}")
 
-        stim_calc = MonteLERcalc()
-        stim_ler = stim_calc.calculate_LER_from_file(
-            stim_samples, filepath, error_rate
+        # Use STIM directly instead of MonteLERcalc to ensure we use all samples
+        sampler = stratified_calc._cliffordcircuit.stimcircuit.compile_detector_sampler()
+        detection_stim, observable_stim = sampler.sample(
+            stim_samples, separate_observables=True
         )
+
+        predictions_stim = stratified_calc._matcher.decode_batch(detection_stim)
+
+        # Flatten arrays and count errors
+        observables_stim = np.asarray(observable_stim).ravel()
+        predictions_stim_flat = np.asarray(predictions_stim).ravel()
+        num_errors_stim = np.count_nonzero(observables_stim != predictions_stim_flat)
+        stim_ler = num_errors_stim / stim_samples
+
         print(f"  STIM LER:       {stim_ler:.6e}")
+        print(f"  Logical errors: {num_errors_stim:,}")
 
         # Step 3: Compare results
         print(f"\n{'='*70}")

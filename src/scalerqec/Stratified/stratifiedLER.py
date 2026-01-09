@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Optional
 import numpy as np
-from ..qepg import return_samples_many_weights_separate_obs, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, QEPGGraph
+from ..qepg import return_samples_many_weights_separate_obs, compile_QEPG, return_samples_many_weights_separate_obs_with_QEPG, QEPGGraph, return_samples_with_noise_vector
 from ..Clifford.clifford import *
 import pymatching
 import time
@@ -58,17 +58,20 @@ class StratifiedLERcalc:
         with open(filepath, "r", encoding="utf-8") as f:
             stim_str = f.read()
         
-        self._cliffordcircuit.error_rate = self._error_rate  
+        self._cliffordcircuit.error_rate = self._error_rate
         self._cliffordcircuit.compile_from_stim_circuit_str(stim_str)
-        self._num_noise = self._cliffordcircuit.totalnoise
-        self._num_detector=len(self._cliffordcircuit.parityMatchGroup)
         self._stim_str_after_rewrite=stim_str
+
+        # Compile QEPG graph and get the correct noise count from it
+        # IMPORTANT: Use QEPG's noise count, not clifford's totalnoise
+        # They differ because QEPG merges noise operations
+        self._QEPG_graph=compile_QEPG(stim_str)
+        self._num_noise = self._QEPG_graph.get_total_noise()
+        self._num_detector = self._QEPG_graph.get_total_detector()
 
         # Configure a decoder using the circuit.
         self._detector_error_model = self._cliffordcircuit.stimcircuit.detector_error_model(decompose_errors=True)
         self._matcher = pymatching.Matching.from_detector_error_model(self._detector_error_model)
-
-        self._QEPG_graph=compile_QEPG(stim_str)
 
 
     def sample_all_subspace(self, shots_each_subspace: int=1000000):
@@ -89,7 +92,7 @@ class StratifiedLERcalc:
 
         begin_index=0
         for w_idx, (w, quota) in enumerate(zip(wlist, slist)):
-            observables =  np.asarray(obsresult[begin_index:begin_index+quota])                    # (shots,)
+            observables =  np.asarray(obsresult[begin_index:begin_index+quota]).ravel()                    # (shots,)
             # 2. batch-decode (decode_batch should accept ndarray) -------------------
                # shape (shots,) or (shots,1)
             predictions = np.asarray(predictions_result[begin_index:begin_index+quota]).ravel()
@@ -104,6 +107,50 @@ class StratifiedLERcalc:
             #print(f"Logical error rate when w={w}: {self._estimated_subspaceLER[w]*binomial_weight(self._num_noise, w,self._error_rate):.6g}")
             begin_index+=quota
 
+    def sample_all_subspace_sequential(self, shots_each_subspace: int=1000000):
+        """
+        Sample all subspaces using return_samples_with_noise_vector (sequential version).
+        This function uses the fixed sequential C++ function for verification.
+        """
+        wlist = list(range(0, self._num_noise + 1))
+
+        # Initialize counters
+        for w in wlist:
+            self._subspace_LE_count[w]=0
+            self._estimated_subspaceLER[w]=0
+            self._subspace_sample_used[w]=shots_each_subspace
+
+        # Sample each weight separately using the sequential function
+        for w in wlist:
+            if w == 0:
+                # Weight 0: no errors, no logical errors
+                self._subspace_LE_count[w] = 0
+                self._estimated_subspaceLER[w] = 0.0
+                continue
+
+            # Use return_samples_with_noise_vector for this weight
+            # Returns (noise_vectors, results) where results is list of [det0, det1, ..., detN, observable]
+            _noise_vectors, results = return_samples_with_noise_vector(
+                self._stim_str_after_rewrite, w, shots_each_subspace
+            )
+
+            # Convert to numpy array for easier manipulation
+            results_array = np.array(results, dtype=bool)  # shape: (shots, num_detectors+1)
+
+            # Split into detectors and observables
+            detectors = results_array[:, :-1]  # All columns except last
+            observables = results_array[:, -1]  # Last column
+
+            # Decode detectors
+            predictions = self._matcher.decode_batch(detectors)
+            predictions = np.asarray(predictions).ravel()
+            observables = observables.ravel()
+
+            # Count mismatches
+            num_errors = np.count_nonzero(observables != predictions)
+
+            self._subspace_LE_count[w] = num_errors
+            self._estimated_subspaceLER[w] = self._subspace_LE_count[w] / self._subspace_sample_used[w]
 
     def determine_range_to_sample(self):
         """
@@ -222,7 +269,7 @@ class StratifiedLERcalc:
             begin_index=0
             for w_idx, (w, quota) in enumerate(zip(wlist, slist)):
 
-                observables =  np.asarray(obsresult[begin_index:begin_index+quota])                    # (shots,)
+                observables =  np.asarray(obsresult[begin_index:begin_index+quota]).ravel()                    # (shots,)
                 predictions = np.asarray(predictions_result[begin_index:begin_index+quota]).ravel()
 
                 # 3. count mismatches in vectorised form ---------------------------------
@@ -242,11 +289,44 @@ class StratifiedLERcalc:
     # ----------------------------------------------------------------------
     # Calculate logical error rate
     # The input is a list of rows with logical errors
-    def calculate_LER(self):
+    def calculate_LER(self, debug=False):
         self._ler : float = 0
+
+        if debug:
+            print(f"\n{'='*90}")
+            print(f"DEBUG: calculate_LER() - Combining subspace results")
+            print(f"{'='*90}")
+            print(f"  Total noise sources: {self._num_noise}")
+            print(f"  Error rate: {self._error_rate}")
+            print(f"\n  {'Weight':<8} {'Samples':<12} {'LE Count':<12} {'P(LE|w)':<15} {'P(w)':<15} {'Contribution':<15}")
+            print(f"  {'-'*8} {'-'*12} {'-'*12} {'-'*15} {'-'*15} {'-'*15}")
+
+        contributions = []
         for weight in range(1,self._num_noise+1):
             if weight in self._estimated_subspaceLER.keys():
-                self._ler += self._estimated_subspaceLER[weight]*binomial_weight(self._num_noise, weight,self._error_rate)
+                p_le_given_w = self._estimated_subspaceLER[weight]
+                p_w = binomial_weight(self._num_noise, weight, self._error_rate)
+                contribution = p_le_given_w * p_w
+                self._ler += contribution
+
+                if debug:
+                    samples = self._subspace_sample_used.get(weight, 0)
+                    le_count = self._subspace_LE_count.get(weight, 0)
+                    print(f"  {weight:<8} {samples:<12,} {le_count:<12,} {p_le_given_w:<15.6e} {p_w:<15.6e} {contribution:<15.6e}")
+                    contributions.append((weight, contribution))
+
+        if debug:
+            print(f"  {'-'*90}")
+            print(f"  Total LER: {self._ler:.6e}")
+
+            # Show top 5 contributors
+            contributions.sort(key=lambda x: x[1], reverse=True)
+            print(f"\n  Top 5 contributing weights:")
+            for i, (w, contrib) in enumerate(contributions[:5]):
+                pct = 100 * contrib / self._ler if self._ler > 0 else 0
+                print(f"    {i+1}. Weight {w}: {contrib:.6e} ({pct:.1f}% of total)")
+            print(f"{'='*90}\n")
+
         return self._ler
 
     def get_LER_subspace_no_weight(self,weight : int):
