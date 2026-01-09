@@ -44,9 +44,14 @@ class sampler{
     /*---------------------------------------Sample one vector with fixed weight----------*/        
 
         /*
-        Generate a single sample with weight error by Floyd method. 
+        Generate a single sample with weight error by Floyd method.
         */
         inline std::vector<singlePauli> generate_sample_Floyd(size_t weight,std::mt19937& gen);
+
+        /*
+        Generate a single sample using removal strategy (for high weights).
+        */
+        inline std::vector<singlePauli> generate_sample_removal(size_t weight, std::mt19937& gen);
 
         inline std::vector<singlePauli> generate_sample_Monte(double error_prob ,size_t ErrorSize,std::mt19937& gen);
 

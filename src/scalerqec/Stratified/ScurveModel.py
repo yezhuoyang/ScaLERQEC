@@ -1,4 +1,6 @@
 import numpy as np
+from typing import Callable
+from numpy.typing import NDArray
 
 
 def scurve_function(x: float, center: float, sigma: float) -> float:
@@ -12,29 +14,29 @@ def inv_logit_half(y: float) -> float:
     return float(0.5 / (1 + np.exp(y)))
 
 
-def linear_function(x: float, a: float, b: float) -> float:
+def linear_function(x: float | NDArray[np.floating], a: float, b: float) -> float | NDArray[np.floating]:
     """
     Linear function for curve fitting.
     """
-    return a * x + b
+    return a * x + b  # type: ignore[return-value]
 
 
-def modified_linear_function_with_d(x: float, a: float, b: float, c: float, d: float) -> float:
+def modified_linear_function_with_d(x: float | NDArray[np.floating], a: float, b: float, c: float, d: float) -> float | NDArray[np.floating]:
     eps   = 1e-12
     delta = (x - d)**0.5
-    delta = float(np.where(np.abs(delta) < eps, np.sign(delta)*eps, delta))
-    return float(a * x + b + c / delta)
+    delta = float(np.where(np.abs(delta) < eps, np.sign(delta)*eps, delta))  # type: ignore[arg-type]
+    return float(a * x + b + c / delta)  # type: ignore[arg-type]
 
 
 
 # Strategy A: keep the model safe near the pole
-def modified_linear_function(d: float):
+def modified_linear_function(d: float) -> Callable[[float, float, float, float, float], float]:
     def tempfunc(x: float, a: float, b: float, c: float, d: float = d) -> float:
         return modified_linear_function_with_d(x, a, b, c, d)
     return tempfunc
 
 
-def modified_sigmoid_function(x: float, a: float, b: float, c: float, d: float) -> float:
+def modified_sigmoid_function(x: float | NDArray[np.floating], a: float, b: float, c: float, d: float) -> float | NDArray[np.floating]:
     """
     Modified sigmoid function for curve fitting.
     This function is used to fit the S-curve.

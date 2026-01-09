@@ -92,8 +92,8 @@ def xor_vec(vec_a, vec_b):
     return tuple(a^b for a,b in zip(vec_a,vec_b))
 
 
-MAX_degree=100
-MAX_weight=10
+MAX_degree=200
+MAX_weight=32
 
 '''
 Use symbolic algorithm to calculate the probability.
@@ -345,23 +345,23 @@ class SymbolicLERcalc:
     # Calculate logical error rate
     # The input is a list of rows with logical errors
     def calculate_LER(self):
-        self._LER=0
+        self._ler=0
         for weight in range(1,self._num_noise+1):
             subLER=0
             for rowindex in self._error_row_indices:
                 subLER+=self._dp[self._num_noise][weight][rowindex]
 
             self._subspace_LER[weight]=simplify(subLER)
-            self._LER+=simplify(subLER)
-        self._LER=simplify(self._LER).expand()
+            self._ler+=simplify(subLER)
+        self._ler=simplify(self._ler).expand()
         #LER=LER.series(p, 0, MAX_degree).removeO()    # no .expand()
 
-        print("LER polynomial: ", latex(self._LER))
-        return self._LER
+        print("LER polynomial: ", latex(self._ler))
+        return self._ler
 
 
     def evaluate_LER(self,pval):
-        return self._LER.evalf(subs={p:pval})
+        return self._ler.evalf(subs={p:pval})
 
 
     def evaluate_LER_subspace(self,pval,weight):
@@ -448,9 +448,9 @@ class SymbolicLERcalc:
         print("---Step4: dynamic algorithm--------------")
         self.dynamic_calculation_of_dp()
         self.calculate_LER()
-        self._LER=self.evaluate_LER(self._error_rate)
-        print("Evaluated LER at p={} is {}".format(self._error_rate,self._LER))
-        return self._LER
+        self._ler=self.evaluate_LER(self._error_rate)
+        print("Evaluated LER at p={} is {}".format(self._error_rate,self._ler))
+        return self._ler
 
 
 

@@ -15,8 +15,43 @@ sampler::~sampler()=default;
 /*---------------------------------------Sample one vector with fixed weight----------*/        
 
 
-inline std::vector<singlePauli> sampler::generate_sample_Floyd(size_t weight, std::mt19937& gen){
+inline std::vector<singlePauli> sampler::generate_sample_removal(size_t weight, std::mt19937& gen){
+    // Create set of all positions
+    std::unordered_set<size_t> remaining_positions;
+    for(size_t i = 0; i < num_total_pauliError_; i++){
+        remaining_positions.insert(i);
+    }
 
+    // Remove (num_total_pauliError_ - weight) random positions
+    std::uniform_int_distribution<> posdistrib(0, num_total_pauliError_-1);
+    size_t num_to_remove = num_total_pauliError_ - weight;
+
+    // Use same collision-based removal (mirrors addition logic)
+    while(remaining_positions.size() > weight){
+        size_t pos_to_remove = posdistrib(gen);
+        remaining_positions.erase(pos_to_remove);  // erase() is no-op if not found
+    }
+
+    // Convert remaining positions to result with random Pauli types
+    std::vector<singlePauli> result;
+    result.reserve(weight);
+    std::uniform_int_distribution<> typedistrib(1, 3);
+
+    for(size_t pos : remaining_positions){
+        result.emplace_back(singlePauli{pos, (size_t)typedistrib(gen)});
+    }
+
+    return result;
+}
+
+inline std::vector<singlePauli> sampler::generate_sample_Floyd(size_t weight, std::mt19937& gen){
+    // Hybrid strategy: use removal when weight > half of total
+    // This avoids collision inefficiency for high weights
+    if(weight > num_total_pauliError_ / 2){
+        return generate_sample_removal(weight, gen);
+    }
+
+    // Original addition strategy for low weights
     std::vector<singlePauli> result;
     result.reserve(weight);
 

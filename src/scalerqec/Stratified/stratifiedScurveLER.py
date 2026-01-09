@@ -1288,6 +1288,7 @@ class StratifiedScurveLERcalc:
             self.fit_linear_area()
             tmptime= time.perf_counter()
             if savefigure:
+                assert figname is not None
                 self.fit_log_S_model(figname+"-R"+str(i)+"First.pdf",savefigure=savefigure,time=tmptime-start)
             else:
                 self.fit_log_S_model(None,savefigure=savefigure,time=tmptime-start)
@@ -1299,6 +1300,7 @@ class StratifiedScurveLERcalc:
             self.fit_linear_area()
             tmptime= time.perf_counter()
             if savefigure:
+                assert figname is not None
                 self.fit_log_S_model(figname+"-R"+str(i)+"Final.pdf",savefigure=savefigure,time=tmptime-start)
             else:
                 self.fit_log_S_model(None,savefigure=savefigure,time=tmptime-start)

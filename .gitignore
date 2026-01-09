@@ -50,3 +50,6 @@ tmp.py
 
 # Pytest cache
 .pytest_cache/
+
+
+.claude/

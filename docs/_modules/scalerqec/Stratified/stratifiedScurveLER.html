@@ -1078,7 +1078,7 @@
                 <span class="n">fitted_subspace_LER</span><span class="o">=</span><span class="n">modified_sigmoid_function</span><span class="p">(</span><span class="n">weight</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_t</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="o">+=</span><span class="n">fitted_subspace_LER</span><span class="o">*</span><span class="n">binomial_weight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_noise</span><span class="p">,</span><span class="n">weight</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_error_rate</span><span class="p">)</span>
                 <span class="c1">#print(&quot;Weight: &quot;,weight,&quot; LER: &quot;,fitted_subspace_LER*binomial_weight(self._num_noise, weight,self._error_rate))</span>
-            <span class="c1">#self._LER+=scurve_function(weight,self._mu,self._sigma)*binomial_weight(self._num_noise,weight,self._error_rate)</span>
+            <span class="c1">#self._ler+=scurve_function(weight,self._mu,self._sigma)*binomial_weight(self._num_noise,weight,self._error_rate)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_LER</span></div>
 
 
@@ -1198,7 +1198,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_scurve</span><span class="p">(</span><span class="n">figname</span><span class="o">+</span><span class="s2">&quot;.pdf&quot;</span><span class="p">,</span><span class="n">titlename</span><span class="p">)</span>
             <span class="n">r_squared_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_R_square_score</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_subspace_sample_used</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-            <span class="c1"># print(&quot;Final LER: &quot;,self._LER)</span>
+            <span class="c1"># print(&quot;Final LER: &quot;,self._ler)</span>
             <span class="c1"># print(&quot;Total samples used: &quot;,self._sample_used)</span>
             <span class="n">ler_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="p">)</span>
             <span class="n">sample_used_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="p">)</span>
@@ -1509,7 +1509,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_scurve</span><span class="p">(</span><span class="n">figname</span><span class="p">,</span><span class="n">titlename</span><span class="p">)</span>
             <span class="n">r_squared_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_R_square_score</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_subspace_sample_used</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-            <span class="c1"># print(&quot;Final LER: &quot;,self._LER)</span>
+            <span class="c1"># print(&quot;Final LER: &quot;,self._ler)</span>
             <span class="c1"># print(&quot;Total samples used: &quot;,self._sample_used)</span>
             <span class="n">ler_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="p">)</span>
             <span class="n">sample_used_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="p">)</span>
@@ -1605,7 +1605,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_scurve</span><span class="p">(</span><span class="n">figname</span><span class="p">,</span><span class="n">titlename</span><span class="p">)</span>
             <span class="n">r_squared_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_R_square_score</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_subspace_sample_used</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
-            <span class="c1"># print(&quot;Final LER: &quot;,self._LER)</span>
+            <span class="c1"># print(&quot;Final LER: &quot;,self._ler)</span>
             <span class="c1"># print(&quot;Total samples used: &quot;,self._sample_used)</span>
             <span class="n">ler_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_LER</span><span class="p">)</span>
             <span class="n">sample_used_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sample_used</span><span class="p">)</span>

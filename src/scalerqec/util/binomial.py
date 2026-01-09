@@ -2,7 +2,7 @@ import math
 from scipy.stats import binom
 
 
-def subspace_size(num_noise, weight):
+def subspace_size(num_noise: int, weight: int) -> int:
     """
     Calculate the size of the subspace
     """
@@ -20,5 +20,5 @@ def subspace_size(num_noise, weight):
 #         return math.exp(log_pmf)
 
 
-def binomial_weight(N, W, p):
-    return binom.pmf(W, N, p)
+def binomial_weight(N: int, W: int, p: float) -> float:
+    return float(binom.pmf(W, N, p))

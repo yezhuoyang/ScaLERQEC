@@ -8,6 +8,7 @@ from scalerqec.qepg import (
     compile_QEPG,
     return_samples_many_weights_separate_obs_with_QEPG,
     return_samples_with_fixed_QEPG,
+    QEPGGraph,
 )
 import pymatching
 from scalerqec.Clifford.clifford import *
@@ -865,7 +866,7 @@ class Scaler:
         figname: str | None,
         titlename: str | None,
         repeat: int = 1,
-    ) -> None:
+    ) -> float | None:
         """
         Calculate LER using simplified progressive sampling algorithm.
 
@@ -932,6 +933,7 @@ class Scaler:
         self._remaining_time_budget -= elapsed
 
         # Initial fit
+        assert figname is not None
         self.fit_log_S_model(
             filename=figname + "phase1.pdf",
             savefigure=True,
@@ -966,6 +968,7 @@ class Scaler:
             self._remaining_time_budget -= elapsed
 
             # Re-fit after Phase 2 sampling
+            assert figname is not None
             self.fit_log_S_model(
                 filename=figname + "phase2.pdf",
                 savefigure=True,
@@ -1016,6 +1019,7 @@ class Scaler:
                 break
 
             # Re-fit and update
+            assert figname is not None
             self.fit_log_S_model(
                 filename=figname + f"iter{iter_idx}.pdf",
                 savefigure=True,
@@ -1033,6 +1037,7 @@ class Scaler:
         total_time = time.perf_counter() - start_time
 
         # Final fit
+        assert figname is not None
         self.fit_log_S_model(
             filename=figname + "final.pdf",
             savefigure=True,

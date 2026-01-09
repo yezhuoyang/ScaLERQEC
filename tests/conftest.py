@@ -90,3 +90,42 @@ def binomial_test_cases_large():
         (500, 2, 0.004),
         (1000, 10, 0.01),
     ]
+
+
+# ============================================================================
+# Circuit Path Fixtures
+# ============================================================================
+
+@pytest.fixture
+def small_circuit_files():
+    """List of ALL small test circuit files for symbolic comparison."""
+    return [
+        "1cnot",
+        "1cnot1R",
+        "1cnoth",
+        "2cnot",
+        "2cnot2",
+        "2cnot2R",
+        "cnot0",
+        "cnot01",
+        "cnot01h01",
+        "cnot1",
+        "cnoth0",
+        "cnoth01",
+        "repetition3r2",
+        "repetition3r3",
+        "repetition3r4",
+        "simple",
+        "simpleh",
+        "simpleMultiObs",
+        "surface3r1",
+        "surface3r2",
+        "surface3r3",
+    ]
+
+
+@pytest.fixture
+def circuit_base_path():
+    """Base path for circuit files."""
+    import os
+    return os.path.join(os.path.dirname(os.path.dirname(__file__)), "stimprograms", "small")

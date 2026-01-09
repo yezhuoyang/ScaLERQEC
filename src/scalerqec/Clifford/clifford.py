@@ -125,7 +125,7 @@ class CliffordCircuit:
         self._parityMatchGroup: list[list[int]] = []
         self._observable: list[int] = []
 
-        self._measIdx_to_parityIdx: dict[int, int] = {}
+        self._measIdx_to_parityIdx: dict[int, list[int]] = {}
 
         self._stim_str: str | None = None
         self._stimcircuit: stim.Circuit = stim.Circuit()
@@ -148,12 +148,12 @@ class CliffordCircuit:
     def qubitnum(self, qubit_num : int):
         self._qubit_num = qubit_num
 
-    def get_measIdx_to_parityIdx(self,measIdx : int) -> int:
+    def get_measIdx_to_parityIdx(self,measIdx : int) -> list[int]:
         return self._measIdx_to_parityIdx[measIdx]
 
 
     @property
-    def stim_str(self) -> str:
+    def stim_str(self) -> str | None:
         return self._stim_str
 
 
@@ -328,7 +328,7 @@ class CliffordCircuit:
         
 
         current_line_index=0
-        measure_stack=[]
+        measure_stack: list[int] = []
         for line in lines:
             stripped_line = line.strip()
             if stripped_line.startswith("DETECTOR("):
@@ -424,12 +424,12 @@ class CliffordCircuit:
 
 
     def set_noise_type(self, noiseindex: int, noisetype: int):
-        self._index_to_noise[noiseindex].set_noisetype(noisetype)
+        self._index_to_noise[noiseindex].noisetype = noisetype
 
 
     def reset_noise_type(self):
         for i in range(self._totalnoise):
-            self._index_to_noise[i].set_noisetype(0)
+            self._index_to_noise[i].noisetype = 0
 
     def show_all_noise(self):
         for i in range(self._totalnoise):
@@ -438,15 +438,17 @@ class CliffordCircuit:
 
     def add_xflip_noise(self, qubit : int):
         self._stimcircuit.append("X_ERROR", [qubit], self._error_rate)
-        self._gatelists.append(pauliNoise(self._totalnoise, qubit))
-        self._index_to_noise[self._totalnoise]=self._gatelists[-1]
+        noise = pauliNoise(self._totalnoise, qubit)
+        self._gatelists.append(noise)
+        self._index_to_noise[self._totalnoise] = noise
         self._totalnoise+=1           
 
 
     def add_depolarize(self, qubit : int):
         self._stimcircuit.append("DEPOLARIZE1", [qubit], self._error_rate)
-        self._gatelists.append(pauliNoise(self._totalnoise, qubit))
-        self._index_to_noise[self._totalnoise]=self._gatelists[-1]
+        noise = pauliNoise(self._totalnoise, qubit)
+        self._gatelists.append(noise)
+        self._index_to_noise[self._totalnoise] = noise
         self._totalnoise+=1        
 
     def add_cnot(self, control : int, target : int):   
@@ -481,10 +483,11 @@ class CliffordCircuit:
 
 
     def add_measurement(self, qubit: int):
-        self._gatelists.append(Measurement(self._totalMeas, qubit))
+        meas = Measurement(self._totalMeas, qubit)
+        self._gatelists.append(meas)
         self._stimcircuit.append("M", [qubit])
         #self._stimcircuit.append("DETECTOR", [stim.target_rec(-1)])
-        self._index_to_measurement[self._totalMeas]=self._gatelists[-1]
+        self._index_to_measurement[self._totalMeas] = meas
         self._measIdx_to_parityIdx[self._totalMeas]=[]
         self._totalMeas+=1
 

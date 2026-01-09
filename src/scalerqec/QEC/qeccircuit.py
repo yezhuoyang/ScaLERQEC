@@ -12,6 +12,7 @@ from typing import Optional
 
 import numpy as np
 from numpy.typing import NDArray
+import stim
 
 from scalerqec.Clifford.clifford import CliffordCircuit
 from scalerqec.QEC.noisemodel import NoiseModel
@@ -223,8 +224,8 @@ class StabCode:
         self._d : int = d
         self._stabs : list[str] = []
         self._scheme : SCHEME = SCHEME.STANDARD
-        self._circuit = None
-        self._stimcirc = None
+        self._circuit: CliffordCircuit | None = None
+        self._stimcirc: stim.Circuit | None = None
         self._IRList : list[IRInstruction] = []
         self._rounds : int = 3*d
         #Define the k different logical Z operators
@@ -443,7 +444,7 @@ class StabCode:
         return self._stabs
 
 
-    @scheme.setter
+    @scheme.setter  # type: ignore[no-redef, attr-defined]
     def scheme(self, scheme: str) -> None:
         """
         Set the error correction scheme for the code.
@@ -538,7 +539,7 @@ class StabCode:
             return
         current_measurement_idx = 0
         current_detector_idx = 0
-        prev_stab_meas_addr = {}
+        prev_stab_meas_addr: dict[str, int] = {}
         for r in range(self._rounds):
             stabidx=0
             for stab in self._stabs:
@@ -586,12 +587,12 @@ class StabCode:
             print(irinst)
 
 
-    def compile_stim_circuit_from_IR_standard(self) -> None:
+    def compile_stim_circuit_from_IR_standard(self) -> str | None:
         """
         Compile the stim circuit from the intermediate representation (IR).
 
         Returns:
-            str: The compiled stim circuit as a string.
+            str | None: The compiled stim circuit as a string, or None.
         """
         #Convension: Stabilizer k stored in qubit n+k-1
         #Observable k stored in qubit n+num_syndromes+k-1
@@ -678,7 +679,7 @@ if __name__ == "__main__":
     qeccirc.add_stab("ZXIXZ")
     qeccirc.set_logical_Z(0, "ZZZZZ")
     #Set stabilizer parity measurement scheme, round of repetition
-    qeccirc.scheme="Standard"
+    qeccirc.scheme="Standard"  # type: ignore[misc, assignment]
     qeccirc.rounds=3
     qeccirc.construct_circuit()
     stim_circuit = qeccirc.stimcirc
