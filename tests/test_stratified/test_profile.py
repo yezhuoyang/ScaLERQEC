@@ -158,13 +158,17 @@ def test_no_profile_before_successful_fit():
 
 
 def test_reweighting_never_calls_sampler_or_decoder():
+    from importlib import import_module
+
+    scaler_module = import_module("scalerqec.Stratified.Scaler")
     profile = LERProfile([0, 0, 12 / 27, 20 / 27])
     with (
-        patch(
-            "scalerqec.Stratified.Scaler.return_samples_with_fixed_QEPG_numpy",
+        patch.object(
+            scaler_module,
+            "return_samples_with_fixed_QEPG_numpy",
             side_effect=AssertionError,
         ),
-        patch("scalerqec.Stratified.Scaler.compile_QEPG", side_effect=AssertionError),
+        patch.object(scaler_module, "compile_QEPG", side_effect=AssertionError),
     ):
         assert profile.evaluate(0.1) > 0
 
