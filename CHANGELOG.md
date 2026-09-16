@@ -20,6 +20,7 @@
   native batch sizes, probabilities, strided arrays, and record references.
 - Write multi-weight samples directly into NumPy buffers. Use portable SIMD
   defaults, with optional local AVX2 via SCALERQEC_NATIVE=1.
+- Bundle required C++ and OpenMP runtime libraries in Windows release wheels.
 - Add exact small-circuit, sampler, serialization, and native regression tests;
   enforce cross-platform tests and focused profile coverage in release CI.
 
