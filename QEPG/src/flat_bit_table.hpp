@@ -15,6 +15,8 @@
 #include <cstdint>
 #include <cstring>
 #include <new>
+#include <limits>
+#include <stdexcept>
 #include <vector>
 #include "simd_util.hpp"
 
@@ -32,11 +34,16 @@ public:
     FlatBitTable(std::size_t n_rows, std::size_t n_cols)
         : n_rows_(n_rows), n_cols_(n_cols)
     {
+        if (n_cols > std::numeric_limits<std::size_t>::max() - 63)
+            throw std::length_error("bit table column count overflows");
         // Round up to whole uint64_t words
         words_per_row_ = (n_cols + 63) / 64;
         // Pad to cache line (64 bytes = 8 words of uint64_t)
         stride_words_ = (words_per_row_ + 7) & ~std::size_t{7};
 
+        if (stride_words_ && n_rows > std::numeric_limits<std::size_t>::max() / sizeof(std::uint64_t) / stride_words_)
+            throw std::length_error("bit table allocation size overflows");
+        if (stride_words_ == 0 || n_rows == 0) return;
         data_ = simd::aligned_alloc_u64(stride_words_ * n_rows);
         if (!data_) throw std::bad_alloc();
         std::memset(data_, 0, stride_words_ * n_rows * sizeof(std::uint64_t));

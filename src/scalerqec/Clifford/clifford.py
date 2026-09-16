@@ -429,6 +429,12 @@ class CliffordCircuit:
         self._totalgates = 0
 
         lines = stim_str.splitlines()
+        self._gatelists = []
+        self._index_to_noise = {}
+        self._index_to_measurement = {}
+        self._measIdx_to_parityIdx = {}
+        self._stimcircuit = stim.Circuit()
+        self._stim_str = stim_str
         output_lines = []
         maxum_q_index = 0
         """

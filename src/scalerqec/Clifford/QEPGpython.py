@@ -116,12 +116,13 @@ class QEPGpython:
 
                 qindex = gate._qubitindex
                 if measureindex in self._circuit.observable:
-                    current_x_prop[qindex][column_size - 1] = 1
-                    current_y_prop[qindex][column_size - 1] = 1
+                    current_x_prop[qindex][column_size - 1] ^= 1
 
                 for parityIdx in self._circuit.get_measIdx_to_parityIdx(measureindex):
-                    current_x_prop[qindex][parityIdx] = 1
-                    current_y_prop[qindex][parityIdx] = 1
+                    current_x_prop[qindex][parityIdx] ^= 1
+
+                current_y_prop[qindex] = current_x_prop[qindex].copy()
+                current_z_prop[qindex] = 0
 
                 current_meas_index -= 1
                 continue

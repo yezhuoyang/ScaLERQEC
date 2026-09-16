@@ -96,7 +96,7 @@ This compiles the C++ backend using pybind11 and installs the package in develop
 
 | Platform | Compiler | OpenMP |
 |----------|----------|--------|
-| **Windows** | MSVC (Visual Studio Build Tools) | Built-in (`/openmp:llvm`) |
+| **Windows** | MSVC (Visual Studio Build Tools) | Built-in (`/openmp`) |
 | **macOS** | Xcode command-line tools | `brew install libomp` |
 | **Linux** | GCC or Clang | Built-in (`-fopenmp`) |
 
@@ -129,6 +129,44 @@ scalerqec/
 
 ## Quick Start
 ---
+
+### Sample once, plot LER versus p
+
+New in **1.1.0**: reuse a fixed circuit-and-decoder profile across physical error
+probabilities. The expensive sampling and fitting run only once:
+
+```python
+import numpy as np
+from scalerqec.Stratified import Scaler, LERProfile
+
+profile = Scaler(time_budget=60).profile_from_file(
+    "stimprograms/surface/surface3", codedistance=3,
+    decoder_reference_p=0.001,
+)
+profile.save("surface3-profile.json")
+
+p_values = np.geomspace(1e-5, 0.02, 100)
+logical_error_rates = profile.evaluate(p_values)
+ax = profile.plot(p_values)
+ax.figure.savefig("ler-vs-p.pdf", bbox_inches="tight")
+
+# Reuse in a later session without sampling or decoding.
+profile = LERProfile.load("surface3-profile.json")
+print(profile.evaluate(0.0005))
+```
+
+This interface requires a **noiseless Stim circuit**, one logical observable,
+and the paper's **uniform independent single-qubit depolarizing (SID) model**.
+The decoder is fixed at `decoder_reference_p`; it is not rebuilt for each p.
+`codedistance` must be the circuit-level distance for that circuit and decoder.
+The S-curve still has systematic extrapolation error. In particular, evaluating
+a broad p range does not establish accuracy throughout that range.
+
+Use `profile.curve(p_values)` to inspect contributions from fitted weights, and
+`profile.sample_counts` / `failure_counts` to inspect the measured evidence.
+These diagnostics are not confidence intervals. See the
+[profile guide](docs/source/profiles.rst) for the precise assumptions and API.
+After an existing `calculate_LER_from_file()` run, use `scaler.get_profile()`.
 
 ### 1. Define a QEC code with StabIR
 

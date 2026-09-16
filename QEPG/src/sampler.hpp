@@ -22,9 +22,9 @@
 #include <algorithm>
 #include "QEPG.hpp"
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_IX86))
     #include <intrin.h>
-#elif defined(__GNUC__) || defined(__clang__)
+#elif (defined(__GNUC__) || defined(__clang__)) && (defined(__x86_64__) || defined(__i386__))
     #include <x86intrin.h>
 #endif
 #ifdef _OPENMP
@@ -117,8 +117,11 @@ public:
     /// Generate a uniform random number in [0, n) — rejection-free for power-of-2 n,
     /// otherwise uses modulo with rejection to eliminate bias.
     inline std::uint64_t bounded(std::uint64_t n) noexcept {
-        std::uint64_t x = operator()();
-        return x % n;  // slight bias for non-power-of-2, acceptable for sampling
+        // Reject the incomplete modulo interval to avoid bias.
+        const std::uint64_t threshold = -n % n;
+        std::uint64_t x;
+        do { x = operator()(); } while (x < threshold);
+        return x % n;
     }
 };
 
@@ -303,9 +306,13 @@ class sampler{
             // XOR with software prefetching
             for (std::size_t s = 0; s < sample_size; ++s) {
                 if (s + 1 < sample_size) {
+#if defined(__x86_64__) || defined(__i386__) || defined(_M_X64) || defined(_M_IX86)
                     _mm_prefetch(
                         reinterpret_cast<const char*>(flat.row_ptr(row_idx_scratch_[s + 1])),
                         _MM_HINT_T0);
+#elif defined(__GNUC__) || defined(__clang__)
+                    __builtin_prefetch(flat.row_ptr(row_idx_scratch_[s + 1]), 0, 3);
+#endif
                 }
                 flat.xor_row_into(row_idx_scratch_[s], result_buf);
             }

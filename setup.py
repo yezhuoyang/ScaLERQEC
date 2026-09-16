@@ -1,5 +1,6 @@
 import os
 import sys
+import platform
 import setuptools
 import pybind11
 from pybind11.setup_helpers import Pybind11Extension, build_ext
@@ -17,8 +18,11 @@ extra_link_args = []
 
 if sys.platform == "win32":
     # --- Windows flags ---
-    extra_compile_args = ["/std:c++20", "/EHsc", "/O2", "/openmp:llvm", "/arch:AVX2"]
-    extra_link_args = ["/DEBUG"]
+    extra_compile_args = ["/std:c++20", "/EHsc", "/O2"]
+    # MSVC's standard OpenMP runtime is redistributable with normal wheels.
+    if os.environ.get("SCALERQEC_NO_OPENMP") != "1":
+        extra_compile_args += ["/openmp"]
+    extra_link_args = []
 
 elif sys.platform == "darwin":
     # --- macOS flags ---
@@ -27,7 +31,7 @@ elif sys.platform == "darwin":
     # libomp/delocate version-target conflicts. Can also be forced off/on:
     #   SCALERQEC_NO_OPENMP=1 pip install .   (force disable)
     #   SCALERQEC_OPENMP=1 pip install .      (force enable)
-    extra_compile_args = ["-std=c++20", "-O3", "-mavx2", "-mbmi2"]
+    extra_compile_args = ["-std=c++20", "-O3"]
     extra_link_args = []
 
     in_cibuildwheel = os.environ.get("CIBUILDWHEEL", "") == "1"
@@ -52,8 +56,14 @@ elif sys.platform == "darwin":
 
 else:
     # --- Linux flags ---
-    extra_compile_args = ["-std=c++20", "-O3", "-fopenmp", "-mavx2", "-mbmi2"]
-    extra_link_args = ["-fopenmp"]
+    extra_compile_args = ["-std=c++20", "-O3"]
+    if os.environ.get("SCALERQEC_NO_OPENMP") != "1":
+        extra_compile_args += ["-fopenmp"]
+        extra_link_args = ["-fopenmp"]
+
+# Portable wheels use SSE2/NEON/scalar dispatch. AVX2 is an explicit local opt-in.
+if os.environ.get("SCALERQEC_NATIVE") == "1" and platform.machine().lower() in {"amd64", "x86_64"}:
+    extra_compile_args += ["/arch:AVX2"] if sys.platform == "win32" else ["-mavx2", "-mbmi2"]
 
 
 ext_modules = [
@@ -77,7 +87,6 @@ ext_modules = [
 
 setuptools.setup(
     name="scalerqec",
-    version="1.0.0",
     description="Scalable Quantum Error Correction testing Tools for logical error rate and software correctness",
     author="John Ye",
     packages=setuptools.find_packages(where="src"),

@@ -30,6 +30,7 @@ Main components:
 from .stratifiedLER import StratifiedLERcalc
 from .stratifiedScurveLER import StratifiedScurveLERcalc
 from .Scaler import Scaler
+from .profile import LERProfile, LERCurve
 
 # Export model classes and factory
 from .models import (
@@ -44,6 +45,8 @@ __all__ = [
     "StratifiedLERcalc",
     "StratifiedScurveLERcalc",
     "Scaler",
+    "LERProfile",
+    "LERCurve",
     # Model classes
     "ScurveModelBase",
     "OurScurveModel",

@@ -26,6 +26,7 @@ from numpy.typing import NDArray
 import stim
 
 from scalerqec.Clifford.clifford import CliffordCircuit
+from scalerqec.Clifford.noiselabel import NoiseLabelMap
 from scalerqec.QEC.noisemodel import NoiseModel
 from scalerqec.util import commute
 
@@ -684,7 +685,7 @@ class StabCode:
         else:
             raise NotImplementedError(f"Scheme {self._scheme} not implemented yet.")
 
-    def label_noise(self) -> "NoiseLabelMap":
+    def label_noise(self) -> NoiseLabelMap:
         """Auto-label all noise sources in the compiled circuit.
 
         Must be called after :meth:`construct_circuit`.  Returns a

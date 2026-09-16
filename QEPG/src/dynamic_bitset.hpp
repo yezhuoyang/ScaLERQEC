@@ -20,6 +20,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <stdexcept>
 #include <vector>
 
 namespace qepg_bits {
@@ -78,6 +79,7 @@ class DynamicBitset {
     // ---------------------------------------------------------------
 
     bool test(std::size_t pos) const {
+        if (pos >= num_bits_) throw std::out_of_range("bit index out of range");
         return (blocks_[pos / BITS_PER_BLOCK] >> (pos % BITS_PER_BLOCK)) & 1;
     }
 
@@ -141,21 +143,22 @@ class DynamicBitset {
     // Bitwise operations
     // ---------------------------------------------------------------
 
-    DynamicBitset& operator^=(const DynamicBitset& rhs) noexcept {
-        assert(blocks_.size() == rhs.blocks_.size());
+    DynamicBitset& operator^=(const DynamicBitset& rhs) {
+        if (num_bits_ != rhs.num_bits_) throw std::invalid_argument("bitset sizes differ");
         for (std::size_t i = 0; i < blocks_.size(); ++i)
             blocks_[i] ^= rhs.blocks_[i];
         return *this;
     }
 
-    DynamicBitset& operator&=(const DynamicBitset& rhs) noexcept {
-        assert(blocks_.size() == rhs.blocks_.size());
+    DynamicBitset& operator&=(const DynamicBitset& rhs) {
+        if (num_bits_ != rhs.num_bits_) throw std::invalid_argument("bitset sizes differ");
         for (std::size_t i = 0; i < blocks_.size(); ++i)
             blocks_[i] &= rhs.blocks_[i];
         return *this;
     }
 
-    DynamicBitset& operator|=(const DynamicBitset& rhs) noexcept {
+    DynamicBitset& operator|=(const DynamicBitset& rhs) {
+        if (num_bits_ != rhs.num_bits_) throw std::invalid_argument("bitset sizes differ");
         for (std::size_t i = 0; i < blocks_.size(); ++i)
             blocks_[i] |= rhs.blocks_[i];
         return *this;

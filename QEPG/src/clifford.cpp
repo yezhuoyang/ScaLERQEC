@@ -254,10 +254,10 @@ void for_each_line(std::string_view sv, Callback&& callback){
         callback(line);
 
         if(pos == sv.npos) break;
+        const char separator = sv[pos];
         sv.remove_prefix(pos+1);
-
-        if(!sv.empty()&&sv.front()=='\n'&& line.back()=='\r')
-        sv.remove_prefix(1);
+        if(separator == '\r' && !sv.empty() && sv.front() == '\n')
+            sv.remove_prefix(1);
     }
 }
 
@@ -327,7 +327,7 @@ inline int parse_one_rec(std::string_view& sv)
 
     int value{};
     auto res = std::from_chars(begin, begin + end_offset, value);
-    if (res.ec != std::errc())
+    if (res.ec != std::errc() || res.ptr != begin + end_offset)
         throw std::runtime_error{"bad integer inside rec[]"};
 
     sv.remove_prefix(end_offset + 1);            // drop "<int>]"
@@ -413,6 +413,9 @@ inline std::size_t to_size_t(std::string_view tok){
  */
 void cliffordcircuit::compile_from_rewrited_stim_string(std::string stim_str){
 
+    // Compilation replaces the circuit, including all record-index mappings.
+    *this = cliffordcircuit();
+
     for_each_line(stim_str, [this](std::string_view line){
         std::string_view rest=line;
         std::string_view op=next_token(rest);
@@ -459,6 +462,8 @@ void cliffordcircuit::compile_from_rewrited_stim_string(std::string stim_str){
            */
            paritygroup measuregroup;
            for(int index: intlist){
+               if (index >= 0 || static_cast<size_t>(-static_cast<long long>(index)) > num_meas_)
+                   throw std::invalid_argument("DETECTOR record reference is out of range");
                // index is a negative offset from num_meas_
                size_t meas_idx = static_cast<size_t>(static_cast<ptrdiff_t>(num_meas_) + index);
                measuregroup.indexlist.push_back(meas_idx);
@@ -471,6 +476,8 @@ void cliffordcircuit::compile_from_rewrited_stim_string(std::string stim_str){
             std::vector<int> intlist= parse_detector_recs(rest);
             paritygroup measuregroup;
             for(int index: intlist){
+                 if (index >= 0 || static_cast<size_t>(-static_cast<long long>(index)) > num_meas_)
+                     throw std::invalid_argument("OBSERVABLE record reference is out of range");
                  size_t meas_idx = static_cast<size_t>(static_cast<ptrdiff_t>(num_meas_) + index);
                  measuregroup.indexlist.push_back(meas_idx);
             }
