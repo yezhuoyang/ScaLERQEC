@@ -287,6 +287,14 @@ class Scaler:
         Args:
             filepath: Path to a STIM circuit file.
         """
+        # A failed replacement load must not expose the previous circuit's fit
+        # with partially updated circuit metadata.
+        self._model = None
+        self._models.clear()
+        self._model_scores.clear()
+        self._subspace_LE_count.clear()
+        self._subspace_sample_used.clear()
+        self._estimated_subspaceLER.clear()
         with open(filepath, "r", encoding="utf-8") as f:
             stim_str = f.read()
 

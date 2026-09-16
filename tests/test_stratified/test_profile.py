@@ -236,3 +236,17 @@ def test_physical_model_parameters_update_transformed_curve():
     np.testing.assert_allclose(
         model.transform(model.predict(weights)), model.linear_prediction(weights)
     )
+
+
+def test_failed_circuit_replacement_invalidates_previous_fit(tmp_path):
+    from scalerqec.Stratified.models import OurScurveModel
+
+    scaler = Scaler(error_rate=0.01)
+    scaler._model = OurScurveModel()
+    scaler._model._is_fitted = True
+    scaler._estimated_subspaceLER = {1: 0.2}
+    with pytest.raises(FileNotFoundError):
+        scaler.parse_from_file(tmp_path / "missing.stim")
+    with pytest.raises(RuntimeError):
+        scaler.get_profile()
+    assert scaler._estimated_subspaceLER == {}
