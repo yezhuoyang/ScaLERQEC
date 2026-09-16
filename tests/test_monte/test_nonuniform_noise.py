@@ -203,7 +203,10 @@ class TestLERNonuniformVsStim:
     must agree within TOLERANCE relative difference.
     """
 
-    MIN_ERRORS = 500
+    # For two independent estimates, 30k failures each make a 5% difference
+    # roughly six sampling standard deviations even in the rare-event limit.
+    # The old 500-event target allowed ordinary sampling noise to fail CI.
+    MIN_ERRORS = 30_000
     TOLERANCE = 0.05  # 5% relative difference
     BATCH_SIZE = 100000
     MAX_SHOTS = 10_000_000
