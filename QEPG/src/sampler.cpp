@@ -206,10 +206,10 @@ inline std::size_t sampler::generate_sample_Floyd(size_t weight, Xoshiro256pp& g
 inline std::size_t sampler::generate_sample_Monte(double error_prob, size_t ErrorSize, Xoshiro256pp& gen){
     scratch_sample_.clear();
     // Use threshold on upper 32 bits for speed (sufficient precision for error rates)
-    const std::uint32_t threshold = static_cast<std::uint32_t>(error_prob * 4294967296.0);
+    const double threshold = error_prob;
     for(size_t pos = 0; pos < ErrorSize; ++pos){
         // Use upper 32 bits of random value for threshold test
-        if(static_cast<std::uint32_t>(gen() >> 32) < threshold){
+        if(to_double_01(gen()) < threshold){
             scratch_sample_.push_back(singlePauli{pos, 1 + gen.bounded(3)});
         }
     }
@@ -218,12 +218,11 @@ inline std::size_t sampler::generate_sample_Monte(double error_prob, size_t Erro
 
 
 inline std::size_t sampler::generate_sample_Monte_sparse(double error_prob, size_t ErrorSize, Xoshiro256pp& gen){
-    // Sparse O(k) algorithm: sample k ~ Poisson(N*p), then pick k locations via Floyd's.
+    // Sparse O(k) algorithm: sample k ~ Binomial(N,p), then pick k locations via Floyd's.
     // For small p this is dramatically faster than the O(N) dense Bernoulli scan.
     scratch_sample_.clear();
 
-    const double lambda = error_prob * static_cast<double>(ErrorSize);
-    const std::size_t k = sample_poisson(gen, lambda);
+    const std::size_t k = std::binomial_distribution<std::size_t>(ErrorSize, error_prob)(gen);
 
     if(k == 0) return 0;
     if(k >= ErrorSize) {
@@ -276,6 +275,8 @@ inline std::size_t sampler::generate_sample_Monte_sparse(double error_prob, size
  * detector/observable outcome is computed via calculate_parity_output_from_one_sample().
  */
 void sampler::generate_many_output_samples(const QEPG::QEPG& graph,std::vector<QEPG::Row>& samplecontainer, size_t pauliweight, size_t samplenumber){
+    if (pauliweight > num_total_pauliError_) throw std::invalid_argument("weight exceeds number of fault locations");
+
     samplecontainer.resize(samplenumber);
 
     static const std::uint64_t global_seed = std::random_device{}();
@@ -372,6 +373,8 @@ void sampler::generate_all_samples_with_fixed_weight(const QEPG::QEPG& graph,std
  * errors caused a given syndrome.
  */
 void sampler::generate_many_output_samples_with_noise_vector(const QEPG::QEPG& graph,std::vector<std::vector<singlePauli>>& noisecontainer,std::vector<QEPG::Row>& samplecontainer, size_t pauliweight, size_t samplenumber){
+    if (pauliweight > num_total_pauliError_) throw std::invalid_argument("weight exceeds number of fault locations");
+
     samplecontainer.reserve(samplenumber);
     noisecontainer.reserve(samplenumber);
     auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
@@ -430,6 +433,8 @@ void sampler::generate_many_output_samples_to_numpy(
     std::uint8_t* det_buf, std::uint8_t* obs_buf,
     std::size_t n_det, size_t pauliweight, size_t samplenumber)
 {
+    if (pauliweight > num_total_pauliError_) throw std::invalid_argument("weight exceeds number of fault locations");
+
     static const std::uint64_t global_seed = std::random_device{}();
     static std::atomic<uint64_t> call_counter{0};
     const uint64_t call_id = call_counter.fetch_add(1, std::memory_order_relaxed);
@@ -475,8 +480,6 @@ void sampler::generate_many_output_samples_Monte_to_numpy(
     const std::size_t n_noise = flat.n_rows() / 3;
     const std::size_t n_words = flat.words_per_row();
 
-    // Precompute Poisson lambda
-    const double lambda = error_prob * static_cast<double>(total_error);
 
     #pragma omp parallel
     {
@@ -488,9 +491,9 @@ void sampler::generate_many_output_samples_Monte_to_numpy(
         for (long long i = 0; i < static_cast<long long>(samplenumber); ++i) {
             simd::zero_words(result_buf, n_words);
 
-            // Fused sample + XOR: sample k ~ Poisson(lambda), generate k
+            // Fused sample + XOR: sample k ~ Binomial(N,p), generate k
             // error locations, and XOR each row directly into result_buf.
-            const std::size_t k = sample_poisson(rng, lambda);
+            const std::size_t k = std::binomial_distribution<std::size_t>(total_error, error_prob)(rng);
 
             if (k > 0 && k < total_error) {
                 local_sampler.generate_and_xor_sparse(
@@ -549,69 +552,9 @@ void sampler::generate_many_output_samples_nonuniform_to_numpy(
         if (ptotal[i] > p_max) p_max = ptotal[i];
     const bool use_sparse = (p_max < 0.01) && (P_all < 0.06 * num_noise);
 
-    // --- ALIAS TABLE for O(1) source selection (sparse path) ---
-    // Vose's alias method: sample from weighted distribution in O(1) per draw
-    // after O(N) preprocessing.
-    std::vector<double> alias_prob;   // acceptance probability per bin
-    std::vector<std::size_t> alias_idx; // alias redirect per bin
-    if (use_sparse && num_noise > 0) {
-        alias_prob.resize(num_noise);
-        alias_idx.resize(num_noise);
-        // Normalized probabilities: q[i] = ptotal[i] / P_all * N
-        std::vector<double> q(num_noise);
-        for (std::size_t i = 0; i < num_noise; ++i)
-            q[i] = ptotal[i] * static_cast<double>(num_noise) / P_all;
-
-        // Small and large worklists
-        std::vector<std::size_t> small_wl, large_wl;
-        small_wl.reserve(num_noise);
-        large_wl.reserve(num_noise);
-        for (std::size_t i = 0; i < num_noise; ++i) {
-            if (q[i] < 1.0) small_wl.push_back(i);
-            else             large_wl.push_back(i);
-        }
-
-        while (!small_wl.empty() && !large_wl.empty()) {
-            std::size_t s = small_wl.back(); small_wl.pop_back();
-            std::size_t l = large_wl.back(); large_wl.pop_back();
-            alias_prob[s] = q[s];
-            alias_idx[s]  = l;
-            q[l] = q[l] + q[s] - 1.0;
-            if (q[l] < 1.0) small_wl.push_back(l);
-            else             large_wl.push_back(l);
-        }
-        // Remaining items get probability 1.0
-        while (!large_wl.empty()) {
-            alias_prob[large_wl.back()] = 1.0;
-            alias_idx[large_wl.back()] = large_wl.back();
-            large_wl.pop_back();
-        }
-        while (!small_wl.empty()) {
-            alias_prob[small_wl.back()] = 1.0;
-            alias_idx[small_wl.back()] = small_wl.back();
-            small_wl.pop_back();
-        }
-    }
-
-    // Dense path: precompute uint32 thresholds
-    std::vector<std::uint32_t> thresh;
-    if (!use_sparse) {
-        thresh.resize(3 * num_noise);
-        for (std::size_t i = 0; i < num_noise; ++i) {
-            double px  = noise_probs[3 * i];
-            double py  = noise_probs[3 * i + 1];
-            double pz  = noise_probs[3 * i + 2];
-            thresh[3 * i]     = static_cast<std::uint32_t>(px * 4294967296.0);
-            thresh[3 * i + 1] = static_cast<std::uint32_t>((px + py) * 4294967296.0);
-            thresh[3 * i + 2] = static_cast<std::uint32_t>((px + py + pz) * 4294967296.0);
-        }
-    }
-
-    // Precompute correlated pair thresholds
-    std::vector<std::uint32_t> corr_thresh(num_corr_pairs);
-    for (std::size_t i = 0; i < num_corr_pairs; ++i) {
-        corr_thresh[i] = static_cast<std::uint32_t>(corr_pairs[i].prob * 4294967296.0);
-    }
+    // Exact sparse sampling by geometric skipping and Bernoulli thinning.
+    // Unlike Poisson draws with replacement, each source fires at most once.
+    const double log_survival = p_max > 0.0 && p_max < 1.0 ? std::log1p(-p_max) : 0.0;
 
     static const std::uint64_t global_seed = std::random_device{}();
     static std::atomic<uint64_t> call_counter{0};
@@ -627,45 +570,35 @@ void sampler::generate_many_output_samples_nonuniform_to_numpy(
             simd::zero_words(result_buf, n_words);
 
             if (use_sparse) {
-                // --- SPARSE PATH: Poisson + Alias table O(1) source selection ---
-                std::size_t num_errors = sample_poisson(rng, P_all);
-
-                for (std::size_t e = 0; e < num_errors; ++e) {
-                    // O(1) alias method: pick bin uniformly, coin flip
-                    std::size_t bin = rng.bounded(num_noise);
-                    double u = to_double_01(rng());
-                    std::size_t src = (u < alias_prob[bin]) ? bin : alias_idx[bin];
-
-                    // Which Pauli type? Conditional probability within this source.
-                    double r = to_double_01(rng());
-                    std::size_t type;
-                    if (r < cond_x[src])       type = 1;
-                    else if (r < cond_xy[src]) type = 2;
-                    else                       type = 3;
-
-                    std::size_t row_idx = src + (type - 1) * n_noise_flat;
-                    flat.xor_row_into(row_idx, result_buf);
+                if (p_max > 0.0) {
+                    std::size_t src = 0;
+                    while (src < num_noise) {
+                        const double skip = std::floor(std::log1p(-to_double_01(rng())) / log_survival);
+                        if (skip >= static_cast<double>(num_noise - src)) break;
+                        src += static_cast<std::size_t>(skip);
+                        if (to_double_01(rng()) < ptotal[src] / p_max) {
+                            const double r = to_double_01(rng());
+                            const std::size_t type = r < cond_x[src] ? 1 : (r < cond_xy[src] ? 2 : 3);
+                            flat.xor_row_into(src + (type - 1) * n_noise_flat, result_buf);
+                        }
+                        ++src;
+                    }
                 }
             } else {
-                // --- DENSE PATH: direct per-source iteration ---
                 for (std::size_t s = 0; s < num_noise; ++s) {
-                    std::uint32_t r = static_cast<std::uint32_t>(rng() >> 32);
-                    std::uint32_t t_xyz = thresh[3 * s + 2];
-                    if (r < t_xyz) {
-                        std::size_t type;
-                        if (r < thresh[3 * s])          type = 1;
-                        else if (r < thresh[3 * s + 1]) type = 2;
-                        else                            type = 3;
-                        std::size_t row_idx = s + (type - 1) * n_noise_flat;
-                        flat.xor_row_into(row_idx, result_buf);
+                    const double r = to_double_01(rng());
+                    if (r < ptotal[s]) {
+                        const std::size_t type = r < noise_probs[3*s] ? 1 :
+                            (r < noise_probs[3*s] + noise_probs[3*s+1] ? 2 : 3);
+                        flat.xor_row_into(s + (type - 1) * n_noise_flat, result_buf);
                     }
                 }
             }
 
             // --- Correlated pairs (DEPOLARIZE2) ---
             for (std::size_t c = 0; c < num_corr_pairs; ++c) {
-                std::uint32_t r = static_cast<std::uint32_t>(rng() >> 32);
-                if (r < corr_thresh[c]) {
+                const double r = to_double_01(rng());
+                if (r < corr_pairs[c].prob) {
                     std::size_t pidx = rng.bounded(15);
                     std::size_t pa = TWO_QUBIT_PAULIS[pidx][0];
                     std::size_t pb = TWO_QUBIT_PAULIS[pidx][1];

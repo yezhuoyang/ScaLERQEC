@@ -164,7 +164,7 @@ void QEPG::backward_graph_construction(){
     for(size_t t = gate_size; t-- > 0;){
 
         const auto& gate=circuit_.get_gate(t);
-        std::string name=gate.name;
+        const std::string& name=gate.name;
 
         /*
         *   First case, when the gate is a depolarization noise
@@ -192,16 +192,18 @@ void QEPG::backward_graph_construction(){
             */
             const clifford::parityIndexgroup& tmpmeasuregroup=circuit_.get_measure_to_parity_index(current_meas_index);
             for(size_t parityindex: tmpmeasuregroup.indexlist){
-                    current_x_parity_prop[qindex].set(parityindex);
-                    current_y_parity_prop[qindex].set(parityindex);
+                    current_x_parity_prop[qindex][parityindex] = !current_x_parity_prop[qindex][parityindex];
             }
             /*
             This measurement will flip the observable
             */
             if(observable_set.count(current_meas_index)){
-                    current_x_parity_prop[qindex].set(num_detectors);
-                    current_y_parity_prop[qindex].set(num_detectors);
+                    current_x_parity_prop[qindex][num_detectors] = !current_x_parity_prop[qindex][num_detectors];
             }
+            // MZ destroys phase errors. X persists and toggles each referenced
+            // measurement; repeated references therefore accumulate by XOR.
+            current_y_parity_prop[qindex] = current_x_parity_prop[qindex];
+            current_z_parity_prop[qindex].reset();
             current_meas_index--;
             continue;
         }

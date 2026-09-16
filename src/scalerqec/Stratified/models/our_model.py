@@ -181,6 +181,19 @@ class OurScurveModel(ScurveModelBase):
 
         return modified_linear_function
 
+    def set_params(self, **params: float) -> None:
+        """Keep physical and transformed parameterizations consistent."""
+        values = self.get_params()
+        if set(params) - set(self.param_names):
+            raise ValueError("Unknown OurScurveModel parameter.")
+        values.update(params)
+        if not all(np.isfinite(v) for v in values.values()) or values["alpha"] <= 0 or values["beta"] < 0:
+            raise ValueError("Model parameters must be finite, alpha positive and beta nonnegative.")
+        self._params = values
+        self._a = -1.0 / values["alpha"]
+        self._b = values["mu"] / values["alpha"]
+        self._c = values["beta"]
+
     def _get_initial_guess(
         self, x_list: List[float], y_list: List[float]
     ) -> Tuple[float, ...]:

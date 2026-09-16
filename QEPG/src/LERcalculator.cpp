@@ -9,11 +9,42 @@
  */
 
 #include "LERcalculator.hpp"
+#include <cmath>
+#include <limits>
+#include <stdexcept>
 
 
 
 
 namespace LERcalculator{
+
+namespace {
+void validate_output_size(std::size_t detectors, std::size_t shots) {
+    const auto limit = static_cast<std::size_t>(std::numeric_limits<py::ssize_t>::max());
+    if (detectors >= limit || shots > limit / (detectors + 1))
+        throw std::invalid_argument("Requested sample output is too large");
+}
+void validate_probability(double p) {
+    if (!std::isfinite(p) || p < 0.0 || p > 1.0)
+        throw std::invalid_argument("Probability must be finite and in [0, 1]");
+}
+std::size_t validate_batches(const QEPG::QEPG& graph,
+        const std::vector<std::size_t>& weights, const std::vector<std::size_t>& shots) {
+    if (weights.size() != shots.size())
+        throw std::invalid_argument("weights and shots must have equal lengths");
+    std::size_t total = 0;
+    for (std::size_t i = 0; i < weights.size(); ++i) {
+        if (weights[i] > graph.get_total_noise())
+            throw std::invalid_argument("weight exceeds number of fault locations");
+        if (shots[i] > std::numeric_limits<std::size_t>::max() - total)
+            throw std::invalid_argument("shot count overflows");
+        total += shots[i];
+    }
+    validate_output_size(graph.get_total_detector(), total);
+    return total;
+}
+}
+
 
 
 
@@ -242,6 +273,8 @@ std::vector<std::vector<bool>> return_samples_with_fixed_QEPG(const QEPG::QEPG& 
 /// @copydoc LERcalculator::return_samples_with_fixed_QEPG_numpy
 std::pair<py::array_t<std::uint8_t>,py::array_t<std::uint8_t>> return_samples_with_fixed_QEPG_numpy(const QEPG::QEPG& graph,size_t weight, size_t shots){
     const std::size_t n_det = graph.get_total_detector();
+    validate_output_size(n_det, shots);
+    if (weight > graph.get_total_noise()) throw std::invalid_argument("weight exceeds number of fault locations");
     SAMPLE::sampler sampler(graph.get_total_noise());
 
     // Allocate NumPy buffers directly
@@ -373,6 +406,7 @@ std::vector<std::vector<std::vector<bool>>> return_samples_many_weights(const st
     QEPG::QEPG graph(c,c.get_num_detector(),c.get_num_noise());
     graph.backward_graph_construction();
 
+    validate_batches(graph, weight, shots);
     SAMPLE::sampler sampler(c.get_num_noise());
 
     std::vector<QEPG::Row> samplecontainer;
@@ -410,6 +444,7 @@ std::vector<py::array_t<bool>> return_samples_many_weights_numpy(const std::stri
     QEPG::QEPG graph(c,c.get_num_detector(),c.get_num_noise());
     graph.backward_graph_construction();
 
+    validate_batches(graph, weight, shots);
     SAMPLE::sampler sampler(c.get_num_noise());
 
     std::vector<QEPG::Row> samplecontainer;
@@ -429,6 +464,8 @@ std::vector<py::array_t<bool>> return_samples_many_weights_numpy(const std::stri
 
 /// @copydoc LERcalculator::return_samples_Monte_separate_obs_with_QEPG
 std::pair<py::array_t<std::uint8_t>,py::array_t<std::uint8_t>> return_samples_Monte_separate_obs_with_QEPG(const QEPG::QEPG& graph,const double& error_rate, const size_t& shot){
+    validate_probability(error_rate);
+    validate_output_size(graph.get_total_detector(), shot);
     const std::size_t n_det = graph.get_total_detector();
     SAMPLE::sampler sampler(graph.get_total_noise());
 
@@ -454,22 +491,24 @@ std::pair<py::array_t<std::uint8_t>,py::array_t<std::uint8_t>> return_samples_Mo
 
 /// @copydoc LERcalculator::return_samples_many_weights_separate_obs_with_QEPG
 std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separate_obs_with_QEPG(const QEPG::QEPG& graph,const std::vector<size_t>& weight, const std::vector<size_t>& shots){
+    const auto shot_sum = validate_batches(graph, weight, shots);
+    const auto n_det = graph.get_total_detector();
     SAMPLE::sampler sampler(graph.get_total_noise());
-    std::vector<QEPG::Row> samplecontainer;
-    size_t shot_sum=0;
-    for(int i=0;i<weight.size();i++){
-        shot_sum+=shots[i];
-    }
-    py::array_t<bool> detectorresult({shot_sum,graph.get_total_detector()});
+    py::array_t<bool> detectorresult({shot_sum, n_det});
     py::array_t<bool> obsresult(shot_sum);
-    auto begin_index=0;
-    for(size_t i=0;i<weight.size();++i){
-        samplecontainer.clear();
-        sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
-        convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
-        begin_index+=shots[i];
+    auto* det = reinterpret_cast<std::uint8_t*>(detectorresult.mutable_data());
+    auto* obs = reinterpret_cast<std::uint8_t*>(obsresult.mutable_data());
+    {
+        py::gil_scoped_release release;
+        std::size_t offset = 0;
+        for (std::size_t i = 0; i < weight.size(); ++i) {
+            if (shots[i] == 0) continue;
+            sampler.generate_many_output_samples_to_numpy(graph, det + offset*n_det,
+                obs + offset, n_det, weight[i], shots[i]);
+            offset += shots[i];
+        }
     }
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return {std::move(detectorresult), std::move(obsresult)};
 }
 
 
@@ -482,27 +521,7 @@ std::pair<py::array_t<bool>,py::array_t<bool>> return_samples_many_weights_separ
     QEPG::QEPG graph(c,c.get_num_detector(),c.get_num_noise());
     graph.backward_graph_construction();
 
-    SAMPLE::sampler sampler(c.get_num_noise());
-
-
-    std::vector<QEPG::Row> samplecontainer;
-
-    size_t shot_sum=0;
-    for(int i=0;i<weight.size();i++){
-        shot_sum+=shots[i];
-    }
-
-    py::array_t<bool> detectorresult({shot_sum,c.get_num_detector()});
-    py::array_t<bool> obsresult(shot_sum);
-
-    auto begin_index=0;
-    for(size_t i=0;i<weight.size();++i){
-        samplecontainer.clear();
-        sampler.generate_many_output_samples(graph,samplecontainer,weight[i],shots[i]);
-        convert_bitset_row_to_boolean_separate_obs_numpy(detectorresult,obsresult,begin_index,samplecontainer);
-        begin_index+=shots[i];
-    }
-    return std::pair<py::array_t<bool>,py::array_t<bool>>{std::move(detectorresult),std::move(obsresult)};
+    return return_samples_many_weights_separate_obs_with_QEPG(graph, weight, shots);
 }
 
 
@@ -519,7 +538,7 @@ std::vector<std::vector<bool>> return_detector_matrix(const std::string& prog_st
     graph.print_detectorMatrix();
     const std::vector<QEPG::Row>& parityMtrans=graph.get_parityPropMatrixTrans();
     const size_t row_size=parityMtrans.size();
-    const size_t col_size=parityMtrans[0].size();
+    const size_t col_size=parityMtrans.empty() ? 0 : parityMtrans[0].size();
 
 
     // 2. Allocate the whole target matrix in one go
@@ -544,27 +563,36 @@ return_samples_nonuniform_to_numpy(
     py::array_t<double> corr_probs_arr,
     std::size_t shot)
 {
-    // Extract noise_probs pointer and dimensions
-    auto np_info = noise_probs_arr.request();
-    if (np_info.ndim != 2 || np_info.shape[1] != 3)
-        throw std::runtime_error("noise_probs must have shape (N, 3)");
-    const std::size_t num_noise = static_cast<std::size_t>(np_info.shape[0]);
-    const double* noise_probs = static_cast<const double*>(np_info.ptr);
-
-    // Extract correlated pairs
-    auto ca_info = corr_sources_a_arr.request();
-    auto cb_info = corr_sources_b_arr.request();
-    auto cp_info = corr_probs_arr.request();
-    const std::size_t num_corr = static_cast<std::size_t>(ca_info.shape[0]);
-
-    std::vector<SAMPLE::CorrelatedPair> corr_pairs(num_corr);
-    if (num_corr > 0) {
-        const std::size_t* ca = static_cast<const std::size_t*>(ca_info.ptr);
-        const std::size_t* cb = static_cast<const std::size_t*>(cb_info.ptr);
-        const double* cp = static_cast<const double*>(cp_info.ptr);
-        for (std::size_t i = 0; i < num_corr; ++i) {
-            corr_pairs[i] = {ca[i], cb[i], cp[i]};
+    validate_output_size(graph.get_total_detector(), shot);
+    auto probs = py::array_t<double, py::array::c_style | py::array::forcecast>::ensure(noise_probs_arr);
+    auto sources_a = py::array_t<std::size_t, py::array::c_style | py::array::forcecast>::ensure(corr_sources_a_arr);
+    auto sources_b = py::array_t<std::size_t, py::array::c_style | py::array::forcecast>::ensure(corr_sources_b_arr);
+    auto probabilities = py::array_t<double, py::array::c_style | py::array::forcecast>::ensure(corr_probs_arr);
+    if (!probs || !sources_a || !sources_b || !probabilities)
+        throw std::invalid_argument("Invalid noise arrays");
+    const auto num_noise = graph.get_total_noise();
+    if (probs.ndim() != 2 || probs.shape(0) != num_noise || probs.shape(1) != 3)
+        throw std::invalid_argument("noise_probs must have shape (graph.num_noise, 3)");
+    const double* noise_probs = probs.data();
+    for (std::size_t i = 0; i < num_noise; ++i) {
+        double sum = 0;
+        for (std::size_t j = 0; j < 3; ++j) {
+            validate_probability(noise_probs[3*i+j]);
+            sum += noise_probs[3*i+j];
         }
+        if (sum > 1.0 + 1e-14) throw std::invalid_argument("Pauli probabilities sum to more than one");
+    }
+    if (sources_a.ndim() != 1 || sources_b.ndim() != 1 || probabilities.ndim() != 1 ||
+        sources_a.size() != sources_b.size() || sources_a.size() != probabilities.size())
+        throw std::invalid_argument("Correlated arrays must be one-dimensional with equal lengths");
+    const std::size_t num_corr = sources_a.size();
+    std::vector<SAMPLE::CorrelatedPair> corr_pairs(num_corr);
+    for (std::size_t i = 0; i < num_corr; ++i) {
+        const auto a = sources_a.data()[i], b = sources_b.data()[i];
+        if (a >= num_noise || b >= num_noise || a == b)
+            throw std::invalid_argument("Correlated source indices must be distinct and in range");
+        validate_probability(probabilities.data()[i]);
+        corr_pairs[i] = {a, b, probabilities.data()[i]};
     }
 
     // Allocate output numpy arrays

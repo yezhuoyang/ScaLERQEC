@@ -454,10 +454,14 @@ class SIDNoiseModel(NoiseModel):
             gate_args = instruction.gate_args_copy()
 
             if name in self._NOISY_OPS and p > 0:
-                qubit_targets = [t.value for t in targets if not t.is_combiner]
-                if qubit_targets:
-                    noisy.append("DEPOLARIZE1", qubit_targets, [p])
-
-            noisy.append(name, targets, gate_args)
+                # Coalesced CX pairs can share qubits. Insert noise before
+                # each operation, not before the whole coalesced instruction.
+                stride = 2 if name in {"CX", "CZ"} else 1
+                for offset in range(0, len(targets), stride):
+                    group = targets[offset:offset + stride]
+                    noisy.append("DEPOLARIZE1", group, [p])
+                    noisy.append(name, group, gate_args)
+            else:
+                noisy.append(name, targets, gate_args)
 
         return noisy

@@ -72,5 +72,5 @@ using the stratified S-curve method::
    :maxdepth: 2
    :caption: Contents:
 
-
+   profiles
    api/modules

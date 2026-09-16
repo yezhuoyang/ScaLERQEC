@@ -23,17 +23,17 @@ _1Q_PASSTHROUGH = {"H", "S", "M", "R", "X", "Y", "Z"}
 # Each value is a list of primitive gate names to emit per qubit.
 _1Q_DECOMPOSITIONS = {
     "S_DAG": ["S", "S", "S"],
-    "MX": ["H", "M"],
-    "MY": ["S", "S", "S", "H", "M"],
+    "MX": ["H", "M", "H"],
+    "MY": ["S", "S", "S", "H", "M", "H", "S"],
     "MR": ["M", "R"],
     "MRX": ["H", "M", "R", "H"],
-    "MRY": ["S", "S", "S", "H", "M", "R", "S", "S", "S", "H"],
+    "MRY": ["S", "S", "S", "H", "M", "R", "H", "S"],
     "RX": ["R", "H"],
-    "RY": ["R", "S", "S", "S", "H"],
+    "RY": ["R", "H", "S"],
     "SQRT_X": ["H", "S", "H"],
     "SQRT_X_DAG": ["H", "S", "S", "S", "H"],
-    "SQRT_Y": ["S", "H"],
-    "SQRT_Y_DAG": ["H", "S"],
+    "SQRT_Y": ["H", "X"],
+    "SQRT_Y_DAG": ["H", "Z"],
 }
 
 # Two-qubit gates that pass through as-is (pairwise split)

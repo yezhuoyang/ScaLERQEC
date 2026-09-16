@@ -21,6 +21,7 @@ __pycache__/
 *.png
 *.pdf
 *.txt
+!QEPG/CMakeLists.txt
 *.log
 *.npz
 *.stim
@@ -39,6 +40,12 @@ Figures/*iteration_log.json
 
 ## Pytest cache
 .pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+dist/
+.venv-release/
 
 ## Credentials & secrets
 .openai_key
@@ -105,3 +112,4 @@ justcompile.ps1
 
 ## Untracked stim programs (toric17 is generated)
 stimprograms/toric/toric17
+**/__pycache__/

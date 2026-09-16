@@ -1,11 +1,16 @@
 include pyproject.toml
 include setup.py
 include README.md
+include CHANGELOG.md
 include LICENSE
 
 # C++ backend sources (needed to compile the extension)
 recursive-include QEPG/src *.cpp *.hpp *.h
 include QEPG/bindings.cpp
+include QEPG/CMakeLists.txt
+recursive-include QEPG/tests *.cpp
+recursive-include tests *.py
+include pytest.ini
 
 # Bundled Stim circuit programs
 recursive-include stimprograms *

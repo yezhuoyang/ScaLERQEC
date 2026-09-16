@@ -60,6 +60,12 @@ class ScurveModelBase(ABC):
         self._gamma = gamma
         self._params: Dict[str, float] = {}
         self._r_squared: float = 0.0
+        self._is_fitted = False
+
+    @property
+    def is_fitted(self) -> bool:
+        """Whether a fit has succeeded (default parameters are not a fit)."""
+        return self._is_fitted
 
     @property
     def t(self) -> int:
@@ -246,7 +252,7 @@ class ScurveModelBase(ABC):
             if 0.0 < p < 0.5 and le > 0
         ]
 
-        if len(valid_indices) < 2:
+        if len(valid_indices) < len(self.param_names):
             # Not enough data to fit
             return
 
@@ -288,6 +294,7 @@ class ScurveModelBase(ABC):
             # Compute R²
             y_pred = [self.linear_prediction(x) for x in x_list]
             self._r_squared = self._r_squared_score(y_list, y_pred)
+            self._is_fitted = True
 
         except (RuntimeError, ValueError) as e:
             # Fit failed, keep existing parameters

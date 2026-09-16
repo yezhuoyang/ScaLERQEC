@@ -301,7 +301,7 @@ def extract_noise_model(original_circuit_str: str) -> NonuniformNoiseModel:
                 pn = pending_1q.pop(q, None)
                 if pn and noise_idx < total_noise:
                     noise_probs[noise_idx] = pn
-                noise_idx += 2  # H + M
+                noise_idx += _GATE_NOISE_COUNT[name]
 
         elif name in ("MY",):
             # S+S+S+H+M per qubit: 5 sources
@@ -309,7 +309,7 @@ def extract_noise_model(original_circuit_str: str) -> NonuniformNoiseModel:
                 pn = pending_1q.pop(q, None)
                 if pn and noise_idx < total_noise:
                     noise_probs[noise_idx] = pn
-                noise_idx += 5
+                noise_idx += _GATE_NOISE_COUNT[name]
 
         elif name == "RX":
             for q in targets:
@@ -357,15 +357,17 @@ def _accumulate_noise(
 ) -> None:
     """Accumulate noise probabilities for a qubit.
 
-    Multiple noise channels on the same qubit between gates compose
-    independently per Pauli axis using p_combined = p1 + p2 - 2*p1*p2.
+    Compose categorical I/X/Y/Z distributions by Pauli multiplication.
+    Cross-axis products matter: X followed by Y is Z, ignoring global phase.
     """
     if qubit in pending:
-        old = pending[qubit]
+        ox, oy, oz = pending[qubit]
+        oi = 1.0 - ox - oy - oz
+        pi = 1.0 - px - py - pz
         pending[qubit] = (
-            _compose_prob(old[0], px),
-            _compose_prob(old[1], py),
-            _compose_prob(old[2], pz),
+            oi * px + ox * pi + oy * pz + oz * py,
+            oi * py + oy * pi + ox * pz + oz * px,
+            oi * pz + oz * pi + ox * py + oy * px,
         )
     else:
         pending[qubit] = (px, py, pz)

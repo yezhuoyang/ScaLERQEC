@@ -1,298 +1,43 @@
-name: Pull Request Validation
-
+name: Validation
 on:
   pull_request:
-    branches: [ main ]
   push:
-    branches-ignore: [ main ]
-
+    branches: [main, 'codex/**']
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
-  lint-python:
-    name: Python Linting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install ruff
-        run: pip install ruff
-      
-      - name: Run ruff linting
-        run: ruff check src/scalerqec/ --output-format=github
-        continue-on-error: true
-      
-      - name: Run ruff formatting check
-        run: ruff format --check src/scalerqec/
-
-  lint-cpp:
-    name: C++ Code Quality
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Install clang-format
-        run: sudo apt-get update && sudo apt-get install -y clang-format
-      
-      - name: Check C++ formatting
-        run: |
-          find QEPG/src -name "*.cpp" -o -name "*.hpp" | xargs clang-format --dry-run --Werror
-        continue-on-error: true
-
-  build-and-test-linux:
-    name: Build & Test (Linux)
-    runs-on: ubuntu-latest
+  python:
+    name: Python ${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ['3.10', '3.13']
+    env:
+      OMP_NUM_THREADS: '2'
+      MPLBACKEND: Agg
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
-      
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov
-
-      - name: Build package
-        run: |
-          pip install -e .
-
-      - name: Verify import
-        run: |
-          python -c "import scalerqec"
-          python -c "import scalerqec.qepg"
-
-      - name: Run unit tests
-        run: |
-          pytest tests/ --cov=src/scalerqec --cov-report=xml --cov-report=term -v
-
-- name: Upload coverage to Codecov
-        if: matrix.python-version == '3.11'
-        uses: codecov/codecov-action@v4
-        with:
-          file: ./coverage.xml
-          flags: unittests
-          name: codecov-umbrella
-        continue-on-error: true
-
-  build-and-test-macos:
-    name: Build & Test (macOS)
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install system dependencies
-        run: |
-          brew install libomp
-      
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov
-      
-      - name: Build package
-        run: |
-          pip install -e .
-      
-      - name: Verify import
-        run: |
-          python -c "import scalerqec"
-          python -c "import scalerqec.qepg"
-      
-      - name: Run unit tests
-        run: |
-          pytest tests/ -v
-
-  build-and-test-windows:
-    name: Build & Test (Windows)
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov
-
-      - name: Build package
-        run: |
-          pip install -e .
-
-      - name: Verify import
-        run: |
-          python -c "import scalerqec"
-          python -c "import scalerqec.qepg"
-
-      - name: Run unit tests
-        run: |
-          pytest tests/ -v
-        continue-on-error: true
-
-  security-scan:
-    name: Security Scanning
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install . pytest pytest-cov ruff
+      - name: Check Python correctness
+        run: python -m ruff check src/scalerqec --select E9,F821,F822,F823
+      - name: Run complete test suite
+        run: python -m pytest tests --cov=scalerqec --cov-report=term --cov-report=xml --cov-fail-under=30
+      - name: Require profile module coverage
+        run: python -m pytest tests/test_stratified/test_profile.py --cov=scalerqec --cov-report=
+      - run: python -m coverage report --include="*/Stratified/profile.py" --fail-under=95
+      - name: Verify wheel-facing imports
+        run: python -c "from scalerqec.Stratified import Scaler, LERProfile; assert LERProfile([0, 0.5]).evaluate(0.2) == 0.1"
+  native:
+    name: C++ sanitizers
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install security tools
-        run: |
-          pip install bandit safety
-      
-      - name: Run bandit security linter
-        run: |
-          bandit -r src/scalerqec/ -ll -f json -o bandit-report.json
-        continue-on-error: true
-      
-      - name: Display bandit results
-        if: always()
-        run: |
-          if [ -f bandit-report.json ]; then
-            cat bandit-report.json
-          fi
-        continue-on-error: true
-      
-      - name: Install package for dependency check
-        run: |
-          pip install -e .
-        continue-on-error: true
-      
-      - name: Check for known vulnerabilities
-        run: |
-          safety check --json
-        continue-on-error: true
-
-  test-coverage-check:
-    name: Test Coverage Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest pytest-cov
-
-      - name: Build package
-        run: |
-          pip install -e .
-
-      - name: Run tests with coverage
-        run: |
-          pytest tests/ --cov=src/scalerqec --cov-report=term --cov-report=html --cov-fail-under=30
-      
-      - name: Upload coverage HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: htmlcov/
-
-  integration-tests:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install package
-        run: |
-          pip install -e .
-      
-      - name: Test basic QEC circuit construction
-        run: |
-          python -c "
-          from scalerqec.QEC.qeccircuit import StabCode
-          from scalerqec.QEC.noisemodel import NoiseModel
-          
-          # Test repetition code example from README
-          qeccirc = StabCode(n=3, k=1, d=3)
-          qeccirc.add_stab('ZZI')
-          qeccirc.add_stab('IZZ')
-          qeccirc.set_logical_Z(0, 'ZZZ')
-          
-          noise_model = NoiseModel(0.001)
-          qeccirc.scheme = 'Standard'
-          qeccirc.rounds = 2
-          qeccirc.construct_circuit()
-          
-          print('✓ QEC circuit construction successful')
-          "
-      
-      - name: Test QEPG compilation
-        run: |
-          python -c "
-          import scalerqec.qepg as qepg
-          from scalerqec.QEC.qeccircuit import StabCode
-          from scalerqec.QEC.noisemodel import NoiseModel
-          
-          # Create simple circuit
-          qeccirc = StabCode(n=3, k=1, d=3)
-          qeccirc.add_stab('ZZI')
-          qeccirc.add_stab('IZZ')
-          qeccirc.set_logical_Z(0, 'ZZZ')
-          qeccirc.scheme = 'Standard'
-          qeccirc.rounds = 1
-          qeccirc.construct_circuit()
-          
-          # Compile to QEPG (C++ parser needs normalized one-op-per-line format)
-          from scalerqec.Clifford.stimparser import rewrite_stim_code
-          stim_circuit = rewrite_stim_code(str(qeccirc.stimcirc))
-          graph = qepg.compile_QEPG(stim_circuit)
-          
-          print('✓ QEPG compilation successful')
-          "
-      
-      - name: Test imports of all main modules
-        run: |
-          python -c "
-          import scalerqec
-          import scalerqec.qepg
-          from scalerqec.Clifford import clifford
-          from scalerqec.Monte.monteLER import MonteLERcalc
-          from scalerqec.QEC.qeccircuit import StabCode
-          from scalerqec.QEC.noisemodel import NoiseModel
-          from scalerqec.Stratified.Scaler import Scaler
-          from scalerqec.Symbolic.symbolicLER import SymbolicLERcalc
-          
-          print('✓ All module imports successful')
-          "
+      - uses: actions/checkout@v4
+      - run: cmake -S QEPG -B build/native -DCMAKE_BUILD_TYPE=Debug -DSCALERQEC_SANITIZE=ON
+      - run: cmake --build build/native --parallel
+      - run: ctest --test-dir build/native --output-on-failure

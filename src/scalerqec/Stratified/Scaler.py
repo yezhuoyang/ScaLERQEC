@@ -38,7 +38,7 @@ from scalerqec.Stratified.models import (
 )
 from scalerqec.Stratified.ScurveModel import evenly_spaced_ints
 from scalerqec.Stratified.fitting import r_squared
-from scalerqec.util.binomial import binomial_weight
+from scalerqec.Stratified.profile import LERProfile, _probabilities
 import matplotlib.pyplot as plt
 
 
@@ -102,6 +102,16 @@ class Scaler:
                 a pymatching decoder is built automatically from the circuit's
                 detector error model.
         """
+        if not np.isfinite(time_budget) or time_budget <= 0:
+            raise ValueError("time_budget must be finite and positive.")
+        if not np.isfinite(gamma) or gamma <= 0:
+            raise ValueError("gamma must be finite and positive.")
+        if (isinstance(num_subspaces_phase2, bool) or not isinstance(num_subspaces_phase2, int)
+                or num_subspaces_phase2 < 1):
+            raise ValueError("num_subspaces_phase2 must be a positive integer.")
+        if np.ndim(error_rate) != 0:
+            raise ValueError("error_rate must be a scalar.")
+        _probabilities(error_rate)
         self._error_rate: float = error_rate
         self._time_budget: float = float(time_budget)
         self._remaining_time_budget: float = float(time_budget)
@@ -203,7 +213,7 @@ class Scaler:
             model_type: The new model type to use
         """
         self._model_type = model_type
-        if self._t > 0:  # Model already initialized
+        if self._model is not None:
             self._initialize_model()
 
     def set_gamma(self, gamma: float) -> None:
@@ -259,7 +269,8 @@ class Scaler:
             self.compare_models()
 
         best_type = max(self._model_scores, key=lambda x: self._model_scores[x])
-        self.set_model_type(best_type)
+        self._model_type = best_type
+        self._model = self._models[best_type]
         return best_type
 
     # ------------------------------------------------------------------
@@ -276,11 +287,62 @@ class Scaler:
         Args:
             filepath: Path to a STIM circuit file.
         """
+        # A failed replacement load must not expose the previous circuit's fit
+        # with partially updated circuit metadata.
+        self._model = None
+        self._models.clear()
+        self._model_scores.clear()
+        self._subspace_LE_count.clear()
+        self._subspace_sample_used.clear()
+        self._estimated_subspaceLER.clear()
         with open(filepath, "r", encoding="utf-8") as f:
             stim_str = f.read()
 
+        import stim
+        from scalerqec.Clifford.stimparser import rewrite_stim_code
+
+        # Flatten REPEAT and canonicalize aliases/spacing using Stim first.
+        circuit = stim.Circuit(stim_str).flattened()
+        if circuit.num_observables != 1:
+            raise ValueError("Scaler currently requires exactly one logical observable (index 0).")
+        measurements_names = {"M", "MX", "MY", "MR", "MRX", "MRY"}
+        for instruction in circuit:
+            name = instruction.name
+            if stim.gate_data(name).is_noisy_gate:
+                # Measurements are classed as noisy gates even without noise.
+                if name not in measurements_names or any(instruction.gate_args_copy()):
+                    raise ValueError("Scaler expects a noiseless circuit and applies uniform SID noise; explicit noise is unsupported.")
+            if any(t.is_measurement_record_target or t.is_sweep_bit_target or t.is_inverted_result_target
+                   for t in instruction.targets_copy()) and name not in {"DETECTOR", "OBSERVABLE_INCLUDE"}:
+                raise ValueError("Classical controls and inverted measurements are unsupported by Scaler.")
+        # Multiple OBSERVABLE_INCLUDE(0) instructions accumulate by parity.
+        measurements = 0
+        observable = set()
+        body = stim.Circuit()
+        for instruction in circuit:
+            if instruction.name == "OBSERVABLE_INCLUDE":
+                for target in instruction.targets_copy():
+                    if not target.is_measurement_record_target:
+                        raise ValueError("Only measurement-record logical observables are supported.")
+                    index = measurements + target.value
+                    observable.symmetric_difference_update({index})
+            else:
+                body.append(instruction)
+            measurements += stim.Circuit(str(instruction)).num_measurements
+        if not observable:
+            raise ValueError("Scaler requires a nonempty measurement-record logical observable.")
+        body.append("OBSERVABLE_INCLUDE", [stim.target_rec(i - measurements) for i in sorted(observable)], 0)
+        stim_str = rewrite_stim_code(str(body))
+        supported = {"H", "S", "X", "Y", "Z", "CX", "R", "M", "TICK", "QUBIT_COORDS", "DETECTOR", "OBSERVABLE_INCLUDE"}
+        for line in stim_str.splitlines():
+            name = line.split()[0].split("(")[0]
+            if name not in supported:
+                raise ValueError(f"Unsupported Scaler instruction: {name}")
+
         self._cliffordcircuit.compile_from_stim_circuit_str(stim_str)
         self._num_noise = self._cliffordcircuit.totalnoise
+        if self._num_noise == 0:
+            raise ValueError("Scaler requires at least one SID fault location.")
         self._num_detector = len(self._cliffordcircuit.parityMatchGroup)
         self._stim_str_after_rewrite = stim_str
 
@@ -293,7 +355,7 @@ class Scaler:
 
         # Configure a decoder using the noisy circuit.
         self._detector_error_model = noisy_stim.detector_error_model(
-            decompose_errors=False
+            decompose_errors=self._decoder is None
         )
         if self._decoder is not None:
             self._matcher = self._decoder
@@ -323,11 +385,19 @@ class Scaler:
             "QEPG graph must be initialized before sampling"
         )
         assert self._matcher is not None, "Matcher must be initialized before decoding"
+        if isinstance(shots, bool) or not isinstance(shots, (int, np.integer)) or shots <= 0:
+            raise ValueError("shots must be a positive integer.")
         states, observables = return_samples_with_fixed_QEPG_numpy(self._QEPG_graph, w, shots)
         observables = np.asarray(observables).ravel()
-        predictions = np.squeeze(self._matcher.decode_batch(states))
+        predictions = self._decode_single_observable(states)
         num_errors = np.count_nonzero(observables != predictions)
         return num_errors / shots
+
+    def _decode_single_observable(self, states):
+        predictions = np.asarray(self._matcher.decode_batch(states))
+        if predictions.shape not in {(len(states),), (len(states), 1)}:
+            raise ValueError("Decoder must return one prediction per shot for observable 0.")
+        return predictions.reshape(-1)
 
     # ------------------------------------------------------------------
     #  Binary search helpers to bracket the S-curve
@@ -432,6 +502,7 @@ class Scaler:
         _det, _obs = return_samples_many_weights_separate_obs_with_QEPG(
             self._QEPG_graph, wlist, slist
         )
+        self._decode_single_observable(_det)
         end_time = time.perf_counter()
         print("End time for sampling rate measurement:", end_time)
         elapsed = end_time - start_time
@@ -647,6 +718,10 @@ class Scaler:
             "QEPG graph must be initialized before sampling"
         )
         assert self._matcher is not None, "Matcher must be initialized before decoding"
+        if len(wlist) != len(slist):
+            raise ValueError("weights and shots must have equal lengths.")
+        if any(isinstance(s, bool) or not isinstance(s, (int, np.integer)) or s <= 0 for s in slist):
+            raise ValueError("Each shot count must be a positive integer.")
         if not wlist:
             return 0.0
 
@@ -658,7 +733,7 @@ class Scaler:
         detector_result, obsresult = return_samples_many_weights_separate_obs_with_QEPG(
             self._QEPG_graph, wlist, slist
         )
-        predictions_result = self._matcher.decode_batch(detector_result)
+        predictions_result = self._decode_single_observable(detector_result)
         end_time = time.perf_counter()
         elapsed = end_time - start_time
 
@@ -1618,26 +1693,75 @@ class Scaler:
         Returns:
             The estimated total logical error rate.
         """
-        LER = 0.0
-        N = self._num_noise
-        p = self._error_rate
+        self._ler = self._make_profile(model).evaluate(self._error_rate)
+        return self._ler
 
-        sigma = int(np.sqrt(p * (1.0 - p) * N))
-        if sigma == 0:
-            sigma = 1
-        ep = int(p * N)
-        minw = max(self._t + 1, ep - self._k_range * sigma)
-        maxw = min(N, ep + self._k_range * sigma)
+    def _make_profile(self, model):
+        import hashlib
+        from importlib.metadata import version
 
-        for w in range(minw, maxw + 1):
-            if w in self._estimated_subspaceLER:
-                sub_PL = self._estimated_subspaceLER[w]
-            else:
-                sub_PL = float(model.predict(w))
-            LER += sub_PL * binomial_weight(N, w, p)
+        weights = np.arange(self._num_noise + 1)
+        rates = np.asarray(model.predict(weights), dtype=float).copy()
+        modeled = weights > self._t
+        rates[~modeled] = 0.0
+        samples = np.zeros(len(weights), dtype=np.int64)
+        failures = np.zeros(len(weights), dtype=np.int64)
+        for w, count in self._subspace_sample_used.items():
+            samples[w] = count
+            failures[w] = self._subspace_LE_count.get(w, 0)
+        for w, rate in self._estimated_subspaceLER.items():
+            if w > self._t:
+                rates[w] = rate
+                modeled[w] = False
+            elif rate > 0:
+                raise ValueError("Observed failures contradict the supplied circuit-level distance.")
+        return LERProfile(rates, modeled_weights=modeled, sample_counts=samples,
+                          failure_counts=failures, metadata={
+            "noise_model": "uniform-independent-SID-before-primitive-gates",
+            "decoder_policy": "fixed", "decoder_reference_p": self._error_rate,
+            "decoder_class": type(self._matcher).__module__ + "." + type(self._matcher).__qualname__,
+            "circuit_sha256": hashlib.sha256(self._stim_str_after_rewrite.encode()).hexdigest(),
+            "num_detectors": self._num_detector,
+            "circuit_level_distance": self._circuit_level_code_distance,
+            "assumed_zero_through_weight": self._t,
+            "model": model.name, "model_parameters": model.get_params(),
+            "model_fitted": model.is_fitted,
+            "fit_r_squared": model.r_squared, "scalerqec_version": version("scalerqec"),
+            "systematic_error": "Unquantified S-curve extrapolation error; diagnostics are not confidence intervals.",
+        })
 
-        self._ler = LER
-        return LER
+    def get_profile(self) -> LERProfile:
+        """Snapshot the completed fit; subsequent evaluation never samples again."""
+        complete = self._num_noise > 0 and all(
+            w in self._estimated_subspaceLER for w in range(self._t + 1, self._num_noise + 1)
+        )
+        if self._model is None or (not self._model.is_fitted and not complete):
+            raise RuntimeError("No successful fit is available; increase the profiling budget.")
+        return self._make_profile(self._model)
+
+    def profile_from_file(self, filepath: str, codedistance: int, *,
+                          decoder_reference_p: float = 0.001) -> LERProfile:
+        """Sample and fit once for a fixed decoder under uniform SID noise.
+
+        The input must be noiseless; SID locations are inserted before each
+        normalized primitive gate/measurement, excluding reset. The decoder
+        is built at decoder_reference_p (or supplied to the constructor).
+        codedistance must be the circuit-level distance for that decoder.
+        """
+        if not 0 < float(_probabilities(decoder_reference_p)) < 1:
+            raise ValueError("decoder_reference_p must be strictly between 0 and 1.")
+        result = self.calculate_LER_from_file(filepath, decoder_reference_p,
+                                              codedistance, None, None)
+        if result is None:
+            raise RuntimeError("Profiling budget exhausted before a fit was available.")
+        return self.get_profile()
+
+    def calculate_LER_curve_from_file(self, filepath, p_values, codedistance, *,
+                                     decoder_reference_p=0.001):
+        """Convenience API: profile once, then return an LERCurve for a p grid."""
+        _probabilities(p_values)
+        return self.profile_from_file(filepath, codedistance,
+                                      decoder_reference_p=decoder_reference_p).curve(p_values)
 
     # ------------------------------------------------------------------
     #  Main entry point: iterative, time-budgeted estimation
@@ -1648,8 +1772,8 @@ class Scaler:
         filepath: str,
         pvalue: float,
         codedistance: int,
-        figname: str | None,
-        titlename: str | None,
+        figname: str | None = None,
+        titlename: str | None = None,
         repeat: int = 1,
     ) -> float | None:
         """
@@ -1669,11 +1793,20 @@ class Scaler:
            - Sample more at weights with insufficient LE events
            - Stop when convergence or timeout
         """
-        self._error_rate = pvalue
+        if np.ndim(pvalue) != 0:
+            raise ValueError("pvalue must be a scalar.")
+        _probabilities(pvalue)
+        if isinstance(codedistance, bool) or not isinstance(codedistance, (int, np.integer)) or codedistance < 1:
+            raise ValueError("codedistance must be a positive integer.")
+        if not np.isfinite(self._time_budget) or self._time_budget <= 0:
+            raise ValueError("time_budget must be finite and positive.")
+        self._error_rate = float(pvalue)
         self._circuit_level_code_distance = codedistance
         self._t = max(0, (codedistance - 1) // 2)
 
         self.parse_from_file(filepath)
+        if self._t >= self._num_noise:
+            raise ValueError("codedistance is incompatible with the number of fault locations.")
 
         # Initialize model
         self._initialize_model()
@@ -1682,6 +1815,11 @@ class Scaler:
         self._subspace_LE_count.clear()
         self._subspace_sample_used.clear()
         self._estimated_subspaceLER.clear()
+        self._iteration_log.clear()
+        self._models.clear()
+        self._model_scores.clear()
+        self._sampling_rate = 0.0
+        self._sweet_spot = None
         self._ler = 0.0
         self._a = 0.0
         self._b = 0.0
@@ -1725,10 +1863,10 @@ class Scaler:
         elapsed = self._sampling_step(wlist_init, slist_init)
         self._remaining_time_budget -= elapsed
 
-        assert figname is not None
+        figure_prefix = figname or ""
         # Only fit model without saving intermediate plots (only final plot is saved)
         self.fit_log_S_model(
-            filename=figname + "phase1.pdf",
+            filename=figure_prefix + "phase1.pdf",
             savefigure=False,
             time_val=time.perf_counter() - start_time,
         )
@@ -1819,7 +1957,7 @@ class Scaler:
 
             # Only fit model without saving intermediate plots (only final plot is saved)
             self.fit_log_S_model(
-                filename=figname + "phase2.pdf",
+                filename=figure_prefix + "phase2.pdf",
                 savefigure=False,
                 time_val=time.perf_counter() - start_time,
                 practical_sweet_spot=practical_sweet,
@@ -1958,7 +2096,7 @@ class Scaler:
 
             # Only fit model without saving intermediate plots (only final plot is saved)
             self.fit_log_S_model(
-                filename=figname + f"refine{iter_idx}.pdf",
+                filename=figure_prefix + f"refine{iter_idx}.pdf",
                 savefigure=False,
                 time_val=time.perf_counter() - start_time,
                 practical_sweet_spot=practical_sweet,
@@ -1997,12 +2135,14 @@ class Scaler:
         )
 
         self.fit_log_S_model(
-            filename=figname + "final.pdf",
-            savefigure=True,
+            filename=figure_prefix + "final.pdf",
+            savefigure=bool(figname),
             time_val=total_time,
             practical_sweet_spot=final_practical_sweet,
         )
-        ler_est = self._calc_LER_from_fit()
+        # Default model parameters must never be presented as a successful fit.
+        ler_est = self.get_profile().evaluate(self._error_rate)
+        self._ler = ler_est
 
         print("\n" + "=" * 60)
         print("RESULTS")
