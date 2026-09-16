@@ -37,7 +37,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "stim",
+    "stim>=1.15",
     "pymatching",
     "sinter",
     "matplotlib",

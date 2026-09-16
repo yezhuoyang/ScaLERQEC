@@ -31,6 +31,9 @@ jobs:
       - name: Require profile module coverage
         run: python -m pytest tests/test_stratified/test_profile.py --cov=scalerqec --cov-report=
       - run: python -m coverage report --include="*/Stratified/profile.py" --fail-under=95
+      - name: Require general-noise estimator coverage
+        run: python -m pytest tests/test_stratified/test_general_noise.py --cov=scalerqec --cov-report=
+      - run: python -m coverage report --include="*/Stratified/general_noise.py" --fail-under=95
       - name: Verify wheel-facing imports
         run: python -c "from scalerqec.Stratified import Scaler, LERProfile; assert LERProfile([0, 0.5]).evaluate(0.2) == 0.1"
   native:

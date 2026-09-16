@@ -385,12 +385,13 @@ return_samples_with_noise_vector(const std::string & prog_str,size_t weight, siz
 
     std::vector<std::vector<std::pair<int,int>>> noisegenerated;
     noisegenerated.reserve(shots);
-    for(std::vector<SAMPLE::singlePauli> tmpnoisevector: noisecontainer){
+    for(const auto& tmpnoisevector: noisecontainer){
         std::vector<std::pair<int,int>> outputnoisevector;
-        for(SAMPLE::singlePauli tmpnoise: tmpnoisevector){
-              outputnoisevector.push_back(std::pair<int,int>{tmpnoise.qindex,tmpnoise.type});
+        outputnoisevector.reserve(tmpnoisevector.size());
+        for(const auto& tmpnoise: tmpnoisevector){
+              outputnoisevector.emplace_back(tmpnoise.qindex,tmpnoise.type);
         }
-        noisegenerated.push_back(outputnoisevector);
+        noisegenerated.push_back(std::move(outputnoisevector));
     }
 
     return std::pair<std::vector<std::vector<std::pair<int,int>>> ,std::vector<std::vector<bool>>>{std::move(noisegenerated),std::move(sampleresult)};
@@ -533,9 +534,7 @@ std::vector<std::vector<bool>> return_detector_matrix(const std::string& prog_st
     c.compile_from_rewrited_stim_string(prog_str);
 
     QEPG::QEPG graph(c,c.get_num_detector(),c.get_num_noise());
-    c.print_circuit();
     graph.backward_graph_construction();
-    graph.print_detectorMatrix();
     const std::vector<QEPG::Row>& parityMtrans=graph.get_parityPropMatrixTrans();
     const size_t row_size=parityMtrans.size();
     const size_t col_size=parityMtrans.empty() ? 0 : parityMtrans[0].size();

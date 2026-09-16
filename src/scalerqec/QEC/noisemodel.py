@@ -79,8 +79,8 @@ class NoiseModel:
 
     * ``DEPOLARIZE1(p)`` after each single-qubit gate
     * ``DEPOLARIZE2(p)`` after each two-qubit gate
-    * ``X_ERROR(p)`` after each reset
-    * ``X_ERROR(p)`` before each measurement
+    * An anticommuting Pauli error after each reset
+    * An anticommuting Pauli error before each measurement
 
     Args:
         error_rate: Probability of depolarizing error per gate.
@@ -143,8 +143,9 @@ class NoiseModel:
 
         * Single-qubit gates: ``DEPOLARIZE1(p)``
         * Two-qubit gates: ``DEPOLARIZE2(p)``
-        * Reset: ``X_ERROR(p)`` after reset
-        * Measurement: ``X_ERROR(p)`` before measurement
+        * Reset: an anticommuting Pauli after reset (Z for X basis; X otherwise)
+        * Measurement: the same basis-aware Pauli before measurement
+        * Measure-reset: both the measurement fault and the reset fault
 
         Args:
             circuit: A noiseless ``stim.Circuit``.
@@ -152,54 +153,102 @@ class NoiseModel:
         Returns:
             A new ``stim.Circuit`` with noise injected.
         """
-        p = self._error_rate
+        return self._inject_operation_noise(
+            circuit,
+            self._error_rate,
+            self._error_rate,
+            self._error_rate,
+            self._error_rate,
+        )
+
+    def _inject_operation_noise(self, circuit, p_reset, p_meas, p_1q, p_2q, p_idle=0):
+        # Split coalesced operations: overlapping pairs are sequential gates.
+        # Noise must occur between them, not after the whole instruction.
         noisy = stim.Circuit()
-
-        for instruction in circuit:
-            if isinstance(instruction, stim.CircuitRepeatBlock):
-                inner_noisy = self.inject_noise(instruction.body_copy())
-                noisy.append(
-                    stim.CircuitRepeatBlock(instruction.repeat_count, inner_noisy)
+        single_flags = {
+            "H": self._has_HADAMARD_error,
+            "S": self._has_PHASE_error,
+            "S_DAG": self._has_PHASE_error,
+            "X": self._has_PAULIX_error,
+            "Y": self._has_PAULIY_error,
+            "Z": self._has_PAULIZ_error,
+        }
+        if p_idle:
+            circuit = circuit.flattened()
+        all_qubits = (
+            {
+                t.value
+                for op in circuit.flattened()
+                if op.name
+                not in {
+                    "DETECTOR",
+                    "OBSERVABLE_INCLUDE",
+                    "QUBIT_COORDS",
+                    "SHIFT_COORDS",
+                }
+                for t in op.targets_copy()
+                if t.is_qubit_target
+            }
+            if p_idle
+            else set()
+        )
+        active = set()
+        for op in circuit:
+            if isinstance(op, stim.CircuitRepeatBlock):
+                body = self._inject_operation_noise(
+                    op.body_copy(), p_reset, p_meas, p_1q, p_2q
                 )
+                noisy.append(stim.CircuitRepeatBlock(op.repeat_count, body))
                 continue
-
-            name = instruction.name
-            targets = instruction.targets_copy()
-            gate_args = instruction.gate_args_copy()
-
-            if name in ("R", "RX", "RY"):
-                noisy.append(name, targets, gate_args)
-                if self._has_RESET_error and p > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if qubit_targets:
-                        noisy.append("X_ERROR", qubit_targets, [p])
-
-            elif name in ("M", "MX", "MY", "MR", "MRX", "MRY"):
-                if self._has_MEASUREMENT_error and p > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if qubit_targets:
-                        noisy.append("X_ERROR", qubit_targets, [p])
-                noisy.append(name, targets, gate_args)
-
-            elif name in _2Q_GATES:
-                noisy.append(name, targets, gate_args)
-                if self._has_CNOT_error and p > 0:
-                    # Collect qubit pairs for DEPOLARIZE2
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if len(qubit_targets) >= 2:
-                        noisy.append("DEPOLARIZE2", qubit_targets, [p])
-
-            elif name in _1Q_GATES:
-                noisy.append(name, targets, gate_args)
-                if self._has_HADAMARD_error and p > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if qubit_targets:
-                        noisy.append("DEPOLARIZE1", qubit_targets, [p])
-
-            else:
-                # TICK, DETECTOR, OBSERVABLE_INCLUDE, QUBIT_COORDS, etc.
-                noisy.append(name, targets, gate_args)
-
+            name, targets, args = op.name, op.targets_copy(), op.gate_args_copy()
+            if name == "TICK" and p_idle:
+                idle = sorted(all_qubits - active)
+                if idle:
+                    noisy.append("DEPOLARIZE1", idle, p_idle)
+                active.clear()
+            elif name not in {
+                "DETECTOR",
+                "OBSERVABLE_INCLUDE",
+                "QUBIT_COORDS",
+                "SHIFT_COORDS",
+            }:
+                active.update(t.value for t in targets if t.is_qubit_target)
+            stride = 2 if name in _2Q_GATES else 1
+            if name not in _1Q_GATES | _2Q_GATES | {
+                "R",
+                "RX",
+                "RY",
+                "M",
+                "MX",
+                "MY",
+                "MR",
+                "MRX",
+                "MRY",
+            }:
+                noisy.append(op)
+                continue
+            for offset in range(0, len(targets), stride):
+                group = targets[offset : offset + stride]
+                qubits = [t.value for t in group if t.is_qubit_target]
+                is_measurement = name in {"M", "MX", "MY", "MR", "MRX", "MRY"}
+                is_reset = name in {"R", "RX", "RY", "MR", "MRX", "MRY"}
+                # Z anticommutes with X-basis preparation/readout. X handles
+                # both Z and Y bases. X_ERROR on |+> would have no effect.
+                flip = "Z_ERROR" if name.endswith("X") else "X_ERROR"
+                if is_measurement and self._has_MEASUREMENT_error and p_meas:
+                    noisy.append(flip, qubits, p_meas)
+                noisy.append(stim.CircuitInstruction(name, group, args, tag=op.tag))
+                if is_reset and self._has_RESET_error and p_reset:
+                    noisy.append(flip, qubits, p_reset)
+                elif name in _2Q_GATES:
+                    enabled = (
+                        self._has_CNOT_error if name == "CX" else self._has_CZ_error
+                    )
+                    # Record-controlled Paulis have one physical operand.
+                    if enabled and p_2q and len(qubits) == 2:
+                        noisy.append("DEPOLARIZE2", qubits, p_2q)
+                elif name in _1Q_GATES and single_flags.get(name, True) and p_1q:
+                    noisy.append("DEPOLARIZE1", qubits, p_1q)
         return noisy
 
     def reconstruct_clifford_circuit(
@@ -319,7 +368,10 @@ class SI1000NoiseModel(NoiseModel):
     * Measurement error: ``5p``
     * Single-qubit gate: ``p / 10``
     * Two-qubit gate: ``p``
-    * Idle (per tick): ``p / 10``
+    * Idle (per completed TICK-delimited layer): ``p / 10``
+
+    Idle noise affects circuit qubits unused in that layer. A final layer
+    without a closing TICK has no additional idle interval.
 
     Users can override any rate individually.
 
@@ -350,52 +402,14 @@ class SI1000NoiseModel(NoiseModel):
 
     def inject_noise(self, circuit: stim.Circuit) -> stim.Circuit:
         """Inject SI1000-style noise with per-operation error rates."""
-        noisy = stim.Circuit()
-
-        for instruction in circuit:
-            if isinstance(instruction, stim.CircuitRepeatBlock):
-                inner_noisy = self.inject_noise(instruction.body_copy())
-                noisy.append(
-                    stim.CircuitRepeatBlock(instruction.repeat_count, inner_noisy)
-                )
-                continue
-
-            name = instruction.name
-            targets = instruction.targets_copy()
-            gate_args = instruction.gate_args_copy()
-
-            if name in ("R", "RX", "RY"):
-                noisy.append(name, targets, gate_args)
-                if self._p_reset > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if qubit_targets:
-                        noisy.append("X_ERROR", qubit_targets, [self._p_reset])
-
-            elif name in ("M", "MX", "MY", "MR", "MRX", "MRY"):
-                if self._p_meas > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if qubit_targets:
-                        noisy.append("X_ERROR", qubit_targets, [self._p_meas])
-                noisy.append(name, targets, gate_args)
-
-            elif name in _2Q_GATES:
-                noisy.append(name, targets, gate_args)
-                if self._p_2q > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if len(qubit_targets) >= 2:
-                        noisy.append("DEPOLARIZE2", qubit_targets, [self._p_2q])
-
-            elif name in _1Q_GATES:
-                noisy.append(name, targets, gate_args)
-                if self._p_1q > 0:
-                    qubit_targets = [t.value for t in targets if not t.is_combiner]
-                    if qubit_targets:
-                        noisy.append("DEPOLARIZE1", qubit_targets, [self._p_1q])
-
-            else:
-                noisy.append(name, targets, gate_args)
-
-        return noisy
+        return self._inject_operation_noise(
+            circuit,
+            self._p_reset,
+            self._p_meas,
+            self._p_1q,
+            self._p_2q,
+            self._p_idle,
+        )
 
 
 class SIDNoiseModel(NoiseModel):
@@ -458,7 +472,7 @@ class SIDNoiseModel(NoiseModel):
                 # each operation, not before the whole coalesced instruction.
                 stride = 2 if name in {"CX", "CZ"} else 1
                 for offset in range(0, len(targets), stride):
-                    group = targets[offset:offset + stride]
+                    group = targets[offset : offset + stride]
                     noisy.append("DEPOLARIZE1", group, [p])
                     noisy.append(name, group, gate_args)
             else:
