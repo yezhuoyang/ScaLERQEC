@@ -10,8 +10,10 @@ and integrates to compute the total LER:
     LER = sum_w  P_L(w) * Binom(N, w) * p^w * (1-p)^(N-w)
 
 where *N* is the number of noise locations and *p* is the physical error
-rate. This approach dramatically reduces the number of samples required
-for large codes.
+rate. Efficiency depends on the code, noise family, proposal, and accuracy
+required. The experimental general-noise profiler retains additional history
+likelihoods; a single conditional failure probability per weight is insufficient
+for general nonuniform noise.
 
 Main components:
 
@@ -27,6 +29,7 @@ Main components:
 
 # Re-export high-level components for easy access
 
+from .confidence import GeneralNoiseConfidenceBounds
 from .general_noise import GeneralNoiseEstimate, GeneralNoiseProfile, LinearNoiseModel
 
 # Export model classes and factory
@@ -44,6 +47,7 @@ from .stratifiedLER import StratifiedLERcalc
 from .stratifiedScurveLER import StratifiedScurveLERcalc
 
 __all__ = [
+    "GeneralNoiseConfidenceBounds",
     "GeneralNoiseEstimate",
     "GeneralNoiseProfile",
     "IBMScurveModel",

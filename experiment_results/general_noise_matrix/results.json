@@ -1,0 +1,3219 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.3",
+  "stim": "1.15.0",
+  "numpy": "2.4.4",
+  "pymatching": "2.4.0",
+  "settings": {
+    "case": null,
+    "resume": true,
+    "shots_per_weight": 2000,
+    "mc_shots": 1000000
+  },
+  "cases": [
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 3,
+      "noise": "uniform_single",
+      "name": "stim_repetition_d3_uniform_single",
+      "reference_p": 0.01,
+      "rounds": 3,
+      "num_qubits": 5,
+      "num_detectors": 8,
+      "noise_locations": 53,
+      "rate_groups": 1,
+      "max_sampled_weight": 16,
+      "total_profile_shots": 34000,
+      "polynomial_terms": 15,
+      "polynomial_degree": 53,
+      "timing": {
+        "circuit_seconds": 0.003921499999705702,
+        "model_seconds": 0.035625699994852766,
+        "decoder_seconds": 0.004262500006007031,
+        "limit_seconds": 0.0009126000222750008,
+        "sampling_seconds": 0.6266878000169527,
+        "evaluation_seconds": 0.007517899997765198,
+        "total_seconds": 0.6789280000375584
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 7.074268421508099e-05,
+            "standard_error": 6.47537653217502e-06,
+            "missing_probability_mass": 3.1228301642345583e-38,
+            "minimum_ess": 2000.0,
+            "observed_failures": 11393
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 66,
+            "ler": 6.6e-05,
+            "standard_error": 8.123770306944923e-06,
+            "interval_95": [
+              5.1044751404065794e-05,
+              8.396742805722864e-05
+            ],
+            "setup_seconds": 1.680001150816679e-05,
+            "sampling_seconds": 0.12960279997787438,
+            "total_seconds": 0.14174660001299344
+          },
+          "difference_in_combined_se": 0.4565211218717303,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.0915342215809588,
+          "tail_relative_to_profile": 4.414350683584651e-34
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0006319625023605129,
+            "standard_error": 5.277217273864694e-05,
+            "missing_probability_mass": 3.767279790950245e-30,
+            "minimum_ess": 2000.0,
+            "observed_failures": 11393
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 683,
+            "ler": 0.000683,
+            "standard_error": 2.6125342313546823e-05,
+            "interval_95": [
+              0.0006327469956361567,
+              0.0007361806038268318
+            ],
+            "setup_seconds": 1.8300022929906845e-05,
+            "sampling_seconds": 0.16356599997379817,
+            "total_seconds": 0.17829260000144131
+          },
+          "difference_in_combined_se": 0.8667326623856779,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.083505227828442,
+          "tail_relative_to_profile": 5.961239435692248e-27,
+          "projected_mc_shots_to_match_se": 245083.47445274433,
+          "projected_mc_seconds_to_match_se": 0.05481392360355909,
+          "projected_single_point_speedup": 0.08073598908945688
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.0067737453527549375,
+            "standard_error": 0.00042336826811225704,
+            "missing_probability_mass": 2.296341967774029e-21,
+            "minimum_ess": 2000.0,
+            "observed_failures": 11393
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 6887,
+            "ler": 0.006887,
+            "standard_error": 8.270168819921393e-05,
+            "interval_95": [
+              0.006725837178140612,
+              0.007051028923941744
+            ],
+            "setup_seconds": 1.5099998563528061e-05,
+            "sampling_seconds": 0.38867539999773726,
+            "total_seconds": 0.4015124999859836
+          },
+          "difference_in_combined_se": 0.262546286536981,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0625013557588299,
+          "tail_relative_to_profile": 3.390062436935407e-19,
+          "projected_mc_shots_to_match_se": 38158.57445116619,
+          "projected_mc_seconds_to_match_se": 0.027668399176396793,
+          "projected_single_point_speedup": 0.040753068329581595
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 3,
+      "noise": "nonuniform_depolarizing",
+      "name": "stim_repetition_d3_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "rounds": 3,
+      "num_qubits": 5,
+      "num_detectors": 8,
+      "noise_locations": 41,
+      "rate_groups": 4,
+      "max_sampled_weight": 16,
+      "total_profile_shots": 34000,
+      "polynomial_terms": 343,
+      "polynomial_degree": 41,
+      "timing": {
+        "circuit_seconds": 8.030000026337802e-05,
+        "model_seconds": 0.07630990000325255,
+        "decoder_seconds": 0.0047221999848261476,
+        "limit_seconds": 0.0012317000073380768,
+        "sampling_seconds": 0.603853499982506,
+        "evaluation_seconds": 0.0052115000144112855,
+        "total_seconds": 0.6914090999925975
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 4.7316847111461976e-05,
+            "standard_error": 3.5202612753592934e-06,
+            "missing_probability_mass": 2.882694468105864e-25,
+            "minimum_ess": 332.7878840542419,
+            "observed_failures": 11736
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 55,
+            "ler": 5.5e-05,
+            "standard_error": 7.415994538832941e-06,
+            "interval_95": [
+              4.14337873128797e-05,
+              7.158946612971162e-05
+            ],
+            "setup_seconds": 2.099998528137803e-05,
+            "sampling_seconds": 0.1011661000084132,
+            "total_seconds": 0.11178349997499026
+          },
+          "difference_in_combined_se": 0.9359319615874289,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.07439762981389665,
+          "tail_relative_to_profile": 6.092321538912435e-21
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0004247085998117488,
+            "standard_error": 2.960615939548962e-05,
+            "missing_probability_mass": 8.380507041728087e-21,
+            "minimum_ess": 1008.3704220376503,
+            "observed_failures": 11736
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 441,
+            "ler": 0.000441,
+            "standard_error": 2.0995368989374775e-05,
+            "interval_95": [
+              0.00040080379705188606,
+              0.00048413426099814014
+            ],
+            "setup_seconds": 1.6200006939470768e-05,
+            "sampling_seconds": 0.13984530000016093,
+            "total_seconds": 0.15001899999333546
+          },
+          "difference_in_combined_se": 0.4488601900538271,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.06970934755880263,
+          "tail_relative_to_profile": 1.973236954806832e-17,
+          "projected_mc_shots_to_match_se": 502901.43791661516,
+          "projected_mc_seconds_to_match_se": 0.08050210244913587,
+          "projected_single_point_speedup": 0.11643193942630747
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.004655085153809309,
+            "standard_error": 0.0002653674683920287,
+            "missing_probability_mass": 1.0370001224463599e-15,
+            "minimum_ess": 2000.0,
+            "observed_failures": 11736
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 4763,
+            "ler": 0.004763,
+            "standard_error": 6.884993704427041e-05,
+            "interval_95": [
+              0.004628992636230786,
+              0.004899888163436287
+            ],
+            "setup_seconds": 1.58999755512923e-05,
+            "sampling_seconds": 0.3149503000022378,
+            "total_seconds": 0.32447109997156076
+          },
+          "difference_in_combined_se": 0.39362911336789075,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0570059321417301,
+          "tail_relative_to_profile": 2.2276716497823266e-13,
+          "projected_mc_shots_to_match_se": 67314.98174952259,
+          "projected_mc_seconds_to_match_se": 0.030721673665980283,
+          "projected_single_point_speedup": 0.04443342395451434
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 3,
+      "noise": "biased_pauli",
+      "name": "stim_repetition_d3_biased_pauli",
+      "reference_p": 0.01,
+      "rounds": 3,
+      "num_qubits": 5,
+      "num_detectors": 8,
+      "noise_locations": 41,
+      "rate_groups": 4,
+      "max_sampled_weight": 16,
+      "total_profile_shots": 34000,
+      "polynomial_terms": 267,
+      "polynomial_degree": 41,
+      "timing": {
+        "circuit_seconds": 0.004000700020696968,
+        "model_seconds": 0.056633600004715845,
+        "decoder_seconds": 0.004073700023582205,
+        "limit_seconds": 0.000919599988264963,
+        "sampling_seconds": 0.5064078999857884,
+        "evaluation_seconds": 0.004104599996935576,
+        "total_seconds": 0.576140100019984
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 2.3912577900911086e-05,
+            "standard_error": 2.9253321632125164e-06,
+            "missing_probability_mass": 8.909950625381417e-24,
+            "minimum_ess": 491.5508060295611,
+            "observed_failures": 6711
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 18,
+            "ler": 1.8e-05,
+            "standard_error": 4.242602503181273e-06,
+            "interval_95": [
+              1.066797455564586e-05,
+              2.8447611659809106e-05
+            ],
+            "setup_seconds": 1.789999078027904e-05,
+            "sampling_seconds": 0.09726869998848997,
+            "total_seconds": 0.10950890003005043
+          },
+          "difference_in_combined_se": 1.147322133310683,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.12233445408247093,
+          "tail_relative_to_profile": 3.7260518971657763e-19
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.00021761872227661063,
+            "standard_error": 2.466497791157942e-05,
+            "missing_probability_mass": 2.1864809935254615e-19,
+            "minimum_ess": 1133.1156926117628,
+            "observed_failures": 6711
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 210,
+            "ler": 0.00021,
+            "standard_error": 1.4489855071738985e-05,
+            "interval_95": [
+              0.00018255852064651194,
+              0.0002404014690147422
+            ],
+            "setup_seconds": 1.6300007700920105e-05,
+            "sampling_seconds": 0.2313164999941364,
+            "total_seconds": 0.24316870004986413
+          },
+          "difference_in_combined_se": 0.26633077111878745,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.11334033052647134,
+          "tail_relative_to_profile": 1.0047301861952259e-15,
+          "projected_mc_shots_to_match_se": 345117.2137570948,
+          "projected_mc_seconds_to_match_se": 0.09168350602974712,
+          "projected_single_point_speedup": 0.15913404747658946
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.0024936623667707993,
+            "standard_error": 0.0002245692975352111,
+            "missing_probability_mass": 1.9145560725009633e-14,
+            "minimum_ess": 2000.0,
+            "observed_failures": 6711
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 2546,
+            "ler": 0.002546,
+            "standard_error": 5.039362939896272e-05,
+            "interval_95": [
+              0.0024481736043139826,
+              0.002646725252544865
+            ],
+            "setup_seconds": 1.6700010746717453e-05,
+            "sampling_seconds": 0.414106999989599,
+            "total_seconds": 0.43862340005580336
+          },
+          "difference_in_combined_se": 0.22740261550602017,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.09005601581340783,
+          "tail_relative_to_profile": 7.677687637321338e-12,
+          "projected_mc_shots_to_match_se": 50355.91764495508,
+          "projected_mc_seconds_to_match_se": 0.04536913805388003,
+          "projected_single_point_speedup": 0.07874671117720561
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 5,
+      "noise": "uniform_single",
+      "name": "stim_repetition_d5_uniform_single",
+      "reference_p": 0.01,
+      "rounds": 5,
+      "num_qubits": 9,
+      "num_detectors": 24,
+      "noise_locations": 159,
+      "rate_groups": 1,
+      "max_sampled_weight": 16,
+      "total_profile_shots": 34000,
+      "polynomial_terms": 14,
+      "polynomial_degree": 159,
+      "timing": {
+        "circuit_seconds": 0.010871700011193752,
+        "model_seconds": 0.3725562999898102,
+        "decoder_seconds": 0.01982230000430718,
+        "limit_seconds": 0.004620099993189797,
+        "sampling_seconds": 2.675315900007263,
+        "evaluation_seconds": 0.010079800005769357,
+        "total_seconds": 3.093266100011533
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 2.2819472441017367e-06,
+            "standard_error": 7.449844433034511e-07,
+            "missing_probability_mass": 2.687764042464957e-29,
+            "minimum_ess": 2000.0,
+            "observed_failures": 5106
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 3,
+            "ler": 3e-06,
+            "standard_error": 1.7320482094907175e-06,
+            "interval_95": [
+              6.186725501906401e-07,
+              8.767247788130085e-06
+            ],
+            "setup_seconds": 3.860000288113952e-05,
+            "sampling_seconds": 0.19710099999792874,
+            "total_seconds": 0.23625439999159425
+          },
+          "difference_in_combined_se": 0.3808351181286938,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.32646874077788157,
+          "tail_relative_to_profile": 1.177837940562454e-23
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 5.993244212660054e-05,
+            "standard_error": 1.5058236127131281e-05,
+            "missing_probability_mass": 2.653643156622406e-21,
+            "minimum_ess": 2000.0,
+            "observed_failures": 5106
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 53,
+            "ler": 5.3e-05,
+            "standard_error": 7.2799169638121566e-06,
+            "interval_95": [
+              3.970088108297829e-05,
+              6.932473904672067e-05
+            ],
+            "setup_seconds": 1.920000067912042e-05,
+            "sampling_seconds": 0.39324910001596436,
+            "total_seconds": 0.43362100003287196
+          },
+          "difference_in_combined_se": 0.41447946298261523,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.25125350465983765,
+          "tail_relative_to_profile": 4.4277240547229555e-17
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.001953697208040543,
+            "standard_error": 0.00023675166376326334,
+            "missing_probability_mass": 8.011656842497088e-13,
+            "minimum_ess": 2000.0,
+            "observed_failures": 5106
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 1722,
+            "ler": 0.001722,
+            "standard_error": 4.146124354140865e-05,
+            "interval_95": [
+              0.0016416838421924056,
+              0.0018052239650572985
+            ],
+            "setup_seconds": 2.3900007363408804e-05,
+            "sampling_seconds": 1.0044019999913871,
+            "total_seconds": 1.0447349000314716
+          },
+          "difference_in_combined_se": 0.9639803208556635,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.12118134928426959,
+          "tail_relative_to_profile": 4.100766899560841e-10,
+          "projected_mc_shots_to_match_se": 30668.926028769805,
+          "projected_mc_seconds_to_match_se": 0.0711368306809688,
+          "projected_single_point_speedup": 0.022997320107928498
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 5,
+      "noise": "nonuniform_depolarizing",
+      "name": "stim_repetition_d5_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "rounds": 5,
+      "num_qubits": 9,
+      "num_detectors": 24,
+      "noise_locations": 119,
+      "rate_groups": 4,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 784,
+      "polynomial_degree": 119,
+      "timing": {
+        "circuit_seconds": 0.00010000000474974513,
+        "model_seconds": 0.4471618999959901,
+        "decoder_seconds": 0.009996600012527779,
+        "limit_seconds": 0.02006239999900572,
+        "sampling_seconds": 2.8474607999960426,
+        "evaluation_seconds": 0.00986459999694489,
+        "total_seconds": 3.334646300005261
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 7.986360460622916e-07,
+            "standard_error": 2.534583739298188e-07,
+            "missing_probability_mass": 1.7284398526420884e-30,
+            "minimum_ess": 131.10235560622175,
+            "observed_failures": 11580
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 2.030000905506313e-05,
+            "sampling_seconds": 0.19552030001068488,
+            "total_seconds": 0.21703790003084578
+          },
+          "difference_in_combined_se": 3.150955455444646,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.31736405485265273,
+          "tail_relative_to_profile": 2.1642397199127603e-24
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 2.2461621369959725e-05,
+            "standard_error": 5.632812210090679e-06,
+            "missing_probability_mass": 5.866914347154669e-24,
+            "minimum_ess": 708.9020566088265,
+            "observed_failures": 11580
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 21,
+            "ler": 2.1e-05,
+            "standard_error": 4.582527577658426e-06,
+            "interval_95": [
+              1.2999376486438371e-05,
+              3.210055256391169e-05
+            ],
+            "setup_seconds": 1.85999961104244e-05,
+            "sampling_seconds": 0.3282486000098288,
+            "total_seconds": 0.3461916000233032
+          },
+          "difference_in_combined_se": 0.20128605561248283,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.25077496042311653,
+          "tail_relative_to_profile": 2.611972773702395e-19
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.0008943502771708966,
+            "standard_error": 0.00011816464986588535,
+            "missing_probability_mass": 1.5731824781012248e-16,
+            "minimum_ess": 2000.0,
+            "observed_failures": 11580
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 737,
+            "ler": 0.000737,
+            "standard_error": 2.713773813345541e-05,
+            "interval_95": [
+              0.0006847623446619045,
+              0.0007921635564257224
+            ],
+            "setup_seconds": 2.139998832717538e-05,
+            "sampling_seconds": 0.9528634999878705,
+            "total_seconds": 0.9741444999817759
+          },
+          "difference_in_combined_se": 1.297832290149227,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.13212345641539494,
+          "tail_relative_to_profile": 1.7590227433905226e-13,
+          "projected_mc_shots_to_match_se": 52743.8891415453,
+          "projected_mc_seconds_to_match_se": 0.07153872680429052,
+          "projected_single_point_speedup": 0.02145316785296769
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 5,
+      "noise": "biased_pauli",
+      "name": "stim_repetition_d5_biased_pauli",
+      "reference_p": 0.01,
+      "rounds": 5,
+      "num_qubits": 9,
+      "num_detectors": 24,
+      "noise_locations": 119,
+      "rate_groups": 4,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 467,
+      "polynomial_degree": 119,
+      "timing": {
+        "circuit_seconds": 0.007031200017081574,
+        "model_seconds": 0.35349859998677857,
+        "decoder_seconds": 0.011560099985217676,
+        "limit_seconds": 0.0037321000127121806,
+        "sampling_seconds": 4.565763799997512,
+        "evaluation_seconds": 0.012419399979989976,
+        "total_seconds": 4.954005199979292
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 3.07072447317541e-07,
+            "standard_error": 2.0387609944252996e-07,
+            "missing_probability_mass": 2.498799559744568e-28,
+            "minimum_ess": 241.65870914576706,
+            "observed_failures": 3484
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 2.0500010577961802e-05,
+            "sampling_seconds": 0.2248797999927774,
+            "total_seconds": 0.25304000001051463
+          },
+          "difference_in_combined_se": 1.5061718767289873,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.6639348506305531,
+          "tail_relative_to_profile": 8.137491922746754e-22
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 7.813578924089285e-06,
+            "standard_error": 4.500750496489254e-06,
+            "missing_probability_mass": 5.803034940327973e-22,
+            "minimum_ess": 904.7369379389651,
+            "observed_failures": 3484
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 5,
+            "ler": 5e-06,
+            "standard_error": 2.236062387322858e-06,
+            "interval_95": [
+              1.6234883192411703e-06,
+              1.1668293175234563e-05
+            ],
+            "setup_seconds": 3.649998689070344e-05,
+            "sampling_seconds": 0.36057489999802783,
+            "total_seconds": 0.38732599999639206
+          },
+          "difference_in_combined_se": 0.5598485285152323,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.5760165143546996,
+          "tail_relative_to_profile": 7.426859057425273e-17
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.0002696679704405466,
+            "standard_error": 8.821299486931803e-05,
+            "missing_probability_mass": 7.596922841920118e-15,
+            "minimum_ess": 2000.0,
+            "observed_failures": 3484
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 246,
+            "ler": 0.000246,
+            "standard_error": 1.5682457843080597e-05,
+            "interval_95": [
+              0.00021622010865040344,
+              0.0002787346328944932
+            ],
+            "setup_seconds": 1.8699996871873736e-05,
+            "sampling_seconds": 0.7462948000174947,
+            "total_seconds": 0.7781604000192601
+          },
+          "difference_in_combined_se": 0.2641627759819509,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.3271170644597047,
+          "tail_relative_to_profile": 2.817139473223055e-11,
+          "projected_mc_shots_to_match_se": 31605.533375805786,
+          "projected_mc_seconds_to_match_se": 0.05545264521190865,
+          "projected_single_point_speedup": 0.01119349757891664
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 9,
+      "noise": "uniform_single",
+      "name": "stim_repetition_d9_uniform_single",
+      "reference_p": 0.01,
+      "rounds": 9,
+      "num_qubits": 17,
+      "num_detectors": 80,
+      "noise_locations": 539,
+      "rate_groups": 1,
+      "max_sampled_weight": 36,
+      "total_profile_shots": 74000,
+      "polynomial_terms": 29,
+      "polynomial_degree": 539,
+      "timing": {
+        "circuit_seconds": 0.022556899988558143,
+        "model_seconds": 1.903188099997351,
+        "decoder_seconds": 0.025328399991849437,
+        "limit_seconds": 0.028491600009147078,
+        "sampling_seconds": 12.08054880000418,
+        "evaluation_seconds": 0.02381520002381876,
+        "total_seconds": 14.083929000014905
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 7.9270282445158e-10,
+            "standard_error": 7.421214545196325e-10,
+            "missing_probability_mass": 1.4741360037938713e-54,
+            "minimum_ess": 2000.0,
+            "observed_failures": 5213
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 4.740001168102026e-05,
+            "sampling_seconds": 0.7255355999805033,
+            "total_seconds": 0.7941271999734454
+          },
+          "difference_in_combined_se": 1.068157805739073,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.9361912580960696,
+          "tail_relative_to_profile": 1.8596325865417863e-45
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 6.907137620110716e-07,
+            "standard_error": 5.69028005163491e-07,
+            "missing_probability_mass": 2.494220360513193e-37,
+            "minimum_ess": 2000.0,
+            "observed_failures": 5213
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 2.549999044276774e-05,
+            "sampling_seconds": 1.2897317000024486,
+            "total_seconds": 1.359748699964257
+          },
+          "difference_in_combined_se": 1.2138484498888913,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.8238260716084732,
+          "tail_relative_to_profile": 3.611076682837561e-31
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.00017600487454478574,
+            "standard_error": 7.730482500151425e-05,
+            "missing_probability_mass": 1.785142901448673e-19,
+            "minimum_ess": 2000.0,
+            "observed_failures": 5213
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 79,
+            "ler": 7.9e-05,
+            "standard_error": 8.887843326701928e-06,
+            "interval_95": [
+              6.25455272873689e-05,
+              9.845661328001921e-05
+            ],
+            "setup_seconds": 2.680000034160912e-05,
+            "sampling_seconds": 4.038462799973786,
+            "total_seconds": 4.113336099951994
+          },
+          "difference_in_combined_se": 1.246623812916438,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.43921979548267265,
+          "tail_relative_to_profile": 1.0142576482985022e-15
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 9,
+      "noise": "nonuniform_depolarizing",
+      "name": "stim_repetition_d9_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "rounds": 9,
+      "num_qubits": 17,
+      "num_detectors": 80,
+      "noise_locations": 395,
+      "rate_groups": 4,
+      "max_sampled_weight": 36,
+      "total_profile_shots": 74000,
+      "polynomial_terms": 1201,
+      "polynomial_degree": 395,
+      "timing": {
+        "circuit_seconds": 0.00010800000745803118,
+        "model_seconds": 3.462554600002477,
+        "decoder_seconds": 0.022918600006960332,
+        "limit_seconds": 0.022163899993756786,
+        "sampling_seconds": 13.256529100006446,
+        "evaluation_seconds": 0.03482020000228658,
+        "total_seconds": 16.799094400019385
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 9.03641344421061e-12,
+            "standard_error": 6.740891055757013e-12,
+            "missing_probability_mass": 5.576516683390899e-36,
+            "minimum_ess": 18.331898812912904,
+            "observed_failures": 3884
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 3.2100011594593525e-05,
+            "sampling_seconds": 0.8334409999952186,
+            "total_seconds": 0.8798143000167329
+          },
+          "difference_in_combined_se": 1.340536936358454,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.7459697475524122,
+          "tail_relative_to_profile": 6.171161509839532e-25
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 1.0036395612080205e-08,
+            "standard_error": 7.189360226242599e-09,
+            "missing_probability_mass": 3.408578197236804e-26,
+            "minimum_ess": 252.28721259039446,
+            "observed_failures": 3884
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 2.5599991204217076e-05,
+            "sampling_seconds": 1.2917896999861114,
+            "total_seconds": 1.359934499982046
+          },
+          "difference_in_combined_se": 1.396006778940546,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.7163288997485511,
+          "tail_relative_to_profile": 3.3962174559301985e-18
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 1.0498093072150915e-05,
+            "standard_error": 3.137809944403187e-06,
+            "missing_probability_mass": 2.9222384385483723e-15,
+            "minimum_ess": 2000.0,
+            "observed_failures": 3884
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 22,
+            "ler": 2.2e-05,
+            "standard_error": 4.690364164966299e-06,
+            "interval_95": [
+              1.3787332594519986e-05,
+              3.3308076057350414e-05
+            ],
+            "setup_seconds": 2.5600020308047533e-05,
+            "sampling_seconds": 3.2599117000063416,
+            "total_seconds": 3.3042586000519805
+          },
+          "difference_in_combined_se": 2.038199628483749,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.2988933249912875,
+          "tail_relative_to_profile": 2.783589760982797e-10
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "repetition",
+      "distance": 9,
+      "noise": "biased_pauli",
+      "name": "stim_repetition_d9_biased_pauli",
+      "reference_p": 0.01,
+      "rounds": 9,
+      "num_qubits": 17,
+      "num_detectors": 80,
+      "noise_locations": 395,
+      "rate_groups": 4,
+      "max_sampled_weight": 36,
+      "total_profile_shots": 74000,
+      "polynomial_terms": 172,
+      "polynomial_degree": 395,
+      "timing": {
+        "circuit_seconds": 0.02624370000557974,
+        "model_seconds": 2.3411793999839574,
+        "decoder_seconds": 0.02039140000124462,
+        "limit_seconds": 0.018004099983954802,
+        "sampling_seconds": 9.843493000022136,
+        "evaluation_seconds": 0.043100600014440715,
+        "total_seconds": 12.292412200011313
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 4.0478336997833254e-15,
+            "standard_error": 3.333073066322719e-15,
+            "missing_probability_mass": 6.081122183182135e-33,
+            "minimum_ess": 51.76262760583307,
+            "observed_failures": 202
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 4.33000095654279e-05,
+            "sampling_seconds": 1.2114109999965876,
+            "total_seconds": 1.2950376000080723
+          },
+          "difference_in_combined_se": 1.2144449339207497,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.823421443055117,
+          "tail_relative_to_profile": 1.5023152219686418e-18
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 1.2019390116066923e-10,
+            "standard_error": 9.725255627463724e-11,
+            "missing_probability_mass": 1.5606522092048157e-23,
+            "minimum_ess": 412.5616610070023,
+            "observed_failures": 202
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 2.820001100189984e-05,
+            "sampling_seconds": 0.9468047000118531,
+            "total_seconds": 1.0223540000442881
+          },
+          "difference_in_combined_se": 1.235894517993244,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.8091305410299884,
+          "tail_relative_to_profile": 1.298445423714647e-13
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 1.9053210408734007e-06,
+            "standard_error": 1.3826249300145998e-06,
+            "missing_probability_mass": 2.9172798756794393e-13,
+            "minimum_ess": 2000.0,
+            "observed_failures": 202
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 1,
+            "ler": 1e-06,
+            "standard_error": 9.999994999998751e-07,
+            "interval_95": [
+              2.5317807663794178e-08,
+              5.5716306551641364e-06
+            ],
+            "setup_seconds": 3.1100003980100155e-05,
+            "sampling_seconds": 2.0890825999958906,
+            "total_seconds": 2.155786499992246
+          },
+          "difference_in_combined_se": 0.5305579638402566,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.7256650718457417,
+          "tail_relative_to_profile": 1.5311224791503672e-07
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 3,
+      "noise": "uniform_single",
+      "name": "stim_rotated_z_d3_uniform_single",
+      "reference_p": 0.01,
+      "rounds": 3,
+      "num_qubits": 26,
+      "num_detectors": 24,
+      "noise_locations": 269,
+      "rate_groups": 1,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 23,
+      "polynomial_degree": 269,
+      "timing": {
+        "circuit_seconds": 0.011647900013485923,
+        "model_seconds": 0.4435890000022482,
+        "decoder_seconds": 0.00983179998002015,
+        "limit_seconds": 0.007491700001992285,
+        "sampling_seconds": 3.1271907000045758,
+        "evaluation_seconds": 0.012753499991958961,
+        "total_seconds": 3.6125045999942813
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0010980314971433943,
+            "standard_error": 0.00010886957578832416,
+            "missing_probability_mass": 8.942974417372356e-41,
+            "minimum_ess": 2000.0,
+            "observed_failures": 17938
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 1190,
+            "ler": 0.00119,
+            "standard_error": 3.4475845167305185e-05,
+            "interval_95": [
+              0.0011233773149233511,
+              0.001259538337684321
+            ],
+            "setup_seconds": 1.650000922381878e-05,
+            "sampling_seconds": 0.21398190001491457,
+            "total_seconds": 0.2456250000395812
+          },
+          "difference_in_combined_se": 0.805342956468038,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.09914977491224611,
+          "tail_relative_to_profile": 8.144551809887174e-38,
+          "projected_mc_shots_to_match_se": 100280.56722632636,
+          "projected_mc_seconds_to_match_se": 0.053101326334329325,
+          "projected_single_point_speedup": 0.014699310371650015
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.009252249654427926,
+            "standard_error": 0.0006198716025197363,
+            "missing_probability_mass": 4.7367534583608943e-29,
+            "minimum_ess": 2000.0,
+            "observed_failures": 17938
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 9845,
+            "ler": 0.009845,
+            "standard_error": 9.873234513066121e-05,
+            "interval_95": [
+              0.009652408814265587,
+              0.010040438215011157
+            ],
+            "setup_seconds": 2.850001328624785e-05,
+            "sampling_seconds": 0.46863389998907223,
+            "total_seconds": 0.5007669999904465
+          },
+          "difference_in_combined_se": 0.9443431488072034,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.06699685218968116,
+          "tail_relative_to_profile": 5.119569440167438e-27,
+          "projected_mc_shots_to_match_se": 25369.70536029899,
+          "projected_mc_seconds_to_match_se": 0.04402220396594485,
+          "projected_single_point_speedup": 0.01218606170522649
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.08038407970643568,
+            "standard_error": 0.0022003083352391106,
+            "missing_probability_mass": 1.0751115284877929e-16,
+            "minimum_ess": 2000.0,
+            "observed_failures": 17938
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 82948,
+            "ler": 0.082948,
+            "standard_error": 0.0002758036063868636,
+            "interval_95": [
+              0.08240814327360445,
+              0.08349027383728348
+            ],
+            "setup_seconds": 1.6400008462369442e-05,
+            "sampling_seconds": 1.4674632000096608,
+            "total_seconds": 1.4983469000144396
+          },
+          "difference_in_combined_se": 1.1562072117806177,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.027372439210284948,
+          "tail_relative_to_profile": 1.337468230542817e-15,
+          "projected_mc_shots_to_match_se": 15712.047863407519,
+          "projected_mc_seconds_to_match_se": 0.05394055204111975,
+          "projected_single_point_speedup": 0.014931621690171726
+        }
+      ],
+      "projected_curve_speedup": 0.029925133480675128
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 3,
+      "noise": "nonuniform_depolarizing",
+      "name": "stim_rotated_z_d3_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "rounds": 3,
+      "num_qubits": 26,
+      "num_detectors": 24,
+      "noise_locations": 197,
+      "rate_groups": 4,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 886,
+      "polynomial_degree": 197,
+      "timing": {
+        "circuit_seconds": 0.00015770000754855573,
+        "model_seconds": 0.5801218999840785,
+        "decoder_seconds": 0.010612000012770295,
+        "limit_seconds": 0.004906499991193414,
+        "sampling_seconds": 2.5592118999920785,
+        "evaluation_seconds": 0.012457100005121902,
+        "total_seconds": 3.167467099992791
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0006125071674871349,
+            "standard_error": 5.088244791345722e-05,
+            "missing_probability_mass": 9.897054483253073e-27,
+            "minimum_ess": 51.67870348090832,
+            "observed_failures": 17383
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 685,
+            "ler": 0.000685,
+            "standard_error": 2.616353903813473e-05,
+            "interval_95": [
+              0.0006346721164351432,
+              0.0007382554172338763
+            ],
+            "setup_seconds": 3.3499993151053786e-05,
+            "sampling_seconds": 0.1892785000090953,
+            "total_seconds": 0.21097890002420172
+          },
+          "difference_in_combined_se": 1.267025326251778,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.08307241223348778,
+          "tail_relative_to_profile": 1.6158267214825614e-23,
+          "projected_mc_shots_to_match_se": 264397.2808674807,
+          "projected_mc_seconds_to_match_se": 0.07174512074418662,
+          "projected_single_point_speedup": 0.02265062855565253
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.005210359705846878,
+            "standard_error": 0.0003259736362877904,
+            "missing_probability_mass": 3.874843713140721e-20,
+            "minimum_ess": 495.20645753123756,
+            "observed_failures": 17383
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 5351,
+            "ler": 0.005351,
+            "standard_error": 7.295455296963995e-05,
+            "interval_95": [
+              0.005208945906936938,
+              0.005495930683264444
+            ],
+            "setup_seconds": 2.5599991204217076e-05,
+            "sampling_seconds": 0.38153799998690374,
+            "total_seconds": 0.40193670001463033
+          },
+          "difference_in_combined_se": 0.42103121400712473,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.06256259734275055,
+          "tail_relative_to_profile": 7.436806539081192e-18,
+          "projected_mc_shots_to_match_se": 50088.71001969485,
+          "projected_mc_seconds_to_match_se": 0.03950944627056495,
+          "projected_single_point_speedup": 0.012473514332841806
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.049225361487841054,
+            "standard_error": 0.0014491259303707497,
+            "missing_probability_mass": 1.0667378978075715e-12,
+            "minimum_ess": 2000.0,
+            "observed_failures": 17383
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 49570,
+            "ler": 0.04957,
+            "standard_error": 0.00021705486656603673,
+            "interval_95": [
+              0.04914538531881635,
+              0.049997226106527244
+            ],
+            "setup_seconds": 2.4500011932104826e-05,
+            "sampling_seconds": 1.1100096000009216,
+            "total_seconds": 1.1325013000168838
+          },
+          "difference_in_combined_se": 0.23520135305493395,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.029438604137598707,
+          "tail_relative_to_profile": 2.167049393981722e-11,
+          "projected_mc_shots_to_match_se": 22435.037496271896,
+          "projected_mc_seconds_to_match_se": 0.04739480701320457,
+          "projected_single_point_speedup": 0.014962998988470137
+        }
+      ],
+      "projected_curve_speedup": 0.04328694494968251
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 3,
+      "noise": "biased_pauli",
+      "name": "stim_rotated_z_d3_biased_pauli",
+      "reference_p": 0.01,
+      "rounds": 3,
+      "num_qubits": 26,
+      "num_detectors": 24,
+      "noise_locations": 197,
+      "rate_groups": 4,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 667,
+      "polynomial_degree": 197,
+      "timing": {
+        "circuit_seconds": 0.008001899986993521,
+        "model_seconds": 0.5841573999787215,
+        "decoder_seconds": 0.01360410000779666,
+        "limit_seconds": 0.005041399999754503,
+        "sampling_seconds": 2.4321347000077367,
+        "evaluation_seconds": 0.02431310000247322,
+        "total_seconds": 3.067252599983476
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.00019814174606165688,
+            "standard_error": 2.8625763405948256e-05,
+            "missing_probability_mass": 1.2207508146564255e-24,
+            "minimum_ess": 170.96902051436157,
+            "observed_failures": 9641
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 205,
+            "ler": 0.000205,
+            "standard_error": 1.4316353411396354e-05,
+            "interval_95": [
+              0.0001778987271329831,
+              0.0002350620937341652
+            ],
+            "setup_seconds": 2.2799998987466097e-05,
+            "sampling_seconds": 0.23489429999608546,
+            "total_seconds": 0.26669079999555834
+          },
+          "difference_in_combined_se": 0.21427939311699787,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.14447113732933703,
+          "tail_relative_to_profile": 6.160997563211932e-21,
+          "projected_mc_shots_to_match_se": 250121.29386451124,
+          "projected_mc_seconds_to_match_se": 0.09054856623589243,
+          "projected_single_point_speedup": 0.029521065932548312
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0017404521099735595,
+            "standard_error": 0.00018502166589800658,
+            "missing_probability_mass": 2.8960769902731286e-18,
+            "minimum_ess": 781.0052543963338,
+            "observed_failures": 9641
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 1948,
+            "ler": 0.001948,
+            "standard_error": 4.409314341255339e-05,
+            "interval_95": [
+              0.00186252452322753,
+              0.002036380569335899
+            ],
+            "setup_seconds": 2.3200002033263445e-05,
+            "sampling_seconds": 0.35657530001481064,
+            "total_seconds": 0.3900251000013668
+          },
+          "difference_in_combined_se": 1.0911908465917513,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.10630666873150413,
+          "tail_relative_to_profile": 1.6639797060070357e-15,
+          "projected_mc_shots_to_match_se": 56793.27955301003,
+          "projected_mc_seconds_to_match_se": 0.05370088068199573,
+          "projected_single_point_speedup": 0.017507811610391992
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.018809953262940327,
+            "standard_error": 0.0008983727510004964,
+            "missing_probability_mass": 3.1969251990115865e-11,
+            "minimum_ess": 2000.0,
+            "observed_failures": 9641
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 19488,
+            "ler": 0.019488,
+            "standard_error": 0.0001382324775731087,
+            "interval_95": [
+              0.019217961676810686,
+              0.01976082662277221
+            ],
+            "setup_seconds": 2.4999986635521054e-05,
+            "sampling_seconds": 0.9854066999978386,
+            "total_seconds": 1.0204902999685146
+          },
+          "difference_in_combined_se": 0.7459707407322715,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.04776049884028606,
+          "tail_relative_to_profile": 1.6995923138789612e-09,
+          "projected_mc_shots_to_match_se": 23675.929756779315,
+          "projected_mc_seconds_to_match_se": 0.058414019781684534,
+          "projected_single_point_speedup": 0.019044411204345944
+        }
+      ],
+      "projected_curve_speedup": 0.05198511094614487
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 5,
+      "noise": "uniform_single",
+      "name": "stim_rotated_z_d5_uniform_single",
+      "reference_p": 0.01,
+      "rounds": 5,
+      "num_qubits": 64,
+      "num_detectors": 120,
+      "noise_locations": 1359,
+      "rate_groups": 1,
+      "max_sampled_weight": 54,
+      "total_profile_shots": 110000,
+      "polynomial_terms": 52,
+      "polynomial_degree": 1359,
+      "timing": {
+        "circuit_seconds": 0.037208099995041266,
+        "model_seconds": 9.90006220000214,
+        "decoder_seconds": 0.09803910000482574,
+        "limit_seconds": 0.1710103000223171,
+        "sampling_seconds": 39.83632279999438,
+        "evaluation_seconds": 0.1027886999945622,
+        "total_seconds": 50.14543120001326
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0004966127283079157,
+            "standard_error": 0.00011301787090914468,
+            "missing_probability_mass": 1.534581880157501e-67,
+            "minimum_ess": 2000.0,
+            "observed_failures": 35223
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 269,
+            "ler": 0.000269,
+            "standard_error": 1.6399013354467394e-05,
+            "interval_95": [
+              0.0002378151667279333,
+              0.00030313676227309834
+            ],
+            "setup_seconds": 4.0300015825778246e-05,
+            "sampling_seconds": 1.9085565000132192,
+            "total_seconds": 2.098723400005838
+          },
+          "difference_in_combined_se": 1.993081232225285,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.2275774752979549,
+          "tail_relative_to_profile": 3.0900977616627085e-64,
+          "projected_mc_shots_to_match_se": 21054.318862611686,
+          "projected_mc_seconds_to_match_se": 0.23035025711120716,
+          "projected_single_point_speedup": 0.004593643959155869
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.008196659684840355,
+            "standard_error": 0.0006277745602197923,
+            "missing_probability_mass": 2.0606972818601985e-42,
+            "minimum_ess": 2000.0,
+            "observed_failures": 35223
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 7274,
+            "ler": 0.007274,
+            "standard_error": 8.497699055626765e-05,
+            "interval_95": [
+              0.007108376498242866,
+              0.00744248704288965
+            ],
+            "setup_seconds": 3.619998460635543e-05,
+            "sampling_seconds": 5.2911097000178415,
+            "total_seconds": 5.475769799988484
+          },
+          "difference_in_combined_se": 1.456448282123215,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0765890721778843,
+          "tail_relative_to_profile": 2.5140695857746037e-40,
+          "projected_mc_shots_to_match_se": 18322.944586609276,
+          "projected_mc_seconds_to_match_se": 0.2816088098057402,
+          "projected_single_point_speedup": 0.0056158418238043935
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.15110713157705688,
+            "standard_error": 0.0021479518802435442,
+            "missing_probability_mass": 1.4668080407980464e-17,
+            "minimum_ess": 2000.0,
+            "observed_failures": 35223
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 147128,
+            "ler": 0.147128,
+            "standard_error": 0.0003542334704908614,
+            "interval_95": [
+              0.1464342378442118,
+              0.1478238067435398
+            ],
+            "setup_seconds": 3.5900011425837874e-05,
+            "sampling_seconds": 20.896329999988666,
+            "total_seconds": 21.095560200017644
+          },
+          "difference_in_combined_se": 1.8278340391040127,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.014214761790698138,
+          "tail_relative_to_profile": 9.707073554301768e-17,
+          "projected_mc_shots_to_match_se": 27197.56932563709,
+          "projected_mc_seconds_to_match_se": 0.7675595838550602,
+          "projected_single_point_speedup": 0.015306670328419814
+        }
+      ],
+      "projected_curve_speedup": 0.020121957806038503
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 5,
+      "noise": "nonuniform_depolarizing",
+      "name": "stim_rotated_z_d5_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "rounds": 5,
+      "num_qubits": 64,
+      "num_detectors": 120,
+      "noise_locations": 959,
+      "rate_groups": 4,
+      "max_sampled_weight": 54,
+      "total_profile_shots": 110000,
+      "polynomial_terms": 4948,
+      "polynomial_degree": 959,
+      "timing": {
+        "circuit_seconds": 0.00027019999106414616,
+        "model_seconds": 14.175316100008786,
+        "decoder_seconds": 0.08099980000406504,
+        "limit_seconds": 0.06737439997959882,
+        "sampling_seconds": 29.069733200012706,
+        "evaluation_seconds": 0.05985510000027716,
+        "total_seconds": 43.4535487999965
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 3.9428739908848034e-05,
+            "standard_error": 1.133864765004598e-05,
+            "missing_probability_mass": 1.8061898536551354e-44,
+            "minimum_ess": 1.5089886105442278,
+            "observed_failures": 31162
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 78,
+            "ler": 7.8e-05,
+            "standard_error": 8.831416420937243e-06,
+            "interval_95": [
+              6.165623624725691e-05,
+              9.734658832208037e-05
+            ],
+            "setup_seconds": 3.480000304989517e-05,
+            "sampling_seconds": 1.3246770999976434,
+            "total_seconds": 1.4451216000015847
+          },
+          "difference_in_combined_se": 2.683749195583229,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.28757316810678807,
+          "tail_relative_to_profile": 4.58089672109916e-40
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.001964772455666057,
+            "standard_error": 0.0002450192937376807,
+            "missing_probability_mass": 5.9721344834135816e-30,
+            "minimum_ess": 38.621214144902346,
+            "observed_failures": 31162
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 2239,
+            "ler": 0.002239,
+            "standard_error": 4.7265070390299853e-05,
+            "interval_95": [
+              0.002147306569676402,
+              0.002333595350061622
+            ],
+            "setup_seconds": 7.149999146349728e-05,
+            "sampling_seconds": 2.974495400005253,
+            "total_seconds": 3.09422969998559
+          },
+          "difference_in_combined_se": 1.0989478349248067,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.1247061933462515,
+          "tail_relative_to_profile": 3.039606172303057e-27,
+          "projected_mc_shots_to_match_se": 37211.746236558625,
+          "projected_mc_seconds_to_match_se": 0.23042046798714322,
+          "projected_single_point_speedup": 0.005302684690902893
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.06138873842999311,
+            "standard_error": 0.0012896339636489658,
+            "missing_probability_mass": 2.6004189729082095e-14,
+            "minimum_ess": 2000.0,
+            "observed_failures": 31162
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 61425,
+            "ler": 0.061425,
+            "standard_error": 0.00024010824512082045,
+            "interval_95": [
+              0.060955167196499106,
+              0.06189737511820549
+            ],
+            "setup_seconds": 3.070000093430281e-05,
+            "sampling_seconds": 9.599288700002944,
+            "total_seconds": 9.71697259999928
+          },
+          "difference_in_combined_se": 0.0276426980156484,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.021007663565519384,
+          "tail_relative_to_profile": 4.2359869894926937e-13,
+          "projected_mc_shots_to_match_se": 34664.20329035998,
+          "projected_mc_seconds_to_match_se": 0.45043559493609403,
+          "projected_single_point_speedup": 0.01036591043482576
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 5,
+      "noise": "biased_pauli",
+      "name": "stim_rotated_z_d5_biased_pauli",
+      "reference_p": 0.01,
+      "rounds": 5,
+      "num_qubits": 64,
+      "num_detectors": 120,
+      "noise_locations": 959,
+      "rate_groups": 4,
+      "max_sampled_weight": 54,
+      "total_profile_shots": 110000,
+      "polynomial_terms": 2777,
+      "polynomial_degree": 959,
+      "timing": {
+        "circuit_seconds": 0.03578400000697002,
+        "model_seconds": 16.225399099988863,
+        "decoder_seconds": 0.06180670001776889,
+        "limit_seconds": 0.05986700000357814,
+        "sampling_seconds": 27.680771300016204,
+        "evaluation_seconds": 0.07239490002393723,
+        "total_seconds": 44.13602300005732
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 1.399753848780627e-06,
+            "standard_error": 6.219848625904347e-07,
+            "missing_probability_mass": 3.589750188320828e-40,
+            "minimum_ess": 3.8997011872794283,
+            "observed_failures": 10601
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 11,
+            "ler": 1.1e-05,
+            "standard_error": 3.3166065488688887e-06,
+            "interval_95": [
+              5.491172746671714e-06,
+              1.9681953073212517e-05
+            ],
+            "setup_seconds": 4.3400010326877236e-05,
+            "sampling_seconds": 1.6815404999942984,
+            "total_seconds": 1.826900900050532
+          },
+          "difference_in_combined_se": 2.8450020711207484,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.444353029021686,
+          "tail_relative_to_profile": 2.5645581838892465e-34
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.00020538612349375128,
+            "standard_error": 4.298489279926552e-05,
+            "missing_probability_mass": 2.358209334598313e-26,
+            "minimum_ess": 125.97608039125613,
+            "observed_failures": 10601
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 315,
+            "ler": 0.000315,
+            "standard_error": 1.7745443781433026e-05,
+            "interval_95": [
+              0.0002811753251134293,
+              0.0003517718822764836
+            ],
+            "setup_seconds": 4.05999890062958e-05,
+            "sampling_seconds": 3.569197900011204,
+            "total_seconds": 3.717564400023548
+          },
+          "difference_in_combined_se": 2.357095932536197,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.20928820344853194,
+          "tail_relative_to_profile": 1.1481833799107951e-22,
+          "projected_mc_shots_to_match_se": 170428.42617513338,
+          "projected_mc_seconds_to_match_se": 0.7566592808188444,
+          "projected_single_point_speedup": 0.017143802938879692
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.012271652561255945,
+            "standard_error": 0.0005474612777362401,
+            "missing_probability_mass": 6.312319744964283e-12,
+            "minimum_ess": 2000.0,
+            "observed_failures": 10601
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 12725,
+            "ler": 0.012725,
+            "standard_error": 0.00011208512111337525,
+            "interval_95": [
+              0.012506229347868238,
+              0.012946599803889089
+            ],
+            "setup_seconds": 3.399999695830047e-05,
+            "sampling_seconds": 10.492326200008392,
+            "total_seconds": 10.679456900019431
+          },
+          "difference_in_combined_se": 0.8112621484581867,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.044611862583584266,
+          "tail_relative_to_profile": 5.14382208382719e-10,
+          "projected_mc_shots_to_match_se": 41916.89622947527,
+          "projected_mc_seconds_to_match_se": 0.6269364485425956,
+          "projected_single_point_speedup": 0.014204642963453716
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 7,
+      "noise": "uniform_single",
+      "name": "stim_rotated_z_d7_uniform_single",
+      "reference_p": 0.01,
+      "rounds": 7,
+      "num_qubits": 118,
+      "num_detectors": 336,
+      "noise_locations": 3849,
+      "rate_groups": 1,
+      "max_sampled_weight": 122,
+      "total_profile_shots": 246000,
+      "polynomial_terms": 115,
+      "polynomial_degree": 3849,
+      "timing": {
+        "circuit_seconds": 0.1337645000021439,
+        "model_seconds": 74.99480280000716,
+        "decoder_seconds": 0.17088259998126887,
+        "limit_seconds": 0.3407314000069164,
+        "sampling_seconds": 327.26743459998397,
+        "evaluation_seconds": 0.19625489998725243,
+        "total_seconds": 403.1038707999687
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 4.980918541943118e-05,
+            "standard_error": 2.9540358394691547e-05,
+            "missing_probability_mass": 2.83076932686105e-136,
+            "minimum_ess": 2000.0,
+            "observed_failures": 79569
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 62,
+            "ler": 6.2e-05,
+            "standard_error": 7.87376377598414e-06,
+            "interval_95": [
+              4.7535364521360936e-05,
+              7.948050715596911e-05
+            ],
+            "setup_seconds": 7.090001599863172e-05,
+            "sampling_seconds": 6.421664399997098,
+            "total_seconds": 6.854683300014585
+          },
+          "difference_in_combined_se": 0.39876140348264166,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.593070497859768,
+          "tail_relative_to_profile": 5.683227507183308e-132
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.004423898170299917,
+            "standard_error": 0.00036103129509698753,
+            "missing_probability_mass": 8.3720465081959835e-81,
+            "minimum_ess": 2000.0,
+            "observed_failures": 79569
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 4458,
+            "ler": 0.004458,
+            "standard_error": 6.661926325020414e-05,
+            "interval_95": [
+              0.004328365636018637,
+              0.004590517408194451
+            ],
+            "setup_seconds": 5.1799986977130175e-05,
+            "sampling_seconds": 19.45011040000827,
+            "total_seconds": 19.864815299981274
+          },
+          "difference_in_combined_se": 0.09288854933960423,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.08160931404813766,
+          "tail_relative_to_profile": 1.8924591357916365e-78,
+          "projected_mc_shots_to_match_se": 34049.438337255764,
+          "projected_mc_seconds_to_match_se": 1.076970234690902,
+          "projected_single_point_speedup": 0.00267169410344195
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.21549980659660026,
+            "standard_error": 0.0019398192424175226,
+            "missing_probability_mass": 8.928763733028324e-28,
+            "minimum_ess": 2000.0,
+            "observed_failures": 79569
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 213819,
+            "ler": 0.213819,
+            "standard_error": 0.0004100005307789247,
+            "interval_95": [
+              0.21301574342396284,
+              0.2146239145319645
+            ],
+            "setup_seconds": 5.6599994422867894e-05,
+            "sampling_seconds": 79.22814240001026,
+            "total_seconds": 79.68899419999798
+          },
+          "difference_in_combined_se": 0.8477470166263396,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.009001489481838473,
+          "tail_relative_to_profile": 4.143281552796152e-27,
+          "projected_mc_shots_to_match_se": 44673.12275517716,
+          "projected_mc_seconds_to_match_se": 4.000220331088037,
+          "projected_single_point_speedup": 0.00992354730593261
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_z",
+      "distance": 7,
+      "noise": "nonuniform_depolarizing",
+      "name": "stim_rotated_z_d7_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "rounds": 7,
+      "num_qubits": 118,
+      "num_detectors": 336,
+      "noise_locations": 2673,
+      "rate_groups": 4,
+      "max_sampled_weight": 122,
+      "total_profile_shots": 246000,
+      "polynomial_terms": 24123,
+      "polynomial_degree": 2673,
+      "timing": {
+        "circuit_seconds": 0.0004828000091947615,
+        "model_seconds": 106.6957257000031,
+        "decoder_seconds": 0.11072180001065135,
+        "limit_seconds": 0.17918269999790937,
+        "sampling_seconds": 161.90604629999143,
+        "evaluation_seconds": 0.17912210000213236,
+        "total_seconds": 269.0712814000144
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 4.789536211682964e-07,
+            "standard_error": 2.671561051071378e-07,
+            "missing_probability_mass": 2.5856023032926774e-89,
+            "minimum_ess": 1.0394988375827463,
+            "observed_failures": 68524
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 10,
+            "ler": 1e-05,
+            "standard_error": 3.1622618487405498e-06,
+            "interval_95": [
+              4.795398777545602e-06,
+              1.839027889123878e-05
+            ],
+            "setup_seconds": 4.779998562298715e-05,
+            "sampling_seconds": 4.185819300008006,
+            "total_seconds": 4.39501880001626
+          },
+          "difference_in_combined_se": 3.0001468280262946,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.5577911791448039,
+          "tail_relative_to_profile": 5.398439825939095e-83
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0008345978114949227,
+            "standard_error": 0.00025250327258127125,
+            "missing_probability_mass": 4.678771579393379e-57,
+            "minimum_ess": 2.7095601384681505,
+            "observed_failures": 68524
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 752,
+            "ler": 0.000752,
+            "standard_error": 2.7412305557905924e-05,
+            "interval_95": [
+              0.0006992240981423553,
+              0.0008077013577994227
+            ],
+            "setup_seconds": 5.709999823011458e-05,
+            "sampling_seconds": 8.571927499986487,
+            "total_seconds": 8.77660830001696
+          },
+          "difference_in_combined_se": 0.32520502731376166,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.3025448534653956,
+          "tail_relative_to_profile": 5.60601946824281e-54,
+          "projected_mc_shots_to_match_se": 11785.746779611676,
+          "projected_mc_seconds_to_match_se": 0.30570736695850415,
+          "projected_single_point_speedup": 0.0011361575466837903
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.07014581102846991,
+            "standard_error": 0.0010935257002512885,
+            "missing_probability_mass": 2.81169157941403e-23,
+            "minimum_ess": 2000.0,
+            "observed_failures": 68524
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 70780,
+            "ler": 0.07078,
+            "standard_error": 0.00025645699756489393,
+            "interval_95": [
+              0.07027809714863115,
+              0.07128439071426888
+            ],
+            "setup_seconds": 5.57999883312732e-05,
+            "sampling_seconds": 42.962399500014726,
+            "total_seconds": 43.16945750001469
+          },
+          "difference_in_combined_se": 0.5646290796743152,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.015589322929169097,
+          "tail_relative_to_profile": 4.0083527985339793e-22,
+          "projected_mc_shots_to_match_se": 55001.06745324725,
+          "projected_mc_seconds_to_match_se": 2.570035832853627,
+          "projected_single_point_speedup": 0.009551505532219498
+        }
+      ]
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_x",
+      "distance": 3,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 3,
+      "name": "stim_rotated_x_d3_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "num_qubits": 26,
+      "num_detectors": 24,
+      "noise_locations": 197,
+      "rate_groups": 4,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 886,
+      "polynomial_degree": 197,
+      "timing": {
+        "circuit_seconds": 0.00023239999427460134,
+        "model_seconds": 1.3230622000119183,
+        "decoder_seconds": 0.015568300004815683,
+        "limit_seconds": 0.006251099985092878,
+        "sampling_seconds": 4.290865599992685,
+        "evaluation_seconds": 0.028943799989065155,
+        "total_seconds": 5.664923399977852
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0006630712751448896,
+            "standard_error": 5.213787374668533e-05,
+            "missing_probability_mass": 9.897054483253073e-27,
+            "minimum_ess": 51.67870348090832,
+            "observed_failures": 17556
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 685,
+            "ler": 0.000685,
+            "standard_error": 2.616353903813473e-05,
+            "interval_95": [
+              0.0006346721164351432,
+              0.0007382554172338763
+            ],
+            "setup_seconds": 3.989998367615044e-05,
+            "sampling_seconds": 0.3442104000132531,
+            "total_seconds": 0.38253219999023713
+          },
+          "difference_in_combined_se": 0.37591487316446465,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.07863087378546527,
+          "tail_relative_to_profile": 1.4926079373730132e-23,
+          "projected_mc_shots_to_match_se": 251817.75377413165,
+          "projected_mc_seconds_to_match_se": 0.12500008973401677,
+          "projected_single_point_speedup": 0.02206562753072804
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.005804431786887851,
+            "standard_error": 0.00033638897022878947,
+            "missing_probability_mass": 3.874843713140721e-20,
+            "minimum_ess": 495.20645753123756,
+            "observed_failures": 17556
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 5747,
+            "ler": 0.005747,
+            "standard_error": 7.55908194888771e-05,
+            "interval_95": [
+              0.005599777699023453,
+              0.00589709612695825
+            ],
+            "setup_seconds": 2.2799998987466097e-05,
+            "sampling_seconds": 0.574577399995178,
+            "total_seconds": 0.6151293000148144
+          },
+          "difference_in_combined_se": 0.16657638645881173,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.05795381573588108,
+          "tail_relative_to_profile": 6.67566413975947e-18,
+          "projected_mc_shots_to_match_se": 50495.725046443295,
+          "projected_mc_seconds_to_match_se": 0.06956560242769315,
+          "projected_single_point_speedup": 0.012280060561448215
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.05430500454327926,
+            "standard_error": 0.0015437619952318115,
+            "missing_probability_mass": 1.0667378978075715e-12,
+            "minimum_ess": 2000.0,
+            "observed_failures": 17556
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 52962,
+            "ler": 0.052962,
+            "standard_error": 0.00022395764455807263,
+            "interval_95": [
+              0.052523846297969065,
+              0.053402745337563125
+            ],
+            "setup_seconds": 3.23000131174922e-05,
+            "sampling_seconds": 2.066791099990951,
+            "total_seconds": 2.0961733000003733
+          },
+          "difference_in_combined_se": 0.8609431332074405,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.028427619299828715,
+          "tail_relative_to_profile": 1.9643454719857676e-11,
+          "projected_mc_shots_to_match_se": 21046.073954787767,
+          "projected_mc_seconds_to_match_se": 0.07288003834892909,
+          "projected_single_point_speedup": 0.012865141009534927
+        }
+      ],
+      "projected_curve_speedup": 0.04163239533183812
+    },
+    {
+      "frontend": "stim",
+      "code": "rotated_x",
+      "distance": 5,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 5,
+      "name": "stim_rotated_x_d5_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "num_qubits": 64,
+      "num_detectors": 120,
+      "noise_locations": 959,
+      "rate_groups": 4,
+      "max_sampled_weight": 54,
+      "total_profile_shots": 110000,
+      "polynomial_terms": 4939,
+      "polynomial_degree": 959,
+      "timing": {
+        "circuit_seconds": 0.0003206999972462654,
+        "model_seconds": 21.222843199997442,
+        "decoder_seconds": 0.09573649999219924,
+        "limit_seconds": 0.0943056000105571,
+        "sampling_seconds": 44.81509260000894,
+        "evaluation_seconds": 0.07186719999299385,
+        "total_seconds": 66.30016579999938
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 8.916126432705952e-05,
+            "standard_error": 3.359798282999989e-05,
+            "missing_probability_mass": 1.8061898536551354e-44,
+            "minimum_ess": 1.5089886105442278,
+            "observed_failures": 32355
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 101,
+            "ler": 0.000101,
+            "standard_error": 1.004936808958653e-05,
+            "interval_95": [
+              8.226688826377257e-05,
+              0.00012272282264352233
+            ],
+            "setup_seconds": 3.770002513192594e-05,
+            "sampling_seconds": 2.1517200999951456,
+            "total_seconds": 2.2962799000088125
+          },
+          "difference_in_combined_se": 0.33758688300607353,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.3768226379872369,
+          "tail_relative_to_profile": 2.0257562151986844e-40,
+          "projected_mc_shots_to_match_se": 89464.57438805838,
+          "projected_mc_seconds_to_match_se": 0.3370625229619631,
+          "projected_single_point_speedup": 0.00508388657697695
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0025162465839848485,
+            "standard_error": 0.0003205560332398571,
+            "missing_probability_mass": 5.9721344834135816e-30,
+            "minimum_ess": 38.621214144902346,
+            "observed_failures": 32355
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 2563,
+            "ler": 0.002563,
+            "standard_error": 5.056116129006533e-05,
+            "interval_95": [
+              0.0024648451879565603,
+              0.002664053506097179
+            ],
+            "setup_seconds": 3.940000897273421e-05,
+            "sampling_seconds": 5.375989499996649,
+            "total_seconds": 5.533259500021813
+          },
+          "difference_in_combined_se": 0.14406987433650514,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.1273945229692907,
+          "tail_relative_to_profile": 2.373429743104042e-27,
+          "projected_mc_shots_to_match_se": 24878.6133221235,
+          "projected_mc_seconds_to_match_se": 0.29101716401937705,
+          "projected_single_point_speedup": 0.004389388178866059
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.0710084596051169,
+            "standard_error": 0.0013698175933673814,
+            "missing_probability_mass": 2.6004189729082095e-14,
+            "minimum_ess": 2000.0,
+            "observed_failures": 32355
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 69601,
+            "ler": 0.069601,
+            "standard_error": 0.0002544733793523401,
+            "interval_95": [
+              0.06910298838168187,
+              0.07010150634059921
+            ],
+            "setup_seconds": 0.00023090001195669174,
+            "sampling_seconds": 17.34240160000627,
+            "total_seconds": 17.587716600013664
+          },
+          "difference_in_combined_se": 1.010195930682983,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.019290907041006587,
+          "tail_relative_to_profile": 3.662125593724078e-13,
+          "projected_mc_shots_to_match_se": 34511.13437829301,
+          "projected_mc_seconds_to_match_se": 0.8438209520675348,
+          "projected_single_point_speedup": 0.012727282683017706
+        }
+      ],
+      "projected_curve_speedup": 0.01930291159347291
+    },
+    {
+      "frontend": "stim",
+      "code": "unrotated_z",
+      "distance": 3,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 3,
+      "name": "stim_unrotated_z_d3_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "num_qubits": 25,
+      "num_detectors": 36,
+      "noise_locations": 305,
+      "rate_groups": 4,
+      "max_sampled_weight": 36,
+      "total_profile_shots": 74000,
+      "polynomial_terms": 1864,
+      "polynomial_degree": 305,
+      "timing": {
+        "circuit_seconds": 0.00018770000315271318,
+        "model_seconds": 1.7256783999910112,
+        "decoder_seconds": 0.022259899997152388,
+        "limit_seconds": 0.014492899994365871,
+        "sampling_seconds": 7.239132899994729,
+        "evaluation_seconds": 0.025659000006271526,
+        "total_seconds": 9.027410799986683
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0009503762662029537,
+            "standard_error": 9.337785375737019e-05,
+            "missing_probability_mass": 9.318303439274004e-38,
+            "minimum_ess": 16.380853631713382,
+            "observed_failures": 27394
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 873,
+            "ler": 0.000873,
+            "standard_error": 2.953367351007998e-05,
+            "interval_95": [
+              0.0008160655110998987,
+              0.0009328566990395527
+            ],
+            "setup_seconds": 2.609999501146376e-05,
+            "sampling_seconds": 0.35620330000529066,
+            "total_seconds": 0.3947565999988001
+          },
+          "difference_in_combined_se": 0.7900614080698212,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.09825356238160651,
+          "tail_relative_to_profile": 9.804857055725413e-35,
+          "projected_mc_shots_to_match_se": 100033.89143379343,
+          "projected_mc_seconds_to_match_se": 0.07418570223459763,
+          "projected_single_point_speedup": 0.008217827224026081
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.008091654568635394,
+            "standard_error": 0.000512654576072893,
+            "missing_probability_mass": 4.597126721945986e-28,
+            "minimum_ess": 257.04551681961897,
+            "observed_failures": 27394
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 7438,
+            "ler": 0.007438,
+            "standard_error": 8.592250087142483e-05,
+            "interval_95": [
+              0.007270522837850948,
+              0.0076083396255731
+            ],
+            "setup_seconds": 3.3899996196851134e-05,
+            "sampling_seconds": 0.8154370999836829,
+            "total_seconds": 0.8545624999678694
+          },
+          "difference_in_combined_se": 1.2574992240820375,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0633559640645101,
+          "tail_relative_to_profile": 5.681318552283755e-26,
+          "projected_mc_shots_to_match_se": 28090.802197814413,
+          "projected_mc_seconds_to_match_se": 0.062031682264587565,
+          "projected_single_point_speedup": 0.0068714810524274665
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.07063628885668308,
+            "standard_error": 0.0017249373785357903,
+            "missing_probability_mass": 3.4909486860411906e-17,
+            "minimum_ess": 2000.0,
+            "observed_failures": 27394
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 69023,
+            "ler": 0.069023,
+            "standard_error": 0.000253493245414942,
+            "interval_95": [
+              0.06852691108203632,
+              0.06952158700332725
+            ],
+            "setup_seconds": 4.73999825771898e-05,
+            "sampling_seconds": 2.8542072999989614,
+            "total_seconds": 2.899934699991718
+          },
+          "difference_in_combined_se": 0.9253351797249288,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.024419988740286003,
+          "tail_relative_to_profile": 4.942146229007193e-16,
+          "projected_mc_shots_to_match_se": 21596.63640786011,
+          "projected_mc_seconds_to_match_se": 0.10736867728349422,
+          "projected_single_point_speedup": 0.01189362926561984
+        }
+      ],
+      "projected_curve_speedup": 0.022009728612589815
+    },
+    {
+      "frontend": "stim",
+      "code": "unrotated_z",
+      "distance": 5,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 5,
+      "name": "stim_unrotated_z_d5_nonuniform_depolarizing",
+      "reference_p": 0.01,
+      "num_qubits": 81,
+      "num_detectors": 200,
+      "noise_locations": 1647,
+      "rate_groups": 4,
+      "max_sampled_weight": 81,
+      "total_profile_shots": 164000,
+      "polynomial_terms": 11076,
+      "polynomial_degree": 1647,
+      "timing": {
+        "circuit_seconds": 0.00041179999243468046,
+        "model_seconds": 41.56016439999803,
+        "decoder_seconds": 0.09262270000181161,
+        "limit_seconds": 0.11283339999499731,
+        "sampling_seconds": 76.0786175999965,
+        "evaluation_seconds": 0.14525380000122823,
+        "total_seconds": 117.989903699985
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.000102366990613745,
+            "standard_error": 7.495007287987144e-05,
+            "missing_probability_mass": 7.44980477412543e-62,
+            "minimum_ess": 1.1261612085331913,
+            "observed_failures": 47656
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 92,
+            "ler": 9.2e-05,
+            "standard_error": 9.591221819976848e-06,
+            "interval_95": [
+              7.416560906885563e-05,
+              0.00011282865787038226
+            ],
+            "setup_seconds": 4.830001853406429e-05,
+            "sampling_seconds": 2.4531993999844417,
+            "total_seconds": 2.609185899986187
+          },
+          "difference_in_combined_se": 0.13719979991286987,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.7321703259078495,
+          "tail_relative_to_profile": 7.277545944703323e-58
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0020268405699638025,
+            "standard_error": 0.0003777993890331447,
+            "missing_probability_mass": 2.566143167138567e-40,
+            "minimum_ess": 5.2678858733783755,
+            "observed_failures": 47656
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 2380,
+            "ler": 0.00238,
+            "standard_error": 4.872715464707538e-05,
+            "interval_95": [
+              0.002285440425643536,
+              0.0024774600566245617
+            ],
+            "setup_seconds": 4.47999918833375e-05,
+            "sampling_seconds": 5.195761200011475,
+            "total_seconds": 5.341294699988794
+          },
+          "difference_in_combined_se": 0.9271010086800282,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.18639817784972196,
+          "tail_relative_to_profile": 1.2660804234762263e-37,
+          "projected_mc_shots_to_match_se": 16634.877295425507,
+          "projected_mc_seconds_to_match_se": 0.23196434999584226,
+          "projected_single_point_speedup": 0.001965967788105515
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.08079688660528817,
+            "standard_error": 0.0013054944379064816,
+            "missing_probability_mass": 1.5742972545034632e-17,
+            "minimum_ess": 2000.0,
+            "observed_failures": 47656
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 83823,
+            "ler": 0.083823,
+            "standard_error": 0.0002771221836501004,
+            "interval_95": [
+              0.08328055637729917,
+              0.08436785564828789
+            ],
+            "setup_seconds": 3.190001007169485e-05,
+            "sampling_seconds": 23.457419999991544,
+            "total_seconds": 23.607351699989522
+          },
+          "difference_in_combined_se": 2.267459456681598,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.016157731971581154,
+          "tail_relative_to_profile": 1.9484627696043243e-16,
+          "projected_mc_shots_to_match_se": 45060.1396420497,
+          "projected_mc_seconds_to_match_se": 1.2069263208398067,
+          "projected_single_point_speedup": 0.010229064377479953
+        }
+      ]
+    },
+    {
+      "frontend": "stabir",
+      "code": "surface",
+      "distance": 3,
+      "noise": "SD6",
+      "rounds": 3,
+      "name": "stabir_surface_d3_SD6",
+      "reference_p": 0.01,
+      "num_qubits": 17,
+      "num_detectors": 24,
+      "noise_locations": 153,
+      "rate_groups": 1,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 19,
+      "polynomial_degree": 153,
+      "timing": {
+        "circuit_seconds": 0.039430800010450184,
+        "model_seconds": 0.6504599000036251,
+        "decoder_seconds": 0.0245262999960687,
+        "limit_seconds": 0.004352499992819503,
+        "sampling_seconds": 2.1096401999820955,
+        "evaluation_seconds": 0.011376300011761487,
+        "total_seconds": 2.8397859999968205
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0059950383454011515,
+            "standard_error": 0.00046900777754702765,
+            "missing_probability_mass": 5.4834249678649276e-27,
+            "minimum_ess": 134.6707361926082,
+            "observed_failures": 18320
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 5821,
+            "ler": 0.005821,
+            "standard_error": 7.607309615757729e-05,
+            "interval_95": [
+              0.005672832226950659,
+              0.005972041087831777
+            ],
+            "setup_seconds": 3.3199990866705775e-05,
+            "sampling_seconds": 0.194383399997605,
+            "total_seconds": 0.2884170999750495
+          },
+          "difference_in_combined_se": 0.3662906738331989,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.07823265682809315,
+          "tail_relative_to_profile": 9.146605329174104e-25,
+          "projected_mc_shots_to_match_se": 26308.86395917612,
+          "projected_mc_seconds_to_match_se": 0.0991477064039036,
+          "projected_single_point_speedup": 0.03491379505498464
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.0186966259200265,
+            "standard_error": 0.0010824038718404135,
+            "missing_probability_mass": 1.5577503509783622e-20,
+            "minimum_ess": 688.8032345270914,
+            "observed_failures": 18320
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 18476,
+            "ler": 0.018476,
+            "standard_error": 0.00013466490791590806,
+            "interval_95": [
+              0.018212956937351133,
+              0.018741837415132332
+            ],
+            "setup_seconds": 2.750000567175448e-05,
+            "sampling_seconds": 0.34058839999488555,
+            "total_seconds": 0.43159070002730004
+          },
+          "difference_in_combined_se": 0.20227016098666029,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0578930057471503,
+          "tail_relative_to_profile": 8.33171909007288e-19,
+          "projected_mc_shots_to_match_se": 15478.547445051207,
+          "projected_mc_seconds_to_match_se": 0.0962741137409694,
+          "projected_single_point_speedup": 0.03390189040338856
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.06979532854469145,
+            "standard_error": 0.0019485123715222475,
+            "missing_probability_mass": 2.7109228387360285e-13,
+            "minimum_ess": 2000.0,
+            "observed_failures": 18320
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 71138,
+            "ler": 0.071138,
+            "standard_error": 0.0002570552177179059,
+            "interval_95": [
+              0.07063492362240555,
+              0.07164356215782067
+            ],
+            "setup_seconds": 2.5199988158419728e-05,
+            "sampling_seconds": 0.9659096999967005,
+            "total_seconds": 1.0510958000086248
+          },
+          "difference_in_combined_se": 0.6831560046653662,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.027917518437850366,
+          "tail_relative_to_profile": 3.884103557160228e-12,
+          "projected_mc_shots_to_match_se": 17403.89730972427,
+          "projected_mc_seconds_to_match_se": 0.10199669324113343,
+          "projected_single_point_speedup": 0.03591703503054372
+        }
+      ],
+      "projected_curve_speedup": 0.05968911508584043
+    },
+    {
+      "frontend": "stabir",
+      "code": "surface",
+      "distance": 3,
+      "noise": "SI1000",
+      "rounds": 3,
+      "name": "stabir_surface_d3_SI1000",
+      "reference_p": 0.01,
+      "num_qubits": 17,
+      "num_detectors": 24,
+      "noise_locations": 207,
+      "rate_groups": 3,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 435,
+      "polynomial_degree": 207,
+      "timing": {
+        "circuit_seconds": 0.15289040000061505,
+        "model_seconds": 1.6293974000145681,
+        "decoder_seconds": 0.04267199998139404,
+        "limit_seconds": 0.006506700010504574,
+        "sampling_seconds": 3.3267423999786843,
+        "evaluation_seconds": 0.014438900019740686,
+        "total_seconds": 5.172647800005507
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.007382164746997207,
+            "standard_error": 0.000765632850366322,
+            "missing_probability_mass": 3.4649161281258974e-26,
+            "minimum_ess": 8.398299012824532,
+            "observed_failures": 18748
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 6939,
+            "ler": 0.006939,
+            "standard_error": 8.301114551070838e-05,
+            "interval_95": [
+              0.006777230495593135,
+              0.007103635260839796
+            ],
+            "setup_seconds": 3.229998401366174e-05,
+            "sampling_seconds": 0.273401600017678,
+            "total_seconds": 0.4944915999949444
+          },
+          "difference_in_combined_se": 0.5754490988898112,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.10371386667816554,
+          "tail_relative_to_profile": 4.693631538818336e-24,
+          "projected_mc_shots_to_match_se": 11755.245289860566,
+          "projected_mc_seconds_to_match_se": 0.22430390284811458,
+          "projected_single_point_speedup": 0.043363459396534944
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.026439188747702833,
+            "standard_error": 0.0015288065875842913,
+            "missing_probability_mass": 2.564112051437728e-19,
+            "minimum_ess": 240.5178453717321,
+            "observed_failures": 18748
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 25795,
+            "ler": 0.025795,
+            "standard_error": 0.00015852324111940177,
+            "interval_95": [
+              0.025485174150950467,
+              0.026107576691599927
+            ],
+            "setup_seconds": 5.289999535307288e-05,
+            "sampling_seconds": 0.6587760999973398,
+            "total_seconds": 0.8832967999624088
+          },
+          "difference_in_combined_se": 0.4191199459798817,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.05782350593934625,
+          "tail_relative_to_profile": 9.698149500371908e-18,
+          "projected_mc_shots_to_match_se": 10751.790551569546,
+          "projected_mc_seconds_to_match_se": 0.2316037226126203,
+          "projected_single_point_speedup": 0.04477469403820104
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.12711480648044218,
+            "standard_error": 0.002521563589906433,
+            "missing_probability_mass": 1.5406868803931706e-11,
+            "minimum_ess": 2000.0,
+            "observed_failures": 18748
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 124839,
+            "ler": 0.124839,
+            "standard_error": 0.00033053626741856937,
+            "interval_95": [
+              0.12419174800511798,
+              0.12548842587678827
+            ],
+            "setup_seconds": 4.2400002712383866e-05,
+            "sampling_seconds": 3.3613838000164833,
+            "total_seconds": 3.583193400001619
+          },
+          "difference_in_combined_se": 0.8948821809216307,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0198368990971512,
+          "tail_relative_to_profile": 1.2120436029851644e-10,
+          "projected_mc_shots_to_match_se": 17182.976150219216,
+          "projected_mc_seconds_to_match_se": 0.2795681776525522,
+          "projected_single_point_speedup": 0.05404740250288345
+        }
+      ],
+      "projected_curve_speedup": 0.0665715154913316
+    },
+    {
+      "frontend": "stabir",
+      "code": "surface",
+      "distance": 5,
+      "noise": "SD6",
+      "rounds": 3,
+      "name": "stabir_surface_d5_SD6",
+      "reference_p": 0.01,
+      "num_qubits": 49,
+      "num_detectors": 72,
+      "noise_locations": 481,
+      "rate_groups": 1,
+      "max_sampled_weight": 36,
+      "total_profile_shots": 74000,
+      "polynomial_terms": 27,
+      "polynomial_degree": 481,
+      "timing": {
+        "circuit_seconds": 0.14965249999659136,
+        "model_seconds": 7.1138765000214335,
+        "decoder_seconds": 0.079086699988693,
+        "limit_seconds": 0.02112299998407252,
+        "sampling_seconds": 9.340176800003974,
+        "evaluation_seconds": 0.025996899988967925,
+        "total_seconds": 16.729912399983732
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0002999494412236011,
+            "standard_error": 8.132034699617996e-05,
+            "missing_probability_mass": 7.452495902878561e-32,
+            "minimum_ess": 7.795627049705323,
+            "observed_failures": 20001
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 427,
+            "ler": 0.000427,
+            "standard_error": 2.0659566089344664e-05,
+            "interval_95": [
+              0.00038746212614022943,
+              0.0004694767613159611
+            ],
+            "setup_seconds": 3.759999526664615e-05,
+            "sampling_seconds": 0.6070645999861881,
+            "total_seconds": 0.8980212999740615
+          },
+          "difference_in_combined_se": 1.5142441682668248,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.271113513879023,
+          "tail_relative_to_profile": 2.4845840260535787e-28,
+          "projected_mc_shots_to_match_se": 64542.22684928428,
+          "projected_mc_seconds_to_match_se": 0.33013800111235203,
+          "projected_single_point_speedup": 0.0197333968773604
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.003268941868226018,
+            "standard_error": 0.00036833341484842383,
+            "missing_probability_mass": 3.01551541370043e-22,
+            "minimum_ess": 184.15595840676855,
+            "observed_failures": 20001
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 4097,
+            "ler": 0.004097,
+            "standard_error": 6.387655744480913e-05,
+            "interval_95": [
+              0.003972742387658613,
+              0.004224143380540629
+            ],
+            "setup_seconds": 3.890000516548753e-05,
+            "sampling_seconds": 1.2188963000080548,
+            "total_seconds": 1.5306918999995105
+          },
+          "difference_in_combined_se": 2.2150592862331187,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.11267664880449837,
+          "tail_relative_to_profile": 9.224744688827651e-20,
+          "projected_mc_shots_to_match_se": 30074.66273442034,
+          "projected_mc_seconds_to_match_se": 0.34845349512243073,
+          "projected_single_point_speedup": 0.020828172126159464
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.04670689951913141,
+            "standard_error": 0.001230467419199265,
+            "missing_probability_mass": 8.77554037000441e-12,
+            "minimum_ess": 2000.0,
+            "observed_failures": 20001
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 47844,
+            "ler": 0.047844,
+            "standard_error": 0.00021343605989616654,
+            "interval_95": [
+              0.04742648304944578,
+              0.04826413845173782
+            ],
+            "setup_seconds": 5.390000296756625e-05,
+            "sampling_seconds": 3.8523913999961223,
+            "total_seconds": 4.14765910001006
+          },
+          "difference_in_combined_se": 0.910524272202537,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.0263444465778607,
+          "tail_relative_to_profile": 1.8788531159962565e-10,
+          "projected_mc_shots_to_match_se": 30088.140792264872,
+          "projected_mc_seconds_to_match_se": 0.41117899484393117,
+          "projected_single_point_speedup": 0.02457747446689147
+        }
+      ],
+      "projected_curve_speedup": 0.03779410650762044
+    },
+    {
+      "frontend": "stabir",
+      "code": "surface",
+      "distance": 5,
+      "noise": "SI1000",
+      "rounds": 3,
+      "name": "stabir_surface_d5_SI1000",
+      "reference_p": 0.01,
+      "num_qubits": 49,
+      "num_detectors": 72,
+      "noise_locations": 631,
+      "rate_groups": 3,
+      "max_sampled_weight": 54,
+      "total_profile_shots": 110000,
+      "polynomial_terms": 1706,
+      "polynomial_degree": 631,
+      "timing": {
+        "circuit_seconds": 0.10891800001263618,
+        "model_seconds": 5.895080400019651,
+        "decoder_seconds": 0.05603419998078607,
+        "limit_seconds": 0.02578729999368079,
+        "sampling_seconds": 13.51199369999813,
+        "evaluation_seconds": 0.025158200005535036,
+        "total_seconds": 19.62297180001042
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.0014872260993091962,
+            "standard_error": 0.0005008425187099751,
+            "missing_probability_mass": 5.944122722598397e-50,
+            "minimum_ess": 1.6418481642298561,
+            "observed_failures": 38662
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 795,
+            "ler": 0.000795,
+            "standard_error": 2.8184534322922564e-05,
+            "interval_95": [
+              0.0007407102683341291,
+              0.0008522139680847974
+            ],
+            "setup_seconds": 5.420000525191426e-05,
+            "sampling_seconds": 0.6414950999896973,
+            "total_seconds": 0.8652645999682136
+          },
+          "difference_in_combined_se": 1.3799400057984825,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.33676286271644384,
+          "tail_relative_to_profile": 3.9967848367907146e-47,
+          "projected_mc_shots_to_match_se": 3166.790587088861,
+          "projected_mc_seconds_to_match_se": 0.22580098062282725,
+          "projected_single_point_speedup": 0.011506971671982292
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.009980178248005437,
+            "standard_error": 0.0010648566791700473,
+            "missing_probability_mass": 7.470359112374648e-35,
+            "minimum_ess": 24.60002200510048,
+            "observed_failures": 38662
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 8955,
+            "ler": 0.008955,
+            "standard_error": 9.420619923869129e-05,
+            "interval_95": [
+              0.008771282544186403,
+              0.00914157012155192
+            ],
+            "setup_seconds": 3.4900003811344504e-05,
+            "sampling_seconds": 1.558725200011395,
+            "total_seconds": 1.778049100015778
+          },
+          "difference_in_combined_se": 0.9589927007177266,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.10669716038216667,
+          "tail_relative_to_profile": 7.485196082412274e-33,
+          "projected_mc_shots_to_match_se": 7826.663215915851,
+          "projected_mc_seconds_to_match_se": 0.23152351719103342,
+          "projected_single_point_speedup": 0.01179859603074548
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.11911336379248812,
+            "standard_error": 0.001930821663766945,
+            "missing_probability_mass": 4.145041889735476e-18,
+            "minimum_ess": 2000.0,
+            "observed_failures": 38662
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 119989,
+            "ler": 0.119989,
+            "standard_error": 0.00032494867268385635,
+            "interval_95": [
+              0.11935271352374387,
+              0.12062748850034954
+            ],
+            "setup_seconds": 3.8700003642588854e-05,
+            "sampling_seconds": 6.180450300016673,
+            "total_seconds": 6.39705780002987
+          },
+          "difference_in_combined_se": 0.4472153396178823,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.016209949935850204,
+          "tail_relative_to_profile": 3.479913384829522e-17,
+          "projected_mc_shots_to_match_se": 28323.388459036374,
+          "projected_mc_seconds_to_match_se": 0.391658794712337,
+          "projected_single_point_speedup": 0.019959198774985195
+        }
+      ],
+      "projected_curve_speedup": 0.02645261369325708
+    },
+    {
+      "frontend": "stabir",
+      "code": "repetition",
+      "distance": 3,
+      "noise": "SI1000",
+      "rounds": 3,
+      "name": "stabir_repetition_d3_SI1000",
+      "reference_p": 0.01,
+      "num_qubits": 5,
+      "num_detectors": 8,
+      "noise_locations": 45,
+      "rate_groups": 3,
+      "max_sampled_weight": 16,
+      "total_profile_shots": 34000,
+      "polynomial_terms": 169,
+      "polynomial_degree": 45,
+      "timing": {
+        "circuit_seconds": 0.006141699996078387,
+        "model_seconds": 0.04065690000425093,
+        "decoder_seconds": 0.0054512000060640275,
+        "limit_seconds": 0.000675299990689382,
+        "sampling_seconds": 0.39915519999340177,
+        "evaluation_seconds": 0.0027216000016778708,
+        "total_seconds": 0.45480189999216236
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 0.00013846520887006807,
+            "standard_error": 1.0258835777010246e-05,
+            "missing_probability_mass": 9.819249956967084e-25,
+            "minimum_ess": 181.0337351750252,
+            "observed_failures": 12024
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 139,
+            "ler": 0.000139,
+            "standard_error": 1.1789006701160196e-05,
+            "interval_95": [
+              0.0001168548272691323,
+              0.00016412069764418927
+            ],
+            "setup_seconds": 1.1800002539530396e-05,
+            "sampling_seconds": 0.06248789999517612,
+            "total_seconds": 0.0777362999797333
+          },
+          "difference_in_combined_se": 0.0342207621877039,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.07408962771750739,
+          "tail_relative_to_profile": 7.091492539603357e-21,
+          "projected_mc_shots_to_match_se": 1320560.4118250983,
+          "projected_mc_seconds_to_match_se": 0.09776744693627253,
+          "projected_single_point_speedup": 0.2149671031232661
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 0.001248023423752845,
+            "standard_error": 8.283575913967675e-05,
+            "missing_probability_mass": 4.801121139276236e-20,
+            "minimum_ess": 860.1037729462398,
+            "observed_failures": 12024
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 1237,
+            "ler": 0.001237,
+            "standard_error": 3.514925078860146e-05,
+            "interval_95": [
+              0.001169057236581082,
+              0.0013078576026221242
+            ],
+            "setup_seconds": 1.8600025214254856e-05,
+            "sampling_seconds": 0.11155809997580945,
+            "total_seconds": 0.12766530000953935
+          },
+          "difference_in_combined_se": 0.12250341315222227,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.066373561235403,
+          "tail_relative_to_profile": 3.846979990839528e-17,
+          "projected_mc_shots_to_match_se": 180051.37052912218,
+          "projected_mc_seconds_to_match_se": 0.03619338882799922,
+          "projected_single_point_speedup": 0.07958055766394763
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.013720329318186826,
+            "standard_error": 0.0006566850263089012,
+            "missing_probability_mass": 1.223587864341389e-14,
+            "minimum_ess": 2000.0,
+            "observed_failures": 12024
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 13451,
+            "ler": 0.013451,
+            "standard_error": 0.00011519579245354405,
+            "interval_95": [
+              0.01322613040983753,
+              0.013678694297541578
+            ],
+            "setup_seconds": 1.680001150816679e-05,
+            "sampling_seconds": 0.3381595000100788,
+            "total_seconds": 0.3539104000083171
+          },
+          "difference_in_combined_se": 0.4039663242191861,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.04786219128417274,
+          "tail_relative_to_profile": 8.918064836238851e-13,
+          "projected_mc_shots_to_match_se": 30772.232571199977,
+          "projected_mc_seconds_to_match_se": 0.026156822778709156,
+          "projected_single_point_speedup": 0.05751256267654097
+        }
+      ],
+      "projected_curve_speedup": 0.30108022534878554
+    },
+    {
+      "frontend": "stabir",
+      "code": "repetition",
+      "distance": 7,
+      "noise": "SI1000",
+      "rounds": 3,
+      "name": "stabir_repetition_d7_SI1000",
+      "reference_p": 0.01,
+      "num_qubits": 13,
+      "num_detectors": 24,
+      "noise_locations": 121,
+      "rate_groups": 3,
+      "max_sampled_weight": 24,
+      "total_profile_shots": 50000,
+      "polynomial_terms": 336,
+      "polynomial_degree": 121,
+      "timing": {
+        "circuit_seconds": 0.02108179999049753,
+        "model_seconds": 0.2407422999967821,
+        "decoder_seconds": 0.01118770000175573,
+        "limit_seconds": 0.0032389999832957983,
+        "sampling_seconds": 1.6331762000045273,
+        "evaluation_seconds": 0.004269600001862273,
+        "total_seconds": 1.9136965999787208
+      },
+      "rows": [
+        {
+          "p": 0.001,
+          "profile": {
+            "p": 0.001,
+            "ler": 6.067899440208379e-08,
+            "standard_error": 2.667534410503036e-08,
+            "missing_probability_mass": 2.6421492024275147e-30,
+            "minimum_ess": 23.630325766089676,
+            "observed_failures": 8920
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 0,
+            "ler": 0.0,
+            "standard_error": 0.0,
+            "interval_95": [
+              0.0,
+              3.688872650206488e-06
+            ],
+            "setup_seconds": 1.8699996871873736e-05,
+            "sampling_seconds": 0.14042239999980666,
+            "total_seconds": 0.18183909996878356
+          },
+          "difference_in_combined_se": 2.27472208655187,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.43961414271747223,
+          "tail_relative_to_profile": 4.3543061787075036e-23
+        },
+        {
+          "p": 0.003,
+          "profile": {
+            "p": 0.003,
+            "ler": 5.144428663100743e-06,
+            "standard_error": 1.5873080999509868e-06,
+            "missing_probability_mass": 2.526373756706345e-23,
+            "minimum_ess": 365.94782719687373,
+            "observed_failures": 8920
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 8,
+            "ler": 8e-06,
+            "standard_error": 2.828415811015064e-06,
+            "interval_95": [
+              3.4538383007027365e-06,
+              1.5763128033980436e-05
+            ],
+            "setup_seconds": 2.3399974452331662e-05,
+            "sampling_seconds": 0.33574310000403784,
+            "total_seconds": 0.38076319996616803
+          },
+          "difference_in_combined_se": 0.8804319938016503,
+          "mc_has_100_failures": false,
+          "profile_relative_se": 0.3085489573091399,
+          "tail_relative_to_profile": 4.910892777709553e-18
+        },
+        {
+          "p": 0.01,
+          "profile": {
+            "p": 0.01,
+            "ler": 0.0007312266117018798,
+            "standard_error": 8.751603633129e-05,
+            "missing_probability_mass": 2.7930642302195756e-15,
+            "minimum_ess": 2000.0,
+            "observed_failures": 8920
+          },
+          "monte_carlo": {
+            "shots": 1000000,
+            "failures": 615,
+            "ler": 0.000615,
+            "standard_error": 2.479156661044235e-05,
+            "interval_95": [
+              0.0005673616839913406,
+              0.0006655683062195853
+            ],
+            "setup_seconds": 1.829999382607639e-05,
+            "sampling_seconds": 1.0665460000163876,
+            "total_seconds": 1.1104148000013083
+          },
+          "difference_in_combined_se": 1.2777805101084931,
+          "mc_has_100_failures": true,
+          "profile_relative_se": 0.11968387765265055,
+          "tail_relative_to_profile": 3.819697184869832e-12,
+          "projected_mc_shots_to_match_se": 80247.71272549102,
+          "projected_mc_seconds_to_match_se": 0.12945667700275737,
+          "projected_single_point_speedup": 0.06764744056304267
+        }
+      ]
+    }
+  ]
+}

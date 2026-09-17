@@ -192,6 +192,50 @@ zero-rate channels; categorical exclusivity and DEPOLARIZE2 support counts;
 heralded/conditional semantics; fixed-decoder Monte Carlo comparisons; saved
 profile round trips; and an independent native QEPG fault-response audit.
 
+## Finite-sample confidence and missed failures
+
+Broader validation found profiles with high likelihood ESS that missed a rare
+failure category completely. The estimated SE was then much smaller than the
+true sampling standard deviation. This does not contradict unbiasedness: the
+sampling distribution has rare, large upward contributions. Neither a small
+sample SE nor a large ESS certifies that these contributions were observed.
+
+For each sampled weight define
+
+    B_w(p) = Z_w(p0) max_{h:W(h)=w} P_p(h)/P_p0(h).
+
+A max-product dynamic program over the categorical factors computes this bound
+in log space. The observations X_wi=Z_w(p0) F(h_wi) R_p(h_wi) lie in [0,B_w].
+With m sampled strata, n_w fixed independent samples per stratum, alpha=1-c,
+and t=log(4m/alpha), a two-sided empirical Bernstein radius is
+
+    radius_w = sqrt(2 s_w^2 t/n_w) + 7 B_w t/[3(n_w-1)].
+
+Here s_w^2 is the sample variance of X_wi. Apply Theorem 4 of
+[Maurer and Pontil (2009)](https://www.cs.mcgill.ca/~colt2009/papers/012.pdf)
+to X/B and its complement, and take a union bound over the strata. Sum the
+stratum intervals, intersect each with [0,Z_w(p)], and add the omitted weight
+mass only to the upper endpoint. This gives coverage at least c for a fixed p
+under the stated independent, fixed-budget assumptions, apart from numerical
+rounding. The implementation is not verified interval arithmetic.
+
+`profile.confidence_bounds(p)` implements this conservative interval separately
+from fast mean/SE evaluation. It can be extremely wide; it does not repair an
+undersampled point estimate. For M preselected p values, request confidence
+`1-(1-c)/M` at each point for a simultaneous finite-grid guarantee. This is not
+a confidence band on the whole continuum and is not valid after arbitrary
+optional stopping or selection of a decoder using the same profile samples.
+
+The independent small-code oracle also computes the **true** estimator variance:
+
+    Var[Lhat(p)] = sum_w { Z_w(p0) sum_{h:W=w} F(h) P_p(h)^2/P_p0(h)
+                          - L_w(p)^2 } / n_w.
+
+The inner sums can be evaluated by syndrome-state convolution in small codes.
+They include unobserved failure histories and distinguish estimator variance
+from an optimistic sample variance. This exact oracle is a validation tool,
+not a scalable replacement for profiling on large circuits.
+
 References: [ScaLER paper](https://arxiv.org/pdf/2602.04921),
 [Stim gate reference](https://github.com/quantumlib/Stim/blob/main/doc/gates.md),
 [Owen, Monte Carlo, importance sampling](https://artowen.su.domains/mc/Ch-var-is.pdf).

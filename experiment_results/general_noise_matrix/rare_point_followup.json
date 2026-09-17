@@ -1,0 +1,50 @@
+[
+  {
+    "name": "stim_rotated_z_d5_biased_pauli",
+    "p": 0.001,
+    "profile": {
+      "p": 0.001,
+      "ler": 1.399753848780627e-06,
+      "standard_error": 6.219848625904347e-07,
+      "missing_probability_mass": 3.589750188320828e-40,
+      "minimum_ess": 3.8997011872794283,
+      "observed_failures": 10601
+    },
+    "new_monte_carlo": {
+      "shots": 10000000,
+      "failures": 122,
+      "ler": 1.22e-05,
+      "standard_error": 1.1045293640279557e-06,
+      "interval_95": [
+        1.0131372608675837e-05,
+        1.4566799746634281e-05
+      ],
+      "setup_seconds": 5.500001134350896e-05,
+      "sampling_seconds": 26.126181499974336
+    }
+  },
+  {
+    "name": "stim_rotated_z_d7_nonuniform_depolarizing",
+    "p": 0.001,
+    "profile": {
+      "p": 0.001,
+      "ler": 4.789536211682964e-07,
+      "standard_error": 2.671561051071378e-07,
+      "missing_probability_mass": 2.5856023032926774e-89,
+      "minimum_ess": 1.0394988375827463,
+      "observed_failures": 68524
+    },
+    "new_monte_carlo": {
+      "shots": 10000000,
+      "failures": 73,
+      "ler": 7.3e-06,
+      "standard_error": 8.543972559646946e-07,
+      "interval_95": [
+        5.7220389207443355e-06,
+        9.17864539653075e-06
+      ],
+      "setup_seconds": 6.399999256245792e-05,
+      "sampling_seconds": 57.249236200004816
+    }
+  }
+]

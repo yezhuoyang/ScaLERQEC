@@ -1,5 +1,11 @@
 # Polynomial profiles: correctness and measured efficiency
 
+Follow-up: the [broader validation](general_noise_broad_validation.md) tests
+additional codes and sizes and finds both substantial rare-event benefits and
+circuit-level slowdowns. It also identifies overconfident sample standard
+errors when rare failures inside a weight stratum are unobserved. The timings
+below establish reuse speed, not a general advantage over direct Monte Carlo.
+
 This follow-up makes the general-noise profile an explicit reusable polynomial
 and speeds up both profiling and evaluation. Pauli weight is unchanged. There
 is no fit to a grid of p values and no S-curve extrapolation in this estimator.

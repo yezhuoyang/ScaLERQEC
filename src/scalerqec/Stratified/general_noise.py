@@ -105,6 +105,8 @@ class GeneralNoiseEstimate:
 
     ``minimum_ess`` is a likelihood-overlap diagnostic, not a guarantee that
     rare failures were observed. Standard errors are not confidence bounds.
+    Use the originating profile's ``confidence_bounds`` for conservative
+    fixed-budget, pointwise bounds that account for unobserved failures.
     """
 
     p: float
@@ -718,6 +720,16 @@ class GeneralNoiseProfile:
     def evaluate(self, p):
         p = self.model._validate_p(p)
         return self.curve([p])[0]
+
+    def confidence_bounds(self, p, *, confidence=0.95):
+        """Conservative pointwise bounds, including unseen failures and tail.
+
+        For independent, fixed-budget strata; not an optional-stopping bound.
+        This is intentionally separate from fast polynomial/SE evaluation.
+        """
+        from .confidence import confidence_bounds
+
+        return confidence_bounds(self, p, confidence=confidence)
 
     def curve(self, probabilities):
         """Evaluate a p grid using compressed moments and batched polynomials."""

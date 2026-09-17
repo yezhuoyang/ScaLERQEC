@@ -1,5 +1,13 @@
 # Experimental nonuniform-noise profiles
 
+For a conservative pointwise uncertainty interval, use
+`profile.confidence_bounds(p, confidence=0.95)`. It accounts for unobserved
+failures and omitted weights under fixed-budget sampling. The interval may be
+wide even when the estimated standard error is small. High ESS alone cannot
+detect missed rare failures. These are fixed-p bounds, not an automatically
+simultaneous confidence band or an optional-stopping guarantee. See the
+[broader validation](general_noise_broad_validation.md) for an observed example.
+
 The implementation is in `scalerqec.Stratified.general_noise`. It is separate
 from the released uniform-SID `Scaler` interface. See [the derivation](general_noise_math.md)
 and [numerical validation](general_noise_validation.md).
