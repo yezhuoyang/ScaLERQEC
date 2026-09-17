@@ -1,3 +1,6 @@
+See [QStabIR, configurable noise, and all four schemes](qstabir_noise_and_schemes.md)
+for the `NoiseModel` interface and tested code-definition examples.
+
 # Experimental nonuniform-noise profiles
 
 For a complete gate-dependent example using two-qubit depolarization p,

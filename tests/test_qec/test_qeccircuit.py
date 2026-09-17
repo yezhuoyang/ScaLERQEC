@@ -4,7 +4,8 @@ Tests for scalerqec.QEC.qeccircuit module.
 Tests the StabCode class and circuit compilation, including Y Pauli support.
 """
 import pytest
-from scalerqec.QEC.qeccircuit import StabCode, SCHEME
+
+from scalerqec.QEC.qeccircuit import SCHEME, StabCode
 from scalerqec.util import commute
 
 
@@ -185,7 +186,7 @@ class TestCompileCircuitYStabilizer:
         """Test Y stabilizer circuit compilation - simple case."""
         code = StabCode(n=2, k=1, d=1)
         code.add_stab("YI")
-        code.set_logical_Z(0, "ZZ")
+        code.set_logical_Z(0, "IZ")
         code.scheme = "Standard"
         code.rounds = 1
 
@@ -199,6 +200,7 @@ class TestCompileCircuitYStabilizer:
         """Test Y stabilizer with multiple qubits."""
         code = StabCode(n=3, k=1, d=1)
         code.add_stab("YYI")
+        code.add_stab("IIZ")
         code.set_logical_Z(0, "ZZZ")
         code.scheme = "Standard"
         code.rounds = 1
@@ -208,14 +210,17 @@ class TestCompileCircuitYStabilizer:
 
         assert code.circuit is not None
         stim_str = str(code.stimcirc)
-        # Y = iXZ, so should have H gates (for X part) and CNOTs (for Z part)
+        # Rotate Y into Z using S_DAG then H, measure parity, and undo.
         assert "H" in stim_str
+        assert "S_DAG" in stim_str
+        assert code.stimcirc.detector_error_model().num_errors == 0
 
     def test_y_stabilizer_single_y(self):
         """Test stabilizer with single Y operator."""
         code = StabCode(n=3, k=1, d=1)
         code.add_stab("IYI")
-        code.set_logical_Z(0, "ZZZ")
+        code.add_stab("ZII")
+        code.set_logical_Z(0, "IIZ")
         code.scheme = "Standard"
         code.rounds = 1
 
@@ -248,6 +253,7 @@ class TestCompileCircuitMixedStabilizers:
         """Test mixed X, Y, and Z stabilizers."""
         code = StabCode(n=3, k=1, d=1)
         code.add_stab("XYZ")
+        code.add_stab("ZZI")
         code.set_logical_Z(0, "ZZZ")
         code.scheme = "Standard"
         code.rounds = 1
@@ -261,7 +267,8 @@ class TestCompileCircuitMixedStabilizers:
         """Test stabilizer with all Y operators."""
         code = StabCode(n=3, k=1, d=1)
         code.add_stab("YYY")
-        code.set_logical_Z(0, "ZZZ")
+        code.add_stab("ZZI")
+        code.set_logical_Z(0, "IZZ")
         code.scheme = "Standard"
         code.rounds = 1
 

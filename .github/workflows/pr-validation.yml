@@ -39,6 +39,10 @@ jobs:
       - run: python -m coverage report --include="*/Stratified/adaptive.py" --fail-under=95
       - run: python -m coverage report --include="*/Stratified/conditional.py" --fail-under=95
       - run: python -m coverage report --include="*/Stratified/uniformized.py" --fail-under=95
+      - name: Validate extraction schemes and configurable noise
+        run: python -m pytest tests/test_qec/test_configurable_noise.py tests/test_qec/test_extraction_schemes.py tests/test_qec/test_three_approaches_ler.py tests/test_monte/test_noise_mapping_regressions.py --cov=scalerqec.QEC --cov-report=
+      - run: python -m coverage report --include="*/QEC/extraction.py" --fail-under=95
+      - run: python -m coverage report --include="*/QEC/noisemodel.py" --fail-under=95
       - name: Verify wheel-facing imports
         run: python -c "from scalerqec.Stratified import Scaler, LERProfile; assert LERProfile([0, 0.5]).evaluate(0.2) == 0.1"
   native:

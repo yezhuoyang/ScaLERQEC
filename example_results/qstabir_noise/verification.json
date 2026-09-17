@@ -1,0 +1,116 @@
+{
+  "comparisons": [
+    {
+      "scheme": "Standard",
+      "p": 0.002,
+      "profile_ler": 0.0204620018394479,
+      "mc_ler": 0.01966,
+      "intervals_overlap": true,
+      "profile_shots": 93695
+    },
+    {
+      "scheme": "Standard",
+      "p": 0.005,
+      "profile_ler": 0.0580736372095667,
+      "mc_ler": 0.05632,
+      "intervals_overlap": true,
+      "profile_shots": 93695
+    },
+    {
+      "scheme": "Standard",
+      "p": 0.01,
+      "profile_ler": 0.13051500399490448,
+      "mc_ler": 0.13108,
+      "intervals_overlap": true,
+      "profile_shots": 93695
+    },
+    {
+      "scheme": "Flag",
+      "p": 0.002,
+      "profile_ler": 0.01714097614945056,
+      "mc_ler": 0.01758,
+      "intervals_overlap": true,
+      "profile_shots": 144895
+    },
+    {
+      "scheme": "Flag",
+      "p": 0.005,
+      "profile_ler": 0.05250150042473997,
+      "mc_ler": 0.05224,
+      "intervals_overlap": true,
+      "profile_shots": 144895
+    },
+    {
+      "scheme": "Flag",
+      "p": 0.01,
+      "profile_ler": 0.12624419998469694,
+      "mc_ler": 0.12892,
+      "intervals_overlap": true,
+      "profile_shots": 144895
+    },
+    {
+      "scheme": "Shor",
+      "p": 0.002,
+      "profile_ler": 0.022015239435600374,
+      "mc_ler": 0.02242,
+      "intervals_overlap": true,
+      "profile_shots": 120319
+    },
+    {
+      "scheme": "Shor",
+      "p": 0.005,
+      "profile_ler": 0.06668912629698594,
+      "mc_ler": 0.06692,
+      "intervals_overlap": true,
+      "profile_shots": 120319
+    },
+    {
+      "scheme": "Shor",
+      "p": 0.01,
+      "profile_ler": 0.15479832295332363,
+      "mc_ler": 0.15504,
+      "intervals_overlap": true,
+      "profile_shots": 120319
+    },
+    {
+      "scheme": "Knill",
+      "p": 0.002,
+      "profile_ler": 0.13631833659683976,
+      "mc_ler": 0.13714,
+      "intervals_overlap": true,
+      "profile_shots": 14847
+    },
+    {
+      "scheme": "Knill",
+      "p": 0.005,
+      "profile_ler": 0.2780660345705976,
+      "mc_ler": 0.27586,
+      "intervals_overlap": true,
+      "profile_shots": 14847
+    },
+    {
+      "scheme": "Knill",
+      "p": 0.01,
+      "profile_ler": 0.3930514744579416,
+      "mc_ler": 0.4098,
+      "intervals_overlap": true,
+      "profile_shots": 14847
+    }
+  ],
+  "all_intervals_overlap": true,
+  "versions": {
+    "stim": "1.15.0",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "stimbposd": "0.2.0"
+  },
+  "source_sha256_at_verification": {
+    "src/scalerqec/QEC/noisemodel.py": "aefeb26d199f7a1800e84054ac54675e134f7d1b7aa5d458183bc8edd3630c18",
+    "src/scalerqec/QEC/extraction.py": "d5d4417b7d53345efcd634252a87199e94aa2528c9d529c2a1197d198084bc9a",
+    "src/scalerqec/QEC/qeccircuit.py": "49610cd87330041930d4ee7bc08404ae2f9d33378e6f2a1f54312efb6362e0b2",
+    "src/scalerqec/Stratified/general_noise.py": "038e85592d661fe970760fb3b7acef88515c2690414e28cff27d8d9bf1ab9613",
+    "src/scalerqec/Stratified/uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "examples/qstabir_noise.py": "410d91f766c798dfe7090c1431275e12a7edca3f3da73fa660a049793fc265fd"
+  },
+  "limitations": "Per-run 99% simultaneous grid coverage; not 99% familywise over four runs. Functional circuits; no general fault-tolerance or speedup certificate."
+}

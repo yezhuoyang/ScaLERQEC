@@ -52,12 +52,12 @@ def surface_model(p_ref=0.01, *, distance=3, rounds=3):
     in memory_circuit have Pauli weight zero. Neither representation changes
     the convention of counting Pauli factors at their original locations.
     """
-    from scalerqec.QEC.noisemodel import SI1000NoiseModel
+    from scalerqec.QEC.noisemodel import NoiseModel
     from scalerqec.QEC.surface import SurfaceCode
 
     code = SurfaceCode(distance=distance, rounds=rounds)
     code.scheme = "Standard"
-    code.noisemodel = SI1000NoiseModel(
+    code.noisemodel = NoiseModel(
         p_ref,
         p_1q=p_ref / 5,
         p_2q=p_ref,

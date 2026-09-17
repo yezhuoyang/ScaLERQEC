@@ -1,0 +1,80 @@
+{
+  "scheme": "Shor",
+  "code": "[[7,1,3]] Steane, two rounds, Z memory",
+  "seed": 260927,
+  "p_ref": 0.01,
+  "probabilities": [
+    0.002,
+    0.005,
+    0.01
+  ],
+  "noise": {
+    "p_1q/p": 0.2,
+    "p_2q/p": 1,
+    "p_meas/p": 5,
+    "p_reset/p": 0,
+    "p_idle/p": 0
+  },
+  "decoder": "fixed BPOSD: min_sum, 30 iterations, OSD0",
+  "relative_error": 0.25,
+  "confidence": 0.99,
+  "status": "accuracy_met",
+  "reason": "Simultaneous finite-grid accuracy target met.",
+  "shots": 120319,
+  "seconds": 34.26850020000711,
+  "estimates": [
+    {
+      "p": 0.002,
+      "ler": 0.022015239435600374,
+      "lower": 0.01793775337674265,
+      "upper": 0.026489216004267846,
+      "error_bound": 0.004473976568667472,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.005,
+      "ler": 0.06668912629698594,
+      "lower": 0.059796242790096016,
+      "upper": 0.07347634945618882,
+      "error_bound": 0.006892883506889921,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.01,
+      "ler": 0.15479832295332363,
+      "lower": 0.14356199282781762,
+      "upper": 0.1662630362397049,
+      "error_bound": 0.011464713286381267,
+      "accuracy_met": true
+    }
+  ],
+  "independent_stim_mc": [
+    {
+      "p": 0.002,
+      "shots": 50000,
+      "failures": 1121,
+      "ler": 0.02242,
+      "lower": 0.02052474640957558,
+      "upper": 0.024432171364708204,
+      "seed": 260928
+    },
+    {
+      "p": 0.005,
+      "shots": 50000,
+      "failures": 3346,
+      "ler": 0.06692,
+      "lower": 0.06368266307024101,
+      "upper": 0.07026305448396784,
+      "seed": 260929
+    },
+    {
+      "p": 0.01,
+      "shots": 50000,
+      "failures": 7752,
+      "ler": 0.15504,
+      "lower": 0.15032109343848482,
+      "upper": 0.15984300281697764,
+      "seed": 260930
+    }
+  ]
+}

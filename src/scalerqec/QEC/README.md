@@ -1,3 +1,6 @@
+For the tested generic noise API and all four memory extraction circuits, see
+[QStabIR, noise, and schemes](../../../docs/qstabir_noise_and_schemes.md).
+
 ### Stabilizer Type System Based on Chain Complex
 
 This project proposes a **mathematical type system for stabilizer quantum error-correcting codes**, designed to support an end-to-end compilation pipeline:
@@ -511,7 +514,7 @@ ScaLERQEC provides three approaches for adding circuit-level noise to a QEC circ
 | `SIDNoiseModel(p)` | Single-qubit Independent Depolarizing | `DEPOLARIZE1(p)` before every operation |
 | `SD6NoiseModel(p)` | Standard Depolarizing (6 locations) | `DEPOLARIZE1(p)` after 1Q gates, `DEPOLARIZE2(p)` after 2Q gates, `X_ERROR(p)` after reset / before measurement |
 | `SI1000NoiseModel(p)` | Superconducting-Inspired | Per-operation rates: reset `p`, measurement `5p`, 1Q gate `p/10`, 2Q gate `p`, idle `p/10` |
-| `NoiseModel(p)` | Base class (same as SD6) | Configurable per-gate-type enable/disable via `disable_error()` |
+| `NoiseModel(p, p_1q=..., p_2q=..., p_meas=..., p_reset=..., p_idle=...)` | Generic operation-dependent model | Use `noise.apply(stim_circuit)` or attach as `code.noisemodel`; explicit zeros disable channels. |
 
 All noise models are in `scalerqec.QEC.noisemodel`.
 

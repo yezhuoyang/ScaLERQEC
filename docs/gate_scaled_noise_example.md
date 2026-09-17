@@ -2,10 +2,10 @@
 
 The experimental `LinearNoiseModel` API supports the requested family:
 single-qubit gate depolarization p/5, two-qubit gate depolarization p, and
-measurement error 5p. The existing `SI1000NoiseModel` builder accepts these
-overrides; their values define a custom model, rather than the default SI1000
-rates. The implementation is in this checkout and has not been published to
-PyPI yet.
+measurement error 5p. The generic `NoiseModel` builder accepts these rates.
+See [QStabIR and all four memory schemes](qstabir_noise_and_schemes.md) for
+custom code definitions and direct application to Stim. The implementation is
+in this checkout and has not been published to PyPI yet.
 
 ## Explicit Stim syntax
 
@@ -56,14 +56,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pymatching
 
-from scalerqec.QEC.noisemodel import SI1000NoiseModel
+from scalerqec.QEC.noisemodel import NoiseModel
 from scalerqec.QEC.surface import SurfaceCode
 from scalerqec.Stratified import LinearNoiseModel
 
 p_ref = 0.01
 code = SurfaceCode(distance=3, rounds=3)
 code.scheme = "Standard"
-code.noisemodel = SI1000NoiseModel(
+code.noisemodel = NoiseModel(
     p_ref,
     p_1q=p_ref / 5,
     p_2q=p_ref,

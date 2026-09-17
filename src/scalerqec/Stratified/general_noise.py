@@ -242,8 +242,7 @@ class LinearNoiseModel:
     @classmethod
     def from_stabcode(cls, code, reference_p, **kwargs):
         """Use the existing StabIR compiler and its attached noise model."""
-        if code.stimcirc is None:
-            code.construct_circuit()
+        code.construct_circuit()
         if code.stimcirc is None:
             raise ValueError("StabCode did not produce a Stim circuit.")
         return cls(code.stimcirc, reference_p, **kwargs)
