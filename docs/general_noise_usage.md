@@ -143,6 +143,12 @@ code or its noise model, rebuild its circuit before constructing the profile.
 
 ## Noise and syntax coverage
 
+For the measured limits at larger sizes, see
+[distance-13 and QLDPC validation](large_code_validation.md). In particular,
+budget exhaustion and underflow are unresolved results, not valid accuracy
+certificates. The legacy native/Python QEPG backends accept only observable
+index 0; use `LinearNoiseModel` for multiple logical outputs.
+
 The experimental parser handles DEPOLARIZE1/2, PAULI_CHANNEL_1/2, X/Y/Z_ERROR,
 E/ELSE_CORRELATED_ERROR chains, HERALDED_ERASE, HERALDED_PAULI_CHANNEL_1,
 measurement error arguments (including MPP, pair measurements, and MPAD), and

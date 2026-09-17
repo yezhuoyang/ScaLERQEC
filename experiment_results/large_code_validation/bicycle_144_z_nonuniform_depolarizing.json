@@ -1,0 +1,32 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "name": "bicycle_144_z_nonuniform_depolarizing"
+  },
+  "phase": "responses_compiled",
+  "status": "failed",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "30690bd4aaae860aea20b0cce2500188cf94cc62f9833ec742d08ec9014c24c1",
+  "qubits": 288,
+  "detectors": 2664,
+  "observables": 12,
+  "compile_seconds": 101.95595360000152,
+  "factors": 83520,
+  "response_columns": 686016,
+  "response_bytes": 1835778816,
+  "error_type": "FloatingPointError",
+  "error": "Conditional weight probability underflowed.",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\yezhu\\Documents\\ScaLER\\benchmark\\large_code_validation.py\", line 127, in run_case\n    model = LinearNoiseModel(circuit, P0)\n                   ~~~~~~~~~^^^^^^^^^^^^^\n  File \"C:\\Users\\yezhu\\Documents\\ScaLER\\benchmark\\fault_replay_oracle.py\", line 195, in audit_sampled_histories\n    bits, active, misses = model._sample_stratum(\n                           ~~~~~~~~~~~~~~~~~~~~~^\n        w,\n        ^^\n    ...<4 lines>...\n        outcome_buffer=histories,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\Users\\yezhu\\Documents\\ScaLER\\src\\scalerqec\\Stratified\\general_noise.py\", line 515, in _sample_stratum\n    raise FloatingPointError(\"Conditional weight probability underflowed.\")\nFloatingPointError: Conditional weight probability underflowed.\n",
+  "seconds": 222.1364387999929
+}

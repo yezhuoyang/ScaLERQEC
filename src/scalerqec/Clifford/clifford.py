@@ -21,6 +21,25 @@ from __future__ import annotations
 import stim
 
 
+def _parity_indices(indices):
+    """Canonical GF(2) record support, including repeated include statements."""
+    support = set()
+    for index in indices:
+        if index in support:
+            support.remove(index)
+        else:
+            support.add(index)
+    return sorted(support)
+
+
+def _validate_legacy_observable(stim_str):
+    if stim.Circuit(stim_str).num_observables > 1:
+        raise ValueError(
+            "Legacy CliffordCircuit supports only observable index 0; "
+            "use LinearNoiseModel for multiple logical observables."
+        )
+
+
 oneQGate_ = ["H", "P", "X", "Y", "Z"]
 oneQGateindices = {"H": 0, "P": 1, "X": 2, "Y": 3, "Z": 4}
 
@@ -424,6 +443,7 @@ class CliffordCircuit:
             ``_totalMeas``, ``_parityMatchGroup``, ``_observable``,
             ``_qubit_num``, and the internal ``stim.Circuit``.
         """
+        _validate_legacy_observable(stim_str)
         self._totalnoise = 0
         self._totalMeas = 0
         self._totalgates = 0
@@ -503,10 +523,10 @@ class CliffordCircuit:
                     if token.strip().startswith("rec")
                 ]
                 meas_index = [int(x[4:-1]) for x in meas_index_str]
-                observable = [
+                observable.extend([
                     measure_line_to_measure_index[measure_stack[idx]]
                     for idx in meas_index
-                ]
+                ])
                 current_line_index += 1
                 continue
 
@@ -569,8 +589,8 @@ class CliffordCircuit:
         """
         Finally, compile detector and observable
         """
-        self._parityMatchGroup = parityMatchGroup
-        self._observable = observable
+        self._parityMatchGroup = [_parity_indices(group) for group in parityMatchGroup]
+        self._observable = _parity_indices(observable)
         self._qubit_num = maxum_q_index + 1
         self.compile_detector_and_observable()
 
@@ -602,6 +622,7 @@ class CliffordCircuit:
         """
         from .stimparser import rewrite_stim_code
 
+        _validate_legacy_observable(stim_str)
         self._totalnoise = 0
         self._totalMeas = 0
         self._totalgates = 0
@@ -690,10 +711,10 @@ class CliffordCircuit:
                     if token.strip().startswith("rec")
                 ]
                 meas_index = [int(x[4:-1]) for x in meas_index_str]
-                observable = [
+                observable.extend([
                     measure_line_to_measure_index[measure_stack[idx]]
                     for idx in meas_index
-                ]
+                ])
                 current_line_index += 1
                 continue
 
@@ -782,8 +803,8 @@ class CliffordCircuit:
         # ------------------------------------------------------------------
         # Finalize: set parity groups and observable
         # ------------------------------------------------------------------
-        self._parityMatchGroup = parityMatchGroup
-        self._observable = observable
+        self._parityMatchGroup = [_parity_indices(group) for group in parityMatchGroup]
+        self._observable = _parity_indices(observable)
         self._qubit_num = maxum_q_index + 1
 
         # Build the measIdx → parityIdx reverse mapping

@@ -410,11 +410,17 @@ def sample_until_accuracy(
             break
         if state.proposal_indices is None:
             indices = np.array(
-                [j for j, table in enumerate(tables) if table[0, w] > 0], dtype=int
+                [
+                    j
+                    for j, table in enumerate(tables)
+                    if table[0, w] >= model._conditional_mass_floor()
+                ],
+                dtype=int,
             )
             if not len(indices):
+                status = "numerical_limit"
                 reason = (
-                    "All conditional proposal masses underflowed for a required weight."
+                    "All conditional proposal masses underflowed or have insufficient numerical precision for a required weight."
                 )
                 break
             state.proposal_indices = indices

@@ -1,0 +1,477 @@
+{
+  "cases": [
+    {
+      "family": "surface",
+      "distance": 3,
+      "basis": "z",
+      "noise": "uniform_single",
+      "rounds": 3,
+      "name": "surface_3_z_uniform_single"
+    },
+    {
+      "family": "surface",
+      "distance": 3,
+      "basis": "z",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 3,
+      "name": "surface_3_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 3,
+      "basis": "z",
+      "noise": "biased_pauli",
+      "rounds": 3,
+      "name": "surface_3_z_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 5,
+      "basis": "z",
+      "noise": "uniform_single",
+      "rounds": 5,
+      "name": "surface_5_z_uniform_single"
+    },
+    {
+      "family": "surface",
+      "distance": 5,
+      "basis": "z",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 5,
+      "name": "surface_5_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 5,
+      "basis": "z",
+      "noise": "biased_pauli",
+      "rounds": 5,
+      "name": "surface_5_z_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 7,
+      "basis": "z",
+      "noise": "uniform_single",
+      "rounds": 7,
+      "name": "surface_7_z_uniform_single"
+    },
+    {
+      "family": "surface",
+      "distance": 7,
+      "basis": "z",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 7,
+      "name": "surface_7_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 7,
+      "basis": "z",
+      "noise": "biased_pauli",
+      "rounds": 7,
+      "name": "surface_7_z_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 9,
+      "basis": "z",
+      "noise": "uniform_single",
+      "rounds": 9,
+      "name": "surface_9_z_uniform_single"
+    },
+    {
+      "family": "surface",
+      "distance": 9,
+      "basis": "z",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 9,
+      "name": "surface_9_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 9,
+      "basis": "z",
+      "noise": "biased_pauli",
+      "rounds": 9,
+      "name": "surface_9_z_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 11,
+      "basis": "z",
+      "noise": "uniform_single",
+      "rounds": 11,
+      "name": "surface_11_z_uniform_single"
+    },
+    {
+      "family": "surface",
+      "distance": 11,
+      "basis": "z",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 11,
+      "name": "surface_11_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 11,
+      "basis": "z",
+      "noise": "biased_pauli",
+      "rounds": 11,
+      "name": "surface_11_z_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "z",
+      "noise": "uniform_single",
+      "rounds": 13,
+      "name": "surface_13_z_uniform_single"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "z",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 13,
+      "name": "surface_13_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "z",
+      "noise": "biased_pauli",
+      "rounds": 13,
+      "name": "surface_13_z_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 3,
+      "basis": "x",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 3,
+      "name": "surface_3_x_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 3,
+      "basis": "x",
+      "noise": "biased_pauli",
+      "rounds": 3,
+      "name": "surface_3_x_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 7,
+      "basis": "x",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 7,
+      "name": "surface_7_x_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 7,
+      "basis": "x",
+      "noise": "biased_pauli",
+      "rounds": 7,
+      "name": "surface_7_x_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "x",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 13,
+      "name": "surface_13_x_nonuniform_depolarizing"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "x",
+      "noise": "biased_pauli",
+      "rounds": 13,
+      "name": "surface_13_x_biased_pauli"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "z",
+      "noise": "correlated_else",
+      "rounds": 13,
+      "name": "surface_13_z_correlated_else"
+    },
+    {
+      "family": "surface",
+      "distance": 13,
+      "basis": "z",
+      "noise": "phenomenological",
+      "rounds": 13,
+      "name": "surface_13_z_phenomenological"
+    },
+    {
+      "family": "stabir",
+      "distance": 3,
+      "basis": "z",
+      "noise": "SD6",
+      "rounds": 3,
+      "name": "stabir_3_z_SD6"
+    },
+    {
+      "family": "stabir",
+      "distance": 3,
+      "basis": "z",
+      "noise": "SI1000",
+      "rounds": 3,
+      "name": "stabir_3_z_SI1000"
+    },
+    {
+      "family": "stabir",
+      "distance": 7,
+      "basis": "z",
+      "noise": "SD6",
+      "rounds": 7,
+      "name": "stabir_7_z_SD6"
+    },
+    {
+      "family": "stabir",
+      "distance": 7,
+      "basis": "z",
+      "noise": "SI1000",
+      "rounds": 7,
+      "name": "stabir_7_z_SI1000"
+    },
+    {
+      "family": "stabir",
+      "distance": 13,
+      "basis": "z",
+      "noise": "SD6",
+      "rounds": 13,
+      "name": "stabir_13_z_SD6"
+    },
+    {
+      "family": "stabir",
+      "distance": 13,
+      "basis": "z",
+      "noise": "SI1000",
+      "rounds": 13,
+      "name": "stabir_13_z_SI1000"
+    },
+    {
+      "family": "color",
+      "distance": 3,
+      "basis": "xyz",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 3,
+      "name": "color_3_xyz_nonuniform_depolarizing"
+    },
+    {
+      "family": "color",
+      "distance": 5,
+      "basis": "xyz",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 5,
+      "name": "color_5_xyz_nonuniform_depolarizing"
+    },
+    {
+      "family": "color",
+      "distance": 7,
+      "basis": "xyz",
+      "noise": "nonuniform_depolarizing",
+      "rounds": 7,
+      "name": "color_7_xyz_nonuniform_depolarizing"
+    },
+    {
+      "family": "hgp",
+      "n": 58,
+      "noise": "uniform_single",
+      "rounds": 1,
+      "name": "hgp_58_z_uniform_single"
+    },
+    {
+      "family": "hgp",
+      "n": 58,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 1,
+      "name": "hgp_58_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "hgp",
+      "n": 58,
+      "noise": "biased_pauli",
+      "rounds": 1,
+      "name": "hgp_58_z_biased_pauli"
+    },
+    {
+      "family": "hgp",
+      "n": 58,
+      "noise": "correlated_else",
+      "rounds": 1,
+      "name": "hgp_58_z_correlated_else"
+    },
+    {
+      "family": "hgp",
+      "n": 180,
+      "noise": "uniform_single",
+      "rounds": 1,
+      "name": "hgp_180_z_uniform_single"
+    },
+    {
+      "family": "hgp",
+      "n": 180,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 1,
+      "name": "hgp_180_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "hgp",
+      "n": 180,
+      "noise": "biased_pauli",
+      "rounds": 1,
+      "name": "hgp_180_z_biased_pauli"
+    },
+    {
+      "family": "hgp",
+      "n": 180,
+      "noise": "correlated_else",
+      "rounds": 1,
+      "name": "hgp_180_z_correlated_else"
+    },
+    {
+      "family": "hgp",
+      "n": 245,
+      "noise": "uniform_single",
+      "rounds": 1,
+      "name": "hgp_245_z_uniform_single"
+    },
+    {
+      "family": "hgp",
+      "n": 245,
+      "noise": "nonuniform_depolarizing",
+      "rounds": 1,
+      "name": "hgp_245_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "hgp",
+      "n": 245,
+      "noise": "biased_pauli",
+      "rounds": 1,
+      "name": "hgp_245_z_biased_pauli"
+    },
+    {
+      "family": "hgp",
+      "n": 245,
+      "noise": "correlated_else",
+      "rounds": 1,
+      "name": "hgp_245_z_correlated_else"
+    },
+    {
+      "family": "bicycle",
+      "n": 72,
+      "k": 12,
+      "distance": 6,
+      "rounds": 18,
+      "noise": "nonuniform_depolarizing",
+      "data_only": false,
+      "name": "bicycle_72_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "bicycle",
+      "n": 72,
+      "k": 12,
+      "distance": 6,
+      "rounds": 18,
+      "noise": "biased_pauli",
+      "data_only": false,
+      "name": "bicycle_72_z_biased_pauli"
+    },
+    {
+      "family": "bicycle",
+      "n": 90,
+      "k": 8,
+      "distance": 10,
+      "rounds": 30,
+      "noise": "biased_pauli",
+      "data_only": false,
+      "name": "bicycle_90_z_biased_pauli"
+    },
+    {
+      "family": "bicycle",
+      "n": 108,
+      "k": 8,
+      "distance": 8,
+      "rounds": 24,
+      "noise": "nonuniform_depolarizing",
+      "data_only": false,
+      "name": "bicycle_108_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "bicycle",
+      "n": 108,
+      "k": 8,
+      "distance": 8,
+      "rounds": 24,
+      "noise": "biased_pauli",
+      "data_only": false,
+      "name": "bicycle_108_z_biased_pauli"
+    },
+    {
+      "family": "bicycle",
+      "n": 144,
+      "k": 12,
+      "distance": 12,
+      "rounds": 36,
+      "noise": "nonuniform_depolarizing",
+      "data_only": false,
+      "name": "bicycle_144_z_nonuniform_depolarizing"
+    },
+    {
+      "family": "bicycle",
+      "n": 144,
+      "k": 12,
+      "distance": 12,
+      "rounds": 36,
+      "noise": "biased_pauli",
+      "data_only": false,
+      "name": "bicycle_144_z_biased_pauli"
+    },
+    {
+      "family": "bicycle",
+      "n": 288,
+      "k": 16,
+      "distance": 18,
+      "rounds": 54,
+      "noise": "nonuniform_depolarizing",
+      "data_only": true,
+      "name": "bicycle_288_z_nonuniform_depolarizing_data_only"
+    },
+    {
+      "family": "bicycle",
+      "n": 288,
+      "k": 16,
+      "distance": 18,
+      "rounds": 54,
+      "noise": "biased_pauli",
+      "data_only": true,
+      "name": "bicycle_288_z_biased_pauli_data_only"
+    }
+  ],
+  "python": "3.14.3",
+  "versions": {
+    "stim": "1.15.0",
+    "numpy": "2.4.4",
+    "pymatching": "2.4.0",
+    "ldpc": "2.4.1",
+    "stimbposd": "0.2.0"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "relative_error": 0.1,
+  "confidence": 0.99,
+  "max_seconds": 30,
+  "max_shots": 300000,
+  "exact_budget": 100000,
+  "mc_matrix_confidence": 0.99
+}

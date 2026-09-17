@@ -1,0 +1,43 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "uniform_single",
+    "rounds": 1,
+    "name": "hgp_58_z_uniform_single"
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "oracle": {
+    "histories": 15052,
+    "failing_histories": 2805,
+    "points": [
+      {
+        "p": 0.001,
+        "lower": 0.005645445880432185,
+        "upper": 0.00567505616284476,
+        "omitted_mass": 2.9610282412574876e-05,
+        "estimate": 0.005653773567038112,
+        "accuracy_verified_by_oracle": true,
+        "contradiction": false
+      },
+      {
+        "p": 0.003,
+        "lower": 0.016680536182291077,
+        "upper": 0.01741694583733418,
+        "omitted_mass": 0.0007364096550431043,
+        "estimate": 0.016881917877308777,
+        "accuracy_verified_by_oracle": true,
+        "contradiction": false
+      },
+      {
+        "p": 0.01,
+        "lower": 0.04959960693126095,
+        "upper": 0.07011337915153756,
+        "omitted_mass": 0.020513772220276612,
+        "estimate": 0.05466202751745692,
+        "accuracy_verified_by_oracle": false,
+        "contradiction": false
+      }
+    ]
+  }
+}

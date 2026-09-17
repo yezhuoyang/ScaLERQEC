@@ -1,0 +1,376 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_nonuniform_depolarizing"
+  },
+  "original_observables": 12,
+  "logical_projection": 11,
+  "noise": "uniform single-qubit depolarization before each native primitive",
+  "program_sha256": "b651d192dde87efc857c2a39542e09f0376c5a32253ffa7f3347b9a15d90fcd8",
+  "noise_locations": 109296,
+  "detectors": 2664,
+  "extension": "C:\\Users\\yezhu\\Documents\\ScaLER\\build\\large-validation\\lib.win-amd64-cpython-314\\scalerqec\\qepg.cp314-win_amd64.pyd",
+  "samples": [
+    {
+      "weight": 0,
+      "faults": [],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 0,
+      "faults": [],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 0,
+      "faults": [],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 0,
+      "faults": [],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 1,
+      "faults": [
+        [
+          89429,
+          2
+        ]
+      ],
+      "packed_bits_sha256": "094737a085d84a73db5479a72a21bc6e6379c76673c95cf9c2454090ff25d1ec"
+    },
+    {
+      "weight": 1,
+      "faults": [
+        [
+          102302,
+          3
+        ]
+      ],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 1,
+      "faults": [
+        [
+          97949,
+          1
+        ]
+      ],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 1,
+      "faults": [
+        [
+          51490,
+          2
+        ]
+      ],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 2,
+      "faults": [
+        [
+          2166,
+          3
+        ],
+        [
+          25986,
+          1
+        ]
+      ],
+      "packed_bits_sha256": "cbc07f4a88b16a443dfc1d2b2e9635c3a9157c676c60c7e8c2003a88d9829236"
+    },
+    {
+      "weight": 2,
+      "faults": [
+        [
+          102119,
+          3
+        ],
+        [
+          19612,
+          2
+        ]
+      ],
+      "packed_bits_sha256": "1ac1dc0b8a1a01eb3fbf5d06bb4b44bfa4eb6d48fdd2af3d2e6632c044b94f3e"
+    },
+    {
+      "weight": 2,
+      "faults": [
+        [
+          66833,
+          2
+        ],
+        [
+          92906,
+          3
+        ]
+      ],
+      "packed_bits_sha256": "c87a7e9ae92e9652dd12d266f4eb2e12dc3e3715105dc108092c5b67553dc8ec"
+    },
+    {
+      "weight": 2,
+      "faults": [
+        [
+          31030,
+          3
+        ],
+        [
+          24896,
+          2
+        ]
+      ],
+      "packed_bits_sha256": "3de2b0e99e475a3d5d7b849609df97c8a15ff01c1786afaeee8ed6bfb058e363"
+    },
+    {
+      "weight": 13,
+      "faults": [
+        [
+          74555,
+          1
+        ],
+        [
+          21470,
+          1
+        ],
+        [
+          102684,
+          2
+        ],
+        [
+          86693,
+          1
+        ],
+        [
+          58247,
+          2
+        ],
+        [
+          19224,
+          3
+        ],
+        [
+          108771,
+          2
+        ],
+        [
+          15449,
+          1
+        ],
+        [
+          61517,
+          2
+        ],
+        [
+          52170,
+          2
+        ],
+        [
+          41735,
+          1
+        ],
+        [
+          43474,
+          3
+        ],
+        [
+          20784,
+          2
+        ]
+      ],
+      "packed_bits_sha256": "bbd5fdbf403d3b09f34dbcd81a86dd5592f0bacb2c2879a9d4c4630aceedbcd6"
+    },
+    {
+      "weight": 13,
+      "faults": [
+        [
+          81930,
+          2
+        ],
+        [
+          98004,
+          2
+        ],
+        [
+          82290,
+          2
+        ],
+        [
+          51439,
+          3
+        ],
+        [
+          96090,
+          1
+        ],
+        [
+          36542,
+          1
+        ],
+        [
+          93826,
+          3
+        ],
+        [
+          4268,
+          1
+        ],
+        [
+          11615,
+          2
+        ],
+        [
+          30139,
+          3
+        ],
+        [
+          47411,
+          1
+        ],
+        [
+          12792,
+          2
+        ],
+        [
+          33988,
+          3
+        ]
+      ],
+      "packed_bits_sha256": "86e950eb517da3b37b828d7b09ac6135e2bc8fd16a07de90ece5273557018ef2"
+    },
+    {
+      "weight": 13,
+      "faults": [
+        [
+          33438,
+          1
+        ],
+        [
+          11370,
+          2
+        ],
+        [
+          65180,
+          2
+        ],
+        [
+          43588,
+          1
+        ],
+        [
+          8111,
+          3
+        ],
+        [
+          49416,
+          3
+        ],
+        [
+          17561,
+          1
+        ],
+        [
+          90647,
+          2
+        ],
+        [
+          99129,
+          2
+        ],
+        [
+          91805,
+          2
+        ],
+        [
+          93318,
+          3
+        ],
+        [
+          20893,
+          2
+        ],
+        [
+          55102,
+          2
+        ]
+      ],
+      "packed_bits_sha256": "cef9f3dbf34add1e058f030a9421c9ea5eaf3dfc80f8bef7c45f2869f87d8b51"
+    },
+    {
+      "weight": 13,
+      "faults": [
+        [
+          1847,
+          2
+        ],
+        [
+          27143,
+          2
+        ],
+        [
+          608,
+          2
+        ],
+        [
+          18323,
+          3
+        ],
+        [
+          9711,
+          3
+        ],
+        [
+          14306,
+          1
+        ],
+        [
+          41147,
+          2
+        ],
+        [
+          92442,
+          1
+        ],
+        [
+          16694,
+          1
+        ],
+        [
+          52947,
+          1
+        ],
+        [
+          74630,
+          1
+        ],
+        [
+          105096,
+          3
+        ],
+        [
+          7854,
+          3
+        ]
+      ],
+      "packed_bits_sha256": "8f0c76a12e2b2c7e5cf028c7ee2bf37ebf96d80fc3db52c42afa2d97133e57c0"
+    }
+  ],
+  "status": "passed",
+  "histories_replayed": 16,
+  "seconds": 62.99652640000568
+}

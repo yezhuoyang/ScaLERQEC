@@ -302,8 +302,23 @@ class LinearNoiseModel:
             result += replacements.get(i, piece)
         return result
 
-    def compile_responses(self):
-        """Compile exact forced-fault responses using Stim's Clifford simulator."""
+    def compile_responses(self, *, method="auto"):
+        """Compile fault responses, with an independent simulator reference path.
+
+        ``auto`` uses tagged single-fault explanations for Pauli/record channels
+        and falls back to forced simulation for other supported channels.
+        ``forced`` always uses the original exact simulator implementation.
+        ``explained`` requires the fast path. Only the binary fault signatures
+        are extracted; detector-error-model probabilities are never sampled.
+        """
+        if method not in {"auto", "forced", "explained"}:
+            raise ValueError("Unknown response compilation method.")
+        if method != "forced" and self._compile_explained_responses():
+            return
+        if method == "explained":
+            raise NotImplementedError(
+                "This channel requires forced response compilation."
+            )
         converter = self.ideal_circuit.compile_m2d_converter()
         responses = []
         width = self.num_detectors + self.num_observables
@@ -324,6 +339,58 @@ class LinearNoiseModel:
                 columns[a] = bits[0]
             responses.append(columns)
         self._responses = responses
+
+    def _compile_explained_responses(self):
+        """Probe each supported Pauli/record outcome with a unique noise tag.
+
+        Each probe is an independent event with an arbitrary nonzero probability.
+        Its explanation gives its exact detector/observable signature. Probes
+        replace the original categorical channels only during compilation, not
+        in the model or sampler. Unreported probes have a zero signature.
+        """
+        by_slot = {}
+        labels = {}
+        for j, factor in enumerate(self._factors):
+            for a in np.flatnonzero(factor.probabilities(self.reference_p) > 0):
+                if a == 0:
+                    continue
+                replacements = factor.replacements[a]
+                if len(replacements) != 1 or len(replacements[0][1]) != 1:
+                    return False
+                slot, replacement = replacements[0]
+                op = replacement[0]
+                # Stim 1.15 explanations omit MPAD noise; retain the simulator
+                # path for this channel instead of treating it as a silent fault.
+                if op.name != "E" and op.name not in _MEASUREMENTS - {"MPAD"}:
+                    return False
+                label = f"scaler_fault_{j}_{a}"
+                labels[label] = (j, int(a))
+                probe = _instruction(op.name, op.targets_copy(), [0.125], label)
+                by_slot.setdefault(slot, stim.Circuit()).append(probe)
+        circuit = stim.Circuit()
+        for slot, piece in enumerate(self._pieces):
+            circuit += by_slot.get(slot, piece)
+        width = self.num_detectors + self.num_observables
+        responses = [
+            np.zeros((len(f.weights), width), dtype=bool) for f in self._factors
+        ]
+        for explanation in circuit.explain_detector_error_model_errors():
+            bits = np.zeros(width, dtype=bool)
+            for term in explanation.dem_error_terms:
+                target = term.dem_target
+                if target.is_relative_detector_id():
+                    bits[target.val] ^= True
+                elif target.is_logical_observable_id():
+                    bits[self.num_detectors + target.val] ^= True
+                else:
+                    raise RuntimeError(
+                        "Unexpected separator in an undecomposed fault signature."
+                    )
+            for location in explanation.circuit_error_locations:
+                j, a = labels[location.noise_tag]
+                responses[j][a] = bits
+        self._responses = responses
+        return True
 
     def weight_distribution(self, p, *, max_weight=None):
         """Exact generating-function coefficients; an optional prefix saves work."""
@@ -386,9 +453,7 @@ class LinearNoiseModel:
         table[-1, 0] = 1
         for j in range(len(self._factors) - 1, -1, -1):
             f = self._factors[j]
-            polynomial = np.bincount(
-                f.weights, weights=f.probabilities(reference_p)
-            )
+            polynomial = np.bincount(f.weights, weights=f.probabilities(reference_p))
             table[j] = np.convolve(table[j + 1], polynomial)[: limit + 1]
         return table
 
@@ -420,7 +485,31 @@ class LinearNoiseModel:
             )
         return plans
 
-    def _sample_stratum(self, weight, shots, rng, table, plans):
+    def _conditional_mass_floor(self):
+        # Keep a wide margin above accumulated subnormal rounding. Some tiny
+        # one-site probabilities (e.g. 1e-310) still have useful precision;
+        # rejecting every subnormal would unnecessarily break those profiles.
+        return np.finfo(float).smallest_subnormal * (2.0**40) * max(
+            1, len(self._factors)
+        )
+
+    def _sample_stratum(self, weight, shots, rng, table, plans, *, outcome_buffer=None):
+        # Optional audit output lets independent simulators replay the actual
+        # sampled histories; normal profiling does not allocate this matrix.
+        if outcome_buffer is not None and (
+            outcome_buffer.shape != (shots, len(self._factors))
+            or outcome_buffer.dtype.kind not in "iu"
+        ):
+            raise ValueError(
+                "outcome_buffer must be an integer shots-by-factors matrix."
+            )
+        # Subnormal DP entries can remain positive after losing almost all
+        # relative precision. They are not valid conditional normalizers.
+        mass_floor = self._conditional_mass_floor()
+        if table[0, weight] < mass_floor:
+            raise FloatingPointError(
+                "Conditional weight probability underflowed or has insufficient subnormal precision."
+            )
         if self._responses is None:
             self.compile_responses()
         remaining = np.full(shots, weight, dtype=np.int64)
@@ -437,7 +526,7 @@ class LinearNoiseModel:
             masses = group_probs * table[j + 1, np.maximum(residual, 0)]
             masses[residual < 0] = 0
             total = masses.sum(axis=1)
-            if np.any(total <= 0):
+            if np.any(total < mass_floor):
                 raise FloatingPointError("Conditional weight probability underflowed.")
             cumulative = np.cumsum(masses, axis=1)
             group = np.sum(
@@ -451,6 +540,8 @@ class LinearNoiseModel:
                     continue
                 options, option_probs = choices[g]
                 outcomes[selected] = rng.choice(options, len(selected), p=option_probs)
+            if outcome_buffer is not None:
+                outcome_buffer[:, j] = outcomes
             remaining -= factor.weights[outcomes]
             affected = np.flatnonzero(outcomes)
             bits[affected] ^= self._responses[j][outcomes[affected]]

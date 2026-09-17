@@ -1,0 +1,32 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "biased_pauli",
+    "data_only": false,
+    "name": "bicycle_144_z_biased_pauli"
+  },
+  "phase": "responses_compiled",
+  "status": "failed",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "f45e1507707462e46089f4bca18496336b476440ecc8f9603b3157aeb9a9a417",
+  "qubits": 288,
+  "detectors": 2664,
+  "observables": 12,
+  "compile_seconds": 108.75382199999876,
+  "factors": 83520,
+  "response_columns": 686016,
+  "response_bytes": 1835778816,
+  "error_type": "FloatingPointError",
+  "error": "Conditional weight probability underflowed.",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\yezhu\\Documents\\ScaLER\\benchmark\\large_code_validation.py\", line 127, in run_case\n    row[\"audit\"] = audit_sampled_histories(model, oracle)\n                   ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^\n  File \"C:\\Users\\yezhu\\Documents\\ScaLER\\benchmark\\fault_replay_oracle.py\", line 195, in audit_sampled_histories\n    bits, active, misses = model._sample_stratum(\n                           ~~~~~~~~~~~~~~~~~~~~~^\n        w,\n        ^^\n    ...<4 lines>...\n        outcome_buffer=histories,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\Users\\yezhu\\Documents\\ScaLER\\src\\scalerqec\\Stratified\\general_noise.py\", line 515, in _sample_stratum\n    raise FloatingPointError(\"Conditional weight probability underflowed.\")\nFloatingPointError: Conditional weight probability underflowed.\n",
+  "seconds": 243.5735906000191
+}

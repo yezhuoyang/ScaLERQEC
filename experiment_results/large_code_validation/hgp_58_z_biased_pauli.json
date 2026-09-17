@@ -1,0 +1,218 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "biased_pauli",
+    "rounds": 1,
+    "name": "hgp_58_z_biased_pauli"
+  },
+  "phase": "complete",
+  "status": "completed",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "27f004b8e1e69a787c6daf495973da44460c92a8ce588a903f9c552d5a43c42a",
+  "qubits": 58,
+  "detectors": 42,
+  "observables": 16,
+  "compile_seconds": 0.2561899999855086,
+  "factors": 87,
+  "response_columns": 696,
+  "response_bytes": 40368,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 87,
+    "histories_replayed": 8,
+    "weights": [
+      1,
+      2
+    ],
+    "max_log_ratio_difference": 2.4424906541753444e-15
+  },
+  "classical_matrix": [
+    [
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1
+    ]
+  ],
+  "independent_commutation_columns": 696,
+  "independent_scaling_matches": true,
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "decoder_order_check": true,
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 22784,
+    "exact_histories": 60379,
+    "sample_counts": {
+      "2": 16384,
+      "3": 4096,
+      "4": 2048,
+      "5": 256
+    },
+    "exact_weights": [
+      0,
+      1,
+      2
+    ],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 44.05010580000817,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.004195231196896017,
+        "lower": 0.004056776554797703,
+        "upper": 0.0043438300016070104,
+        "error_bound": 0.0001485988047109938,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.003,
+        "ler": 0.012401695705090287,
+        "lower": 0.011201856713005477,
+        "upper": 0.01389295715310705,
+        "error_bound": 0.0014912614480167632,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.0382955944314536,
+        "lower": 0.02658377125157282,
+        "upper": 0.06203815813901178,
+        "error_bound": 0.02374256370755818,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 25
+  },
+  "adaptive_wall_seconds": 44.050606700009666,
+  "monte_carlo": [
+    {
+      "shots": 4096,
+      "failures": 21,
+      "ler": 0.005126953125,
+      "per_observable_failures": [
+        1,
+        6,
+        8,
+        8,
+        3,
+        3,
+        4,
+        3,
+        1,
+        7,
+        6,
+        11,
+        1,
+        7,
+        8,
+        9
+      ],
+      "lower": 0.0018000711490542586,
+      "upper": 0.01120665515345572,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.21778639999683946,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 4096,
+      "failures": 40,
+      "ler": 0.009765625,
+      "per_observable_failures": [
+        8,
+        13,
+        14,
+        8,
+        6,
+        9,
+        12,
+        8,
+        1,
+        5,
+        5,
+        13,
+        4,
+        10,
+        18,
+        12
+      ],
+      "lower": 0.004761818354840071,
+      "upper": 0.01748066884476924,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.3370518999872729,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 4096,
+      "failures": 162,
+      "ler": 0.03955078125,
+      "per_observable_failures": [
+        23,
+        40,
+        58,
+        26,
+        15,
+        12,
+        37,
+        26,
+        8,
+        23,
+        24,
+        59,
+        9,
+        27,
+        60,
+        44
+      ],
+      "lower": 0.028442645198926458,
+      "upper": 0.05317978894701783,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.7577063000062481,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "seconds": 46.545538100006524
+}

@@ -1,5 +1,8 @@
 # Broader general-noise validation and Monte Carlo comparison
 
+Newer study: [distance-13 surface and QLDPC validation](large_code_validation.md)
+adds large-code fault replay, bounded references, and explicit numerical failures.
+
 Follow-up: [automatic accuracy control](accuracy_control.md) now uses sequentially
 valid bounds to choose sampling effort and reject unresolved accuracy requests.
 [Its validation](accuracy_control_validation.md) revisits the rare-failure cases

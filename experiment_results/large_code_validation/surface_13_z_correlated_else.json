@@ -1,0 +1,88 @@
+{
+  "spec": {
+    "family": "surface",
+    "distance": 13,
+    "basis": "z",
+    "noise": "correlated_else",
+    "rounds": 13,
+    "name": "surface_13_z_correlated_else"
+  },
+  "phase": "profile_complete",
+  "status": "process_timeout",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "9d2ec9145f0a445a70ce0844359ab5b1a86c1b632b6964c3585a230bfb52c3e6",
+  "qubits": 376,
+  "detectors": 2184,
+  "observables": 1,
+  "compile_seconds": 10.377445099991746,
+  "factors": 15170,
+  "response_columns": 42820,
+  "response_bytes": 93561700,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 15170,
+    "histories_replayed": 8,
+    "weights": [
+      2,
+      245
+    ],
+    "max_log_ratio_difference": 4.831690603168681e-13
+  },
+  "independent_scaling_matches": true,
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "decoder_order_check": true,
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 512,
+    "exact_histories": 0,
+    "sample_counts": {
+      "22": 256,
+      "24": 256
+    },
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 41.14864860000671,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9278508344885686,
+        "error_bound": 0.9278508344885686,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9999996851030928,
+        "error_bound": 0.9999996851030928,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 0
+  },
+  "adaptive_wall_seconds": 41.28058089999831,
+  "timeout_seconds": 600
+}

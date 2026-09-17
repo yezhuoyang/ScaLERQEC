@@ -70,6 +70,9 @@ def compile_QEPG(prog_str: str) -> QEPGGraph:
     compile_QEPG(prog_str: str) → QEPGGraph
     Parse a Stim‐style program string into a QEPGGraph object,
     run its backward_graph_construction() pass, and return it.
+    This legacy backend has one logical output: only observable index 0 is
+    supported. Other indices raise ValueError; use LinearNoiseModel for a
+    circuit with multiple logical observables.
     """
 
 def return_detector_matrix(prog_str: str) -> list[list[bool]]:
