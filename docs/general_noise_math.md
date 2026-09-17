@@ -84,6 +84,35 @@ does recover a reusable polynomial *estimator*. Expanding it into monomial
 coefficients is unnecessary and can cause severe cancellation. It is not an
 exact deterministic calculation of every coefficient of the true LER.
 
+The implemented polynomial export groups all histories sharing `(W,K,M)`.
+Let n_ws be the number of sampled histories in such a group and f_ws the
+number of failures. A group contributes
+
+    [Z_w(p0) f_ws / n_w] (p/p0)^K_s
+        product_g [(1-c_g p)/(1-c_g p0)]^M_sg.
+
+The factor in square brackets is a fixed estimated coefficient. Terms with
+equal `(K,M)` can then be combined across Pauli weights. This compression does
+not fit a curve or change the estimator. Retaining both n_ws and f_ws also
+reproduces the original sample variance and importance-weight ESS. Thus the
+weighted profile supplies an entire polynomial, not merely a table of p values.
+
+There is a useful invariance behind this: two histories with the same `(W,K,M)`
+have a probability ratio independent of p. Their relative outcome probabilities
+and the fixed decoder's conditional failure probability within that refined
+group are therefore p-independent. Weight alone lacks this property in the
+general model. The histogram estimator above handles the random group counts
+without assuming that every possible refined group has been observed.
+
+The polynomial degree is at most the number of attempted noise trials, not the
+Pauli weight. For independent categorical locations it is at most the number
+of locations. The degree may be smaller after coefficient cancellation.
+
+`GeneralNoiseProfile.to_polynomial()` exports this representation, callable on
+scalar or array p. `power_coefficients()` and `to_sympy()` expose the polynomial
+explicitly. The default degree guard on expansion prevents accidental costly
+conversion; the factored representation supports higher degrees directly.
+
 Values at different p share samples and are correlated. For p_a and p_b,
 their estimated covariance is sum_w Z_w(p0)^2 times the sample covariance of
 F R_pa and F R_pb in stratum w, divided by n_w. Threshold fits must account for

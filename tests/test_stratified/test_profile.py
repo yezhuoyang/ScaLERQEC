@@ -20,6 +20,28 @@ def test_exact_repetition_polynomial_over_full_probability_range():
     np.testing.assert_allclose(
         profile.evaluate(p), 3 * q**2 - 2 * q**3, rtol=2e-13, atol=0
     )
+    polynomial = profile.to_polynomial()
+    np.testing.assert_allclose(polynomial(p), profile.evaluate(p), rtol=3e-13, atol=0)
+    coefficients = polynomial.power_coefficients()
+    np.testing.assert_allclose(
+        [float(c) for c in coefficients],
+        [0, 0, 4 / 3, -16 / 27],
+        rtol=1e-13,
+        atol=1e-15,
+    )
+
+
+def test_sid_polynomial_preserves_extrapolation_provenance_and_zero_spectra():
+    profile = LERProfile(
+        [0, 0.25, 0.5],
+        modeled_weights=[False, True, True],
+        metadata={"decoder": "fixed"},
+    )
+    polynomial = profile.to_polynomial()
+    assert polynomial.metadata["modeled_weights"] == [1, 2]
+    assert polynomial.metadata["profile_metadata"] == {"decoder": "fixed"}
+    assert polynomial(0.2) == pytest.approx(profile.evaluate(0.2))
+    assert LERProfile([0, 0]).to_polynomial()(0.2) == 0
 
 
 def test_full_support_does_not_discard_rare_logical_failures():

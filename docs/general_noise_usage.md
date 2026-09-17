@@ -4,6 +4,56 @@ The implementation is in `scalerqec.Stratified.general_noise`. It is separate
 from the released uniform-SID `Scaler` interface. See [the derivation](general_noise_math.md)
 and [numerical validation](general_noise_validation.md).
 
+## Export the polynomial itself
+
+The exported object represents a fixed polynomial with sampled coefficients:
+
+```python
+from scalerqec.Stratified import GeneralNoiseProfile, LERPolynomial
+
+profile = GeneralNoiseProfile.load("surface_profile.npz")
+polynomial = profile.to_polynomial()
+print(polynomial.degree, polynomial.num_terms)
+print(polynomial.to_sympy())  # Symbolic factored polynomial in p.
+
+polynomial.save("surface_polynomial.npz")
+restored = LERPolynomial.load("surface_polynomial.npz")
+values = restored([0.001, 0.002, 0.005])  # No circuit, decoder, or sampling.
+
+# For small examples: coefficients of 1, p, p**2, ... as Decimal values.
+# Default max_degree=100 guards expensive and numerically delicate expansion.
+if polynomial.degree <= 100:
+    coefficients = polynomial.power_coefficients(precision=50)
+    expression = polynomial.to_sympy(expanded=True)
+
+# Sampling SE, omitted-weight bounds, and ESS remain available on the profile.
+estimates = profile.curve([0.001, 0.002, 0.005])
+```
+
+The existing uniform-SID weighted profiling workflow also supports
+`polynomial = scaler.get_profile().to_polynomial()`. Its measured and
+extrapolated spectrum entries are preserved. Exporting does not remove S-curve
+model bias or turn that spectrum into a nonuniform-noise profile.
+
+No p grid is used to infer or fit the coefficients. The export groups histories
+with identical likelihood factors, preserving their contributions exactly up
+to floating-point arithmetic. Curve evaluation also groups these records and
+retains failure/nonfailure counts to preserve the sampling uncertainty.
+
+The positive factored form is recommended for numerical evaluation. Expanding
+high-degree polynomials into ordinary powers can introduce severe cancellation.
+More decimal digits in exported coefficients do not imply more statistical
+accuracy. A profile that omits weights exports their sampled contribution;
+the polynomial object does not independently carry SE or certify a small tail.
+
+For the previous nonuniform DEPOLARIZE2 counterexample, the rejected weight-only
+formula's 0.00219230 is not the corrected estimator's output. Both
+`profile.evaluate(0.001).ler` and `profile.to_polynomial()(0.001)` give about
+0.00253659 from the same saved sampling experiment, versus exact 0.00253120.
+The remaining difference is sampling error. Scalar weight-only profiles from
+the old uniform interface cannot be losslessly converted into general-noise
+polynomials: they lack the required likelihood records.
+
 ## Sample once, evaluate several noise strengths
 
 Give the circuit at an interior reference p. Every Stim noise argument becomes

@@ -16,6 +16,8 @@ from pathlib import Path
 import numpy as np
 import stim
 
+from .noise_polynomial import LERPolynomial
+
 _MEASUREMENTS = {
     "M",
     "MX",
@@ -344,6 +346,38 @@ class LinearNoiseModel:
             mass = expanded[: limit + 1]
         return mass, tail
 
+    def _weight_distributions_with_tail(self, probabilities, limit):
+        """Batched generating functions; overflow is accumulated positively."""
+        ps = np.asarray(probabilities)
+        mass = np.zeros((len(ps), limit + 1))
+        mass[:, 0] = 1
+        tail = np.zeros(len(ps))
+        for factor in self._factors:
+            if factor.chain:
+                survival = np.ones(len(ps))
+                outcomes = np.zeros((len(ps), len(factor.weights)))
+                for j, rate in enumerate(factor.rates):
+                    outcomes[:, j + 1] = survival * rate * ps
+                    survival *= 1 - rate * ps
+                outcomes[:, 0] = survival
+            else:
+                activation = factor.rates[0] * ps
+                outcomes = np.column_stack(
+                    [1 - activation, activation[:, None] * factor.fractions]
+                )
+            new_mass = np.zeros_like(mass)
+            for weight in np.unique(factor.weights):
+                probability = outcomes[:, factor.weights == weight].sum(axis=1)
+                if weight == 0:
+                    new_mass += mass * probability[:, None]
+                elif weight <= limit:
+                    new_mass[:, weight:] += mass[:, :-weight] * probability[:, None]
+                    tail += mass[:, -weight:].sum(axis=1) * probability
+                else:
+                    tail += mass.sum(axis=1) * probability
+            mass = new_mass
+        return mass, tail
+
     def _suffix_table(self, limit):
         table = np.zeros((len(self._factors) + 1, limit + 1))
         table[-1, 0] = 1
@@ -355,7 +389,34 @@ class LinearNoiseModel:
             table[j] = np.convolve(table[j + 1], polynomial)[: limit + 1]
         return table
 
-    def _sample_stratum(self, weight, shots, rng, table):
+    def _sampling_plan(self):
+        plans = []
+        for factor in self._factors:
+            probs = factor.probabilities(self.reference_p)
+            unique_weights = np.unique(factor.weights)
+            group_probs = np.array(
+                [probs[factor.weights == v].sum() for v in unique_weights]
+            )
+            choices = []
+            for value in unique_weights:
+                options = np.flatnonzero((factor.weights == value) & (probs > 0))
+                conditional = (
+                    probs[options] / probs[options].sum()
+                    if len(options)
+                    else np.empty(0)
+                )
+                choices.append((options, conditional))
+            plans.append(
+                (
+                    unique_weights,
+                    group_probs,
+                    choices,
+                    np.searchsorted(self.rates, factor.rates),
+                )
+            )
+        return plans
+
+    def _sample_stratum(self, weight, shots, rng, table, plans):
         if self._responses is None:
             self.compile_responses()
         remaining = np.full(shots, weight, dtype=np.int64)
@@ -365,13 +426,9 @@ class LinearNoiseModel:
         active = np.zeros(shots, dtype=np.int64)
         misses = np.zeros((shots, len(self.rates)), dtype=np.int64)
         for j, factor in enumerate(self._factors):
-            probs = factor.probabilities(self.reference_p)
             # Group equal-weight outcomes before the DP draw. Choice inside a
             # weight group is categorical and independent of the suffix.
-            unique_weights = np.unique(factor.weights)
-            group_probs = np.array(
-                [probs[factor.weights == v].sum() for v in unique_weights]
-            )
+            unique_weights, group_probs, choices, rate_indices = plans[j]
             residual = remaining[:, None] - unique_weights
             masses = group_probs * table[j + 1, np.maximum(residual, 0)]
             masses[residual < 0] = 0
@@ -388,14 +445,13 @@ class LinearNoiseModel:
                 selected = np.flatnonzero(group == g)
                 if not len(selected):
                     continue
-                options = np.flatnonzero((factor.weights == value) & (probs > 0))
-                option_probs = probs[options] / probs[options].sum()
+                options, option_probs = choices[g]
                 outcomes[selected] = rng.choice(options, len(selected), p=option_probs)
             remaining -= factor.weights[outcomes]
-            bits ^= self._responses[j][outcomes]
+            affected = np.flatnonzero(outcomes)
+            bits[affected] ^= self._responses[j][outcomes[affected]]
             active += outcomes != 0
-            for r, rate in enumerate(factor.rates):
-                g = np.searchsorted(self.rates, rate)
+            for r, g in enumerate(rate_indices):
                 missed = (
                     ((outcomes == 0) | (outcomes > r + 1))
                     if factor.chain
@@ -457,6 +513,7 @@ class LinearNoiseModel:
                 "Conditional sampler table is too large; specify a smaller max_weight."
             )
         table = self._suffix_table(limit)
+        plans = self._sampling_plan()
         rng = np.random.default_rng(seed)
         records = []
         for w, mass in enumerate(table[0]):
@@ -464,7 +521,7 @@ class LinearNoiseModel:
                 continue
             for start in range(0, shots, batch_size):
                 count = min(batch_size, shots - start)
-                bits, active, misses = self._sample_stratum(w, count, rng, table)
+                bits, active, misses = self._sample_stratum(w, count, rng, table, plans)
                 failures = self._failures(
                     decoder, bits, self.num_detectors, self.num_observables
                 )
@@ -587,6 +644,56 @@ class GeneralNoiseProfile:
             self.counts,
         ):
             array.flags.writeable = False
+        # Lossless sufficient-statistic histogram. Failure counts are retained
+        # separately to reproduce BOTH the mean and the sample variance.
+        keys = np.column_stack([self.weights, self.active, self.misses])
+        self._records, inverse = np.unique(keys, axis=0, return_inverse=True)
+        self._record_counts = np.bincount(inverse)
+        self._record_failures = np.bincount(inverse, weights=self.failures).astype(
+            np.int64
+        )
+        self._strata = []
+        for w, count in zip(self.sampled_weights, self.counts):
+            start, stop = np.searchsorted(self._records[:, 0], [w, w + 1])
+            self._strata.append((int(w), int(count), slice(start, stop)))
+
+    @property
+    def num_likelihood_records(self):
+        """Number of distinct (Pauli weight, activation, miss-count) records."""
+        return len(self._records)
+
+    def to_polynomial(self):
+        """Export the full estimated function of p; no resampling or fitting.
+
+        The polynomial estimates the sampled-weight contribution. Use this
+        profile for sampling errors and the omitted-weight probability bound.
+        Its coefficients are estimates, not exact decoder enumeration results.
+        """
+        selected = self._record_failures > 0
+        records = self._records[selected]
+        counts = dict(zip(self.sampled_weights, self.counts))
+        logs = np.array(
+            [
+                math.log(self._reference_mass[w])
+                + math.log(failures)
+                - math.log(counts[w])
+                for w, failures in zip(records[:, 0], self._record_failures[selected])
+            ]
+        )
+        return LERPolynomial(
+            self.model.reference_p,
+            self.model.rates,
+            records[:, 1],
+            records[:, 2:],
+            logs,
+            max_p=self.model.max_p,
+            metadata={
+                "profile_metadata": self.metadata,
+                "sampled_weights": self.sampled_weights.tolist(),
+                "max_pauli_weight": self.model.max_weight,
+                "meaning": "Estimated contribution of sampled weights; use the originating profile for uncertainty and tail bounds.",
+            },
+        )
 
     def _log_likelihood(self, p):
         p0 = self.model.reference_p
@@ -610,47 +717,82 @@ class GeneralNoiseProfile:
 
     def evaluate(self, p):
         p = self.model._validate_p(p)
-        log_ratio = self._log_likelihood(p)
-        total = standard_error = 0.0
-        minimum_ess = math.inf
-        target_mass, tail = self.model._weight_distribution_with_tail(
-            p, int(self.weights.max())
-        )
-        for w, n in zip(self.sampled_weights, self.counts):
-            selected = self.weights == w
-            logs = log_ratio[selected]
-            peak = logs.max()
-            # Combine the stratum probability with the likelihood in log
-            # space BEFORE exponentiation. R itself can overflow even when
-            # Z_w(p0)*R is small. Scaled moments also avoid squaring huge R.
-            scaled = np.exp(logs - peak) if np.isfinite(peak) else np.zeros(n)
-            scale = math.exp(math.log(self._reference_mass[w]) + peak)
-            values = scaled * self.failures[selected]
-            total += scale * values.mean()
-            standard_error = math.hypot(
-                standard_error, scale * values.std(ddof=1) / math.sqrt(n)
-            )
-            if target_mass[w] > 0:
-                ess = (
-                    float(scaled.sum() ** 2 / (scaled @ scaled))
-                    if np.any(scaled)
-                    else 0.0
-                )
-                minimum_ess = min(minimum_ess, ess)
-        missing_weights = np.ones(len(target_mass), dtype=bool)
-        missing_weights[self.sampled_weights] = False
-        missing = float(np.clip(tail + target_mass[missing_weights].sum(), 0, 1))
-        return GeneralNoiseEstimate(
-            p,
-            float(total),
-            standard_error,
-            missing,
-            0.0 if math.isinf(minimum_ess) else minimum_ess,
-            int(self.failures.sum()),
-        )
+        return self.curve([p])[0]
 
     def curve(self, probabilities):
-        return [self.evaluate(p) for p in probabilities]
+        """Evaluate a p grid using compressed moments and batched polynomials."""
+        ps = np.asarray(list(probabilities), dtype=float)
+        if (
+            ps.ndim != 1
+            or not np.isfinite(ps).all()
+            or np.any(ps < 0)
+            or np.any(ps > self.model.max_p)
+        ):
+            raise ValueError(
+                f"p must be a one-dimensional sequence in [0, {self.model.max_p}]."
+            )
+        result = []
+        chunk_size = max(1, min(256, 1_000_000 // self.num_likelihood_records))
+        limit = int(self.weights.max())
+        missing_weights = np.ones(limit + 1, dtype=bool)
+        missing_weights[self.sampled_weights] = False
+        active, misses = self._records[:, 1], self._records[:, 2:]
+        observed_failures = int(self.failures.sum())
+        for start in range(0, len(ps), chunk_size):
+            p = ps[start : start + chunk_size]
+            log_ratio = np.zeros((len(active), len(p)))
+            positive = p > 0
+            log_ratio[:, positive] = active[:, None] * (
+                np.log(p[positive]) - math.log(self.model.reference_p)
+            )
+            log_ratio[np.ix_(active > 0, ~positive)] = -np.inf
+            for g, rate in enumerate(self.model.rates):
+                inside = rate * p < 1
+                log_ratio[:, inside] += misses[:, g, None] * (
+                    np.log1p(-rate * p[inside])
+                    - math.log1p(-rate * self.model.reference_p)
+                )
+                log_ratio[np.ix_(misses[:, g] > 0, ~inside)] = -np.inf
+            mass, tail = self.model._weight_distributions_with_tail(p, limit)
+            total, se = np.zeros(len(p)), np.zeros(len(p))
+            minimum_ess = np.full(len(p), np.inf)
+            for w, n, selected in self._strata:
+                logs = log_ratio[selected]
+                peak = logs.max(axis=0)
+                shifted = np.full_like(logs, -np.inf)
+                np.subtract(logs, peak, out=shifted, where=np.isfinite(peak)[None, :])
+                scaled = np.exp(shifted)
+                with np.errstate(over="raise"):
+                    scale = np.exp(math.log(self._reference_mass[w]) + peak)
+                counts = self._record_counts[selected, None]
+                failures = self._record_failures[selected, None]
+                mean = (failures * scaled).sum(axis=0) / n
+                # Centered, nonnegative variance formula avoids cancellation.
+                variance = (
+                    (failures * (scaled - mean) ** 2).sum(axis=0)
+                    + (n - int(failures.sum())) * mean**2
+                ) / (n - 1)
+                total += scale * mean
+                se = np.hypot(se, scale * np.sqrt(variance / n))
+                denominator = (counts * scaled**2).sum(axis=0)
+                ess = np.divide(
+                    (counts * scaled).sum(axis=0) ** 2,
+                    denominator,
+                    out=np.zeros(len(p)),
+                    where=denominator > 0,
+                )
+                minimum_ess = np.minimum(
+                    minimum_ess, np.where(mass[:, w] > 0, ess, np.inf)
+                )
+            missing = np.clip(tail + mass[:, missing_weights].sum(axis=1), 0, 1)
+            minimum_ess[~np.isfinite(minimum_ess)] = 0
+            result.extend(
+                GeneralNoiseEstimate(
+                    float(a), float(b), float(c), float(d), float(e), observed_failures
+                )
+                for a, b, c, d, e in zip(p, total, se, missing, minimum_ess)
+            )
+        return result
 
     def save(self, path):
         manifest = json.dumps(
