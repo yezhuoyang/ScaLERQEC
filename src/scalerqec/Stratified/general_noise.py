@@ -380,21 +380,23 @@ class LinearNoiseModel:
             mass = new_mass
         return mass, tail
 
-    def _suffix_table(self, limit):
+    def _suffix_table(self, limit, reference_p=None):
+        reference_p = self.reference_p if reference_p is None else reference_p
         table = np.zeros((len(self._factors) + 1, limit + 1))
         table[-1, 0] = 1
         for j in range(len(self._factors) - 1, -1, -1):
             f = self._factors[j]
             polynomial = np.bincount(
-                f.weights, weights=f.probabilities(self.reference_p)
+                f.weights, weights=f.probabilities(reference_p)
             )
             table[j] = np.convolve(table[j + 1], polynomial)[: limit + 1]
         return table
 
-    def _sampling_plan(self):
+    def _sampling_plan(self, reference_p=None):
+        reference_p = self.reference_p if reference_p is None else reference_p
         plans = []
         for factor in self._factors:
-            probs = factor.probabilities(self.reference_p)
+            probs = factor.probabilities(reference_p)
             unique_weights = np.unique(factor.weights)
             group_probs = np.array(
                 [probs[factor.weights == v].sum() for v in unique_weights]
@@ -535,6 +537,40 @@ class LinearNoiseModel:
         )
         return GeneralNoiseProfile(
             self, weights, failures, active, misses, metadata=metadata
+        )
+
+    def sample_until_accuracy(
+        self,
+        decoder,
+        probabilities,
+        *,
+        relative_error=0.1,
+        absolute_error=0.0,
+        confidence=0.99,
+        max_shots=1_000_000,
+        max_seconds=60.0,
+        exact_budget=100_000,
+        seed=None,
+    ):
+        """Automatically allocate work until a simultaneous accuracy target is met.
+
+        Returns explicit convergence status and intervals for the requested
+        finite p grid. See ``adaptive.sample_until_accuracy`` for tolerances
+        and resource limits. An exhausted budget never implies convergence.
+        """
+        from .adaptive import sample_until_accuracy
+
+        return sample_until_accuracy(
+            self,
+            decoder,
+            probabilities,
+            relative_error=relative_error,
+            absolute_error=absolute_error,
+            confidence=confidence,
+            max_shots=max_shots,
+            max_seconds=max_seconds,
+            exact_budget=exact_budget,
+            seed=seed,
         )
 
     def enumerate_histories(self, decoder, p, *, max_histories=1_000_000):

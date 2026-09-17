@@ -1,5 +1,10 @@
 # Broader general-noise validation and Monte Carlo comparison
 
+Follow-up: [automatic accuracy control](accuracy_control.md) now uses sequentially
+valid bounds to choose sampling effort and reject unresolved accuracy requests.
+[Its validation](accuracy_control_validation.md) revisits the rare-failure cases
+below. The fixed-budget sample-SE findings in this report still apply.
+
 Local research results, September 16, 2026. The method has a demonstrated
 advantage on selected rare-event examples. The current general-noise prototype
 is slower than direct Stim Monte Carlo on the tested circuit-level workloads.

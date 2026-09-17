@@ -1,5 +1,12 @@
 # Experimental nonuniform-noise profiles
 
+For automatic sample allocation and a stopping rule that remains valid as
+sampling continues, use `model.sample_until_accuracy(decoder, probabilities,
+relative_error=0.1, confidence=0.99)`. Check `result.converged` before exporting
+its polynomial. This covers unseen failures, unsampled weights, and the entire
+requested finite p grid. A resource-limited run reports unresolved accuracy.
+See [the API, assumptions, and proof](accuracy_control.md).
+
 For a conservative pointwise uncertainty interval, use
 `profile.confidence_bounds(p, confidence=0.95)`. It accounts for unobserved
 failures and omitted weights under fixed-budget sampling. The interval may be

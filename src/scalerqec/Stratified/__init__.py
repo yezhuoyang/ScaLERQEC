@@ -29,6 +29,7 @@ Main components:
 
 # Re-export high-level components for easy access
 
+from .adaptive import AccuracyControlledProfile, AccuracyEstimate
 from .confidence import GeneralNoiseConfidenceBounds
 from .general_noise import GeneralNoiseEstimate, GeneralNoiseProfile, LinearNoiseModel
 
@@ -47,6 +48,8 @@ from .stratifiedLER import StratifiedLERcalc
 from .stratifiedScurveLER import StratifiedScurveLERcalc
 
 __all__ = [
+    "AccuracyControlledProfile",
+    "AccuracyEstimate",
     "GeneralNoiseConfidenceBounds",
     "GeneralNoiseEstimate",
     "GeneralNoiseProfile",

@@ -40,12 +40,13 @@ def _factor_logs(factor, p):
     )
 
 
-def _maximum_log_likelihood(model, p, limit):
+def _maximum_log_likelihood(model, p, limit, reference_p=None):
     """Exact max-product DP over all supported histories of each Pauli weight."""
+    reference_p = model.reference_p if reference_p is None else reference_p
     best = np.full(limit + 1, -np.inf)
     best[0] = 0.0
     for factor in model._factors:
-        reference = _factor_logs(factor, model.reference_p)
+        reference = _factor_logs(factor, reference_p)
         target = _factor_logs(factor, p)
         ratio = np.full(len(reference), -np.inf)
         np.subtract(target, reference, out=ratio, where=np.isfinite(reference))
