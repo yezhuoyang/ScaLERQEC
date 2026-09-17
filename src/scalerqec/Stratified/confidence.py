@@ -98,7 +98,7 @@ def confidence_bounds(profile, p, *, confidence=0.95):
         mean = float(values.mean())
         variance = float(values.var(ddof=1))
         radius = math.sqrt(2 * variance * log_delta / n) + 7 * log_delta / (3 * (n - 1))
-        log_bound = math.log(profile._reference_mass[w]) + maxima[w]
+        log_bound = profile._reference_log_mass[w] + maxima[w]
 
         def contribution(value, cap=mass[w], log_scale=log_bound):
             if value <= 0:

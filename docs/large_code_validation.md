@@ -1,5 +1,8 @@
 # Distance-13 and QLDPC validation
 
+This is the preserved baseline at commit `b60106b`. For the subsequent sampler
+and allocation fixes and their reruns, see [Conditional sampler fixes](conditional_sampler_fixes.md).
+
 Local research validation, September 16, 2026. This study increases the tested
 sizes and uses independent fault-level checks, not just agreement between two
 estimated error rates. It does **not** establish that the implementation is

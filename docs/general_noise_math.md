@@ -239,3 +239,44 @@ not a scalable replacement for profiling on large circuits.
 References: [ScaLER paper](https://arxiv.org/pdf/2602.04921),
 [Stim gate reference](https://github.com/quantumlib/Stim/blob/main/doc/gates.md),
 [Owen, Monte Carlo, importance sampling](https://artowen.su.domains/mc/Ch-var-is.pdf).
+
+## Stable conditional sampling and automatic allocation
+
+The conditional sampler stores log suffix masses, including masses smaller
+than the smallest representable positive float. For independent categorical
+factors numbered j,...,N-1, write Z(j,w) for their total-weight probability.
+Conditional on remaining weight w at position j, the probability that factors
+j,...,k-1 all choose outcome zero is
+
+    S(k | j,w) = [product_{i=j}^{k-1} P_i(0)] Z(k,w) / Z(j,w).
+
+These are nested events, so S is monotone in k. Inverting it with one uniform
+draw and binary search selects the first nonzero outcome location. If that
+location is k, its nonzero outcome a has conditional mass proportional to
+P_k(a) Z(k+1,w-W_k(a)). Repeating the construction yields precisely the same
+history law P(h | W=w) as factor-by-factor sampling. A nonidentity outcome
+with Pauli weight zero is still selected: measurement flips and heralded
+identity outcomes are not skipped. Zero identity probabilities are tracked
+separately to avoid subtracting infinite logarithms.
+
+The implementation retains log normalizers in mixture likelihoods, fixed
+profiles, saved-profile reconstruction, and polynomial export. Probabilities
+need not first survive exponentiation to be used in a likelihood ratio.
+Fault responses are bit-packed for batched propagation. Sampling searches
+scale with the number of activated locations times log(N), rather than
+visiting every location for every draw; suffix-table construction still costs
+O(N times the weight cutoff) time and memory. Dense fault-response compilation
+and decoding can still dominate large-code runs.
+
+The accuracy controller now takes turns among unresolved p targets and chooses
+the largest remaining uncertainty contribution for that target. This prevents
+a shrinking low-p upper bound from indefinitely starving high-p strata. It
+also compares the combined unsampled mass against the largest individual
+uncertainty contribution, so many individually small edge strata receive an
+initial sample before central weights are repeatedly refined. This is an
+allocation heuristic; no unsampled mass is counted as a measured contribution.
+It does not change the fixed proposals, predetermined doubling checkpoints, or
+the summable confidence-error budgets. Allocation is adaptive, but no earlier
+sample is retrospectively assigned a different proposal probability. These
+changes improve arithmetic and allocation, not the statistical information
+contained in a finite sample: a budget-exhausted run remains unresolved.

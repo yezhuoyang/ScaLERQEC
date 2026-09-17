@@ -191,16 +191,18 @@ def test_repaired_qldpc_decoder_corrects_every_single_pauli_and_is_order_indepen
     np.testing.assert_array_equal(decoder.decode_batch(det[::-1])[::-1], obs)
 
 
-def test_subnormal_conditional_mass_is_rejected_before_returning_biased_draws():
+def test_subnormal_conditional_mass_retains_the_correct_fixed_weight():
     # Positive is not enough: 1070 Bernoulli sites at p=.5 have a subnormal
-    # W=1 mass. Rounded DP normalizers cannot support a reliable conditional law.
+    # W=1 mass. Log-space normalization must still sample exactly one fault.
     c = stim.Circuit("R 0")
     c.append("X_ERROR", [0] * 1070, 0.5)
     c += stim.Circuit("M 0\nOBSERVABLE_INCLUDE(0) rec[-1]")
     model = LinearNoiseModel(c, 0.5)
     table = model._suffix_table(1)
     assert 0 < table[0, 1] < np.finfo(float).tiny
-    with pytest.raises(FloatingPointError, match="subnormal"):
-        model._sample_stratum(
-            1, 4, np.random.default_rng(11), table, model._sampling_plan()
-        )
+    bits, active, misses = model._sample_stratum(
+        1, 100, np.random.default_rng(11), table, model._sampling_plan()
+    )
+    assert bits.all()
+    assert np.all(active == 1)
+    assert np.all(misses == 1069)

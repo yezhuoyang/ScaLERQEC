@@ -1,0 +1,67 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.3",
+  "dependencies": {
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "stim": "1.15.0",
+    "pymatching": "2.4.0",
+    "stimbposd": "0.2.0",
+    "pytest": "9.1.1"
+  },
+  "full_suite": {
+    "passed": 938,
+    "skipped": 2,
+    "xfailed": 0,
+    "seconds": 257.07,
+    "command": "python -m pytest tests -q --disable-warnings --maxfail=3"
+  },
+  "stim_1_16_subset": {
+    "passed": 99,
+    "seconds": 20.4,
+    "source_tree_on_pythonpath": true,
+    "tests": [
+      "test_conditional.py",
+      "test_adaptive.py",
+      "test_response_compilers.py",
+      "test_symbolic_ler_single_circuit"
+    ]
+  },
+  "critical_module_coverage_percent": {
+    "src\\scalerqec\\Stratified\\adaptive.py": 96.7948717948718,
+    "src\\scalerqec\\Stratified\\conditional.py": 97.29729729729729,
+    "src\\scalerqec\\Stratified\\confidence.py": 100.0,
+    "src\\scalerqec\\Stratified\\general_noise.py": 97.38955823293173,
+    "src\\scalerqec\\Stratified\\noise_polynomial.py": 100.0
+  },
+  "coverage_full_tree_percent": 53.73770880227461,
+  "checks": {
+    "production_correctness_lint": "passed",
+    "new_sampler_and_benchmark_lint": "passed",
+    "github_actions_actionlint": "passed"
+  },
+  "source_sha256": {
+    "src/scalerqec/Stratified/adaptive.py": "2f108e1db3fbd999a5b63cc2ac3de565f015291466a7aa7616e958d20e25b3be",
+    "src/scalerqec/Stratified/conditional.py": "2f2753bc9918c078e6d86fffe4d441a48f0ef52b6f7d5dc2ac142c1459b95c27",
+    "src/scalerqec/Stratified/general_noise.py": "f1cb8984e2a69deaa214f63e1ea3a33ffb75c06e617c7c832ed1dbe9a20ce8f8",
+    "src/scalerqec/Stratified/confidence.py": "3c07c233bbd41ddbbc635ef2d2a49049c65e1dcd6f3341b0d0ba94ba9f5d9a12",
+    "src/scalerqec/Stratified/noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "test_development_findings": [
+    "An existing stochastic symbolic comparison xfailed during one full-suite run. Replaced its approximately-20-failure adaptive-MC heuristic with an independent exact Stim response convolution and seeded fixed-budget binomial check; final full suite has no xfails.",
+    "Initial independent replay code tested ordinary root probabilities and skipped an underflowed low weight. Corrected it to inspect log support and added a regression requiring both low and typical weights to be checked.",
+    "Intermediate BB144 nonuniform MC was stopped after more than fifteen minutes during the third fixed-budget point. Two complete points and the unfinished-state record are preserved in before_log_audit_fix.",
+    "An RNG-zero endpoint and deterministic zero-weight-suffix guard were added during validation; per-case source hashes identify versions when captured. Final endpoint, joint-distribution and full regression checks passed.",
+    "The Stim 1.16 environment initially imported an older installed package. Repeated the check against this source tree using PYTHONPATH; all 99 selected tests passed."
+  ],
+  "release": {
+    "published": false,
+    "reason": "Large-code finite-grid accuracy and QLDPC time/memory limits remain unresolved."
+  },
+  "native_scope": "No C++ source changed in this follow-up. Existing native-binding/fault-response regressions are included in the full suite; sanitizer CI was not executed locally.",
+  "historical_baseline_commit": "b60106b",
+  "saved_polynomial_roundtrips": {
+    "files_checked": 13,
+    "all_saved_grid_values_match": true
+  }
+}

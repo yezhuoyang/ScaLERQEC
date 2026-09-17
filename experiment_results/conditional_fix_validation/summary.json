@@ -1,0 +1,15 @@
+{
+  "completed_configurations": 11,
+  "accuracy_met": 1,
+  "histories_replayed": 88,
+  "moment_draws": 12288,
+  "moment_checks_passed": true,
+  "max_moment_standardized_difference": 2.1804696620436332,
+  "baseline_d13_shots": 13568,
+  "fixed_d13_shots": 705792,
+  "d13_shot_count_ratio": 52.0188679245283,
+  "d13_high_p_estimate": 0.08970917606152927,
+  "d13_mc_high_p_estimate": 0.09004,
+  "scope": "Representative reruns and sampler checks; no claim of universal accuracy or speedup.",
+  "d13_high_p_point_difference_fraction": 0.003674188565867653
+}

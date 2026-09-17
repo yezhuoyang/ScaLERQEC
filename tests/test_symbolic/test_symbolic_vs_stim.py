@@ -6,9 +6,11 @@ exact results that match stim Monte Carlo within sampling error.
 """
 
 import os
+
 import pytest
-from scalerqec.Symbolic.symbolicLER import SymbolicLERcalc
+
 from scalerqec.Monte.monteLER import MonteLERcalc
+from scalerqec.Symbolic.symbolicLER import SymbolicLERcalc
 
 
 @pytest.fixture
@@ -26,8 +28,8 @@ def stim_sample_size_symbolic():
 @pytest.fixture
 def symbolic_tolerance():
     """Relative tolerance for symbolic vs stim."""
-    # Note: Symbolic DP and stim may have implementation differences
-    # We use 25% tolerance and mark failures as xfail for investigation
+    # Legacy broad comparisons use this tolerance. The single-circuit
+    # regression below additionally checks an independent exact distribution.
     return 0.25  # 25% tolerance for smaller samples
 
 
@@ -35,59 +37,70 @@ class TestSymbolicVsStim:
     """Test symbolic DP method against stim Monte Carlo."""
 
     def test_symbolic_ler_single_circuit(
-        self,
-        circuit_base_path,
-        error_rate_symbolic,
-        stim_sample_size_symbolic,
-        symbolic_tolerance,
+        self, circuit_base_path, error_rate_symbolic, stim_sample_size_symbolic
     ):
-        """Test symbolic LER for a single small circuit against stim."""
+        """Use an exact Stim response convolution, then fixed-budget seeded MC.
+
+        The old test stopped after about twenty failures and downgraded ordinary
+        sampling fluctuations to xfail. Neither establishes an exact-DP defect.
+        """
+        import numpy as np
+        import pymatching
+        import stim
+        from scipy.stats import binomtest
+
+        from scalerqec.QEC.noisemodel import SIDNoiseModel
+
         filepath = os.path.join(circuit_base_path, "simple")
-
-        print(f"\n{'=' * 70}")
-        print(f"Testing circuit: simple")
-        print(f"Error rate: {error_rate_symbolic}")
-        print(f"Stim sample size: {stim_sample_size_symbolic}")
-        print(f"{'=' * 70}")
-
-        # Calculate exact LER with symbolic DP
-        print(f"\nRunning Symbolic DP (exact calculation)...")
-        symbolic_calculator = SymbolicLERcalc(error_rate_symbolic)
-        symbolic_result = symbolic_calculator.calculate_LER_from_file(
-            filepath, error_rate_symbolic
+        p = error_rate_symbolic
+        symbolic = SymbolicLERcalc(p).calculate_LER_from_file(filepath, p)
+        circuit = SIDNoiseModel(p).inject_noise(stim.Circuit.from_file(filepath))
+        decoder = pymatching.Matching.from_detector_error_model(
+            circuit.detector_error_model(decompose_errors=False)
         )
-        print(f"  Symbolic DP: PL = {symbolic_result:.6e}")
-
-        # Calculate LER with stim Monte Carlo (high sample count)
-        print(f"\nRunning Stim Monte Carlo...")
-        stim_calculator = MonteLERcalc()
-        stim_result = stim_calculator.calculate_LER_from_file(
-            stim_sample_size_symbolic, filepath, error_rate_symbolic
+        # Independently convolve the exact categorical Pauli responses. Stim
+        # evaluates each response; this does not call the Python QEPG or DP.
+        width = circuit.num_detectors + circuit.num_observables
+        states = np.arange(1 << width)
+        joint = np.zeros(len(states))
+        joint[0] = 1
+        for location, op in enumerate(circuit):
+            if op.name != "DEPOLARIZE1":
+                assert not stim.gate_data(op.name).is_noisy_gate or (
+                    op.name == "M" and not any(op.gate_args_copy())
+                )
+                continue
+            for target in op.targets_copy():
+                masks = [0]
+                for axis in "XYZ":
+                    forced = stim.Circuit()
+                    for j, instruction in enumerate(circuit):
+                        if j == location:
+                            forced.append(axis + "_ERROR", [target], 1)
+                        elif instruction.name != "DEPOLARIZE1":
+                            forced.append(instruction)
+                    bits = forced.compile_detector_sampler(seed=0).sample(
+                        1, append_observables=True
+                    )[0]
+                    masks.append(sum(int(bit) << k for k, bit in enumerate(bits)))
+                joint = sum(
+                    probability * joint[states ^ mask]
+                    for probability, mask in zip([1 - p, p / 3, p / 3, p / 3], masks)
+                )
+        assert joint.sum() == pytest.approx(1, abs=2e-14)
+        patterns = ((states[:, None] >> np.arange(width)) & 1).astype(bool)
+        failure = np.any(
+            decoder.decode_batch(patterns[:, : circuit.num_detectors])
+            != patterns[:, circuit.num_detectors :],
+            axis=1,
         )
-        print(f"  Stim:        PL = {stim_result:.6e}")
-
-        # Compare - symbolic should match stim
-        print(f"\n{'=' * 70}")
-        # Note: If there's a large discrepancy, it may indicate differences in
-        # how the methods interpret the circuit or apply error models
-        if symbolic_result > 0 and stim_result > 0:
-            relative_error = abs(stim_result - symbolic_result) / symbolic_result
-            print(f"Relative error: {relative_error:.2%}")
-
-            if relative_error > 0.10:  # > 10% difference
-                print(f"\nWARNING: Large discrepancy detected. This may indicate:")
-                print(f"  - Different error model interpretations")
-                print(f"  - Circuit parsing differences")
-                print(f"  - Potential bugs in one implementation")
-
-            # Use a warning instead of hard failure for now to allow investigation
-            if relative_error < symbolic_tolerance:
-                print(f"Status: PASS (within {symbolic_tolerance:.0%} tolerance)")
-            else:
-                print(f"Status: XFAIL (differs by more than {symbolic_tolerance:.0%})")
-                # Soft failure - just log for now
-                pytest.xfail(f"Symbolic vs stim discrepancy: {relative_error:.2%}")
-        print(f"{'=' * 70}")
+        truth = joint[failure].sum()
+        assert symbolic == pytest.approx(truth, rel=1e-11, abs=1e-14)
+        det, obs = circuit.compile_detector_sampler(seed=290916).sample(
+            stim_sample_size_symbolic, separate_observables=True
+        )
+        failures = int(np.any(decoder.decode_batch(det) != obs, axis=1).sum())
+        assert binomtest(failures, stim_sample_size_symbolic, truth).pvalue > 1e-6
 
     def test_symbolic_ler_all_circuits(
         self, circuit_base_path, error_rate_symbolic, symbolic_tolerance

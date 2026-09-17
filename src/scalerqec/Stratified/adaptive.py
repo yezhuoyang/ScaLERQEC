@@ -266,7 +266,7 @@ def sample_until_accuracy(
                 )
     entropy = np.random.SeedSequence(seed).entropy
     states = {}
-    plans = [model._sampling_plan(p) for p in anchors]
+    plans = [None] * len(anchors)
     limit = min(16, model.max_weight)
     shots, exact_histories = 0, 0
     tables, counts, mass, tail = None, None, None, None
@@ -338,6 +338,7 @@ def sample_until_accuracy(
         met = (error <= absolute_error + relative_error * lower) & ~numerical_zero
         return poly, values, lower, upper, error, met, numerical_zero
 
+    allocation_turn = 0
     while prepared:
         poly, values, lower, upper, error, met, numerical_zero = snapshot()
         if np.all(met):
@@ -355,17 +356,16 @@ def sample_until_accuracy(
         if max_seconds is not None and perf_counter() - started >= max_seconds:
             reason = "Time budget exhausted before establishing accuracy."
             break
-        # This choice affects efficiency only; coverage uses preassigned budgets.
-        scale = np.maximum(
-            absolute_error + relative_error * np.maximum(values, lower),
-            np.maximum(upper, np.finfo(float).tiny) * 0.01,
-        )
+        # Round-robin unresolved targets prevents a low-p zero estimate from
+        # monopolizing allocation. Selection does not change preassigned bounds.
+        unresolved = np.flatnonzero(~met)
+        target = unresolved[allocation_turn % len(unresolved)]
         priorities = {
-            w: float(np.max((s.upper - s.lower) / scale))
+            w: float(s.upper[target] - s.lower[target])
             for w, s in states.items()
             if not s.exact
         }
-        tail_priority = float(np.max(tail / scale))
+        tail_priority = float(tail[target])
         if limit < model.max_weight and tail_priority > max(
             priorities.values(), default=0.0
         ):
@@ -377,7 +377,19 @@ def sample_until_accuracy(
         if not priorities:
             reason = "Floating-point resolution prevents establishing the requested tolerance."
             break
-        state = states[max(priorities, key=priorities.get)]
+        # A collection of small unsampled strata can omit more failure mass
+        # than any one sampled interval. Cover them before repeatedly refining
+        # a central weight; otherwise the partial polynomial remains biased low
+        # by a large, known omitted contribution even after many samples.
+        unvisited = {
+            w: priority for w, priority in priorities.items() if not states[w].n
+        }
+        if unvisited and sum(unvisited.values()) > 0.1 * max(priorities.values()):
+            selected_weight = max(unvisited, key=unvisited.get)
+        else:
+            selected_weight = max(priorities, key=priorities.get)
+        state = states[selected_weight]
+        allocation_turn += 1
         w = state.weight
         next_count = max(256, 2 * state.n)
         additional = next_count - state.n
@@ -410,22 +422,16 @@ def sample_until_accuracy(
             break
         if state.proposal_indices is None:
             indices = np.array(
-                [
-                    j
-                    for j, table in enumerate(tables)
-                    if table[0, w] >= model._conditional_mass_floor()
-                ],
+                [j for j, table in enumerate(tables) if np.isfinite(table.logs[0, w])],
                 dtype=int,
             )
             if not len(indices):
                 status = "numerical_limit"
-                reason = (
-                    "All conditional proposal masses underflowed or have insufficient numerical precision for a required weight."
-                )
+                reason = "All conditional proposal masses underflowed or have insufficient numerical precision for a required weight."
                 break
             state.proposal_indices = indices
             state.log_normalizers = np.array(
-                [-math.log(len(indices)) - math.log(tables[j][0, w]) for j in indices]
+                [-math.log(len(indices)) - tables[j].logs[0, w] for j in indices]
             )
             bound = []
             for j, p in enumerate(ps):
@@ -435,7 +441,7 @@ def sample_until_accuracy(
                 at_target = [k for k in indices if anchors[k] == p]
                 if at_target:
                     bound.append(
-                        math.log(tables[at_target[0]][0, w]) + math.log(len(indices))
+                        tables[at_target[0]].logs[0, w] + math.log(len(indices))
                     )
                 else:
                     interior = [k for k in indices if 0 < anchors[k] < model.max_p]
@@ -446,9 +452,7 @@ def sample_until_accuracy(
                         model, p, limit, anchors[closest]
                     )[w]
                     bound.append(
-                        math.log(tables[closest][0, w])
-                        + math.log(len(indices))
-                        + maximum
+                        tables[closest].logs[0, w] + math.log(len(indices)) + maximum
                     )
             state.log_bound = np.asarray(bound)
         indices = state.proposal_indices

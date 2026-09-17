@@ -185,11 +185,12 @@ def audit_sampled_histories(model, oracle, *, seed=20260916):
         {min(2, model.max_weight), min(model.max_weight, max(1, round(mean)))}
     )
     table = model._suffix_table(max(weights))
-    plans = model._sampling_plan()
+    plans = None
     checked = 0
+    checked_per_weight = {}
     largest_ratio_error = 0.0
     for w in weights:
-        if table[0, w] == 0:
+        if not np.isfinite(table.logs[0, w]):
             continue
         histories = np.empty((4, len(oracle.events)), dtype=np.int64)
         bits, active, misses = model._sample_stratum(
@@ -216,10 +217,12 @@ def audit_sampled_histories(model, oracle, *, seed=20260916):
                 if not math.isclose(exact, recorded, abs_tol=2e-7, rel_tol=1e-9):
                     raise AssertionError("Incorrect history reweighting ratio")
             checked += 1
+            checked_per_weight[w] = checked_per_weight.get(w, 0) + 1
     return {
         "status": "passed",
         "factors_checked": len(oracle.events),
         "histories_replayed": checked,
+        "histories_per_weight": checked_per_weight,
         "weights": weights,
         "max_log_ratio_difference": largest_ratio_error,
     }

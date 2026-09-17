@@ -57,21 +57,22 @@ def conditional_moments(events, p, p0, weight):
     return means, variances
 
 
-def run(spec, shots=2048):
+def run(spec, shots=2048, *, model=None, oracle=None):
     started = perf_counter()
     circuit = make_circuit(spec, P0)
-    model = LinearNoiseModel(circuit, P0)
-    oracle = ReplayOracle(circuit, P0)
+    model = LinearNoiseModel(circuit, P0) if model is None else model
+    oracle = ReplayOracle(circuit, P0) if oracle is None else oracle
     mean = sum(np.dot(e.weights, e.probabilities(P0, P0)) for e in oracle.events)
     weight = max(1, round(mean))
     expected, variance = conditional_moments(oracle.events, P0, P0, weight)
-    histories = np.empty((shots, len(oracle.events)), dtype=np.int64)
+    dtype = np.min_scalar_type(max(len(e.weights) - 1 for e in oracle.events))
+    histories = np.empty((shots, len(oracle.events)), dtype=dtype)
     model._sample_stratum(
         weight,
         shots,
         np.random.default_rng(20260918),
         model._suffix_table(weight),
-        model._sampling_plan(),
+        None,
         outcome_buffer=histories,
     )
     stats = np.zeros((shots, 4))
