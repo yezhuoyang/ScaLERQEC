@@ -46,10 +46,12 @@ from .profile import LERCurve, LERProfile
 from .Scaler import Scaler
 from .stratifiedLER import StratifiedLERcalc
 from .stratifiedScurveLER import StratifiedScurveLERcalc
+from .uniformized import BernsteinProfile, UniformizedSampler
 
 __all__ = [
     "AccuracyControlledProfile",
     "AccuracyEstimate",
+    "BernsteinProfile",
     "GeneralNoiseConfidenceBounds",
     "GeneralNoiseEstimate",
     "GeneralNoiseProfile",
@@ -65,4 +67,5 @@ __all__ = [
     "ScurveModelBase",
     "StratifiedLERcalc",
     "StratifiedScurveLERcalc",
+    "UniformizedSampler",
 ]

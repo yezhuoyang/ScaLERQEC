@@ -16,8 +16,8 @@ from pathlib import Path
 import numpy as np
 import stim
 
-from .noise_polynomial import LERPolynomial
 from .confidence import _factor_logs
+from .noise_polynomial import LERPolynomial
 
 _MEASUREMENTS = {
     "M",
@@ -601,6 +601,17 @@ class LinearNoiseModel:
             exact_budget=exact_budget,
             seed=seed,
         )
+
+    def sample_bernstein_profile(self, decoder, probabilities, **options):
+        """Experimental table-free joint profiling with automatic accuracy.
+
+        Uses a latent trial count in addition to actual Pauli weight. Returns
+        a reusable polynomial and simultaneous, sequentially valid intervals
+        on the declared p grid. See ``uniformized.sample_bernstein_profile``.
+        """
+        from .uniformized import sample_bernstein_profile
+
+        return sample_bernstein_profile(self, decoder, probabilities, **options)
 
     def enumerate_histories(self, decoder, p, *, max_histories=1_000_000):
         """Exact small-circuit oracle, including q_w(p) and the full LER."""

@@ -1,0 +1,189 @@
+{
+  "spec": {
+    "family": "surface",
+    "distance": 13,
+    "basis": "x",
+    "noise": "biased_pauli",
+    "rounds": 13,
+    "name": "surface_13_x_biased_pauli"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "c22a8577027f5a99cd0f23d5bce4edb12691aac9751745e24cd90c8fe35b3b6d",
+  "profile_seconds_budget": 40.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "7b9d35b4ded3080365048c361fa483d8747253fc78a02d0e971ca3df8f7f4354",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33"
+  },
+  "phase": "completed",
+  "seconds_total": 105.54637339999317,
+  "compile_seconds": 31.63318309999886,
+  "factors": 15170,
+  "dense_response_bytes": 323983060,
+  "latent_trials": 15170,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 7459344,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      303,
+      15170,
+      0,
+      1,
+      2,
+      303,
+      15170
+    ],
+    "pauli_weights": [
+      0,
+      0,
+      0,
+      189,
+      10276,
+      0,
+      2,
+      2,
+      201,
+      10207
+    ],
+    "passed": true
+  },
+  "decoder": "PyMatching",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 169472,
+    "seconds": 40.028287699999055,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 4.4798704387153086e-23,
+        "lower": 0.0,
+        "upper": 0.0003186938257455632,
+        "error_bound": 0.0003186938257455632,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 1.7702039274924473e-05,
+        "lower": 1.124245757993479e-13,
+        "upper": 0.0003321038532303859,
+        "error_bound": 0.0003144018139554614,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.11906391616314199,
+        "lower": 0.11072174957603742,
+        "upper": 0.12729119303622255,
+        "error_bound": 0.008342166587104571,
+        "accuracy_met": true
+      }
+    ],
+    "joint_histogram_cells": 10455,
+    "joint_histogram_shots": 169472
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 15170,
+  "historical_reference_file": "experiment_results\\large_code_validation\\surface_13_x_biased_pauli.json",
+  "historical_reference_sha256": "25213f95d8c2dcd21d565949b8a86a07c50d4e320ce8f73e3c7c2030b1b11859",
+  "historical_monte_carlo": [
+    {
+      "shots": 100000,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.000104217382450774,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 8.905330300010974,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 2,
+      "ler": 2e-05,
+      "per_observable_failures": [
+        2
+      ],
+      "lower": 7.735117588908561e-08,
+      "upper": 0.00015316319667284324,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 11.53591839998262,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 12022,
+      "ler": 0.12022,
+      "per_observable_failures": [
+        12022
+      ],
+      "lower": 0.11612837455018592,
+      "upper": 0.12439591608919041,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 46.94010700000217,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "fresh_monte_carlo": [
+    {
+      "p": 0.001,
+      "shots": 4096,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.002541267779776441,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.2545299000048544
+    },
+    {
+      "p": 0.003,
+      "shots": 4096,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.002541267779776441,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.46069470001384616
+    },
+    {
+      "p": 0.01,
+      "shots": 4096,
+      "failures": 500,
+      "ler": 0.1220703125,
+      "per_observable_failures": [
+        500
+      ],
+      "lower": 0.1024503949708347,
+      "upper": 0.1437490505381273,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 1.6015386000217404
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "uniform_single",
+    "rounds": 1,
+    "name": "hgp_58_z_uniform_single"
+  },
+  "status": "completed",
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "circuit_sha256": "6d1e459f4f62bcb6652290ecba085e4a26115a110e5a784040ee65ace307f7c9",
+  "seed": 260923,
+  "fixed_shots_per_point": 1000000,
+  "monte_carlo": [
+    {
+      "p": 0.001,
+      "shots": 1000000,
+      "failures": 5686,
+      "ler": 0.005686,
+      "per_observable_failures": [
+        993,
+        323,
+        1611,
+        719,
+        1015,
+        686,
+        1032,
+        350,
+        660,
+        654,
+        670,
+        712,
+        1667,
+        1318,
+        1027,
+        1999
+      ],
+      "lower": 0.005389096119457878,
+      "upper": 0.005993882352091662,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 18.3791404000076
+    }
+  ]
+}

@@ -11,6 +11,30 @@ from dataclasses import dataclass
 import numpy as np
 
 
+def bounded_empirical_interval(mean, variance, n, delta):
+    """Two-sided fixed-n empirical Bernstein interval for IID [0,1] values.
+
+    Theorem 4 of Maurer--Pontil, applied to X and 1-X with delta/2 each.
+    ``variance`` is the unbiased sample variance (ddof=1). A caller comparing
+    this with another confidence bound must split its error budget first.
+    """
+    if (
+        isinstance(n, (bool, np.bool_))
+        or not isinstance(n, (int, np.integer))
+        or n < 2
+        or not 0 <= mean <= 1
+        or not math.isfinite(variance)
+        or variance < 0
+        or not 0 < delta < 1
+    ):
+        raise ValueError(
+            "Expected bounded mean, nonnegative variance, n>=2, and delta in (0,1)."
+        )
+    log_delta = math.log(4 / delta)
+    radius = math.sqrt(2 * variance * log_delta / n) + 7 * log_delta / (3 * (n - 1))
+    return max(0.0, mean - radius), min(1.0, mean + radius)
+
+
 @dataclass(frozen=True)
 class GeneralNoiseConfidenceBounds:
     p: float

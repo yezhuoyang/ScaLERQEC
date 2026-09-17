@@ -32,12 +32,13 @@ jobs:
         run: python -m pytest tests/test_stratified/test_profile.py --cov=scalerqec --cov-report=
       - run: python -m coverage report --include="*/Stratified/profile.py" --fail-under=95
       - name: Require general-noise estimator coverage
-        run: python -m pytest tests/test_stratified/test_general_noise.py tests/test_stratified/test_noise_polynomial.py tests/test_stratified/test_general_noise_oracles.py tests/test_stratified/test_adaptive.py tests/test_stratified/test_response_compilers.py tests/test_stratified/test_large_code_validation.py tests/test_stratified/test_conditional.py --cov=scalerqec --cov-report=
+        run: python -m pytest tests/test_stratified/test_general_noise.py tests/test_stratified/test_noise_polynomial.py tests/test_stratified/test_general_noise_oracles.py tests/test_stratified/test_adaptive.py tests/test_stratified/test_response_compilers.py tests/test_stratified/test_large_code_validation.py tests/test_stratified/test_conditional.py tests/test_stratified/test_uniformized.py --cov=scalerqec --cov-report=
       - run: python -m coverage report --include="*/Stratified/general_noise.py" --fail-under=95
       - run: python -m coverage report --include="*/Stratified/noise_polynomial.py" --fail-under=95
       - run: python -m coverage report --include="*/Stratified/confidence.py" --fail-under=95
       - run: python -m coverage report --include="*/Stratified/adaptive.py" --fail-under=95
       - run: python -m coverage report --include="*/Stratified/conditional.py" --fail-under=95
+      - run: python -m coverage report --include="*/Stratified/uniformized.py" --fail-under=95
       - name: Verify wheel-facing imports
         run: python -c "from scalerqec.Stratified import Scaler, LERProfile; assert LERProfile([0, 0.5]).evaluate(0.2) == 0.1"
   native:

@@ -1,0 +1,100 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "uniform_single",
+    "rounds": 1,
+    "name": "hgp_58_z_uniform_single"
+  },
+  "status": "completed",
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "circuit_sha256": "6d1e459f4f62bcb6652290ecba085e4a26115a110e5a784040ee65ace307f7c9",
+  "seed": 260922,
+  "fixed_shots_per_point": 250000,
+  "monte_carlo": [
+    {
+      "p": 0.001,
+      "shots": 250000,
+      "failures": 1441,
+      "ler": 0.005764,
+      "per_observable_failures": [
+        263,
+        96,
+        427,
+        185,
+        239,
+        161,
+        243,
+        93,
+        170,
+        167,
+        178,
+        189,
+        439,
+        354,
+        279,
+        520
+      ],
+      "lower": 0.00517596549207654,
+      "upper": 0.0063960404684522834,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 11.012604999996256
+    },
+    {
+      "p": 0.003,
+      "shots": 250000,
+      "failures": 4339,
+      "ler": 0.017356,
+      "per_observable_failures": [
+        753,
+        299,
+        1271,
+        479,
+        784,
+        540,
+        772,
+        327,
+        558,
+        548,
+        584,
+        538,
+        1282,
+        1040,
+        857,
+        1436
+      ],
+      "lower": 0.016326760253386814,
+      "upper": 0.018428131435094166,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 12.4000072000199
+    },
+    {
+      "p": 0.01,
+      "shots": 250000,
+      "failures": 14178,
+      "ler": 0.056712,
+      "per_observable_failures": [
+        2518,
+        1306,
+        3767,
+        1923,
+        2451,
+        1910,
+        2837,
+        1461,
+        1994,
+        1927,
+        2368,
+        2018,
+        4090,
+        3448,
+        3411,
+        4172
+      ],
+      "lower": 0.054872523433725784,
+      "upper": 0.05859082453240202,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 23.71760240002186
+    }
+  ]
+}

@@ -280,3 +280,15 @@ the summable confidence-error budgets. Allocation is adaptive, but no earlier
 sample is retrospectively assigned a different proposal probability. These
 changes improve arithmetic and allocation, not the statistical information
 contained in a finite sample: a budget-exhausted run remains unresolved.
+
+## An alternative fixed-coefficient construction
+
+[Uniformized Bernstein profiling](uniformized_profiling.md) gives another exact
+identity: independent common-rate trials followed by p-independent thinning
+produce fixed coefficients conditional on an auxiliary trial count T. Keeping
+the joint (T,W) distribution preserves the original Pauli-weight definition.
+The resulting polynomial requires no conditional-weight suffix table, and
+global mixture confidence bounds include unsampled failures. This changes the
+sampling coordinate, not the physical noise model. It supplies a general
+convergence result for the supported linear families, not a universal speedup
+or an assumption that P(failure | W=w) is independent of p.

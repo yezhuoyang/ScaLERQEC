@@ -176,3 +176,16 @@ python benchmark/general_noise_validation.py
 
 It produces saved profiles, numerical results, and a comparison figure in
 `experiment_results/general_noise_validation/`.
+
+## Alternative without conditional-weight tables
+
+`model.sample_bernstein_profile(decoder, probabilities, ...)` uses an auxiliary
+count of uniformized trials together with the original Pauli weight. It produces
+a fixed Bernstein-form polynomial for the supported linear noise family, and
+uses global sequential confidence bounds instead of adding a separate bound
+for every physical weight. This avoids the suffix-table memory limit; dense
+response compilation and slow decoders remain possible bottlenecks.
+
+See [the derivation, interface, and limits](uniformized_profiling.md). The new
+method is experimental. Use its `converged`/`accuracy_met` results; successful
+completion alone is not evidence that rare-event accuracy was established.
