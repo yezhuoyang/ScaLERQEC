@@ -1,5 +1,9 @@
 # Experimental nonuniform-noise profiles
 
+For a complete gate-dependent example using two-qubit depolarization p,
+single-qubit noise p/5, and measurement noise 5p, see
+[gate-scaled noise with confidence bars](gate_scaled_noise_example.md).
+
 For automatic sample allocation and a stopping rule that remains valid as
 sampling continues, use `model.sample_until_accuracy(decoder, probabilities,
 relative_error=0.1, confidence=0.99)`. Check `result.converged` before exporting

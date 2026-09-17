@@ -1,0 +1,26 @@
+[
+  {
+    "p": 0.002,
+    "exact_ler": 0.002171886030352232,
+    "polynomial_ler": 0.002153374422598663,
+    "interval_covers_truth": true
+  },
+  {
+    "p": 0.005,
+    "exact_ler": 0.00654215799674074,
+    "polynomial_ler": 0.006486291768302595,
+    "interval_covers_truth": true
+  },
+  {
+    "p": 0.01,
+    "exact_ler": 0.016623985237333334,
+    "polynomial_ler": 0.01649067314260016,
+    "interval_covers_truth": true
+  },
+  {
+    "p": 0.02,
+    "exact_ler": 0.04618155265896297,
+    "polynomial_ler": 0.04588557969019987,
+    "interval_covers_truth": true
+  }
+]
