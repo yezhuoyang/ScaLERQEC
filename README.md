@@ -160,7 +160,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pymatching
 import stim
-from scalerqec import NoiseModel, LinearNoiseModel, LERPolynomial
+from scalerqec.QEC.noisemodel import NoiseModel
+from scalerqec.Stratified import LinearNoiseModel, LERPolynomial
 
 p_ref = 0.001
 ideal = stim.Circuit.generated(
@@ -204,7 +205,7 @@ if result.converged:
     polynomial.save("ler_polynomial.npz")
     restored = LERPolynomial.load("ler_polynomial.npz")
     print(restored(ps))                  # No new sampling or decoding.
-    print(restored.estimate(0.0005))     # New p: value, interval, and status.
+    print(result.estimates)             # Keep the requested-grid error bars.
     print(restored.to_sympy())           # Factored polynomial in p.
     # For small polynomials: restored.to_sympy(expanded=True).
 ```
@@ -225,8 +226,8 @@ For direct allocation by weight and saved `GeneralNoiseProfile` objects, see
 **Current limits:** The original S-curve method still has systematic
 extrapolation error. The general-noise polynomial avoids that fit, but its
 coefficients are sampled; statistical bounds do not cover hardware-model
-mismatch. A `budget_exhausted` run has not met every precision target, and new
-p values need their own `estimate(p)` assessment. Rare-event efficiency remains
+mismatch. A `budget_exhausted` run has not met every precision target; error bars
+apply to the requested p values, not the whole polynomial. Rare-event efficiency remains
 unresolved. Support is for one-parameter linear Pauli-noise families, not
 arbitrary coherent or non-Markovian noise. See the
 [method and confidence bounds](docs/uniformized_profiling.md) and
