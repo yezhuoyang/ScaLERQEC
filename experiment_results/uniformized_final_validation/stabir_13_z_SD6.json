@@ -1,0 +1,151 @@
+{
+  "spec": {
+    "family": "stabir",
+    "distance": 13,
+    "basis": "z",
+    "noise": "SD6",
+    "rounds": 13,
+    "name": "stabir_13_z_SD6"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "088c3f83b1df767a5e2550c12217cff9f701f4e057d3b699babc919994aa4516",
+  "profile_seconds_budget": 60.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33",
+    "src\\scalerqec\\Stratified\\confidence.py": "afa71329cf590034b13c96d9a170fdea33c1b6848c3bf5316509012c49846ba9",
+    "src\\scalerqec\\Stratified\\noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "seconds_total": 138.4161216999928,
+  "compile_seconds": 41.01194120000582,
+  "factors": 14833,
+  "dense_response_bytes": 322510370,
+  "latent_trials": 14833,
+  "uniform_rate": 1.0,
+  "sampler_array_bytes": 7384368,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      148,
+      14833,
+      0,
+      1,
+      2,
+      148,
+      14833
+    ],
+    "pauli_weights": [
+      0,
+      2,
+      2,
+      203,
+      19741,
+      0,
+      2,
+      3,
+      197,
+      19768
+    ],
+    "passed": true
+  },
+  "decoder": "PyMatching",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 210943,
+    "seconds": 60.163095600000815,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 2.0226119994994874e-12,
+        "lower": 0.0,
+        "upper": 0.00027266269864153776,
+        "error_bound": 0.00027266269661892575,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.00032710258019072024,
+        "lower": 6.48750326640107e-05,
+        "upper": 0.0009268410100293249,
+        "error_bound": 0.0005997384298386046,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.13160901286129512,
+        "lower": 0.12384716718682902,
+        "upper": 0.14001809065454213,
+        "error_bound": 0.00840907779324701,
+        "accuracy_met": true
+      }
+    ],
+    "joint_histogram_cells": 3573,
+    "joint_histogram_shots": 210943
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 14833,
+  "historical_reference_file": "experiment_results\\large_code_validation\\stabir_13_z_SD6.json",
+  "historical_reference_sha256": "23c1b6c9dbba0f2b9bca581b38e39baf636eea6207ff418d8826914475f707ab",
+  "historical_monte_carlo": [
+    {
+      "shots": 100000,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.000104217382450774,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 3.8922033999988344,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 34,
+      "ler": 0.00034,
+      "per_observable_failures": [
+        34
+      ],
+      "lower": 0.00015421753569206764,
+      "upper": 0.0006392474365608929,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 10.124064200004796,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 12868,
+      "ler": 0.12868,
+      "per_observable_failures": [
+        12868
+      ],
+      "lower": 0.12446522930841322,
+      "upper": 0.1329771795876244,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 56.836272299988195,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "fresh_monte_carlo": []
+}

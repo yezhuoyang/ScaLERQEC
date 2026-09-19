@@ -1,0 +1,151 @@
+{
+  "spec": {
+    "family": "surface",
+    "distance": 13,
+    "basis": "z",
+    "noise": "nonuniform_depolarizing",
+    "rounds": 13,
+    "name": "surface_13_z_nonuniform_depolarizing"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "0794a3d2713aa6d58dc77523d14fbb2711a832bc69150413f53908639cdaab0e",
+  "profile_seconds_budget": 60.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33",
+    "src\\scalerqec\\Stratified\\confidence.py": "afa71329cf590034b13c96d9a170fdea33c1b6848c3bf5316509012c49846ba9",
+    "src\\scalerqec\\Stratified\\noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "seconds_total": 123.50518869998632,
+  "compile_seconds": 36.385867300006794,
+  "factors": 15170,
+  "dense_response_bytes": 323983060,
+  "latent_trials": 15170,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 7453968,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      303,
+      15170,
+      0,
+      1,
+      2,
+      303,
+      15170
+    ],
+    "pauli_weights": [
+      0,
+      0,
+      0,
+      165,
+      8856,
+      0,
+      1,
+      1,
+      176,
+      8781
+    ],
+    "passed": true
+  },
+  "decoder": "PyMatching",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 162303,
+    "seconds": 60.20264750000206,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 1.4788682059944298e-141,
+        "lower": 0.0,
+        "upper": 0.00034490539319404975,
+        "error_bound": 0.00034490539319404975,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 2.2615670956439807e-46,
+        "lower": 0.0,
+        "upper": 0.00034490539319404975,
+        "error_bound": 0.00034490539319404975,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.08837174913587549,
+        "lower": 0.08094909522538847,
+        "upper": 0.09623636575756184,
+        "error_bound": 0.007864616621686346,
+        "accuracy_met": true
+      }
+    ],
+    "joint_histogram_cells": 9394,
+    "joint_histogram_shots": 162303
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 15170,
+  "historical_reference_file": "experiment_results\\large_code_validation\\surface_13_z_nonuniform_depolarizing.json",
+  "historical_reference_sha256": "465765c7c97ec0f9689b3e4c4da619ae052b90d3c686446a5a473aa3995e5a69",
+  "historical_monte_carlo": [
+    {
+      "shots": 100000,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.000104217382450774,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 5.50332650000928,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 4,
+      "ler": 4e-05,
+      "per_observable_failures": [
+        4
+      ],
+      "lower": 1.6909047794543098e-06,
+      "upper": 0.00019301208370198358,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 13.366198999981862,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 9004,
+      "ler": 0.09004,
+      "per_observable_failures": [
+        9004
+      ],
+      "lower": 0.08644654411289537,
+      "upper": 0.09372446615649428,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 69.02627179998672,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "fresh_monte_carlo": []
+}

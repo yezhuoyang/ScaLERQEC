@@ -1,0 +1,180 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 72,
+    "k": 12,
+    "distance": 6,
+    "rounds": 18,
+    "noise": "biased_pauli",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_72_z_biased_pauli"
+  },
+  "phase": "complete",
+  "status": "completed",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "36e6421b70342d8d46a414a6bcb42aa6a7fcbdab568277f6d5f8c7d74ec25a00",
+  "qubits": 144,
+  "detectors": 684,
+  "observables": 12,
+  "defined_observables": [
+    11
+  ],
+  "compile_seconds": 33.40888820000691,
+  "factors": 21024,
+  "response_columns": 171936,
+  "response_bytes": 119667456,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 21024,
+    "histories_replayed": 8,
+    "weights": [
+      2,
+      281
+    ],
+    "max_log_ratio_difference": 5.684341886080801e-13
+  },
+  "independent_scaling_matches": true,
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "decoder_order_check": true,
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 512,
+    "exact_histories": 0,
+    "sample_counts": {
+      "27": 256,
+      "28": 256
+    },
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 36.202587399980985,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 3.270786815317741e-33,
+        "lower": 0.0,
+        "upper": 0.9270616714492209,
+        "error_bound": 0.9270616714492209,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 2.7057958872074144e-23,
+        "lower": 0.0,
+        "upper": 0.9999999980548293,
+        "error_bound": 0.9999999980548293,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 2.360792110527627e-61,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 1
+  },
+  "adaptive_wall_seconds": 36.296042300004046,
+  "monte_carlo": [
+    {
+      "shots": 1024,
+      "failures": 3,
+      "ler": 0.0029296875,
+      "per_observable_failures": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "lower": 5.583536230607248e-05,
+      "upper": 0.0168464634285081,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 4.284671000001254,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 1024,
+      "failures": 226,
+      "ler": 0.220703125,
+      "per_observable_failures": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        226
+      ],
+      "lower": 0.17140577573328897,
+      "upper": 0.27609195636991496,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 19.37907249998534,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 1024,
+      "failures": 503,
+      "ler": 0.4912109375,
+      "per_observable_failures": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        503
+      ],
+      "lower": 0.4283648584835155,
+      "upper": 0.5542483352071226,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 395.3329345000093,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "seconds": 552.6361485999951
+}

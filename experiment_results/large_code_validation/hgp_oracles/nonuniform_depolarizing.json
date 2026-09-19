@@ -1,0 +1,90 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "nonuniform_depolarizing",
+    "rounds": 1
+  },
+  "oracle": {
+    "histories": 60379,
+    "failing_histories": 11276,
+    "points": [
+      {
+        "p": 5e-05,
+        "lower": 0.00036182579967523247,
+        "upper": 0.000365743519326766,
+        "omitted_mass": 3.917719651533545e-06,
+        "accuracy_verified_by_oracle": true,
+        "profile_interval_overlaps_oracle": true
+      },
+      {
+        "p": 0.0001,
+        "lower": 0.000722300332609816,
+        "upper": 0.0007379649488831651,
+        "omitted_mass": 1.566461627334909e-05,
+        "accuracy_verified_by_oracle": true,
+        "profile_interval_overlaps_oracle": true
+      },
+      {
+        "p": 0.0002,
+        "lower": 0.0014391788209716114,
+        "upper": 0.0015017858101896214,
+        "omitted_mass": 6.260698921800996e-05,
+        "accuracy_verified_by_oracle": true,
+        "profile_interval_overlaps_oracle": true
+      }
+    ],
+    "seconds": 27.340259200020228
+  },
+  "adaptive": {
+    "status": "accuracy_met",
+    "reason": "Simultaneous requested-grid accuracy target met.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 16384,
+    "exact_histories": 60379,
+    "sample_counts": {
+      "2": 16384
+    },
+    "exact_weights": [
+      0,
+      1,
+      2
+    ],
+    "proposal_probabilities": [
+      5e-05,
+      0.0001,
+      0.0002,
+      0.01
+    ],
+    "seconds": 35.58258420001948,
+    "estimates": [
+      {
+        "p": 5e-05,
+        "ler": 0.0003618257996752321,
+        "lower": 0.0003618257996752326,
+        "upper": 0.0003657435193267661,
+        "error_bound": 3.917719651533986e-06,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.0001,
+        "ler": 0.0007223003326098178,
+        "lower": 0.0007223003326098192,
+        "upper": 0.0007379649488831682,
+        "error_bound": 1.566461627335047e-05,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.0002,
+        "ler": 0.001439178820971605,
+        "lower": 0.0014391788209716038,
+        "upper": 0.0015017858101896138,
+        "error_bound": 6.260698921800871e-05,
+        "accuracy_met": true
+      }
+    ],
+    "polynomial_terms": 9
+  }
+}

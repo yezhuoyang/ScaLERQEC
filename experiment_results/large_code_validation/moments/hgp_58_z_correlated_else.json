@@ -1,0 +1,43 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "correlated_else",
+    "rounds": 1,
+    "name": "hgp_58_z_correlated_else"
+  },
+  "shots": 2048,
+  "pauli_weight": 1,
+  "seconds": 0.3812243999855127,
+  "statistics": [
+    {
+      "name": "active_locations",
+      "observed_mean": 1.0,
+      "exact_conditional_mean": 1.0,
+      "true_standard_error": 0.0,
+      "standardized_difference": 0.0
+    },
+    {
+      "name": "early_half_active",
+      "observed_mean": 0.7333984375,
+      "exact_conditional_mean": 0.7379004588732192,
+      "true_standard_error": 0.0097177795854929,
+      "standardized_difference": 0.4632767530496372
+    },
+    {
+      "name": "two_pauli_outcomes",
+      "observed_mean": 0.0,
+      "exact_conditional_mean": 0.0,
+      "true_standard_error": 0.0,
+      "standardized_difference": 0.0
+    },
+    {
+      "name": "single_X_outcomes",
+      "observed_mean": 0.345703125,
+      "exact_conditional_mean": 0.3333333333333335,
+      "true_standard_error": 0.010416666666666668,
+      "standardized_difference": 1.1874999999999856
+    }
+  ],
+  "within_7_true_standard_errors": true
+}

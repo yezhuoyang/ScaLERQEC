@@ -1,0 +1,44 @@
+{
+  "spec": {
+    "family": "surface",
+    "distance": 13,
+    "basis": "x",
+    "noise": "biased_pauli",
+    "rounds": 13,
+    "name": "surface_13_x_biased_pauli"
+  },
+  "shots": 2048,
+  "pauli_weight": 207,
+  "seconds": 74.64869530001306,
+  "statistics": [
+    {
+      "name": "active_locations",
+      "observed_mean": 171.35986328125,
+      "exact_conditional_mean": 171.36687902138377,
+      "true_standard_error": 0.16427414714109118,
+      "standardized_difference": 0.04270751214274185
+    },
+    {
+      "name": "early_half_active",
+      "observed_mean": 83.724609375,
+      "exact_conditional_mean": 83.64769885984292,
+      "true_standard_error": 0.16053044169389818,
+      "standardized_difference": 0.47910237052568105
+    },
+    {
+      "name": "two_pauli_outcomes",
+      "observed_mean": 82.69921875,
+      "exact_conditional_mean": 82.69312097861403,
+      "true_standard_error": 0.06683599409084344,
+      "standardized_difference": 0.09123484237668456
+    },
+    {
+      "name": "single_X_outcomes",
+      "observed_mean": 14.06103515625,
+      "exact_conditional_mean": 14.134831368267331,
+      "true_standard_error": 0.08131125087116828,
+      "standardized_difference": 0.9075768879051699
+    }
+  ],
+  "within_7_true_standard_errors": true
+}

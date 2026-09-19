@@ -1,0 +1,38 @@
+[
+  {
+    "name": "steane",
+    "family": "nonuniform_single",
+    "p": 0.001,
+    "reference_p": 0.05,
+    "exact_ler": 1.590171801534754e-06,
+    "profile_shots": 40000,
+    "profile_ler": 1.5328756432046648e-06,
+    "profile_estimated_se": 7.010065276306455e-08,
+    "profile_true_se": 7.138133349499922e-08,
+    "profile_seconds": 0.13904740000725724,
+    "mc_shots": 312085826,
+    "mc_failures": 500,
+    "mc_ler": 1.6021233851229116e-06,
+    "mc_true_se": 7.138133339183845e-08,
+    "mc_seconds": 10.481418799987296,
+    "observed_time_ratio": 75.38018545791036
+  },
+  {
+    "name": "repetition_5",
+    "family": "mixed_depolarizing",
+    "p": 0.001,
+    "reference_p": 0.05,
+    "exact_ler": 3.3756925249013626e-07,
+    "profile_shots": 50000,
+    "profile_ler": 3.434060086693276e-07,
+    "profile_estimated_se": 2.745665985531448e-08,
+    "profile_true_se": 2.7751188120261108e-08,
+    "profile_seconds": 0.18854659999487922,
+    "mc_shots": 438328362,
+    "mc_failures": 158,
+    "mc_ler": 3.6046036190557984e-07,
+    "mc_true_se": 2.7751188119764346e-08,
+    "mc_seconds": 11.561804099997971,
+    "observed_time_ratio": 61.32067139005414
+  }
+]

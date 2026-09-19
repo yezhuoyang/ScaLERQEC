@@ -1,0 +1,147 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "biased_pauli",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_biased_pauli"
+  },
+  "seed": 260919,
+  "max_seconds": 30,
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "circuit_sha256": "f45e1507707462e46089f4bca18496336b476440ecc8f9603b3157aeb9a9a417",
+  "status": "completed",
+  "source_sha256": {
+    "general_noise.py": "f1cb8984e2a69deaa214f63e1ea3a33ffb75c06e617c7c832ed1dbe9a20ce8f8",
+    "adaptive.py": "2f108e1db3fbd999a5b63cc2ac3de565f015291466a7aa7616e958d20e25b3be",
+    "conditional.py": "37940389b3e13a3f77fbbaf925e1b0036f221d9d03f53ada585efb0ec9ee3401",
+    "confidence.py": "3c07c233bbd41ddbbc635ef2d2a49049c65e1dcd6f3341b0d0ba94ba9f5d9a12",
+    "noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "elapsed_seconds": 548.5349923000031,
+  "compile_seconds": 173.98425449998467,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 83520,
+    "histories_replayed": 8,
+    "histories_per_weight": {
+      "2": 4,
+      "1121": 4
+    },
+    "weights": [
+      2,
+      1121
+    ],
+    "max_log_ratio_difference": 1.9326762412674725e-12
+  },
+  "moments": {
+    "spec": {
+      "family": "bicycle",
+      "n": 144,
+      "k": 12,
+      "distance": 12,
+      "rounds": 36,
+      "noise": "biased_pauli",
+      "data_only": false,
+      "memory_basis": "x",
+      "defined_logical_ids": [
+        11
+      ],
+      "name": "bicycle_144_z_biased_pauli"
+    },
+    "shots": 2048,
+    "pauli_weight": 1121,
+    "seconds": 69.51529710000614,
+    "statistics": [
+      {
+        "name": "active_locations",
+        "observed_mean": 922.89599609375,
+        "exact_conditional_mean": 922.8960486827126,
+        "true_standard_error": 0.30716280169598786,
+        "standardized_difference": 0.00017120876067325518
+      },
+      {
+        "name": "early_half_active",
+        "observed_mean": 460.0166015625,
+        "exact_conditional_mean": 460.3681870951515,
+        "true_standard_error": 0.36584297625466794,
+        "standardized_difference": 0.9610285162526687
+      },
+      {
+        "name": "two_pauli_outcomes",
+        "observed_mean": 304.56103515625,
+        "exact_conditional_mean": 304.6639513172824,
+        "true_standard_error": 0.20822670756206144,
+        "standardized_difference": 0.49425053220765575
+      },
+      {
+        "name": "single_X_outcomes",
+        "observed_mean": 44.876953125,
+        "exact_conditional_mean": 44.77431134379764,
+        "true_standard_error": 0.1457162234527028,
+        "standardized_difference": 0.7043950136113295
+      }
+    ],
+    "within_7_true_standard_errors": true
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 0,
+    "exact_histories": 0,
+    "sample_counts": {},
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 63.666797800018685,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.999999999999947,
+        "error_bound": 0.999999999999947,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 0
+  },
+  "historical_reference_file": "experiment_results\\large_code_validation\\bicycle_144_z_biased_pauli.json",
+  "historical_monte_carlo": [],
+  "fresh_monte_carlo": []
+}

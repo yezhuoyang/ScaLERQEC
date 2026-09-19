@@ -1,0 +1,44 @@
+{
+  "spec": {
+    "family": "stabir",
+    "distance": 13,
+    "basis": "z",
+    "noise": "SI1000",
+    "rounds": 13,
+    "name": "stabir_13_z_SI1000"
+  },
+  "shots": 2048,
+  "pauli_weight": 276,
+  "seconds": 98.07667499998934,
+  "statistics": [
+    {
+      "name": "active_locations",
+      "observed_mean": 227.56591796875,
+      "exact_conditional_mean": 227.35618246314021,
+      "true_standard_error": 0.10562889659642065,
+      "standardized_difference": 1.9855883415229436
+    },
+    {
+      "name": "early_half_active",
+      "observed_mean": 107.35595703125,
+      "exact_conditional_mean": 106.81664259536771,
+      "true_standard_error": 0.16930243392145988,
+      "standardized_difference": 3.185509052589756
+    },
+    {
+      "name": "two_pauli_outcomes",
+      "observed_mean": 48.43408203125,
+      "exact_conditional_mean": 48.64381753685975,
+      "true_standard_error": 0.10562889659614948,
+      "standardized_difference": 1.9855883415277047
+    },
+    {
+      "name": "single_X_outcomes",
+      "observed_mean": 152.8935546875,
+      "exact_conditional_mean": 152.6670770078731,
+      "true_standard_error": 0.20715084839570813,
+      "standardized_difference": 1.0932983445680564
+    }
+  ],
+  "within_7_true_standard_errors": true
+}

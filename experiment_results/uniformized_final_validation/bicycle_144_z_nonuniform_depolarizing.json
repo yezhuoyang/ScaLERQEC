@@ -1,0 +1,108 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_nonuniform_depolarizing"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "30690bd4aaae860aea20b0cce2500188cf94cc62f9833ec742d08ec9014c24c1",
+  "profile_seconds_budget": 30.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33",
+    "src\\scalerqec\\Stratified\\confidence.py": "afa71329cf590034b13c96d9a170fdea33c1b6848c3bf5316509012c49846ba9",
+    "src\\scalerqec\\Stratified\\noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "seconds_total": 356.8539315999951,
+  "compile_seconds": 164.5873566000082,
+  "factors": 83520,
+  "dense_response_bytes": 1835778816,
+  "latent_trials": 83520,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 34696528,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      1670,
+      83520,
+      0,
+      1,
+      2,
+      1670,
+      83520
+    ],
+    "pauli_weights": [
+      0,
+      2,
+      0,
+      998,
+      50598,
+      0,
+      0,
+      0,
+      1010,
+      50630
+    ],
+    "passed": true
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 7,
+    "seconds": 41.05212949999259,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 3.6434445386886097e-99,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.42857142857142855,
+        "lower": 1.180294101502024e-05,
+        "upper": 1.0,
+        "error_bound": 0.5714285714285714,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.8571428571428571,
+        "lower": 0.003087948270741791,
+        "upper": 1.0,
+        "error_bound": 0.8540549088721153,
+        "accuracy_met": false
+      }
+    ],
+    "joint_histogram_cells": 7,
+    "joint_histogram_shots": 7
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 83520,
+  "historical_reference_file": "experiment_results\\large_code_validation\\bicycle_144_z_nonuniform_depolarizing.json",
+  "historical_reference_sha256": "6cb3edc3d76679b1529510b36027acfc42cde270a3ffb5a4f1a6c2348bd8bf99",
+  "historical_monte_carlo": [],
+  "fresh_monte_carlo": []
+}

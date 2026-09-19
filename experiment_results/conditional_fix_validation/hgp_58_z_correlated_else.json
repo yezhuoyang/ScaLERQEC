@@ -1,0 +1,196 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "correlated_else",
+    "rounds": 1,
+    "name": "hgp_58_z_correlated_else"
+  },
+  "seed": 260919,
+  "max_seconds": 30,
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "circuit_sha256": "15b8fd89f61d127ebb53085373925da699c94b23de69dfd740605115f2fc763c",
+  "status": "completed",
+  "source_sha256": {
+    "general_noise.py": "f1cb8984e2a69deaa214f63e1ea3a33ffb75c06e617c7c832ed1dbe9a20ce8f8",
+    "adaptive.py": "2f108e1db3fbd999a5b63cc2ac3de565f015291466a7aa7616e958d20e25b3be",
+    "conditional.py": "37940389b3e13a3f77fbbaf925e1b0036f221d9d03f53ada585efb0ec9ee3401",
+    "confidence.py": "3c07c233bbd41ddbbc635ef2d2a49049c65e1dcd6f3341b0d0ba94ba9f5d9a12",
+    "noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "elapsed_seconds": 6.960055899980944,
+  "compile_seconds": 0.21824599997489713,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 87,
+    "histories_replayed": 8,
+    "histories_per_weight": {
+      "1": 4,
+      "2": 4
+    },
+    "weights": [
+      1,
+      2
+    ],
+    "max_log_ratio_difference": 3.552713678800501e-15
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "adaptive": {
+    "status": "accuracy_met",
+    "reason": "Simultaneous requested-grid accuracy target met.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 15360,
+    "exact_histories": 15110,
+    "sample_counts": {
+      "2": 4096,
+      "3": 2048,
+      "4": 8192,
+      "5": 256,
+      "6": 256,
+      "7": 256,
+      "8": 256
+    },
+    "exact_weights": [
+      0,
+      1,
+      2
+    ],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 6.565264800010482,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.014278017002179238,
+        "lower": 0.014189786041994648,
+        "upper": 0.014364700981977506,
+        "error_bound": 8.823096018458973e-05,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.003,
+        "ler": 0.041947088136590586,
+        "lower": 0.04107866789506977,
+        "upper": 0.04277559215091066,
+        "error_bound": 0.0008684202415208189,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.01,
+        "ler": 0.13080181834706145,
+        "lower": 0.11921821463376198,
+        "upper": 0.14107321487242963,
+        "error_bound": 0.011583603713299473,
+        "accuracy_met": true
+      }
+    ],
+    "polynomial_terms": 266
+  },
+  "historical_reference_file": "experiment_results\\large_code_validation\\hgp_58_z_correlated_else.json",
+  "historical_monte_carlo": [
+    {
+      "shots": 4096,
+      "failures": 61,
+      "ler": 0.014892578125,
+      "per_observable_failures": [
+        13,
+        18,
+        22,
+        7,
+        8,
+        15,
+        24,
+        11,
+        1,
+        13,
+        13,
+        22,
+        6,
+        21,
+        30,
+        21
+      ],
+      "lower": 0.008457579741068776,
+      "upper": 0.02400105375998295,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.11841049999929965,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 4096,
+      "failures": 189,
+      "ler": 0.046142578125,
+      "per_observable_failures": [
+        21,
+        35,
+        62,
+        25,
+        12,
+        20,
+        62,
+        30,
+        5,
+        28,
+        28,
+        63,
+        5,
+        34,
+        86,
+        57
+      ],
+      "lower": 0.034085397726452894,
+      "upper": 0.06068245626188734,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.1614928999915719,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 4096,
+      "failures": 567,
+      "ler": 0.138427734375,
+      "per_observable_failures": [
+        85,
+        144,
+        199,
+        101,
+        45,
+        72,
+        176,
+        113,
+        27,
+        108,
+        110,
+        217,
+        36,
+        138,
+        272,
+        192
+      ],
+      "lower": 0.11763786138079729,
+      "upper": 0.16118653027079496,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.2618711999966763,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "fresh_monte_carlo": []
+}

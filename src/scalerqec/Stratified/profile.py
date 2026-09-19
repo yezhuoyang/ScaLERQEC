@@ -179,6 +179,34 @@ class LERProfile:
         result = self.curve(p_values, max_working_elements=max_working_elements).ler
         return float(result) if result.ndim == 0 else result
 
+    def to_polynomial(self):
+        """Export the existing SID weighted spectrum as a polynomial in p.
+
+        This preserves all fitted/extrapolated entries and their model bias.
+        It does not reinterpret a SID spectrum as a general-noise profile.
+        The Bernstein sum is represented in the common positive factored basis.
+        """
+        from .noise_polynomial import LERPolynomial
+
+        weights = np.flatnonzero(self._conditional_ler > 0)
+        logs = binom.logpmf(weights, self.num_noise, 0.5) + np.log(
+            self._conditional_ler[weights]
+        )
+        return LERPolynomial(
+            0.5,
+            [1.0],
+            weights,
+            (self.num_noise - weights)[:, None],
+            logs,
+            max_p=1.0,
+            metadata={
+                "noise_model": "uniform independent DEPOLARIZE1",
+                "profile_metadata": self.metadata,
+                "modeled_weights": np.flatnonzero(self._modeled_weights).tolist(),
+                "meaning": "Polynomial of the stored SID spectrum; fitting/extrapolation uncertainty is unchanged.",
+            },
+        )
+
     def save(self, path):
         """Write a portable JSON snapshot; no pickle or executable objects."""
         data = {

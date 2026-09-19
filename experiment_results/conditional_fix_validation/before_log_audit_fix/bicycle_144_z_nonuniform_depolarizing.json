@@ -1,0 +1,137 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_nonuniform_depolarizing"
+  },
+  "seed": 260919,
+  "max_seconds": 30.0,
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "circuit_sha256": "30690bd4aaae860aea20b0cce2500188cf94cc62f9833ec742d08ec9014c24c1",
+  "status": "reference_stopped",
+  "phase": "compare",
+  "elapsed_seconds": 502.7393916999863,
+  "compile_seconds": 153.96171750000212,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 83520,
+    "histories_replayed": 4,
+    "weights": [
+      2,
+      1010
+    ],
+    "max_log_ratio_difference": 2.5011104298755527e-12
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 0,
+    "exact_histories": 0,
+    "sample_counts": {},
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 46.42952619999414,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9999999999999352,
+        "error_bound": 0.9999999999999352,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 0
+  },
+  "historical_reference_file": "experiment_results\\large_code_validation\\bicycle_144_z_nonuniform_depolarizing.json",
+  "historical_monte_carlo": [],
+  "fresh_monte_carlo": [
+    {
+      "p": 0.001,
+      "shots": 256,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.03989443450409415,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 13.328753800014965
+    },
+    {
+      "p": 0.003,
+      "shots": 256,
+      "failures": 43,
+      "ler": 0.16796875,
+      "per_observable_failures": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43
+      ],
+      "lower": 0.08772247408975795,
+      "upper": 0.2771282178843866,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 57.90989229999832
+    }
+  ],
+  "reference_stop_reason": "Stopped after more than 15 minutes of total case time while decoding the third fixed-budget MC point. The first two complete fixed-budget points are retained; no interval is reported for the unfinished point.",
+  "audit_scope_note": "This intermediate run replayed only typical weight 1010: its audit predicate still skipped root masses that exponentiated to zero. The final run uses the corrected log-space predicate and checks both requested weights."
+}

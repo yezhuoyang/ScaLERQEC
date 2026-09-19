@@ -1,0 +1,100 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "correlated_else",
+    "rounds": 1,
+    "name": "hgp_58_z_correlated_else"
+  },
+  "status": "completed",
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "circuit_sha256": "15b8fd89f61d127ebb53085373925da699c94b23de69dfd740605115f2fc763c",
+  "seed": 260922,
+  "fixed_shots_per_point": 250000,
+  "monte_carlo": [
+    {
+      "p": 0.001,
+      "shots": 250000,
+      "failures": 3562,
+      "ler": 0.014248,
+      "per_observable_failures": [
+        479,
+        870,
+        1145,
+        513,
+        274,
+        459,
+        1091,
+        633,
+        70,
+        634,
+        634,
+        1318,
+        144,
+        853,
+        1655,
+        1214
+      ],
+      "lower": 0.01331590280585513,
+      "upper": 0.015223276836709553,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 8.776135699998122
+    },
+    {
+      "p": 0.003,
+      "shots": 250000,
+      "failures": 10565,
+      "ler": 0.04226,
+      "per_observable_failures": [
+        1463,
+        2620,
+        3434,
+        1662,
+        838,
+        1456,
+        3298,
+        2006,
+        253,
+        2013,
+        2027,
+        4101,
+        467,
+        2570,
+        4939,
+        3708
+      ],
+      "lower": 0.040662915549893056,
+      "upper": 0.04389772455294057,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 13.28907459997572
+    },
+    {
+      "p": 0.01,
+      "shots": 250000,
+      "failures": 32761,
+      "ler": 0.131044,
+      "per_observable_failures": [
+        4911,
+        8519,
+        11316,
+        5621,
+        3102,
+        4653,
+        10549,
+        6597,
+        1396,
+        6446,
+        6541,
+        13060,
+        1942,
+        7880,
+        14762,
+        11395
+      ],
+      "lower": 0.1283488849929829,
+      "upper": 0.1337718491132015,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 20.930568800016772
+    }
+  ]
+}

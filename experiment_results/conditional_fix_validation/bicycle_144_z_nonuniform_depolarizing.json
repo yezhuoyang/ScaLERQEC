@@ -1,0 +1,149 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_nonuniform_depolarizing"
+  },
+  "seed": 260919,
+  "max_seconds": 300.0,
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "circuit_sha256": "30690bd4aaae860aea20b0cce2500188cf94cc62f9833ec742d08ec9014c24c1",
+  "status": "completed",
+  "source_sha256": {
+    "general_noise.py": "f1cb8984e2a69deaa214f63e1ea3a33ffb75c06e617c7c832ed1dbe9a20ce8f8",
+    "adaptive.py": "2f108e1db3fbd999a5b63cc2ac3de565f015291466a7aa7616e958d20e25b3be",
+    "conditional.py": "2f2753bc9918c078e6d86fffe4d441a48f0ef52b6f7d5dc2ac142c1459b95c27",
+    "confidence.py": "3c07c233bbd41ddbbc635ef2d2a49049c65e1dcd6f3341b0d0ba94ba9f5d9a12",
+    "noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "elapsed_seconds": 686.1487298999855,
+  "compile_seconds": 169.32429709998542,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 83520,
+    "histories_replayed": 8,
+    "histories_per_weight": {
+      "2": 4,
+      "1010": 4
+    },
+    "weights": [
+      2,
+      1010
+    ],
+    "max_log_ratio_difference": 2.5011104298755527e-12
+  },
+  "moments": {
+    "spec": {
+      "family": "bicycle",
+      "n": 144,
+      "k": 12,
+      "distance": 12,
+      "rounds": 36,
+      "noise": "nonuniform_depolarizing",
+      "data_only": false,
+      "memory_basis": "x",
+      "defined_logical_ids": [
+        11
+      ],
+      "name": "bicycle_144_z_nonuniform_depolarizing"
+    },
+    "shots": 2048,
+    "pauli_weight": 1010,
+    "seconds": 64.12932929999079,
+    "statistics": [
+      {
+        "name": "active_locations",
+        "observed_mean": 921.75634765625,
+        "exact_conditional_mean": 922.3331831136708,
+        "true_standard_error": 0.3046062494357495,
+        "standardized_difference": 1.8937085450127717
+      },
+      {
+        "name": "early_half_active",
+        "observed_mean": 459.63671875,
+        "exact_conditional_mean": 460.0865564196829,
+        "true_standard_error": 0.3651990879048999,
+        "standardized_difference": 1.231760112719759
+      },
+      {
+        "name": "two_pauli_outcomes",
+        "observed_mean": 194.3818359375,
+        "exact_conditional_mean": 194.22681688632628,
+        "true_standard_error": 0.20443664592384675,
+        "standardized_difference": 0.7582742833272134
+      },
+      {
+        "name": "single_X_outcomes",
+        "observed_mean": 224.67578125,
+        "exact_conditional_mean": 224.9403886430127,
+        "true_standard_error": 0.30327292367028025,
+        "standardized_difference": 0.8725058267990735
+      }
+    ],
+    "within_7_true_standard_errors": true
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Additional weight strata exceed the memory limit.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 256,
+    "exact_histories": 0,
+    "sample_counts": {
+      "100": 256
+    },
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 153.75193800000125,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9820096186540401,
+        "error_bound": 0.9820096186540401,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9999999999997379,
+        "error_bound": 0.9999999999997379,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 0
+  },
+  "historical_reference_file": "experiment_results\\large_code_validation\\bicycle_144_z_nonuniform_depolarizing.json",
+  "historical_monte_carlo": [],
+  "fresh_monte_carlo": []
+}

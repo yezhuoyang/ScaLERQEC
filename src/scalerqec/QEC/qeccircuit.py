@@ -19,11 +19,10 @@ and the full IR instruction hierarchy used internally by the compiler.
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional
 
 import numpy as np
-from numpy.typing import NDArray
 import stim
+from numpy.typing import NDArray
 
 from scalerqec.Clifford.clifford import CliffordCircuit
 from scalerqec.Clifford.noiselabel import NoiseLabelMap
@@ -40,9 +39,9 @@ class SCHEME(Enum):
     Attributes:
         STANDARD: Bare ancilla syndrome extraction (one ancilla per
             stabilizer generator, no verification).
-        SHOR: Shor-style fault-tolerant extraction using cat states.
+        SHOR: Cat-state extraction with ancilla decoding (no postselection).
         KNILL: Knill-style extraction via teleportation.
-        FLAG: Flag-based fault-tolerant extraction with flag qubits.
+        FLAG: Extraction using one flag per measured stabilizer.
     """
 
     STANDARD = 0
@@ -78,6 +77,7 @@ class IRType(Enum):
     REPEAT_UNTIL = 5
     REPEAT = 6
     DATA_MEASURE = 7
+    TELEPORT = 8
 
 
 class IRInstruction:
@@ -354,6 +354,17 @@ class DataMeasureInstruction(IRInstruction):
         return f"DataMeasure {self._basis}"
 
 
+class KnillTeleportInstruction(IRInstruction):
+    """A block teleportation round, including encoded Bell preparation."""
+
+    def __init__(self, round: int):
+        super().__init__(IRType.TELEPORT)
+        self.round = round
+
+    def __str__(self):
+        return f"Teleport[r={self.round}] encoded Bell; track logical Pauli frame"
+
+
 class StabCode:
     """Stabilizer quantum error-correcting code.
 
@@ -406,10 +417,20 @@ class StabCode:
         self._rounds: int = 3 * d
         # Define the k different logical Z operators
         self._logicalZ: dict[int, str] = {}
-        self._paritymatrix: Optional[NDArray[np.int_]] = None
-        self._noisemodel: Optional[NoiseModel] = None
+        self._paritymatrix: NDArray[np.int_] | None = None
+        self._noisemodel: NoiseModel | None = None
         self._IR_compiled = False
         self._circuit_compiled = False
+        self._ideal_stimcirc: stim.Circuit | None = None
+
+    def _invalidate(self) -> None:
+        """Discard derived state after a code, schedule or noise change."""
+        self._IRList = []
+        self._IR_compiled = False
+        self._circuit_compiled = False
+        self._ideal_stimcirc = None
+        self._stimcirc = None
+        self._circuit = None
 
     def is_IR_compiled(self) -> bool:
         """
@@ -460,7 +481,7 @@ class StabCode:
         return self._d
 
     @property
-    def noisemodel(self) -> Optional[NoiseModel]:
+    def noisemodel(self) -> NoiseModel | None:
         """
         Get the noise model associated with the QECC.
 
@@ -478,6 +499,7 @@ class StabCode:
             noisemodel (NoiseModel): The noise model to set.
         """
         self._noisemodel = noisemodel
+        self._invalidate()
 
     def init_by_parity_check_matrix(self, paritymatrix: NDArray[np.int_]) -> None:
         """Initialize the code from a binary parity-check matrix.
@@ -496,7 +518,6 @@ class StabCode:
         self._n = paritymatrix.shape[1]
         self._k = self._n - paritymatrix.shape[0]
         self._stabs = []
-        pass
 
     def construct_parity_check_matrix(self) -> None:
         """Construct the binary symplectic parity-check matrix from stabilizers.
@@ -507,9 +528,8 @@ class StabCode:
 
         .. note:: Not yet implemented.
         """
-        pass
 
-    def get_parity_check_matrix(self) -> Optional[NDArray[np.int_]]:
+    def get_parity_check_matrix(self) -> NDArray[np.int_] | None:
         """Return the binary symplectic parity-check matrix, if available.
 
         Returns:
@@ -520,7 +540,7 @@ class StabCode:
         return self._paritymatrix
 
     @property
-    def circuit(self) -> Optional[CliffordCircuit]:
+    def circuit(self) -> CliffordCircuit | None:
         """
         Get the Clifford circuit for the quantum error-correcting code.
 
@@ -562,6 +582,7 @@ class StabCode:
         )
 
         self._logicalZ[index] = logicalZ
+        self._invalidate()
 
     @property
     def rounds(self) -> int:
@@ -581,7 +602,10 @@ class StabCode:
         Args:
             rounds (int): The number of rounds to set.
         """
+        if isinstance(rounds, bool) or not isinstance(rounds, int) or rounds < 1:
+            raise ValueError("rounds must be a positive integer.")
         self._rounds = rounds
+        self._invalidate()
 
     def add_stab(self, stab: str) -> None:
         """Add a stabilizer generator to the code.
@@ -601,6 +625,7 @@ class StabCode:
         )
 
         self._stabs.append(stab)
+        self._invalidate()
 
     @property
     def scheme(self) -> SCHEME:
@@ -640,6 +665,7 @@ class StabCode:
             self._scheme = SCHEME.FLAG
         else:
             raise ValueError(f"Unknown scheme: {scheme}")
+        self._invalidate()
 
     def construct_circuit(self) -> None:
         """Run the full compilation pipeline for the selected scheme.
@@ -664,26 +690,80 @@ class StabCode:
             d0 = Parity c0 c1
             o0 = Parity c0
 
+        All four schemes compile fixed circuits. Flag and decoded-cat records
+        are detectors. Knill prepares an encoded Bell resource and tracks its
+        logical Pauli frame in observable parities. These circuits do not
+        include adaptive ancilla rejection or a fault-tolerance certificate.
+
         Raises:
-            NotImplementedError: If a scheme other than ``STANDARD`` is
-                selected.
-            ValueError: If any logical Z operator required by the code
-                has not been set.
+            ValueError: If the stabilizer/logical definitions are invalid or
+                the logical operators are incompatible with Z-memory readout.
         """
+        self._validate_memory_code()
         if self._scheme == SCHEME.STANDARD:
             self.construct_IR_standard_scheme()
             self.compile_stim_circuit_from_IR_standard()
-            if self._noisemodel is not None:
-                noisy_circuit = self._noisemodel.inject_noise(self._stimcirc)
-                self._stimcirc = noisy_circuit
-                # Rebuild CliffordCircuit from noisy circuit using the
-                # noisy parser so QEPG noise locations match the actual
-                # noise in the stim circuit.
-                total_qubits = self._n + len(self._stabs)
-                self._circuit = CliffordCircuit(total_qubits)
-                self._circuit.compile_from_noisy_stim_circuit_str(str(noisy_circuit))
+        elif self._scheme in {SCHEME.FLAG, SCHEME.SHOR}:
+            self.construct_IR_standard_scheme()
+            if not self._circuit_compiled:
+                from .extraction import compile_memory_gadgets
+
+                self._store_compiled_circuit(compile_memory_gadgets(self))
         else:
-            raise NotImplementedError(f"Scheme {self._scheme} not implemented yet.")
+            self.construct_IR_knill_scheme()
+            self.compile_stim_circuit_from_knill()
+        if self._noisemodel is not None:
+            self._stimcirc = self._noisemodel.apply(self._ideal_stimcirc)
+            self._build_legacy_circuit(noisy=True)
+
+    def _validate_memory_code(self):
+        from .extraction import code_tableau
+
+        logicals = []
+        for j in range(self.k):
+            if j not in self._logicalZ:
+                raise ValueError(
+                    f"Logical Z operator for logical qubit {j} not defined."
+                )
+            z = self._logicalZ[j]
+            if any(p not in "IZ" for p in z):
+                raise ValueError(
+                    "The memory compiler uses Z preparation/readout and requires "
+                    "Z-type logical Z operators. Use an explicit Stim circuit "
+                    "for other preparation/readout bases."
+                )
+            logicals.append(z)
+        code_tableau(self._stabs, logicals, self.n)
+
+    def _store_compiled_circuit(self, circuit):
+        self._ideal_stimcirc = circuit.copy()
+        self._stimcirc = circuit
+        self._circuit_compiled = True
+        self._build_legacy_circuit(noisy=False)
+
+    def _build_legacy_circuit(self, *, noisy):
+        self.legacy_backend_error = None
+        if self._stimcirc.num_observables > 1:
+            self._circuit = None
+            self.legacy_backend_error = (
+                "Multiple observables require LinearNoiseModel, not legacy QEPG."
+            )
+            return
+        self._circuit = CliffordCircuit(self._stimcirc.num_qubits)
+        try:
+            if noisy:
+                self._circuit.compile_from_noisy_stim_circuit_str(str(self._stimcirc))
+            else:
+                from scalerqec.Clifford.stimparser import rewrite_stim_code
+
+                self._circuit.compile_from_stim_circuit_str(
+                    rewrite_stim_code(str(self._stimcirc))
+                )
+        except NotImplementedError as exc:
+            # The general Stim estimator supports more syntax/observables than
+            # the legacy QEPG backend. Never expose a partially parsed graph.
+            self._circuit = None
+            self.legacy_backend_error = str(exc)
 
     def label_noise(self) -> NoiseLabelMap:
         """Auto-label all noise sources in the compiled circuit.
@@ -704,38 +784,50 @@ class StabCode:
         return auto_label_from_stabcode(self)
 
     def construct_IR_shor_scheme(self) -> None:
-        """Build the IR for Shor-style fault-tolerant syndrome extraction.
+        """Build memory IR to be lowered with decoded-cat extraction."""
+        self.scheme = "Shor"
+        self.construct_IR_standard_scheme()
 
-        .. note:: Not yet implemented.
-        """
-        pass
+    def compile_stim_circuit_from_shor_standard(self) -> str | None:
+        """Compile decoded-cat memory IR (historical method name)."""
+        from .extraction import compile_memory_gadgets
 
-    def compile_stim_circuit_from_shor_standard(self) -> Optional[str]:
-        """Compile a STIM circuit from the Shor-scheme IR.
+        if not self._IR_compiled:
+            raise RuntimeError("IR not compiled yet.")
+        self._store_compiled_circuit(compile_memory_gadgets(self))
+        return str(self._stimcirc)
 
-        Returns:
-            The compiled STIM circuit as a string, or ``None``.
+    compile_stim_circuit_from_shor = compile_stim_circuit_from_shor_standard
 
-        .. note:: Not yet implemented.
-        """
-        pass
+    def construct_IR_flag_scheme(self) -> None:
+        """Build memory IR to be lowered with flagged parity gadgets."""
+        self.scheme = "Flag"
+        self.construct_IR_standard_scheme()
+
+    def compile_stim_circuit_from_flag(self) -> str:
+        """Lower flagged memory IR to Stim."""
+        return self.compile_stim_circuit_from_shor_standard()
 
     def construct_IR_knill_scheme(self) -> None:
-        """Build the IR for Knill-style fault-tolerant syndrome extraction.
+        """Build block teleportation IR, including logical frame tracking."""
+        if self.scheme != SCHEME.KNILL:
+            self.scheme = "Knill"
+        # A Knill round is block teleportation, not a list of individual Prop
+        # gadgets. Keep this distinction visible in the exported IR.
+        if not self._IR_compiled:
+            self._IRList = [KnillTeleportInstruction(r) for r in range(self.rounds)]
+            self._IR_compiled = True
 
-        .. note:: Not yet implemented.
-        """
-        pass
+    def compile_stim_circuit_from_knill(self) -> str | None:
+        """Compile an encoded-Bell teleportation memory circuit."""
+        from .extraction import compile_knill_memory
 
-    def compile_stim_circuit_from_knill(self) -> Optional[str]:
-        """Compile a STIM circuit from the Knill-scheme IR.
-
-        Returns:
-            The compiled STIM circuit as a string, or ``None``.
-
-        .. note:: Not yet implemented.
-        """
-        pass
+        if not self._IR_compiled:
+            raise RuntimeError("IR not compiled yet.")
+        if not self._circuit_compiled:
+            self._validate_memory_code()
+            self._store_compiled_circuit(compile_knill_memory(self))
+        return str(self._stimcirc)
 
     def _is_z_type_stabilizer(self, stab: str) -> bool:
         """Check if a stabilizer is pure Z-type (only I and Z entries)."""
@@ -750,9 +842,8 @@ class StabCode:
 
         Produces a complete IR with:
 
-        1. **Round-0 detectors**: Each stabilizer measurement in the first
-           round is deterministic (outcome 0 with all-zero init), so a
-           single-measurement detector is emitted.
+        1. **Round-0 detectors**: Z-type stabilizers are deterministic with
+           all-zero initialization, so their outcomes become detectors.
         2. **Inter-round detectors**: From round 1 onward, detectors compare
            the same stabilizer across consecutive rounds.
         3. **Final data qubit measurements**: All data qubits are measured
@@ -761,15 +852,15 @@ class StabCode:
            XORs the last syndrome measurement with the data qubit
            measurements at the stabilizer's Z support.
         5. **Observable**: References data qubit measurements at positions
-           where the logical Z operator has Z (or Y) support.
+           where the Z-type logical operator has Z support.
 
-        This method is idempotent: calling it more than once has no
-        effect.
+        This method is idempotent until a code or schedule property changes.
 
         Raises:
             ValueError: If a logical Z operator has not been set for
                 every logical qubit index ``0 .. k-1``.
         """
+        self._validate_memory_code()
         if self._IR_compiled:
             return
 
@@ -934,9 +1025,9 @@ class StabCode:
         # ------------------------------------------------------------------
         # Phase 2: Build stim.Circuit with batched operations and TICKs
         # ------------------------------------------------------------------
-        num_stabs = len(self._stabs)
-        total_qubits = self._n + num_stabs
         circuit = stim.Circuit()
+        circuit.append("R", range(self.n))
+        circuit.append("TICK")
 
         # Emit qubit coordinates if available
         if hasattr(self, "_qubit_coords"):
@@ -979,10 +1070,11 @@ class StabCode:
                         elif pauli == "Z":
                             circuit.append("CX", [qubit_index, ancilla])
                         elif pauli == "Y":
+                            circuit.append("S_DAG", [qubit_index])
                             circuit.append("H", [qubit_index])
                             circuit.append("CX", [qubit_index, ancilla])
                             circuit.append("H", [qubit_index])
-                            circuit.append("CX", [qubit_index, ancilla])
+                            circuit.append("S", [qubit_index])
 
             circuit.append("TICK")
 
@@ -1030,19 +1122,7 @@ class StabCode:
             obs_idx = int(obs.dest[1:])
             circuit.append("OBSERVABLE_INCLUDE", rec_targets, obs_idx)
 
-        self._stimcirc = circuit
-
-        # Also build a CliffordCircuit for backward compatibility with QEPG
-        self._circuit = CliffordCircuit(total_qubits)
-        try:
-            self._circuit.compile_from_stim_circuit_str(str(circuit))
-        except (IndexError, KeyError):
-            # CliffordCircuit parser may not handle all gate sequences
-            # (e.g., Y-stabilizer double-CX pattern). The stim circuit
-            # is still valid; only the legacy CliffordCircuit is unavailable.
-            pass
-
-        self._circuit_compiled = True
+        self._store_compiled_circuit(circuit)
 
 
 def test_commute():

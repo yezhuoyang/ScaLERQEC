@@ -1,0 +1,46 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 72,
+    "k": 12,
+    "distance": 6,
+    "rounds": 18,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "name": "bicycle_72_z_nonuniform_depolarizing"
+  },
+  "shots": 2048,
+  "pauli_weight": 254,
+  "seconds": 101.03090919999522,
+  "statistics": [
+    {
+      "name": "active_locations",
+      "observed_mean": 232.37109375,
+      "exact_conditional_mean": 232.6994021688826,
+      "true_standard_error": 0.15362909918634832,
+      "standardized_difference": 2.1370197483510838
+    },
+    {
+      "name": "early_half_active",
+      "observed_mean": 115.650390625,
+      "exact_conditional_mean": 115.81006545475222,
+      "true_standard_error": 0.18313504154938884,
+      "standardized_difference": 0.8718966528814625
+    },
+    {
+      "name": "two_pauli_outcomes",
+      "observed_mean": 48.89599609375,
+      "exact_conditional_mean": 48.66059783111738,
+      "true_standard_error": 0.10251688942285561,
+      "standardized_difference": 2.2961900615386854
+    },
+    {
+      "name": "single_X_outcomes",
+      "observed_mean": 56.763671875,
+      "exact_conditional_mean": 56.79549882713989,
+      "true_standard_error": 0.152321338827993,
+      "standardized_difference": 0.2089461160515908
+    }
+  ],
+  "within_7_true_standard_errors": true
+}

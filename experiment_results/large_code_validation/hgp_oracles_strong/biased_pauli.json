@@ -1,0 +1,91 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "biased_pauli",
+    "rounds": 1
+  },
+  "oracle": {
+    "histories": 60379,
+    "failing_histories": 8444,
+    "points": [
+      {
+        "p": 5e-05,
+        "lower": 0.00024455107505270935,
+        "upper": 0.00025030481254792957,
+        "omitted_mass": 5.753737495220221e-06,
+        "accuracy_verified_by_oracle": true,
+        "profile_interval_overlaps_oracle": true
+      },
+      {
+        "p": 0.0001,
+        "lower": 0.00048696350947682974,
+        "upper": 0.0005099390831599775,
+        "omitted_mass": 2.2975573683147813e-05,
+        "accuracy_verified_by_oracle": true,
+        "profile_interval_overlaps_oracle": true
+      },
+      {
+        "p": 0.0002,
+        "lower": 0.000965427402725046,
+        "upper": 0.001057015068524493,
+        "omitted_mass": 9.158766579944706e-05,
+        "accuracy_verified_by_oracle": true,
+        "profile_interval_overlaps_oracle": true
+      }
+    ],
+    "seconds": 124.80263489999925
+  },
+  "adaptive": {
+    "status": "accuracy_met",
+    "reason": "Simultaneous requested-grid accuracy target met.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 16384,
+    "exact_histories": 60379,
+    "sample_counts": {
+      "2": 16384
+    },
+    "exact_weights": [
+      0,
+      1,
+      2
+    ],
+    "proposal_probabilities": [
+      5e-05,
+      0.0001,
+      0.0002,
+      0.01
+    ],
+    "seconds": 115.34725219997927,
+    "estimates": [
+      {
+        "p": 5e-05,
+        "ler": 0.0002445510750527089,
+        "lower": 0.00024455107505271065,
+        "upper": 0.0002503048125479309,
+        "error_bound": 5.753737495222007e-06,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.0001,
+        "ler": 0.0004869635094768301,
+        "lower": 0.0004869635094768251,
+        "upper": 0.0005099390831599729,
+        "error_bound": 2.297557368314277e-05,
+        "accuracy_met": true
+      },
+      {
+        "p": 0.0002,
+        "ler": 0.0009654274027250437,
+        "lower": 0.0009654274027250513,
+        "upper": 0.0010570150685244987,
+        "error_bound": 9.158766579945503e-05,
+        "accuracy_met": true
+      }
+    ],
+    "polynomial_terms": 9
+  },
+  "decoder": "BP+OSD4 with exact single-Pauli lookup"
+}

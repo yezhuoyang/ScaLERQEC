@@ -1,0 +1,108 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "biased_pauli",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_biased_pauli"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "f45e1507707462e46089f4bca18496336b476440ecc8f9603b3157aeb9a9a417",
+  "profile_seconds_budget": 30.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33",
+    "src\\scalerqec\\Stratified\\confidence.py": "afa71329cf590034b13c96d9a170fdea33c1b6848c3bf5316509012c49846ba9",
+    "src\\scalerqec\\Stratified\\noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "seconds_total": 322.3672901999962,
+  "compile_seconds": 174.64891479999642,
+  "factors": 83520,
+  "dense_response_bytes": 1835778816,
+  "latent_trials": 83520,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 34696528,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      1670,
+      83520,
+      0,
+      1,
+      2,
+      1670,
+      83520
+    ],
+    "pauli_weights": [
+      0,
+      2,
+      0,
+      1107,
+      56105,
+      0,
+      0,
+      0,
+      1125,
+      56187
+    ],
+    "passed": true
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 7,
+    "seconds": 33.087218000000576,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 1.0,
+        "error_bound": 1.0,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.42857142857142855,
+        "lower": 6.173093550785637e-05,
+        "upper": 1.0,
+        "error_bound": 0.5714285714285714,
+        "accuracy_met": false
+      }
+    ],
+    "joint_histogram_cells": 7,
+    "joint_histogram_shots": 7
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 83520,
+  "historical_reference_file": "experiment_results\\large_code_validation\\bicycle_144_z_biased_pauli.json",
+  "historical_reference_sha256": "f9330caf2f4b6337d29b85cd2bcc7254199e2441088914dcfc2230141a86a4f6",
+  "historical_monte_carlo": [],
+  "fresh_monte_carlo": []
+}

@@ -13,17 +13,17 @@ The key insight is that the QEPG propagation matrix is noise-rate-agnostic
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+
 import numpy as np
 import stim
 
 from ..Clifford.stimparser import (
-    rewrite_stim_code,
-    _1Q_PASSTHROUGH,
     _1Q_DECOMPOSITIONS,
-    _2Q_PASSTHROUGH,
+    _1Q_PASSTHROUGH,
     _2Q_DECOMPOSITIONS,
+    _2Q_PASSTHROUGH,
+    rewrite_stim_code,
 )
-
 
 # The 15 non-identity two-qubit Paulis for DEPOLARIZE2.
 # Each tuple is (pauli_on_qubit_a, pauli_on_qubit_b) where 0=I, 1=X, 2=Y, 3=Z.
@@ -128,218 +128,96 @@ def _flatten_stim_circuit(circuit: stim.Circuit):
 
 
 def extract_noise_model(original_circuit_str: str) -> NonuniformNoiseModel:
-    """Extract a non-uniform noise model from a Stim circuit.
+    """Map supported noise to the next primitive source on each operand.
 
-    Walks the original Stim circuit instruction by instruction. For each
-    noise directive, records per-qubit ``(px, py, pz)`` as "pending". When
-    a gate is encountered, consumes the pending noise and assigns it to
-    the QEPG noise sources created by that gate.
-
-    The noise source ordering matches the QEPG compiler's convention:
-    one depolarize per non-Reset primitive gate in the normalized circuit.
-
-    Args:
-        original_circuit_str: Raw Stim circuit string with noise directives.
-
-    Returns:
-        A ``NonuniformNoiseModel`` with per-source probabilities.
+    Each DEPOLARIZE2 instruction remains an independent categorical event.
+    Its two operands can map to different subsequent operations. A reset or
+    the end of a qubit's lifetime marginalizes that operand. Unsupported
+    syntax raises instead of silently omitting noise; the experimental
+    LinearNoiseModel supports the wider Stim instruction set.
     """
-    circuit = stim.Circuit(original_circuit_str)
-
-    # First pass: count total noise sources
+    circuit = stim.Circuit(original_circuit_str).flattened()
+    events = []
     total_noise = 0
-    for inst in _flatten_stim_circuit(circuit):
-        name = inst.name
-        if name in _NOISE_CHANNELS or name in _ANNOTATIONS:
+    supported_gates = set(_GATE_NOISE_COUNT)
+    channels = _NOISE_CHANNELS | {"PAULI_CHANNEL_1"}
+    for op in circuit:
+        if op.name in channels:
+            events.append((op, None))
             continue
-        targets = [t.value for t in inst.targets_copy() if not t.is_combiner]
-        count = _GATE_NOISE_COUNT.get(name, 0)
-        if name in ("CX", "CZ"):
-            # Pairwise: count per pair
-            num_pairs = len(targets) // 2
-            total_noise += count * num_pairs
-        else:
-            total_noise += count * len(targets)
+        if op.name in _ANNOTATIONS:
+            continue
+        if (
+            op.name not in supported_gates
+            or op.gate_args_copy()
+            or any(
+                not t.is_qubit_target or t.is_inverted_result_target
+                for t in op.targets_copy()
+            )
+        ):
+            raise NotImplementedError(
+                f"Legacy QEPG noise mapping does not support {op.name}; "
+                "use Stim or Stratified.general_noise.LinearNoiseModel."
+            )
+        # Normalize one original instruction so the next source is BEFORE
+        # the first primitive of a decomposition, including CZ's leading H.
+        untagged = stim.CircuitInstruction(op.name, op.targets_copy())
+        normalized = stim.Circuit(rewrite_stim_code(str(untagged)))
+        for primitive in normalized:
+            targets = primitive.targets_copy()
+            stride = 2 if primitive.name == "CX" else 1
+            for offset in range(0, len(targets), stride):
+                group = targets[offset : offset + stride]
+                indices = (
+                    None
+                    if primitive.name == "R"
+                    else list(range(total_noise, total_noise + len(group)))
+                )
+                if indices is not None:
+                    total_noise += len(group)
+                events.append((stim.CircuitInstruction(primitive.name, group), indices))
 
-    if total_noise == 0:
-        return NonuniformNoiseModel(
-            noise_probs=np.zeros((0, 3), dtype=np.float64),
-            num_noise=0,
-        )
-
+    pending = {}
     noise_probs = np.zeros((total_noise, 3), dtype=np.float64)
-    correlated_pairs: list[CorrelatedNoisePair] = []
-    correlated_indices: set[int] = set()
-
-    # Per-qubit pending noise: qubit → (px, py, pz)
-    pending_1q: dict[int, tuple[float, float, float]] = {}
-    # Per-qubit-pair pending DEPOLARIZE2: (q1, q2) → prob
-    pending_2q: dict[tuple[int, int], float] = {}
-
-    noise_idx = 0
-
-    for inst in _flatten_stim_circuit(circuit):
-        name = inst.name
-        args = inst.gate_args_copy()
-        targets = [t.value for t in inst.targets_copy() if not t.is_combiner]
-
-        # --- Noise directives: store as pending ---
-        if name == "DEPOLARIZE1":
-            p = args[0] if args else 0.0
-            for q in targets:
-                _accumulate_noise(pending_1q, q, p / 3, p / 3, p / 3)
+    pairs = []
+    next_source = {}
+    for op, indices in reversed(events):
+        targets = [t.value for t in op.targets_copy()]
+        if op.name not in channels:
+            for i, q in enumerate(targets):
+                next_source[q] = None if indices is None else indices[i]
             continue
-
-        if name == "X_ERROR":
-            p = args[0] if args else 0.0
-            for q in targets:
-                _accumulate_noise(pending_1q, q, p, 0.0, 0.0)
-            continue
-
-        if name == "Y_ERROR":
-            p = args[0] if args else 0.0
-            for q in targets:
-                _accumulate_noise(pending_1q, q, 0.0, p, 0.0)
-            continue
-
-        if name == "Z_ERROR":
-            p = args[0] if args else 0.0
-            for q in targets:
-                _accumulate_noise(pending_1q, q, 0.0, 0.0, p)
-            continue
-
-        if name == "DEPOLARIZE2":
-            p = args[0] if args else 0.0
-            for i in range(0, len(targets), 2):
-                q1, q2 = targets[i], targets[i + 1]
-                pending_2q[(q1, q2)] = pending_2q.get((q1, q2), 0.0) + p
-            continue
-
-        # --- Annotations: skip ---
-        if name in _ANNOTATIONS:
-            continue
-
-        # --- Gates: consume pending noise ---
-        if name == "CX":
-            for i in range(0, len(targets), 2):
-                q1, q2 = targets[i], targets[i + 1]
-                # Control qubit noise source
-                ctrl_idx = noise_idx
-                pn = pending_1q.pop(q1, None)
-                if pn and ctrl_idx < total_noise:
-                    noise_probs[ctrl_idx] = pn
-                noise_idx += 1
-                # Target qubit noise source
-                tgt_idx = noise_idx
-                pn = pending_1q.pop(q2, None)
-                if pn and tgt_idx < total_noise:
-                    noise_probs[tgt_idx] = pn
-                noise_idx += 1
-                # DEPOLARIZE2 correlation
-                dep2_key = (q1, q2)
-                if dep2_key in pending_2q:
-                    p = pending_2q.pop(dep2_key)
-                    correlated_pairs.append(
-                        CorrelatedNoisePair(source_a=ctrl_idx, source_b=tgt_idx, prob=p)
+        args = op.gate_args_copy()
+        if op.name == "DEPOLARIZE2":
+            for a, b in zip(targets[::2], targets[1::2]):
+                sa, sb = next_source.get(a), next_source.get(b)
+                if sa is not None and sb is not None:
+                    pairs.append(CorrelatedNoisePair(sa, sb, args[0]))
+                elif sa is not None or sb is not None:
+                    # Tracing out one operand leaves X/Y/Z each at 4p/15.
+                    _accumulate_noise(
+                        pending, sa if sa is not None else sb, *([4 * args[0] / 15] * 3)
                     )
-                    correlated_indices.add(ctrl_idx)
-                    correlated_indices.add(tgt_idx)
-
-        elif name == "CZ":
-            # Decomposes to H(t) + CX(c,t) + H(t)
-            for i in range(0, len(targets), 2):
-                q1, q2 = targets[i], targets[i + 1]
-                # H on target: 1 source (no pending noise assigned here)
-                noise_idx += 1
-                # CX: 2 sources
-                ctrl_idx = noise_idx
-                pn = pending_1q.pop(q1, None)
-                if pn and ctrl_idx < total_noise:
-                    noise_probs[ctrl_idx] = pn
-                noise_idx += 1
-                tgt_idx = noise_idx
-                pn = pending_1q.pop(q2, None)
-                if pn and tgt_idx < total_noise:
-                    noise_probs[tgt_idx] = pn
-                noise_idx += 1
-                # H on target: 1 source
-                noise_idx += 1
-                # DEPOLARIZE2 correlation
-                dep2_key = (q1, q2)
-                if dep2_key in pending_2q:
-                    p = pending_2q.pop(dep2_key)
-                    correlated_pairs.append(
-                        CorrelatedNoisePair(source_a=ctrl_idx, source_b=tgt_idx, prob=p)
-                    )
-                    correlated_indices.add(ctrl_idx)
-                    correlated_indices.add(tgt_idx)
-
-        elif name == "R":
-            # R creates 0 noise sources — discard pending noise
-            for q in targets:
-                pending_1q.pop(q, None)
-
-        elif name in ("H", "S", "X", "Y", "Z", "M"):
-            # Single primitive gate: 1 noise source per qubit
-            for q in targets:
-                pn = pending_1q.pop(q, None)
-                if pn and noise_idx < total_noise:
-                    noise_probs[noise_idx] = pn
-                noise_idx += 1
-
-        elif name in ("MR",):
-            # M(1)+R(0) per qubit
-            for q in targets:
-                pn = pending_1q.pop(q, None)
-                if pn and noise_idx < total_noise:
-                    noise_probs[noise_idx] = pn
-                noise_idx += 1  # M
-
-        elif name in ("MX",):
-            # H(1)+M(1) per qubit
-            for q in targets:
-                pn = pending_1q.pop(q, None)
-                if pn and noise_idx < total_noise:
-                    noise_probs[noise_idx] = pn
-                noise_idx += _GATE_NOISE_COUNT[name]
-
-        elif name in ("MY",):
-            # S+S+S+H+M per qubit: 5 sources
-            for q in targets:
-                pn = pending_1q.pop(q, None)
-                if pn and noise_idx < total_noise:
-                    noise_probs[noise_idx] = pn
-                noise_idx += _GATE_NOISE_COUNT[name]
-
-        elif name == "RX":
-            for q in targets:
-                pending_1q.pop(q, None)  # R discards noise
-                noise_idx += 1  # H only
-
-        elif name == "S_DAG":
-            for q in targets:
-                pn = pending_1q.pop(q, None)
-                if pn and noise_idx < total_noise:
-                    noise_probs[noise_idx] = pn
-                noise_idx += 3
-
         else:
-            # Other composite gates: consume pending noise, advance by table count
-            count = _GATE_NOISE_COUNT.get(name, 0)
-            if name in ("CX", "CZ"):
-                pass  # handled above
+            if op.name == "DEPOLARIZE1":
+                probabilities = [args[0] / 3] * 3
+            elif op.name == "PAULI_CHANNEL_1":
+                probabilities = args
             else:
-                for q in targets:
-                    pn = pending_1q.pop(q, None)
-                    if pn and noise_idx < total_noise:
-                        noise_probs[noise_idx] = pn
-                    noise_idx += count
-
+                probabilities = [args[0] if axis == op.name[0] else 0 for axis in "XYZ"]
+            for q in targets:
+                source = next_source.get(q)
+                if source is not None:
+                    _accumulate_noise(pending, source, *probabilities)
+    for source, probabilities in pending.items():
+        noise_probs[source] = probabilities
     return NonuniformNoiseModel(
         noise_probs=noise_probs,
-        correlated_pairs=correlated_pairs,
+        correlated_pairs=list(reversed(pairs)),
         num_noise=total_noise,
-        correlated_source_indices=correlated_indices,
+        correlated_source_indices={
+            s for pair in pairs for s in (pair.source_a, pair.source_b)
+        },
     )
 
 

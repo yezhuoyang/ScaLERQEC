@@ -1,0 +1,67 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "nonuniform_depolarizing",
+    "data_only": false,
+    "memory_basis": "x",
+    "defined_logical_ids": [
+      11
+    ],
+    "name": "bicycle_144_z_nonuniform_depolarizing"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "interrupted",
+  "circuit_sha256": "30690bd4aaae860aea20b0cce2500188cf94cc62f9833ec742d08ec9014c24c1",
+  "profile_seconds_budget": 20.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "7b9d35b4ded3080365048c361fa483d8747253fc78a02d0e971ca3df8f7f4354",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33"
+  },
+  "phase": "profile",
+  "seconds_total": 257.41653659997974,
+  "compile_seconds": 138.45626899998751,
+  "factors": 83520,
+  "dense_response_bytes": 1835778816,
+  "latent_trials": 83520,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 34696528,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      1670,
+      83520,
+      0,
+      1,
+      2,
+      1670,
+      83520
+    ],
+    "pauli_weights": [
+      0,
+      2,
+      0,
+      998,
+      50598,
+      0,
+      0,
+      0,
+      1010,
+      50630
+    ],
+    "passed": true
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "interruption_reason": "Stopped after several minutes inside the first 32-shot decode batch despite a 20-second profiling budget; replay audit completed. Replaced by deterministic small initial batches in the final implementation."
+}

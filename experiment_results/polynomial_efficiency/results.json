@@ -1,0 +1,172 @@
+{
+  "grid_benchmarks": [
+    {
+      "case": "repetition_depolarize2",
+      "grid_points": 1001,
+      "profile_histories": 48000,
+      "likelihood_records": 6,
+      "polynomial_terms": 2,
+      "degree_upper_bound": 2,
+      "polynomial_construction_seconds": 0.0002747999969869852,
+      "raw_evaluation_seconds": 4.441917899996042,
+      "compressed_evaluation_with_se_seconds": 0.008362699998542666,
+      "polynomial_evaluation_seconds": 0.0009713000035844743,
+      "polynomial_speedup": 4573.167799447791,
+      "compressed_with_se_speedup": 531.1583460808253,
+      "profile_file_bytes": 12791,
+      "polynomial_file_bytes": 1366
+    },
+    {
+      "case": "stim_surface_d3_r3",
+      "grid_points": 1001,
+      "profile_histories": 200000,
+      "likelihood_records": 6378,
+      "polynomial_terms": 1613,
+      "degree_upper_bound": 197,
+      "polynomial_construction_seconds": 0.015002400003140792,
+      "raw_evaluation_seconds": 31.706650700012688,
+      "compressed_evaluation_with_se_seconds": 1.6452517000143416,
+      "polynomial_evaluation_seconds": 0.29200360001414083,
+      "polynomial_speedup": 108.5830815047391,
+      "compressed_with_se_speedup": 19.271610963681912,
+      "profile_file_bytes": 454388,
+      "polynomial_file_bytes": 15421
+    },
+    {
+      "case": "stabir_surface_d3_r2_si1000",
+      "grid_points": 1001,
+      "profile_histories": 216000,
+      "likelihood_records": 2526,
+      "polynomial_terms": 625,
+      "degree_upper_bound": 141,
+      "polynomial_construction_seconds": 0.004428299987921491,
+      "raw_evaluation_seconds": 32.56578129998525,
+      "compressed_evaluation_with_se_seconds": 0.575881600001594,
+      "polynomial_evaluation_seconds": 0.09149959997739643,
+      "polynomial_speedup": 355.91173412812867,
+      "compressed_with_se_speedup": 56.54943880807288,
+      "profile_file_bytes": 399701,
+      "polynomial_file_bytes": 7334
+    }
+  ],
+  "counterexample_power_coefficients_constant_first": [
+    "0",
+    "2.5386933333333300092034729588740089096220925962832",
+    "-2.1049333333333310437125888630900920783677424039311",
+    "-0.1203866666666677006131825703985880710986603025726"
+  ],
+  "counterexample_exact_power_coefficients_constant_first": [
+    "0",
+    "38/15",
+    "-32/15",
+    "0"
+  ],
+  "counterexample": [
+    {
+      "p": 0.0001,
+      "exact_ler": 0.000253312,
+      "unsupported_weight_only_baseline": 0.00021920639657867067,
+      "corrected_polynomial_ler": 0.0002538482838796131,
+      "estimate": {
+        "p": 0.0001,
+        "ler": 0.0002538482838796136,
+        "standard_error": 3.5000478243171535e-06,
+        "missing_probability_mass": 0.0,
+        "minimum_ess": 1078.9357177697261,
+        "observed_failures": 21031
+      }
+    },
+    {
+      "p": 0.001,
+      "exact_ler": 0.0025312,
+      "unsupported_weight_only_baseline": 0.0021923008110951705,
+      "corrected_polynomial_ler": 0.0025365882796133327,
+      "estimate": {
+        "p": 0.001,
+        "ler": 0.002536588279613334,
+        "standard_error": 3.48602133159264e-05,
+        "missing_probability_mass": 0.0,
+        "minimum_ess": 1105.6116322390235,
+        "observed_failures": 21031
+      }
+    },
+    {
+      "p": 0.01,
+      "exact_ler": 0.02512,
+      "unsupported_weight_only_baseline": 0.021943601626016263,
+      "corrected_polynomial_ler": 0.025176319613333324,
+      "estimate": {
+        "p": 0.01,
+        "ler": 0.025176319613333345,
+        "standard_error": 0.0003347296403350201,
+        "missing_probability_mass": 0.0,
+        "minimum_ess": 1398.3703179744853,
+        "observed_failures": 21031
+      }
+    },
+    {
+      "p": 0.1,
+      "exact_ler": 0.23200000000000004,
+      "unsupported_weight_only_baseline": 0.21840435198469643,
+      "corrected_polynomial_ler": 0.23269961333333306,
+      "estimate": {
+        "p": 0.1,
+        "ler": 0.23269961333333336,
+        "standard_error": 0.0021156020667929924,
+        "missing_probability_mass": 0.0,
+        "minimum_ess": 6724.4542367844215,
+        "observed_failures": 21031
+      }
+    },
+    {
+      "p": 0.2,
+      "exact_ler": 0.42133333333333334,
+      "unsupported_weight_only_baseline": 0.4213333333333334,
+      "corrected_polynomial_ler": 0.42257823999999944,
+      "estimate": {
+        "p": 0.2,
+        "ler": 0.42257824,
+        "standard_error": 0.002233125272873001,
+        "missing_probability_mass": 0.0,
+        "minimum_ess": 10000.0,
+        "observed_failures": 21031
+      }
+    },
+    {
+      "p": 0.3333333333333333,
+      "exact_ler": 0.6074074074074074,
+      "unsupported_weight_only_baseline": 0.6318561028747544,
+      "corrected_polynomial_ler": 0.6078908641975298,
+      "estimate": {
+        "p": 0.3333333333333333,
+        "ler": 0.6078908641975308,
+        "standard_error": 0.0029252168636955587,
+        "missing_probability_mass": 0.0,
+        "minimum_ess": 5758.8376696408495,
+        "observed_failures": 21031
+      }
+    }
+  ],
+  "interpretation": "Sampling coefficient estimates; polynomial export does not remove sampling uncertainty or omitted-weight contributions.",
+  "rare_event_comparison": {
+    "p": 0.0001,
+    "exact_ler": 2.1333902222222222e-05,
+    "profile_trials": 48000,
+    "profile_sampling_seconds": 0.16273539999383502,
+    "profile": {
+      "p": 0.0001,
+      "ler": 2.1128870088996015e-05,
+      "standard_error": 2.1803809341329316e-07,
+      "missing_probability_mass": 0.0,
+      "minimum_ess": 11966.337805897789,
+      "observed_failures": 14216
+    },
+    "monte_carlo_shots": 10000000,
+    "monte_carlo_seconds": 0.18469339999137446,
+    "monte_carlo_ler": 2.07e-05,
+    "monte_carlo_failures": 207,
+    "monte_carlo_true_standard_error": 1.4605973807602899e-06,
+    "mc_shots_for_profile_se_estimate": 448741549.72721344,
+    "interpretation": "This small exactly solvable rare-event example is favorable to profiling; the matched-precision shot count is an estimate, not a run of that size."
+  }
+}

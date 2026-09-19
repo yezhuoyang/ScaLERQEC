@@ -1,0 +1,45 @@
+{
+  "python": "3.14.3",
+  "primary_stim": "1.15.0",
+  "full_suite": {
+    "passed": 922,
+    "skipped": 2,
+    "failed": 0,
+    "seconds": 191.41,
+    "skip_scope": "Existing symbolic-backend optional tests",
+    "used_fresh_native_build": true
+  },
+  "coverage_percent": {
+    "whole_package": 53.31,
+    "general_noise.py": 97.03,
+    "adaptive.py": 96.72,
+    "confidence.py": 100,
+    "noise_polynomial.py": 100
+  },
+  "stim_1_16": {
+    "compatibility_subset_passed": 153,
+    "compatibility_subset_skipped": 1,
+    "adaptive_and_large_subset_passed": 74,
+    "adaptive_and_large_subset_skipped": 1,
+    "final_precision_boundary_tests_passed": 4,
+    "skip_reason": "Optional stimbposd decoder is absent in this secondary environment",
+    "note": "Subsets overlap and must not be summed into a unique test count."
+  },
+  "native_cmake": {
+    "platform": "Windows MSVC Release",
+    "passed": 1,
+    "failed": 0,
+    "sanitizers_run_locally": false
+  },
+  "local_native_install": {
+    "python_abi": "cp314-win_amd64",
+    "source_tree_extension_updated": true,
+    "post_install_regressions_passed": 19,
+    "existing_processes": "Already-running interpreters retain their previously loaded extension until restarted."
+  },
+  "static_checks": {
+    "new_python_files_ruff": "passed",
+    "package_python_correctness_ruff": "passed",
+    "github_workflow_actionlint": "passed"
+  }
+}

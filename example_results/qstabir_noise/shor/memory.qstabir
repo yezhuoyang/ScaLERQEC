@@ -1,0 +1,26 @@
+c0 = Prop[r=0, s=0] IIIXXXX
+c1 = Prop[r=0, s=1] IXXIIXX
+c2 = Prop[r=0, s=2] XIXIXIX
+c3 = Prop[r=0, s=3] IIIZZZZ
+d0 = Parity c3
+c4 = Prop[r=0, s=4] IZZIIZZ
+d1 = Parity c4
+c5 = Prop[r=0, s=5] ZIZIZIZ
+d2 = Parity c5
+c6 = Prop[r=1, s=0] IIIXXXX
+d3 = Parity c0 c6
+c7 = Prop[r=1, s=1] IXXIIXX
+d4 = Parity c1 c7
+c8 = Prop[r=1, s=2] XIXIXIX
+d5 = Parity c2 c8
+c9 = Prop[r=1, s=3] IIIZZZZ
+d6 = Parity c3 c9
+c10 = Prop[r=1, s=4] IZZIIZZ
+d7 = Parity c4 c10
+c11 = Prop[r=1, s=5] ZIZIZIZ
+d8 = Parity c5 c11
+DataMeasure Z
+d9 = Parity c9 m3 m4 m5 m6
+d10 = Parity c10 m1 m2 m5 m6
+d11 = Parity c11 m0 m2 m4 m6
+o0 = Parity m0 m1 m2 m3 m4 m5 m6

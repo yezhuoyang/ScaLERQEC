@@ -1,0 +1,46 @@
+{
+  "spec": {
+    "family": "bicycle",
+    "n": 144,
+    "k": 12,
+    "distance": 12,
+    "rounds": 36,
+    "noise": "biased_pauli",
+    "data_only": false,
+    "name": "bicycle_144_z_biased_pauli"
+  },
+  "shots": 2048,
+  "pauli_weight": 1121,
+  "seconds": 414.7104309000133,
+  "statistics": [
+    {
+      "name": "active_locations",
+      "observed_mean": 923.80078125,
+      "exact_conditional_mean": 922.8960486827126,
+      "true_standard_error": 0.30716280169598786,
+      "standardized_difference": 2.9454496517545414
+    },
+    {
+      "name": "early_half_active",
+      "observed_mean": 461.068359375,
+      "exact_conditional_mean": 460.3681870951515,
+      "true_standard_error": 0.36584297625466794,
+      "standardized_difference": 1.9138601129275674
+    },
+    {
+      "name": "two_pauli_outcomes",
+      "observed_mean": 304.44921875,
+      "exact_conditional_mean": 304.6639513172824,
+      "true_standard_error": 0.20822670756206144,
+      "standardized_difference": 1.0312441175126215
+    },
+    {
+      "name": "single_X_outcomes",
+      "observed_mean": 44.5341796875,
+      "exact_conditional_mean": 44.77431134379764,
+      "true_standard_error": 0.1457162234527028,
+      "standardized_difference": 1.647940432491272
+    }
+  ],
+  "within_7_true_standard_errors": true
+}

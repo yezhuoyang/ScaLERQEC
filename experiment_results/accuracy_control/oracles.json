@@ -1,0 +1,2766 @@
+{
+  "python": "3.14.3",
+  "numpy": "2.4.4",
+  "stim": "1.15.0",
+  "pymatching": "2.4.0",
+  "results": [
+    {
+      "code": "five_qubit",
+      "noise": "uniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 106,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.016327599994838238,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 6.64668666000001e-06,
+          "lower": 6.646686660000022e-06,
+          "upper": 6.656671666000022e-06,
+          "error_bound": 9.985006000011794e-09,
+          "accuracy_met": true,
+          "truth": 6.651863700543209e-06,
+          "relative_actual_error": 0.0007782842187184598,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0006468660000000011,
+          "lower": 0.0006468660000000017,
+          "upper": 0.0006567166000000017,
+          "error_bound": 9.85060000000058e-06,
+          "accuracy_met": true,
+          "truth": 0.0006519700543209876,
+          "relative_actual_error": 0.007828663735640722,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.014289583333333354,
+          "lower": 0.014289583333333366,
+          "upper": 0.015447708333333367,
+          "error_bound": 0.0011581250000000133,
+          "accuracy_met": true,
+          "truth": 0.014887901234567895,
+          "relative_actual_error": 0.0401881965636177,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 1,
+      "total_seconds": 0.03791900002397597
+    },
+    {
+      "code": "five_qubit",
+      "noise": "nonuniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 106,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.01454329999978654,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 2.9388017329110037e-05,
+          "lower": 2.9388017329110044e-05,
+          "upper": 2.9392763392360043e-05,
+          "error_bound": 4.746063250006061e-09,
+          "accuracy_met": true,
+          "truth": 2.939101728898072e-05,
+          "relative_actual_error": 0.00010207063747354654,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0006803163360000011,
+          "lower": 0.0006803163360000009,
+          "upper": 0.0006850270360000008,
+          "error_bound": 4.710699999999697e-06,
+          "accuracy_met": true,
+          "truth": 0.00068329179575975,
+          "relative_actual_error": 0.004354596057224038,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.011091550000000013,
+          "lower": 0.011091550000000016,
+          "upper": 0.011660925000000016,
+          "error_bound": 0.0005693750000000039,
+          "accuracy_met": true,
+          "truth": 0.011450003467968749,
+          "relative_actual_error": 0.03130597025332839,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 6,
+      "total_seconds": 0.03647600000840612
+    },
+    {
+      "code": "five_qubit",
+      "noise": "mixed_depolarizing",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 256,
+      "exact_histories": 352,
+      "sample_counts": {
+        "3": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.059662100014975294,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0006661757715079072,
+          "lower": 0.0006655203508212318,
+          "upper": 0.0006671324279292293,
+          "error_bound": 9.566564213221197e-07,
+          "accuracy_met": true,
+          "truth": 0.0006663467330319803,
+          "relative_actual_error": 0.00025656541196684345,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.006617339336548983,
+          "lower": 0.006552352203229271,
+          "upper": 0.006712998161021935,
+          "error_bound": 9.565882447295192e-05,
+          "accuracy_met": true,
+          "truth": 0.006634732986469136,
+          "relative_actual_error": 0.002621605112915013,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.03207558243289889,
+          "lower": 0.030511435323105032,
+          "upper": 0.03448540299116075,
+          "error_bound": 0.0024098205582618604,
+          "accuracy_met": true,
+          "truth": 0.032541598024691365,
+          "relative_actual_error": 0.014320611773241156,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 7,
+      "total_seconds": 0.09705690000555478
+    },
+    {
+      "code": "five_qubit",
+      "noise": "biased_two_qubit",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 1280,
+      "exact_histories": 2620,
+      "sample_counts": {
+        "3": 1024,
+        "4": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.15462670000852086,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00025404776806550917,
+          "lower": 0.00025393089023067567,
+          "upper": 0.00025432771807631027,
+          "error_bound": 2.799500108010937e-07,
+          "accuracy_met": true,
+          "truth": 0.000254034967828792,
+          "relative_actual_error": 5.038769594043439e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0026035644337430155,
+          "lower": 0.0025917337614698344,
+          "upper": 0.002632155004767735,
+          "error_bound": 2.8590571024719475e-05,
+          "accuracy_met": true,
+          "truth": 0.0026027908680412853,
+          "relative_actual_error": 0.0002972062455068905,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.014289736183999532,
+          "lower": 0.013980677850662761,
+          "upper": 0.015091082684445064,
+          "error_bound": 0.0008013465004455319,
+          "accuracy_met": true,
+          "truth": 0.014326307033006247,
+          "relative_actual_error": 0.002552705936181602,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 11,
+      "total_seconds": 0.1754388999834191
+    },
+    {
+      "code": "five_qubit",
+      "noise": "correlated_else",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 512,
+      "exact_histories": 2131,
+      "sample_counts": {
+        "4": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.09973009998793714,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 2.9945878760798622e-06,
+          "lower": 2.9945878760798644e-06,
+          "upper": 2.9958545307325e-06,
+          "error_bound": 1.2666546526378763e-09,
+          "accuracy_met": true,
+          "truth": 2.995211460152136e-06,
+          "relative_actual_error": 0.00020819367198931645,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.00029388965912617717,
+          "lower": 0.00029388965912617663,
+          "upper": 0.0002951486748523391,
+          "error_bound": 1.2590157261619457e-06,
+          "accuracy_met": true,
+          "truth": 0.00029450948392217017,
+          "relative_actual_error": 0.0021046004622275426,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.006755923631842628,
+          "lower": 0.006755923631842587,
+          "upper": 0.0069089790841460105,
+          "error_bound": 0.00015305545230338228,
+          "accuracy_met": true,
+          "truth": 0.006831273032551867,
+          "relative_actual_error": 0.011030067214440073,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 26,
+      "total_seconds": 0.1178758000023663
+    },
+    {
+      "code": "five_qubit",
+      "noise": "heralded_pauli",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 992,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.036896899982821196,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 2.4471652686208343e-06,
+          "lower": 2.4471652686208373e-06,
+          "upper": 2.44879357335314e-06,
+          "error_bound": 1.628304732305601e-09,
+          "accuracy_met": true,
+          "truth": 2.448078402193786e-06,
+          "relative_actual_error": 0.00037300013436391324,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.00024161473539562552,
+          "lower": 0.00024161473539562514,
+          "upper": 0.00024323454406337513,
+          "error_bound": 1.619808667749611e-06,
+          "accuracy_met": true,
+          "truth": 0.00024252289075350002,
+          "relative_actual_error": 0.0037446170753322725,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.005702203892578131,
+          "lower": 0.005702203892578129,
+          "upper": 0.00589999082304688,
+          "error_bound": 0.00019778693046874907,
+          "accuracy_met": true,
+          "truth": 0.005812977042187501,
+          "relative_actual_error": 0.01905618219467202,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 14,
+      "total_seconds": 0.06103290000464767
+    },
+    {
+      "code": "five_qubit",
+      "noise": "readout",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 32,
+      "sample_counts": {},
+      "exact_weights": [
+        0
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.02007730002515018,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0010000000000000002,
+          "lower": 0.0010000000000000005,
+          "upper": 0.0010000000000000005,
+          "error_bound": 2.168404344971009e-19,
+          "accuracy_met": true,
+          "truth": 0.0010000000000000002,
+          "relative_actual_error": 0.0,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.010000000000000004,
+          "lower": 0.010000000000000007,
+          "upper": 0.010000000000000007,
+          "error_bound": 3.469446951953614e-18,
+          "accuracy_met": true,
+          "truth": 0.01,
+          "relative_actual_error": 3.469446951953614e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.05000000000000001,
+          "lower": 0.050000000000000024,
+          "upper": 0.050000000000000024,
+          "error_bound": 1.3877787807814457e-17,
+          "accuracy_met": true,
+          "truth": 0.05,
+          "relative_actual_error": 1.3877787807814457e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 12,
+      "total_seconds": 0.044877100008307025
+    },
+    {
+      "code": "steane",
+      "noise": "uniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 1156,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.03726959999767132,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 9.304319123531734e-06,
+          "lower": 9.304319123531724e-06,
+          "upper": 9.304354039601705e-06,
+          "error_bound": 3.491606997087682e-11,
+          "accuracy_met": true,
+          "truth": 9.304337744607344e-06,
+          "relative_actual_error": 2.001332724714081e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0009045256651200006,
+          "lower": 0.0009045256651200014,
+          "upper": 0.0009048673349200014,
+          "error_bound": 3.4166980000078454e-07,
+          "accuracy_met": true,
+          "truth": 0.0009047078073134706,
+          "relative_actual_error": 0.000201327093673268,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0198498189814815,
+          "lower": 0.01984981898148151,
+          "upper": 0.02004339710648151,
+          "error_bound": 0.00019357812500001015,
+          "accuracy_met": true,
+          "truth": 0.01995282085048009,
+          "relative_actual_error": 0.00516227102776357,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 2,
+      "total_seconds": 0.06320209999103099
+    },
+    {
+      "code": "steane",
+      "noise": "nonuniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 1156,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.06187769997632131,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.5901673463938097e-06,
+          "lower": 1.590167346393809e-06,
+          "upper": 1.5901828558406827e-06,
+          "error_bound": 1.550944687302062e-11,
+          "accuracy_met": true,
+          "truth": 1.590171801534754e-06,
+          "relative_actual_error": 2.801672712368374e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0001574470520861962,
+          "lower": 0.00015744705208619626,
+          "upper": 0.00015760019269869626,
+          "error_bound": 1.5314061250004739e-07,
+          "accuracy_met": true,
+          "truth": 0.00015749107917758354,
+          "relative_actual_error": 0.00027955292209085384,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.003745271929394533,
+          "lower": 0.0037452719293945315,
+          "upper": 0.003835671343457031,
+          "error_bound": 9.039941406249839e-05,
+          "accuracy_met": true,
+          "truth": 0.003771361540737423,
+          "relative_actual_error": 0.0069178229297499234,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 14,
+      "total_seconds": 0.10511519998544827
+    },
+    {
+      "code": "steane",
+      "noise": "mixed_depolarizing",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 2560,
+      "exact_histories": 8464,
+      "sample_counts": {
+        "3": 2048,
+        "4": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.2395035000226926,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00026870634109815337,
+          "lower": 0.0002683399294275814,
+          "upper": 0.0002690753714847841,
+          "error_bound": 3.6903038663072115e-07,
+          "accuracy_met": true,
+          "truth": 0.00026868912735059493,
+          "relative_actual_error": 6.406566476350083e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0028653258310523664,
+          "lower": 0.002828783127603918,
+          "upper": 0.002904484468108593,
+          "error_bound": 3.915863705622642e-05,
+          "accuracy_met": true,
+          "truth": 0.0028651613285067094,
+          "relative_actual_error": 5.7414758471110336e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0177310350216525,
+          "lower": 0.016758259880879128,
+          "upper": 0.01902865944229368,
+          "error_bound": 0.0012976244206411823,
+          "accuracy_met": true,
+          "truth": 0.01789690086330741,
+          "relative_actual_error": 0.009267852737284345,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 13,
+      "total_seconds": 0.2770619000075385
+    },
+    {
+      "code": "steane",
+      "noise": "biased_two_qubit",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 10240,
+      "exact_histories": 8464,
+      "sample_counts": {
+        "3": 2048,
+        "4": 8192
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.3379801000119187,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0001844788714207929,
+          "lower": 0.00018435653126044484,
+          "upper": 0.00018460695815166278,
+          "error_bound": 1.2808673086986432e-07,
+          "accuracy_met": true,
+          "truth": 0.00018450085488305745,
+          "relative_actual_error": 0.0001191510049016992,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0019452337964976554,
+          "lower": 0.0019331882981136715,
+          "upper": 0.001962974910105749,
+          "error_bound": 1.774111360809379e-05,
+          "accuracy_met": true,
+          "truth": 0.0019485448934695579,
+          "relative_actual_error": 0.0016992664541625173,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.011675839970859638,
+          "lower": 0.011375319072089003,
+          "upper": 0.012660113593957613,
+          "error_bound": 0.000984273623097975,
+          "accuracy_met": true,
+          "truth": 0.011881128723325482,
+          "relative_actual_error": 0.01727855637678715,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 14,
+      "total_seconds": 0.4203439000120852
+    },
+    {
+      "code": "steane",
+      "noise": "correlated_else",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 2816,
+      "exact_histories": 9662,
+      "sample_counts": {
+        "3": 512,
+        "4": 2048,
+        "5": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.22563739999895915,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00020142010258927153,
+          "lower": 0.00020141515739004035,
+          "upper": 0.00020142752445086827,
+          "error_bound": 7.4218615967369585e-09,
+          "accuracy_met": true,
+          "truth": 0.00020141970155471316,
+          "relative_actual_error": 1.9910393833196456e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0021400590158562375,
+          "lower": 0.0021352650883205287,
+          "upper": 0.0021473731652054493,
+          "error_bound": 7.3141493492118355e-06,
+          "accuracy_met": true,
+          "truth": 0.00213970299885384,
+          "relative_actual_error": 0.00016638617723487443,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.013262343631636895,
+          "lower": 0.01272927642458202,
+          "upper": 0.01413006098179804,
+          "error_bound": 0.0008677173501611454,
+          "accuracy_met": true,
+          "truth": 0.013242290340773857,
+          "relative_actual_error": 0.001514337047972147,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 42,
+      "total_seconds": 0.2566330999834463
+    },
+    {
+      "code": "steane",
+      "noise": "heralded_pauli",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 3072,
+      "exact_histories": 7520,
+      "sample_counts": {
+        "1": 512,
+        "2": 2048,
+        "3": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.19855609998921864,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.5900279243198795e-06,
+          "lower": 1.5879533633810517e-06,
+          "upper": 1.5921062106468764e-06,
+          "error_bound": 2.0782863269968102e-09,
+          "accuracy_met": true,
+          "truth": 1.5900899887275193e-06,
+          "relative_actual_error": 3.90320095590271e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0001573197345833927,
+          "lower": 0.00015528554285173558,
+          "upper": 0.0001593908513455412,
+          "error_bound": 2.0711167621484806e-06,
+          "accuracy_met": true,
+          "truth": 0.0001574109392288925,
+          "relative_actual_error": 0.0005794047475135567,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0037356572838670734,
+          "lower": 0.003502903086383491,
+          "upper": 0.0039905895832995746,
+          "error_bound": 0.0002549322994325012,
+          "accuracy_met": true,
+          "truth": 0.0037622414197905495,
+          "relative_actual_error": 0.007066036693880237,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 32,
+      "total_seconds": 0.22441260001505725
+    },
+    {
+      "code": "steane",
+      "noise": "readout",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 128,
+      "sample_counts": {},
+      "exact_weights": [
+        0
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.009470999997574836,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0004999999999999991,
+          "lower": 0.0005000000000000009,
+          "upper": 0.0005000000000000009,
+          "error_bound": 1.734723475976807e-18,
+          "accuracy_met": true,
+          "truth": 0.0005000000000000003,
+          "relative_actual_error": 2.385244779468108e-15,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.005000000000000002,
+          "lower": 0.005000000000000008,
+          "upper": 0.005000000000000008,
+          "error_bound": 6.071532165918825e-18,
+          "accuracy_met": true,
+          "truth": 0.005,
+          "relative_actual_error": 3.469446951953614e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.025,
+          "lower": 0.025000000000000005,
+          "upper": 0.025000000000000005,
+          "error_bound": 3.469446951953614e-18,
+          "accuracy_met": true,
+          "truth": 0.024999999999999994,
+          "relative_actual_error": 2.775557561562892e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 27,
+      "total_seconds": 0.02489860000787303
+    },
+    {
+      "code": "shor",
+      "noise": "uniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 1024,
+      "exact_histories": 2620,
+      "sample_counts": {
+        "3": 1024
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.12056100001791492,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 3.998149141838095e-06,
+          "lower": 3.998149141838093e-06,
+          "upper": 3.998274638677372e-06,
+          "error_bound": 1.2549683927704582e-10,
+          "accuracy_met": true,
+          "truth": 3.9982115650443985e-06,
+          "relative_actual_error": 1.5612782187181496e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.00039751384085820083,
+          "lower": 0.0003975138408582017,
+          "upper": 0.00039872427368964564,
+          "error_bound": 1.2104328314448088e-06,
+          "accuracy_met": true,
+          "truth": 0.00039811651095233053,
+          "relative_actual_error": 0.0015138033152356774,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.009392840824652788,
+          "lower": 0.009392840824652781,
+          "upper": 0.01003541551996528,
+          "error_bound": 0.0006425746953124915,
+          "accuracy_met": true,
+          "truth": 0.009714179641721278,
+          "relative_actual_error": 0.033079357075956994,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 2,
+      "total_seconds": 0.1461159000173211
+    },
+    {
+      "code": "shor",
+      "noise": "nonuniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 1536,
+      "exact_histories": 2620,
+      "sample_counts": {
+        "3": 1024,
+        "4": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.12599780000164174,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 7.424201525658275e-07,
+          "lower": 7.424050072872226e-07,
+          "upper": 7.424489980758131e-07,
+          "error_bound": 2.8845509985646777e-11,
+          "accuracy_met": true,
+          "truth": 7.424186325427463e-07,
+          "relative_actual_error": 2.047393498086775e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 7.417844215685668e-05,
+          "lower": 7.403260458960876e-05,
+          "upper": 7.446493771524536e-05,
+          "error_bound": 2.8649555838868046e-07,
+          "accuracy_met": true,
+          "truth": 7.416533270007148e-05,
+          "relative_actual_error": 0.00017675989991467592,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0018468030370342012,
+          "lower": 0.0017701492490815403,
+          "upper": 0.002019725185182414,
+          "error_bound": 0.00017292214814821293,
+          "accuracy_met": true,
+          "truth": 0.001843853813792801,
+          "relative_actual_error": 0.001599488646734727,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 18,
+      "total_seconds": 0.1645219000056386
+    },
+    {
+      "code": "shor",
+      "noise": "mixed_depolarizing",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 5632,
+      "exact_histories": 1276,
+      "sample_counts": {
+        "2": 512,
+        "3": 4096,
+        "4": 1024
+      },
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.2541984000126831,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0005339546140172955,
+          "lower": 0.0005332398064911891,
+          "upper": 0.0005346749269112878,
+          "error_bound": 7.203128939923522e-07,
+          "accuracy_met": true,
+          "truth": 0.0005339715544986309,
+          "relative_actual_error": 3.1725437792897175e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0053927325076233434,
+          "lower": 0.0053227016726954375,
+          "upper": 0.005468244256646943,
+          "error_bound": 7.551174902359955e-05,
+          "accuracy_met": true,
+          "truth": 0.005395566314148152,
+          "relative_actual_error": 0.0005252102114615511,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.027843076579968457,
+          "lower": 0.026081695000590523,
+          "upper": 0.030274044929730824,
+          "error_bound": 0.002430968349762367,
+          "accuracy_met": true,
+          "truth": 0.028052332166693793,
+          "relative_actual_error": 0.007459472014016134,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 16,
+      "total_seconds": 0.3046750999928918
+    },
+    {
+      "code": "shor",
+      "noise": "biased_two_qubit",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 17152,
+      "exact_histories": 19636,
+      "sample_counts": {
+        "2": 512,
+        "3": 8192,
+        "4": 8192,
+        "5": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.45819720000145026,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00029045740488393144,
+          "lower": 0.00029033638344080865,
+          "upper": 0.0002905827819563677,
+          "error_bound": 1.2537707243627993e-07,
+          "accuracy_met": true,
+          "truth": 0.00029047381921428806,
+          "relative_actual_error": 5.650881170986621e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.002944933843133118,
+          "lower": 0.0029310569513937806,
+          "upper": 0.002963164209921243,
+          "error_bound": 1.8230366788125202e-05,
+          "accuracy_met": true,
+          "truth": 0.0029469089329149617,
+          "relative_actual_error": 0.000670224233868725,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.015522012621036679,
+          "lower": 0.01496063742115422,
+          "upper": 0.0166309324551566,
+          "error_bound": 0.0011089198341199223,
+          "accuracy_met": true,
+          "truth": 0.01562009622785555,
+          "relative_actual_error": 0.00627932154758162,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 18,
+      "total_seconds": 0.5258630999887828
+    },
+    {
+      "code": "shor",
+      "noise": "correlated_else",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 10240,
+      "exact_histories": 29067,
+      "sample_counts": {
+        "3": 1024,
+        "4": 8192,
+        "5": 1024
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.31671620000270195,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00020295797303800046,
+          "lower": 0.00020295435122345265,
+          "upper": 0.0002029681964747179,
+          "error_bound": 1.0223436717446454e-08,
+          "accuracy_met": true,
+          "truth": 0.0002029587405099415,
+          "relative_actual_error": 3.7814185243035196e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0022886644497955738,
+          "lower": 0.002285195661656817,
+          "upper": 0.002298823503830801,
+          "error_bound": 1.0159054035227284e-05,
+          "accuracy_met": true,
+          "truth": 0.002289540795598991,
+          "relative_actual_error": 0.0003827605103615531,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.016403235254457263,
+          "lower": 0.01603811561921248,
+          "upper": 0.017636602349300957,
+          "error_bound": 0.0012333670948436945,
+          "accuracy_met": true,
+          "truth": 0.016562530012174847,
+          "relative_actual_error": 0.009617779264429343,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 73,
+      "total_seconds": 0.3377543000096921
+    },
+    {
+      "code": "shor",
+      "noise": "heralded_pauli",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 35072,
+      "exact_histories": 48896,
+      "sample_counts": {
+        "1": 2048,
+        "2": 16384,
+        "3": 16384,
+        "4": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.4016706999973394,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 7.424544727606031e-07,
+          "lower": 7.418467282469814e-07,
+          "upper": 7.43068282389287e-07,
+          "error_bound": 6.138096286838975e-10,
+          "accuracy_met": true,
+          "truth": 7.424186325427462e-07,
+          "relative_actual_error": 4.827494392767719e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 7.419272488381466e-05,
+          "lower": 7.355608493378274e-05,
+          "upper": 7.489024664681197e-05,
+          "error_bound": 6.975217629973064e-07,
+          "accuracy_met": true,
+          "truth": 7.416533270007145e-05,
+          "relative_actual_error": 0.0003693394574792005,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0018401900571564536,
+          "lower": 0.00174571900715557,
+          "upper": 0.0019731443839793236,
+          "error_bound": 0.00013295432682287,
+          "accuracy_met": true,
+          "truth": 0.0018438538137928008,
+          "relative_actual_error": 0.00198701036326241,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 54,
+      "total_seconds": 0.4262321999995038
+    },
+    {
+      "code": "shor",
+      "noise": "readout",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 512,
+      "sample_counts": {},
+      "exact_weights": [
+        0
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.009869199973763898,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0014999999999999994,
+          "lower": 0.001500000000000005,
+          "upper": 0.001500000000000005,
+          "error_bound": 5.637851296924623e-18,
+          "accuracy_met": true,
+          "truth": 0.0015000000000000002,
+          "relative_actual_error": 5.782411586589356e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.014999999999999998,
+          "lower": 0.014999999999999996,
+          "upper": 0.014999999999999996,
+          "error_bound": 1.734723475976807e-18,
+          "accuracy_met": true,
+          "truth": 0.015000000000000003,
+          "relative_actual_error": 3.4694469519536137e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.075,
+          "lower": 0.07499999999999989,
+          "upper": 0.07499999999999989,
+          "error_bound": 1.1102230246251565e-16,
+          "accuracy_met": true,
+          "truth": 0.075,
+          "relative_actual_error": 0.0,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 48,
+      "total_seconds": 0.022906800004420802
+    },
+    {
+      "code": "repetition_3",
+      "noise": "uniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 37,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.006282700021984056,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.3320000000000014e-06,
+          "lower": 1.3319999999999993e-06,
+          "upper": 1.3329999999999993e-06,
+          "error_bound": 9.999999999979575e-10,
+          "accuracy_met": true,
+          "truth": 1.3327407407407406e-06,
+          "relative_actual_error": 0.000555802578922837,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.00013200000000000025,
+          "lower": 0.0001320000000000003,
+          "upper": 0.0001330000000000003,
+          "error_bound": 1.0000000000000514e-06,
+          "accuracy_met": true,
+          "truth": 0.00013274074074074072,
+          "relative_actual_error": 0.005580357142855109,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0031666666666666714,
+          "lower": 0.0031666666666666688,
+          "upper": 0.003291666666666669,
+          "error_bound": 0.0001249999999999975,
+          "accuracy_met": true,
+          "truth": 0.003259259259259259,
+          "relative_actual_error": 0.02840909090908941,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 1,
+      "total_seconds": 0.012268199992831796
+    },
+    {
+      "code": "repetition_3",
+      "noise": "nonuniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 64,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.00886290002381429,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 2.474730000000001e-07,
+          "lower": 2.4747300000000017e-07,
+          "upper": 2.4747300000000017e-07,
+          "error_bound": 5.293955920339377e-23,
+          "accuracy_met": true,
+          "truth": 2.4747300000000006e-07,
+          "relative_actual_error": 2.1392054568940352e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 2.4722999999999983e-05,
+          "lower": 2.4723000000000024e-05,
+          "upper": 2.4723000000000024e-05,
+          "error_bound": 4.0657581468206416e-20,
+          "accuracy_met": true,
+          "truth": 2.4723000000000004e-05,
+          "relative_actual_error": 8.222622955993692e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0006153749999999999,
+          "lower": 0.000615375,
+          "upper": 0.000615375,
+          "error_bound": 1.0842021724855044e-19,
+          "accuracy_met": true,
+          "truth": 0.0006153750000000003,
+          "relative_actual_error": 5.285568177869611e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 4,
+      "total_seconds": 0.013038400007644668
+    },
+    {
+      "code": "repetition_3",
+      "noise": "mixed_depolarizing",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 376,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.011260299972491339,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00013333328533493338,
+          "lower": 0.00013333328533493333,
+          "upper": 0.00013333339332533331,
+          "error_bound": 1.079903999339979e-10,
+          "accuracy_met": true,
+          "truth": 0.00013333333333333337,
+          "relative_actual_error": 3.599879998993559e-07,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0013332853493333344,
+          "lower": 0.0013332853493333338,
+          "upper": 0.0013333932533333337,
+          "error_bound": 1.0790399999926516e-07,
+          "accuracy_met": true,
+          "truth": 0.0013333333333333333,
+          "relative_actual_error": 3.5987999999151105e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.006660676666666666,
+          "lower": 0.006660676666666665,
+          "upper": 0.006674116666666665,
+          "error_bound": 1.3439999999999112e-05,
+          "accuracy_met": true,
+          "truth": 0.006666666666666667,
+          "relative_actual_error": 0.0008985000000001283,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 5,
+      "total_seconds": 0.018131099990569055
+    },
+    {
+      "code": "repetition_3",
+      "noise": "biased_two_qubit",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 376,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.013470400008372962,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00013333325814037344,
+          "lower": 0.00013333325814037333,
+          "upper": 0.00013333342731853333,
+          "error_bound": 1.691781598980261e-10,
+          "accuracy_met": true,
+          "truth": 0.00013333333333333334,
+          "relative_actual_error": 5.63947199282524e-07,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.0013332582037333335,
+          "lower": 0.0013332582037333337,
+          "upper": 0.0013334271853333338,
+          "error_bound": 1.6898160000032754e-07,
+          "accuracy_met": true,
+          "truth": 0.0013333333333333333,
+          "relative_actual_error": 5.634719999983049e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.006657310666666664,
+          "lower": 0.006657310666666665,
+          "upper": 0.006678324166666665,
+          "error_bound": 2.1013500000000886e-05,
+          "accuracy_met": true,
+          "truth": 0.006666666666666667,
+          "relative_actual_error": 0.0014034000000004345,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 5,
+      "total_seconds": 0.022278099990217015
+    },
+    {
+      "code": "repetition_3",
+      "noise": "correlated_else",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 121,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.011348800006089732,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.00013333322938933326,
+          "lower": 0.00013333322938933326,
+          "upper": 0.00013333346325374064,
+          "error_bound": 2.338644073860384e-10,
+          "accuracy_met": true,
+          "truth": 0.0001333333333333333,
+          "relative_actual_error": 7.79580000407525e-07,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.001333229893319174,
+          "lower": 0.0013332298933191734,
+          "upper": 0.0013334625380604134,
+          "error_bound": 2.3264474123931358e-07,
+          "accuracy_met": true,
+          "truth": 0.0013333333333333335,
+          "relative_actual_error": 7.758001061957666e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0066540165954166635,
+          "lower": 0.006654016595416664,
+          "upper": 0.006682421452291664,
+          "error_bound": 2.8404856875000745e-05,
+          "accuracy_met": true,
+          "truth": 0.006666666666666668,
+          "relative_actual_error": 0.0018975106875006738,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 7,
+      "total_seconds": 0.017553099984070286
+    },
+    {
+      "code": "repetition_3",
+      "noise": "heralded_pauli",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 98,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.00790730002336204,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 2.4740549999999995e-07,
+          "lower": 2.4740550000000016e-07,
+          "upper": 2.475770000000002e-07,
+          "error_bound": 1.7150000000023417e-10,
+          "accuracy_met": true,
+          "truth": 2.4747300000000006e-07,
+          "relative_actual_error": 0.0002727570280398921,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 2.4655499999999988e-05,
+          "lower": 2.465550000000002e-05,
+          "upper": 2.482700000000002e-05,
+          "error_bound": 1.7150000000003385e-07,
+          "accuracy_met": true,
+          "truth": 2.4722999999999997e-05,
+          "relative_actual_error": 0.0027302511831092144,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0006069374999999998,
+          "lower": 0.0006069375000000003,
+          "upper": 0.0006283750000000002,
+          "error_bound": 2.1437500000000406e-05,
+          "accuracy_met": true,
+          "truth": 0.0006153750000000003,
+          "relative_actual_error": 0.013711151736746556,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 4,
+      "total_seconds": 0.012177600001450628
+    },
+    {
+      "code": "repetition_3",
+      "noise": "readout",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 8,
+      "sample_counts": {},
+      "exact_weights": [
+        0
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.004279499989934266,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0014999999999999994,
+          "lower": 0.0014999999999999987,
+          "upper": 0.0014999999999999987,
+          "error_bound": 6.505213034913027e-19,
+          "accuracy_met": true,
+          "truth": 0.0015,
+          "relative_actual_error": 4.3368086899420177e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.01500000000000001,
+          "lower": 0.015000000000000006,
+          "upper": 0.015000000000000006,
+          "error_bound": 3.469446951953614e-18,
+          "accuracy_met": true,
+          "truth": 0.015,
+          "relative_actual_error": 6.938893903907228e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.075,
+          "lower": 0.07499999999999998,
+          "upper": 0.07499999999999998,
+          "error_bound": 1.3877787807814457e-17,
+          "accuracy_met": true,
+          "truth": 0.07500000000000001,
+          "relative_actual_error": 1.850371707708594e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 4,
+      "total_seconds": 0.00872809998691082
+    },
+    {
+      "code": "repetition_5",
+      "noise": "uniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 376,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.010218799987342209,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 2.95704000000001e-09,
+          "lower": 2.957040000000006e-09,
+          "upper": 2.962036000000006e-09,
+          "error_bound": 4.995999999996123e-12,
+          "accuracy_met": true,
+          "truth": 2.960000790123457e-09,
+          "relative_actual_error": 0.0010002666665921592,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 2.9040000000000123e-06,
+          "lower": 2.9040000000000043e-06,
+          "upper": 2.9536000000000042e-06,
+          "error_bound": 4.959999999999187e-08,
+          "accuracy_met": true,
+          "truth": 2.9334123456790108e-06,
+          "relative_actual_error": 0.010026665948387222,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.00033425925925926054,
+          "lower": 0.0003342592592592592,
+          "upper": 0.00036425925925925916,
+          "error_bound": 2.9999999999998615e-05,
+          "accuracy_met": true,
+          "truth": 0.0003520987654320987,
+          "relative_actual_error": 0.05066619915848142,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 1,
+      "total_seconds": 0.02024189999792725
+    },
+    {
+      "code": "repetition_5",
+      "noise": "nonuniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 781,
+      "sample_counts": {},
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.017118999996455386,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.2821808768749975e-10,
+          "lower": 1.2821808768750004e-10,
+          "upper": 1.2821821268750002e-10,
+          "error_bound": 1.2500000027249096e-16,
+          "accuracy_met": true,
+          "truth": 1.2821810807250007e-10,
+          "relative_actual_error": 1.5898690618400967e-07,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.2792920624999986e-07,
+          "lower": 1.2792920625000004e-07,
+          "upper": 1.2794170625000004e-07,
+          "error_bound": 1.2500000000186228e-11,
+          "accuracy_met": true,
+          "truth": 1.2793124475000002e-07,
+          "relative_actual_error": 1.5934340388479617e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 1.582611328124999e-05,
+          "lower": 1.582611328125e-05,
+          "upper": 1.5865175781249997e-05,
+          "error_bound": 3.906250000000857e-08,
+          "accuracy_met": true,
+          "truth": 1.583248359375001e-05,
+          "relative_actual_error": 0.0004023571199237231,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 8,
+      "total_seconds": 0.023574299993924797
+    },
+    {
+      "code": "repetition_5",
+      "noise": "mixed_depolarizing",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 5120,
+      "exact_histories": 12826,
+      "sample_counts": {
+        "3": 1024,
+        "4": 4096
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.12762119999388233,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 3.375016341606847e-07,
+          "lower": 3.3750163416068485e-07,
+          "upper": 3.377717660402259e-07,
+          "error_bound": 2.70131879541212e-10,
+          "accuracy_met": true,
+          "truth": 3.3756925249013626e-07,
+          "relative_actual_error": 0.0002003095037618976,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 3.350167739845149e-05,
+          "lower": 3.35016773984515e-05,
+          "upper": 3.3772985371482856e-05,
+          "error_bound": 2.713079730313659e-07,
+          "accuracy_met": true,
+          "truth": 3.356985701499258e-05,
+          "relative_actual_error": 0.0020309772695975294,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0008099625655733345,
+          "lower": 0.0008099625655733386,
+          "upper": 0.0008445002436483387,
+          "error_bound": 3.45376780750042e-05,
+          "accuracy_met": true,
+          "truth": 0.0008187868946049934,
+          "relative_actual_error": 0.010777320802033682,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 12,
+      "total_seconds": 0.14347260000067763
+    },
+    {
+      "code": "repetition_5",
+      "noise": "biased_two_qubit",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 5376,
+      "exact_histories": 12826,
+      "sample_counts": {
+        "3": 1024,
+        "4": 4096,
+        "5": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.1593914999975823,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.9439763696898022e-07,
+          "lower": 1.943090759721482e-07,
+          "upper": 1.946752924946829e-07,
+          "error_bound": 2.776555257026774e-10,
+          "accuracy_met": true,
+          "truth": 1.9441335586419632e-07,
+          "relative_actual_error": 8.085295964480954e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.9357884808115835e-05,
+          "lower": 1.926881718890602e-05,
+          "upper": 1.9636582320519075e-05,
+          "error_bound": 2.7869751240324004e-07,
+          "accuracy_met": true,
+          "truth": 1.937345194846353e-05,
+          "relative_actual_error": 0.0008035295098212506,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0004749821633302325,
+          "lower": 0.00046358063626196705,
+          "upper": 0.0005110100768787312,
+          "error_bound": 3.602791354849873e-05,
+          "accuracy_met": true,
+          "truth": 0.00047684591107286927,
+          "relative_actual_error": 0.003908490561329234,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 12,
+      "total_seconds": 0.17471319998730905
+    },
+    {
+      "code": "repetition_5",
+      "noise": "correlated_else",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 512,
+      "exact_histories": 2131,
+      "sample_counts": {
+        "4": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.0369269999791868,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 8.323385711089046e-07,
+          "lower": 8.323385711089028e-07,
+          "upper": 8.336052257615388e-07,
+          "error_bound": 1.2666546526341705e-09,
+          "accuracy_met": true,
+          "truth": 8.32811377649683e-07,
+          "relative_actual_error": 0.0005677234407060328,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 8.234139472471802e-05,
+          "lower": 8.23413947247182e-05,
+          "upper": 8.360041045088072e-05,
+          "error_bound": 1.2590157261627047e-06,
+          "accuracy_met": true,
+          "truth": 8.281244230162964e-05,
+          "relative_actual_error": 0.005688125646577564,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0019609536535247886,
+          "lower": 0.0019609536535247583,
+          "upper": 0.0021140091058281813,
+          "error_bound": 0.0001530554523033927,
+          "accuracy_met": true,
+          "truth": 0.0020188110814814814,
+          "relative_actual_error": 0.02865915908993068,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 19,
+      "total_seconds": 0.047234300000127405
+    },
+    {
+      "code": "repetition_5",
+      "noise": "heralded_pauli",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 512,
+      "exact_histories": 2882,
+      "sample_counts": {
+        "3": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.03364330000476912,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.2821810034374975e-10,
+          "lower": 1.2821810034374962e-10,
+          "upper": 1.2821812135249962e-10,
+          "error_bound": 2.100874987048102e-17,
+          "accuracy_met": true,
+          "truth": 1.2821810807250002e-10,
+          "relative_actual_error": 6.027814933671708e-08,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.2793047187499993e-07,
+          "lower": 1.2793047187500004e-07,
+          "upper": 1.2793257275000005e-07,
+          "error_bound": 2.1008750001167284e-12,
+          "accuracy_met": true,
+          "truth": 1.2793124475e-07,
+          "relative_actual_error": 6.041331041328565e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 1.5830068359374987e-05,
+          "lower": 1.5830068359375004e-05,
+          "upper": 1.5836633593750005e-05,
+          "error_bound": 6.565234375017863e-09,
+          "accuracy_met": true,
+          "truth": 1.583248359375001e-05,
+          "relative_actual_error": 0.0001525493054024542,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 9,
+      "total_seconds": 0.041602800018154085
+    },
+    {
+      "code": "repetition_5",
+      "noise": "readout",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 32,
+      "sample_counts": {},
+      "exact_weights": [
+        0
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.005871700006537139,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0010000000000000002,
+          "lower": 0.0010000000000000005,
+          "upper": 0.0010000000000000005,
+          "error_bound": 2.168404344971009e-19,
+          "accuracy_met": true,
+          "truth": 0.0010000000000000002,
+          "relative_actual_error": 0.0,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.010000000000000004,
+          "lower": 0.010000000000000007,
+          "upper": 0.010000000000000007,
+          "error_bound": 3.469446951953614e-18,
+          "accuracy_met": true,
+          "truth": 0.01,
+          "relative_actual_error": 3.469446951953614e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.05000000000000001,
+          "lower": 0.050000000000000024,
+          "upper": 0.050000000000000024,
+          "error_bound": 1.3877787807814457e-17,
+          "accuracy_met": true,
+          "truth": 0.05,
+          "relative_actual_error": 1.3877787807814457e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 12,
+      "total_seconds": 0.009642699995310977
+    },
+    {
+      "code": "repetition_7",
+      "noise": "uniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 1280,
+      "exact_histories": 3991,
+      "sample_counts": {
+        "4": 1024,
+        "5": 256
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.04944719999912195,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 6.901947506917993e-12,
+          "lower": 6.89286023999997e-12,
+          "upper": 6.91170475925431e-12,
+          "error_bound": 9.757252336316487e-15,
+          "accuracy_met": true,
+          "truth": 6.902524662752626e-12,
+          "relative_actual_error": 8.361517891376079e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 6.797482699218746e-08,
+          "lower": 6.708240000000045e-08,
+          "upper": 6.893930392807044e-08,
+          "error_bound": 9.64476935882972e-10,
+          "accuracy_met": true,
+          "truth": 6.803576332876086e-08,
+          "relative_actual_error": 0.0008956515454811531,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 3.9615094634632954e-05,
+          "lower": 3.704706790123417e-05,
+          "upper": 4.2475167696800845e-05,
+          "error_bound": 2.860073062167891e-06,
+          "accuracy_met": true,
+          "truth": 3.9848193872885196e-05,
+          "relative_actual_error": 0.005849681393235106,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 2,
+      "total_seconds": 0.058181800006423146
+    },
+    {
+      "code": "repetition_7",
+      "noise": "nonuniform_single",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 3072,
+      "exact_histories": 9094,
+      "sample_counts": {
+        "4": 1024,
+        "5": 2048
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.1151205999776721,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 5.144734705684228e-13,
+          "lower": 5.144734705684233e-13,
+          "upper": 5.144744076934234e-13,
+          "error_bound": 9.371250005530866e-19,
+          "accuracy_met": true,
+          "truth": 5.144735353694415e-13,
+          "relative_actual_error": 1.2595598070019002e-07,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.3437319879687578e-09,
+          "lower": 1.343731987968753e-09,
+          "upper": 1.344665737968753e-09,
+          "error_bound": 9.337499999953182e-13,
+          "accuracy_met": true,
+          "truth": 1.343796570352125e-09,
+          "relative_actual_error": 4.805964294907679e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 6.167283178710952e-07,
+          "lower": 6.167283178710948e-07,
+          "upper": 6.310837866210949e-07,
+          "error_bound": 1.435546874999966e-08,
+          "accuracy_met": true,
+          "truth": 6.177222345410161e-07,
+          "relative_actual_error": 0.0016090025813291853,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 14,
+      "total_seconds": 0.12416219999431632
+    },
+    {
+      "code": "repetition_7",
+      "noise": "mixed_depolarizing",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 23040,
+      "exact_histories": 66379,
+      "sample_counts": {
+        "3": 2048,
+        "4": 16384,
+        "5": 4096,
+        "6": 512
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.5338205000152811,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.2493880599660161e-07,
+          "lower": 1.247434191688459e-07,
+          "upper": 1.2513453360591458e-07,
+          "error_bound": 1.9572760931296489e-10,
+          "accuracy_met": true,
+          "truth": 1.2493927663638874e-07,
+          "relative_actual_error": 3.766948231181212e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.2932780414555095e-05,
+          "lower": 1.2736908324224942e-05,
+          "upper": 1.3132112152466988e-05,
+          "error_bound": 1.9933173791189299e-07,
+          "accuracy_met": true,
+          "truth": 1.293412754149716e-05,
+          "relative_actual_error": 0.00010415290383850282,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.00036875557211796435,
+          "lower": 0.00034244812787432904,
+          "upper": 0.0003973624270938502,
+          "error_bound": 2.8606854975885855e-05,
+          "accuracy_met": true,
+          "truth": 0.0003695353783619157,
+          "relative_actual_error": 0.002110234336447236,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 14,
+      "total_seconds": 0.5569370999874081
+    },
+    {
+      "code": "repetition_7",
+      "noise": "biased_two_qubit",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 38912,
+      "exact_histories": 66379,
+      "sample_counts": {
+        "3": 2048,
+        "4": 16384,
+        "5": 16384,
+        "6": 4096
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.7795387999794912,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 1.0251749473875627e-07,
+          "lower": 1.0239850741398242e-07,
+          "upper": 1.026377905253299e-07,
+          "error_bound": 1.2029578657362987e-10,
+          "accuracy_met": true,
+          "truth": 1.0252343403095985e-07,
+          "relative_actual_error": 5.7931069708219785e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.0356271702830723e-05,
+          "lower": 1.0238294483812177e-05,
+          "upper": 1.0487358761679701e-05,
+          "error_bound": 1.3108705884897833e-07,
+          "accuracy_met": true,
+          "truth": 1.0362344046080454e-05,
+          "relative_actual_error": 0.0005860009301686483,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0002697244065599793,
+          "lower": 0.00025488097968031254,
+          "upper": 0.00029281746154797867,
+          "error_bound": 2.309305498799936e-05,
+          "accuracy_met": true,
+          "truth": 0.00027069754416785246,
+          "relative_actual_error": 0.0035949258825552447,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 14,
+      "total_seconds": 0.8021336999954656
+    },
+    {
+      "code": "repetition_7",
+      "noise": "correlated_else",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 12800,
+      "exact_histories": 9662,
+      "sample_counts": {
+        "3": 512,
+        "4": 2048,
+        "5": 8192,
+        "6": 2048
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.43099459999939427,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 4.270928150970526e-07,
+          "lower": 4.2652921083744606e-07,
+          "upper": 4.2765987703614865e-07,
+          "error_bound": 5.67061939096049e-10,
+          "accuracy_met": true,
+          "truth": 4.2708581997020183e-07,
+          "relative_actual_error": 1.637873823874212e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 4.3081911121271884e-05,
+          "lower": 4.252757703458135e-05,
+          "upper": 4.3670584214258554e-05,
+          "error_bound": 5.886730929866699e-07,
+          "accuracy_met": true,
+          "truth": 4.308219812326871e-05,
+          "relative_actual_error": 6.661730583164799e-06,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.0011124102034316904,
+          "lower": 0.001045316547673669,
+          "upper": 0.0012002529954610566,
+          "error_bound": 8.784279202936622e-05,
+          "accuracy_met": true,
+          "truth": 0.0011165937415120054,
+          "relative_actual_error": 0.003746696694403752,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 38,
+      "total_seconds": 0.45569650002289563
+    },
+    {
+      "code": "repetition_7",
+      "noise": "heralded_pauli",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 15872,
+      "exact_histories": 45320,
+      "sample_counts": {
+        "1": 512,
+        "2": 2048,
+        "3": 4096,
+        "4": 8192,
+        "5": 1024
+      },
+      "exact_weights": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.2796856999921147,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 5.144675507065506e-13,
+          "lower": 5.14380834071202e-13,
+          "upper": 5.145945193125709e-13,
+          "error_bound": 1.2696860602027564e-16,
+          "accuracy_met": true,
+          "truth": 5.144735353694414e-13,
+          "relative_actual_error": 1.1632596196585507e-05,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 1.3432702647279456e-09,
+          "lower": 1.3345695133768139e-09,
+          "upper": 1.3559781859687348e-09,
+          "error_bound": 1.2707921240789209e-11,
+          "accuracy_met": true,
+          "truth": 1.3437965703521253e-09,
+          "relative_actual_error": 0.0003916557281001263,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 6.170231136508382e-07,
+          "lower": 5.894821310009784e-07,
+          "upper": 6.57904630251414e-07,
+          "error_bound": 4.088151660057587e-08,
+          "accuracy_met": true,
+          "truth": 6.17722234541016e-07,
+          "relative_actual_error": 0.0011317722611965603,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 18,
+      "total_seconds": 0.2993934999976773
+    },
+    {
+      "code": "repetition_7",
+      "noise": "readout",
+      "status": "accuracy_met",
+      "reason": "Simultaneous requested-grid accuracy target met.",
+      "confidence": 0.99,
+      "relative_error": 0.1,
+      "absolute_error": 0.0,
+      "shots": 0,
+      "exact_histories": 128,
+      "sample_counts": {},
+      "exact_weights": [
+        0
+      ],
+      "proposal_probabilities": [
+        0.001,
+        0.01,
+        0.05
+      ],
+      "seconds": 0.005590699991444126,
+      "estimates": [
+        {
+          "p": 0.001,
+          "ler": 0.0004999999999999991,
+          "lower": 0.0005000000000000009,
+          "upper": 0.0005000000000000009,
+          "error_bound": 1.734723475976807e-18,
+          "accuracy_met": true,
+          "truth": 0.0005000000000000003,
+          "relative_actual_error": 2.385244779468108e-15,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.01,
+          "ler": 0.005000000000000002,
+          "lower": 0.005000000000000008,
+          "upper": 0.005000000000000008,
+          "error_bound": 6.071532165918825e-18,
+          "accuracy_met": true,
+          "truth": 0.005,
+          "relative_actual_error": 3.469446951953614e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        },
+        {
+          "p": 0.05,
+          "ler": 0.025,
+          "lower": 0.025000000000000005,
+          "upper": 0.025000000000000005,
+          "error_bound": 3.469446951953614e-18,
+          "accuracy_met": true,
+          "truth": 0.024999999999999994,
+          "relative_actual_error": 2.775557561562892e-16,
+          "covers_truth": true,
+          "actual_accuracy_met": true
+        }
+      ],
+      "polynomial_terms": 27,
+      "total_seconds": 0.014285100012784824
+    }
+  ]
+}

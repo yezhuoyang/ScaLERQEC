@@ -13,6 +13,7 @@
 #include <iostream>
 #include <string_view>
 #include <charconv>   // std::from_chars
+#include <algorithm>
 
 namespace clifford{
 
@@ -466,22 +467,33 @@ void cliffordcircuit::compile_from_rewrited_stim_string(std::string stim_str){
                    throw std::invalid_argument("DETECTOR record reference is out of range");
                // index is a negative offset from num_meas_
                size_t meas_idx = static_cast<size_t>(static_cast<ptrdiff_t>(num_meas_) + index);
-               measuregroup.indexlist.push_back(meas_idx);
-               measure_to_parity_index_[meas_idx].indexlist.emplace_back(num_detectors_);
+               auto found = std::find(measuregroup.indexlist.begin(), measuregroup.indexlist.end(), meas_idx);
+               if (found == measuregroup.indexlist.end()) measuregroup.indexlist.push_back(meas_idx);
+               else measuregroup.indexlist.erase(found);
            }
+           for (size_t meas_idx : measuregroup.indexlist)
+               measure_to_parity_index_[meas_idx].indexlist.emplace_back(num_detectors_);
            detectors_.push_back(measuregroup);
            num_detectors_++;
         }
         else if(op.substr(0,10)=="OBSERVABLE"){
+            const size_t open = op.find('('), close = op.find(')');
+            if (open == std::string_view::npos || close == std::string_view::npos || close <= open + 1)
+                throw std::invalid_argument("OBSERVABLE_INCLUDE requires an observable index");
+            const std::string argument(op.substr(open + 1, close - open - 1));
+            size_t consumed = 0;
+            const double observable_index = std::stod(argument, &consumed);
+            if (consumed != argument.size() || observable_index != 0)
+                throw std::invalid_argument("Legacy QEPG supports only observable index 0; use LinearNoiseModel for multiple logical observables");
             std::vector<int> intlist= parse_detector_recs(rest);
-            paritygroup measuregroup;
             for(int index: intlist){
                  if (index >= 0 || static_cast<size_t>(-static_cast<long long>(index)) > num_meas_)
                      throw std::invalid_argument("OBSERVABLE record reference is out of range");
                  size_t meas_idx = static_cast<size_t>(static_cast<ptrdiff_t>(num_meas_) + index);
-                 measuregroup.indexlist.push_back(meas_idx);
+                 auto found = std::find(observable_.indexlist.begin(), observable_.indexlist.end(), meas_idx);
+                 if (found == observable_.indexlist.end()) observable_.indexlist.push_back(meas_idx);
+                 else observable_.indexlist.erase(found);
             }
-            observable_=measuregroup;
         }
     });
 

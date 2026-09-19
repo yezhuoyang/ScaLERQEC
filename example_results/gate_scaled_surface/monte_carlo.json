@@ -1,0 +1,43 @@
+{
+  "seed": 260926,
+  "confidence": 0.99,
+  "simultaneous_over_four_points": true,
+  "points": [
+    {
+      "p": 0.002,
+      "shots": 100000,
+      "failures": 1630,
+      "ler": 0.0163,
+      "lower": 0.015115447007011177,
+      "upper": 0.017547087330312783,
+      "intervals_overlap": true
+    },
+    {
+      "p": 0.005,
+      "shots": 100000,
+      "failures": 5141,
+      "ler": 0.05141,
+      "lower": 0.04932257121080964,
+      "upper": 0.053555282330366424,
+      "intervals_overlap": true
+    },
+    {
+      "p": 0.01,
+      "shots": 100000,
+      "failures": 12238,
+      "ler": 0.12238,
+      "lower": 0.11926609773643251,
+      "upper": 0.12554255028925151,
+      "intervals_overlap": true
+    },
+    {
+      "p": 0.02,
+      "shots": 100000,
+      "failures": 27011,
+      "ler": 0.27011,
+      "lower": 0.2658748097966052,
+      "upper": 0.27437478905048657,
+      "intervals_overlap": true
+    }
+  ]
+}

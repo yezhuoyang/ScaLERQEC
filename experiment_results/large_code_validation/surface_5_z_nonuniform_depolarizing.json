@@ -1,0 +1,148 @@
+{
+  "spec": {
+    "family": "surface",
+    "distance": 5,
+    "basis": "z",
+    "noise": "nonuniform_depolarizing",
+    "rounds": 5,
+    "name": "surface_5_z_nonuniform_depolarizing"
+  },
+  "phase": "complete",
+  "status": "completed",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "e0f9351e8a38b234b11240fe0833669800a4990b90e9dc6b71a1c6edb524b3a7",
+  "qubits": 64,
+  "detectors": 120,
+  "observables": 1,
+  "defined_observables": [
+    0
+  ],
+  "compile_seconds": 1.551032600022154,
+  "factors": 834,
+  "response_columns": 7508,
+  "response_bytes": 908468,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 834,
+    "histories_replayed": 8,
+    "weights": [
+      2,
+      9
+    ],
+    "max_log_ratio_difference": 3.375077994860476e-14
+  },
+  "independent_scaling_matches": true,
+  "decoder": "PyMatching",
+  "decoder_order_check": true,
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 113152,
+    "exact_histories": 0,
+    "sample_counts": {
+      "0": 65536,
+      "1": 16384,
+      "2": 16384,
+      "3": 8192,
+      "4": 4096,
+      "5": 1024,
+      "6": 1024,
+      "7": 256,
+      "8": 256
+    },
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 36.84976949999691,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.00012013656853165214,
+        "lower": 0.0,
+        "upper": 0.0060755655847437055,
+        "error_bound": 0.005955429016212053,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.001815629017470204,
+        "lower": 0.0,
+        "upper": 0.049471814328972415,
+        "error_bound": 0.04765618531150221,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.011617372726301454,
+        "lower": 0.0,
+        "upper": 0.6526081677736063,
+        "error_bound": 0.6409907950473048,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 62
+  },
+  "adaptive_wall_seconds": 36.8523290999874,
+  "monte_carlo": [
+    {
+      "shots": 100000,
+      "failures": 10,
+      "ler": 0.0001,
+      "per_observable_failures": [
+        10
+      ],
+      "lower": 1.894895381977978e-05,
+      "upper": 0.0002957535338399625,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.17798960002255626,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 223,
+      "ler": 0.00223,
+      "per_observable_failures": [
+        223
+      ],
+      "lower": 0.001680593863392469,
+      "upper": 0.0028909318955877123,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.38441890000831336,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 6158,
+      "ler": 0.06158,
+      "per_observable_failures": [
+        6158
+      ],
+      "lower": 0.05857170720895964,
+      "upper": 0.06468565723000894,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 1.380305099999532,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "seconds": 43.06342729998869
+}

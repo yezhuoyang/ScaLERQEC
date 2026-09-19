@@ -1,0 +1,43 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "correlated_else",
+    "rounds": 1,
+    "name": "hgp_58_z_correlated_else"
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "oracle": {
+    "histories": 15110,
+    "failing_histories": 3268,
+    "points": [
+      {
+        "p": 0.001,
+        "lower": 0.013720173809883367,
+        "upper": 0.014982120955117782,
+        "omitted_mass": 0.001261947145234415,
+        "estimate": 0.01428234239417932,
+        "accuracy_verified_by_oracle": true,
+        "contradiction": false
+      },
+      {
+        "p": 0.003,
+        "lower": 0.03718812149219883,
+        "upper": 0.04782369389359989,
+        "omitted_mass": 0.010635572401401058,
+        "estimate": 0.041976432019752784,
+        "accuracy_verified_by_oracle": false,
+        "contradiction": false
+      },
+      {
+        "p": 0.01,
+        "lower": 0.08676669189756378,
+        "upper": 0.181022756714958,
+        "omitted_mass": 0.09425606481739421,
+        "estimate": 0.1302253730170798,
+        "accuracy_verified_by_oracle": false,
+        "contradiction": false
+      }
+    ]
+  }
+}

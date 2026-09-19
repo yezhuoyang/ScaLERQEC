@@ -1,0 +1,195 @@
+{
+  "spec": {
+    "family": "hgp",
+    "n": 58,
+    "noise": "nonuniform_depolarizing",
+    "rounds": 1,
+    "name": "hgp_58_z_nonuniform_depolarizing"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "14497090712add9b0cb549284652dac6b3d16f42e530795efd8dd494675d5d9e",
+  "profile_seconds_budget": 30.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33",
+    "src\\scalerqec\\Stratified\\confidence.py": "afa71329cf590034b13c96d9a170fdea33c1b6848c3bf5316509012c49846ba9",
+    "src\\scalerqec\\Stratified\\noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "phase": "completed",
+  "seconds_total": 30.52369470000849,
+  "compile_seconds": 0.2665776000067126,
+  "factors": 87,
+  "dense_response_bytes": 40368,
+  "latent_trials": 87,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 46200,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      2,
+      87,
+      0,
+      1,
+      2,
+      2,
+      87
+    ],
+    "pauli_weights": [
+      0,
+      0,
+      2,
+      0,
+      56,
+      0,
+      1,
+      1,
+      2,
+      56
+    ],
+    "passed": true
+  },
+  "decoder": "BP+OSD0, min_sum, 30 iterations",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 165951,
+    "seconds": 30.007741699984763,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.007255258647598361,
+        "lower": 0.00517946782630396,
+        "upper": 0.00929628017203546,
+        "error_bound": 0.0020757908212944006,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.022695305997785072,
+        "lower": 0.019164776814631017,
+        "upper": 0.026138234053691003,
+        "error_bound": 0.0035305291831540554,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.08558353879478868,
+        "lower": 0.07744544917555721,
+        "upper": 0.0943522363277626,
+        "error_bound": 0.00876869753297392,
+        "accuracy_met": false
+      }
+    ],
+    "joint_histogram_cells": 61,
+    "joint_histogram_shots": 165951
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 87,
+  "historical_reference_file": "experiment_results\\large_code_validation\\hgp_58_z_nonuniform_depolarizing.json",
+  "historical_reference_sha256": "09dd8194c8081a4a6de35a70e3b92b1e53ac0561c48e5dca9475baa71e408d40",
+  "historical_monte_carlo": [
+    {
+      "shots": 4096,
+      "failures": 26,
+      "ler": 0.00634765625,
+      "per_observable_failures": [
+        4,
+        5,
+        6,
+        9,
+        4,
+        5,
+        6,
+        7,
+        5,
+        0,
+        2,
+        6,
+        2,
+        2,
+        5,
+        8
+      ],
+      "lower": 0.0025246680952616097,
+      "upper": 0.012911342823117433,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.1245061999943573,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 4096,
+      "failures": 104,
+      "ler": 0.025390625,
+      "per_observable_failures": [
+        13,
+        16,
+        25,
+        23,
+        12,
+        10,
+        32,
+        18,
+        17,
+        8,
+        20,
+        25,
+        9,
+        7,
+        31,
+        20
+      ],
+      "lower": 0.016669892630645566,
+      "upper": 0.03671683050365743,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.26066759999957867,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 4096,
+      "failures": 363,
+      "ler": 0.088623046875,
+      "per_observable_failures": [
+        50,
+        49,
+        95,
+        83,
+        41,
+        51,
+        105,
+        77,
+        79,
+        38,
+        76,
+        99,
+        51,
+        45,
+        110,
+        71
+      ],
+      "lower": 0.07179571078132771,
+      "upper": 0.10769399610051927,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.6309297000116203,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "fresh_monte_carlo": []
+}

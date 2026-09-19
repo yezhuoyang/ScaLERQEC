@@ -1,0 +1,56 @@
+{
+  "status": "accuracy_met",
+  "reason": "Simultaneous finite-grid accuracy target met.",
+  "shots": 267775,
+  "seconds": 3.4723441999813076,
+  "confidence": 0.99,
+  "relative_error_requested": 0.2,
+  "reference_p": 0.01,
+  "seed": 260924,
+  "circuit": "StabIR surface d=3, rounds=3",
+  "valid_p_domain": [
+    0,
+    0.2
+  ],
+  "interval_scope": "simultaneous over the four requested p values and sequential sampling checkpoints",
+  "noise": {
+    "single_qubit": "p/5",
+    "two_qubit": "p",
+    "measurement": "5*p",
+    "reset": "ideal"
+  },
+  "estimates": [
+    {
+      "p": 0.002,
+      "ler": 0.01638704689452934,
+      "lower": 0.0136659812333145,
+      "upper": 0.01910775533183632,
+      "error_bound": 0.002721065661214838,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.005,
+      "ler": 0.050620559316411386,
+      "lower": 0.046365027981991554,
+      "upper": 0.05483553068637506,
+      "error_bound": 0.004255531334419832,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.01,
+      "ler": 0.12228280251509886,
+      "lower": 0.11547078260222615,
+      "upper": 0.12911390852962165,
+      "error_bound": 0.006831106014522789,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.02,
+      "ler": 0.27085710317761086,
+      "lower": 0.2595264147979415,
+      "upper": 0.28261628715476134,
+      "error_bound": 0.011759183977150478,
+      "accuracy_met": true
+    }
+  ]
+}

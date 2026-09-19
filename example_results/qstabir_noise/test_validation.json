@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-17",
+  "tests": {
+    "full_suite": {
+      "tests": 1175,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "passed": 1173,
+      "xml_sha256": "65e16e384963cafa399768eb2e1291b37b2764027da664c049a0ec7f9653b2cb"
+    },
+    "focused_current": {
+      "tests": 245,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 245,
+      "xml_sha256": "2c629db7d8f35754e929b725d3a1cbc70c0333397ba08f05a69d2d9cc0d88614"
+    },
+    "stim_1_16_focused": {
+      "tests": 161,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 161,
+      "xml_sha256": "58118f24811740ca80b85a955e8c63d6710b2501075ecf844bf6582ebd35b310"
+    }
+  },
+  "coverage": {
+    "src\\scalerqec\\QEC\\extraction.py": {
+      "covered_lines": 152,
+      "num_statements": 154,
+      "percent_covered": 98.7012987012987,
+      "percent_covered_display": "99",
+      "missing_lines": 2,
+      "excluded_lines": 0,
+      "percent_statements_covered": 98.7012987012987,
+      "percent_statements_covered_display": "99"
+    },
+    "src\\scalerqec\\QEC\\noisemodel.py": {
+      "covered_lines": 160,
+      "num_statements": 163,
+      "percent_covered": 98.15950920245399,
+      "percent_covered_display": "98",
+      "missing_lines": 3,
+      "excluded_lines": 0,
+      "percent_statements_covered": 98.15950920245399,
+      "percent_statements_covered_display": "98"
+    }
+  },
+  "notes": [
+    "Two full-suite skips predate these changes.",
+    "Stim 1.16 run preceded the final direct-IR input-validation guard; final full and focused runs use Stim 1.15.",
+    "C++ source was unchanged; the full suite includes native-binding regressions.",
+    "Distance-13 tests cover all four schemes with three rounds; they do not certify low-p LER accuracy."
+  ]
+}

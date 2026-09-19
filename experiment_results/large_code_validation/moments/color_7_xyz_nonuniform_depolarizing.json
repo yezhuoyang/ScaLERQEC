@@ -1,0 +1,44 @@
+{
+  "spec": {
+    "family": "color",
+    "distance": 7,
+    "basis": "xyz",
+    "noise": "nonuniform_depolarizing",
+    "rounds": 7,
+    "name": "color_7_xyz_nonuniform_depolarizing"
+  },
+  "shots": 2048,
+  "pauli_weight": 15,
+  "seconds": 9.253336699999636,
+  "statistics": [
+    {
+      "name": "active_locations",
+      "observed_mean": 14.07421875,
+      "exact_conditional_mean": 14.079837634513375,
+      "true_standard_error": 0.0462574262112211,
+      "standardized_difference": 0.12146989086071634
+    },
+    {
+      "name": "early_half_active",
+      "observed_mean": 6.66552734375,
+      "exact_conditional_mean": 6.685350182341969,
+      "true_standard_error": 0.044910963009982735,
+      "standardized_difference": 0.44138084029867214
+    },
+    {
+      "name": "two_pauli_outcomes",
+      "observed_mean": 4.1953125,
+      "exact_conditional_mean": 4.18016236548658,
+      "true_standard_error": 0.0240787986034651,
+      "standardized_difference": 0.6291898014895133
+    },
+    {
+      "name": "single_X_outcomes",
+      "observed_mean": 2.82861328125,
+      "exact_conditional_mean": 2.8357886276857127,
+      "true_standard_error": 0.03486663704298227,
+      "standardized_difference": 0.20579404967755335
+    }
+  ],
+  "within_7_true_standard_errors": true
+}

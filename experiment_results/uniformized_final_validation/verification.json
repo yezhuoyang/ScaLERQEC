@@ -1,0 +1,43 @@
+{
+  "full_suite": {
+    "tests": 1008,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "passed": 1006
+  },
+  "stim_1_16_compatibility": {
+    "tests": 193,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 193
+  },
+  "module_statement_coverage_percent": {
+    "confidence.py": 98.61111111111111,
+    "uniformized.py": 96.4
+  },
+  "python": "3.14.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "stim": "1.15.0",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "pymatching": "2.4.0",
+    "stimbposd": "0.2.0",
+    "pytest": "9.1.1"
+  },
+  "source_sha256": {
+    "uniformized.py": "8bb83e9354ba50e17c6a1304909b4572d82a63f2c8b111389f9e4e72e7bf74d7",
+    "confidence.py": "afa71329cf590034b13c96d9a170fdea33c1b6848c3bf5316509012c49846ba9",
+    "general_noise.py": "d066c874724facc7573e83554b5fbf52bdba59d6cd6fc1d0435068465eb6c313",
+    "noise_polynomial.py": "180560ce0d56d361d46c88c0f25ec41c7ded117c153da27569aed5dcc7111988"
+  },
+  "post_test_change": "general_noise.py imports reordered by Ruff only; profiler, confidence bounds, and polynomial implementation unchanged after final tests",
+  "manual_checks": [
+    "Ruff passed for changed Python modules and benchmark scripts",
+    "actionlint passed for pr-validation.yml"
+  ],
+  "native_scope": "No C++ source changes in this turn; full Python suite includes native-binding regressions. Linux sanitizer workflow was not executed locally.",
+  "publication": "Local experimental implementation; not uploaded to PyPI"
+}

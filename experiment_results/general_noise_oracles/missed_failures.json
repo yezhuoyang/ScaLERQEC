@@ -1,0 +1,58 @@
+[
+  {
+    "family": "nonuniform_single",
+    "p": 0.001,
+    "exact_ler": 5.144735353694415e-13,
+    "estimate": {
+      "p": 0.001,
+      "ler": 1.0723010981794183e-13,
+      "standard_error": 1.8321644368873582e-14,
+      "missing_probability_mass": 0.0,
+      "minimum_ess": 4989.589298735628,
+      "observed_failures": 1204
+    },
+    "bounds": {
+      "p": 0.001,
+      "confidence": 0.95,
+      "lower": 8.953451825986875e-17,
+      "upper": 0.003017338309286327,
+      "zero_failure_weights": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "reference_q3": 1.548325112443786e-05,
+    "expected_weight3_failures": 0.0774162556221893,
+    "probability_zero_weight3_failures": 0.9255039722661378
+  },
+  {
+    "family": "heralded_pauli",
+    "p": 0.001,
+    "exact_ler": 5.144735353694414e-13,
+    "estimate": {
+      "p": 0.001,
+      "ler": 1.0643261202886646e-13,
+      "standard_error": 8.997073806576461e-15,
+      "missing_probability_mass": 0.0,
+      "minimum_ess": 4525.272949823153,
+      "observed_failures": 3499
+    },
+    "bounds": {
+      "p": 0.001,
+      "confidence": 0.95,
+      "lower": 6.040718347122639e-14,
+      "upper": 0.003354730298830297,
+      "zero_failure_weights": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "reference_q3": 4.766697870855356e-05,
+    "expected_weight3_failures": 0.2383348935427678,
+    "probability_zero_weight3_failures": 0.7879342953980918
+  }
+]

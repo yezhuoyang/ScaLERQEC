@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-16",
+  "discoveries": [
+    {
+      "area": "legacy native and Python observable parsing",
+      "finding": "Repeated OBSERVABLE_INCLUDE contributions overwrote earlier contributions; multiple logical IDs silently collapsed to one output; duplicate detector records were not consistently reduced modulo two.",
+      "action": "Fix XOR accumulation and cancellation. Reject nonzero logical IDs explicitly in the legacy single-output backends. The general-noise path preserves multiple outputs.",
+      "verification": "Independent Stim bit-vector regressions, native parser tests, and actual native sample replay on d13 surface and bicycle circuits."
+    },
+    {
+      "area": "bicycle source fixtures",
+      "finding": "The stored files define only OBSERVABLE_INCLUDE(k-1). Stim's num_observables=k is vector width, not a count of defined nontrivial logical operators. These are X-memory schedules.",
+      "action": "Record the single-logical scope explicitly. Existing case-name tokens containing bicycle_*_z are preserved as artifact identifiers; they do not describe the actual memory basis.",
+      "failed_audit_attempt": "A native audit initially requested undefined logical 0 in the BB72 fixture. Its comparison failed with shapes 685 versus 684 at zero weight. The audit now rejects absent observable IDs and tests only the defined logical 11 in BB72/144. This is a fixture-scope/test-harness correction, not a native propagation mismatch."
+    },
+    {
+      "area": "fast fault-response compiler",
+      "finding": "Stim 1.15's fault-explanation API omits MPAD noise contributions.",
+      "action": "MPAD and heralded channels retain forced-simulation compilation. Other tested Pauli/record channels use binary fault explanations, never approximate DEM probabilities."
+    },
+    {
+      "area": "QLDPC decoder assumptions",
+      "finding": "The baseline BP+OSD0 decoder fails 17 of 174 single-Pauli histories in the HGP58 uniform model. Low-weight exact validation with this decoder alone is too easy to support a strong performance claim.",
+      "action": "Preserve baseline results and additionally test a declared BP+OSD4 decoder with an independent CSS single-Pauli lookup that corrects every one of those histories."
+    },
+    {
+      "area": "conditional-probability numerical precision",
+      "finding": "Both BB144 low-weight audits at the reference probability failed with conditional-mass underflow. Positive but severely subnormal DP values can also give unreliable conditional probabilities.",
+      "action": "Add a circuit-size-dependent precision floor and exclude under-resolved adaptive proposal normalizers. Keep the failed large-code attempts. This rejects an unsupported numerical regime; it does not solve stable large-circuit conditional arithmetic.",
+      "regression_feedback": "An initial blanket rejection of every subnormal mass broke three existing tiny single-site polynomial tests. The final guard preserves these well-resolved cases and rejects the new 1070-site counterexample. The final full suite passes."
+    }
+  ]
+}

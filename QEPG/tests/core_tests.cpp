@@ -1,6 +1,7 @@
 #include "dynamic_bitset.hpp"
 #include "flat_bit_table.hpp"
 #include "sampler.hpp"
+#include "clifford.hpp"
 #include <array>
 #include <cmath>
 #include <iostream>
@@ -17,6 +18,18 @@ void must_throw(F&& fn) {
 }
 
 int main() {
+    clifford::cliffordcircuit circuit;
+    circuit.compile_from_rewrited_stim_string(
+        "R 0\nR 1\nM 0\nOBSERVABLE_INCLUDE(0) rec[-1]\nM 1\n"
+        "OBSERVABLE_INCLUDE(0) rec[-1]\nDETECTOR rec[-1] rec[-1]\n");
+    require(circuit.get_observable_parity_group().indexlist.size() == 2);
+    require(circuit.get_detector_parity_group()[0].indexlist.empty());
+    circuit.compile_from_rewrited_stim_string(
+        "R 0\nM 0\nOBSERVABLE_INCLUDE(0) rec[-1]\nOBSERVABLE_INCLUDE(0) rec[-1]\n");
+    require(circuit.get_observable_parity_group().indexlist.empty());
+    must_throw<std::invalid_argument>([&] {
+        circuit.compile_from_rewrited_stim_string("R 0\nM 0\nOBSERVABLE_INCLUDE(1) rec[-1]\n");
+    });
     using qepg_bits::DynamicBitset;
     for (std::size_t n : {0, 1, 63, 64, 65, 127, 128, 129}) {
         DynamicBitset a(n), b(n);

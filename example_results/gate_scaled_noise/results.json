@@ -1,0 +1,54 @@
+{
+  "status": "accuracy_met",
+  "reason": "Simultaneous finite-grid accuracy target met.",
+  "shots": 1057791,
+  "seconds": 22.498353800008772,
+  "confidence": 0.99,
+  "relative_error_requested": 0.2,
+  "reference_p": 0.01,
+  "valid_p_domain": [
+    0,
+    0.2
+  ],
+  "interval_scope": "simultaneous over the four requested p values and sequential sampling checkpoints",
+  "noise": {
+    "single_qubit": "p/5",
+    "two_qubit": "p",
+    "measurement": "5*p",
+    "reset": "ideal"
+  },
+  "estimates": [
+    {
+      "p": 0.002,
+      "ler": 0.002153374422598663,
+      "lower": 0.0017948519317737865,
+      "upper": 0.0025122206990880963,
+      "error_bound": 0.00035884627648943325,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.005,
+      "ler": 0.006486291768302595,
+      "lower": 0.005899703409681673,
+      "upper": 0.00707324069338702,
+      "error_bound": 0.0005869489250844252,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.01,
+      "ler": 0.01649067314260016,
+      "lower": 0.015443732073570696,
+      "upper": 0.017534286040025576,
+      "error_bound": 0.0010469410690294653,
+      "accuracy_met": true
+    },
+    {
+      "p": 0.02,
+      "ler": 0.04588557969019987,
+      "lower": 0.04335466828913629,
+      "upper": 0.04834467794001572,
+      "error_bound": 0.002530911401063582,
+      "accuracy_met": true
+    }
+  ]
+}

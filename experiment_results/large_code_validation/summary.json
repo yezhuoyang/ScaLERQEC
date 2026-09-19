@@ -1,0 +1,91 @@
+{
+  "declared_cases": 56,
+  "statuses": {
+    "completed": 51,
+    "process_timeout": 3,
+    "failed": 2
+  },
+  "families": {
+    "surface": {
+      "declared_cases": 26,
+      "statuses": {
+        "completed": 25,
+        "process_timeout": 1
+      },
+      "fault_audits_passed": 26,
+      "mc_points": 75,
+      "accuracy_met_profiles": 0
+    },
+    "stabir": {
+      "declared_cases": 6,
+      "statuses": {
+        "completed": 6
+      },
+      "fault_audits_passed": 6,
+      "mc_points": 18,
+      "accuracy_met_profiles": 0
+    },
+    "color": {
+      "declared_cases": 3,
+      "statuses": {
+        "completed": 3
+      },
+      "fault_audits_passed": 3,
+      "mc_points": 9,
+      "accuracy_met_profiles": 0
+    },
+    "hgp": {
+      "declared_cases": 12,
+      "statuses": {
+        "completed": 12
+      },
+      "fault_audits_passed": 12,
+      "mc_points": 36,
+      "accuracy_met_profiles": 2
+    },
+    "bicycle": {
+      "declared_cases": 9,
+      "statuses": {
+        "completed": 5,
+        "process_timeout": 2,
+        "failed": 2
+      },
+      "fault_audits_passed": 7,
+      "mc_points": 19,
+      "accuracy_met_profiles": 0
+    }
+  },
+  "profile_statuses": {
+    "budget_exhausted": 52,
+    "accuracy_met": 2,
+    "not_reached": 2
+  },
+  "fault_histories_replayed": 400,
+  "independent_hgp_commutation_columns": 16163,
+  "mc_shots": 9498400,
+  "mc_points": 157,
+  "mc_interval_disagreements": 0,
+  "accepted_accuracy_contradictions": 0,
+  "mc_references_resolve_10_percent": 4,
+  "bounded_hgp_runs": 8,
+  "bounded_hgp_profiles_accuracy_met": 7,
+  "bounded_hgp_points_verified": 23,
+  "bounded_hgp_points": 24,
+  "moment_cases": 8,
+  "moment_draws": 16384,
+  "largest_moment_standardized_difference": 3.185509052589756,
+  "native_cases": 4,
+  "native_histories_replayed": 64,
+  "longer_budget_followups": [
+    {
+      "name": "surface_13_z_nonuniform_depolarizing",
+      "status": "completed",
+      "profile_status": "budget_exhausted",
+      "shots": 13568,
+      "max_seconds": 300
+    }
+  ],
+  "accepted_profile_oracle_points": 6,
+  "accepted_profile_oracle_points_verified": 3,
+  "accepted_profile_oracle_contradictions": 0
+}

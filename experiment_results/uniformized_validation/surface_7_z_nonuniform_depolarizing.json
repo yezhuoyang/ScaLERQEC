@@ -1,0 +1,189 @@
+{
+  "spec": {
+    "family": "surface",
+    "distance": 7,
+    "basis": "z",
+    "noise": "nonuniform_depolarizing",
+    "rounds": 7,
+    "name": "surface_7_z_nonuniform_depolarizing"
+  },
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260920,
+  "status": "completed",
+  "circuit_sha256": "7c1fa08a1628c748e59d0a41beea294919923faed373f05407f87a0855a900d9",
+  "profile_seconds_budget": 40.0,
+  "source_sha256": {
+    "src\\scalerqec\\Stratified\\uniformized.py": "7b9d35b4ded3080365048c361fa483d8747253fc78a02d0e971ca3df8f7f4354",
+    "src\\scalerqec\\Stratified\\general_noise.py": "bd1881bf65cf834cb0266d5f3956ff65cb64c08928ab261261a711d741436d33"
+  },
+  "phase": "completed",
+  "seconds_total": 47.92233800000395,
+  "compile_seconds": 3.5004341000167187,
+  "factors": 2330,
+  "dense_response_bytes": 7345252,
+  "latent_trials": 2330,
+  "uniform_rate": 2.0,
+  "sampler_array_bytes": 1079856,
+  "replay": {
+    "histories": 10,
+    "trial_counts": [
+      0,
+      1,
+      2,
+      47,
+      2330,
+      0,
+      1,
+      2,
+      47,
+      2330
+    ],
+    "pauli_weights": [
+      0,
+      0,
+      1,
+      29,
+      1293,
+      0,
+      0,
+      1,
+      27,
+      1320
+    ],
+    "passed": true
+  },
+  "decoder": "PyMatching",
+  "profile": {
+    "status": "budget_exhausted",
+    "reason": "Cooperative time budget reached.",
+    "shots": 906752,
+    "seconds": 40.004870499979006,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 8.494468456662173e-06,
+        "lower": 8.555898459544023e-10,
+        "upper": 0.00010010407848248714,
+        "error_bound": 9.160961002582496e-05,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0006990825783714693,
+        "lower": 0.0004350826634965762,
+        "upper": 0.001055272460444655,
+        "error_bound": 0.0003561898820731857,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.06590931489275402,
+        "lower": 0.06298198660258858,
+        "upper": 0.0688242790100834,
+        "error_bound": 0.00292732829016544,
+        "accuracy_met": true
+      }
+    ],
+    "joint_histogram_cells": 2096,
+    "joint_histogram_shots": 906752
+  },
+  "polynomial_reload_verified": true,
+  "polynomial_degree": 2330,
+  "historical_reference_file": "experiment_results\\large_code_validation\\surface_7_z_nonuniform_depolarizing.json",
+  "historical_reference_sha256": "2c864836005d5a992a4a6bd7de9a04512d2e62a379dd784e3eb57a494a9645f7",
+  "historical_monte_carlo": [
+    {
+      "shots": 100000,
+      "failures": 1,
+      "ler": 1e-05,
+      "per_observable_failures": [
+        1
+      ],
+      "lower": 2.976234765175091e-10,
+      "upper": 0.00013065256841787303,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.46344130000215955,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 80,
+      "ler": 0.0008,
+      "per_observable_failures": [
+        80
+      ],
+      "lower": 0.000490100274328603,
+      "upper": 0.001222460723341256,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 1.1508196000067983,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 6592,
+      "ler": 0.06592,
+      "per_observable_failures": [
+        6592
+      ],
+      "lower": 0.06281283224524921,
+      "upper": 0.06912356140655473,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 4.815791300003184,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "fresh_monte_carlo": [
+    {
+      "p": 0.001,
+      "shots": 4096,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.002541267779776441,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.023102299979655072
+    },
+    {
+      "p": 0.003,
+      "shots": 4096,
+      "failures": 2,
+      "ler": 0.00048828125,
+      "per_observable_failures": [
+        2
+      ],
+      "lower": 1.8886758553644052e-06,
+      "upper": 0.0037335114696782036,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.050621399976080284
+    },
+    {
+      "p": 0.01,
+      "shots": 4096,
+      "failures": 272,
+      "ler": 0.06640625,
+      "per_observable_failures": [
+        272
+      ],
+      "lower": 0.051842287170340326,
+      "upper": 0.08333785810497023,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 0.21566909999819472
+    }
+  ]
+}

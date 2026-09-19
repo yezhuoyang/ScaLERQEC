@@ -1,0 +1,138 @@
+{
+  "spec": {
+    "family": "stabir",
+    "distance": 13,
+    "basis": "z",
+    "noise": "SD6",
+    "rounds": 13,
+    "name": "stabir_13_z_SD6"
+  },
+  "phase": "complete",
+  "status": "completed",
+  "p_values": [
+    0.001,
+    0.003,
+    0.01
+  ],
+  "seed": 260916,
+  "circuit_sha256": "088c3f83b1df767a5e2550c12217cff9f701f4e057d3b699babc919994aa4516",
+  "qubits": 337,
+  "detectors": 2184,
+  "observables": 1,
+  "compile_seconds": 32.01854489999823,
+  "factors": 14833,
+  "response_columns": 147602,
+  "response_bytes": 322510370,
+  "audit": {
+    "status": "passed",
+    "factors_checked": 14833,
+    "histories_replayed": 8,
+    "weights": [
+      2,
+      197
+    ],
+    "max_log_ratio_difference": 1.0658141036401503e-12
+  },
+  "independent_scaling_matches": true,
+  "decoder": "PyMatching",
+  "decoder_order_check": true,
+  "adaptive": {
+    "status": "budget_exhausted",
+    "reason": "Time budget exhausted before establishing accuracy.",
+    "confidence": 0.99,
+    "relative_error": 0.1,
+    "absolute_error": 0.0,
+    "shots": 512,
+    "exact_histories": 0,
+    "sample_counts": {
+      "18": 256,
+      "19": 256
+    },
+    "exact_weights": [],
+    "proposal_probabilities": [
+      0.001,
+      0.003,
+      0.01
+    ],
+    "seconds": 32.23867099999916,
+    "estimates": [
+      {
+        "p": 0.001,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9086572080683862,
+        "error_bound": 0.9086572080683862,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.003,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9999998290454079,
+        "error_bound": 0.9999998290454079,
+        "accuracy_met": false
+      },
+      {
+        "p": 0.01,
+        "ler": 0.0,
+        "lower": 0.0,
+        "upper": 0.9999999999998795,
+        "error_bound": 0.9999999999998795,
+        "accuracy_met": false
+      }
+    ],
+    "polynomial_terms": 0
+  },
+  "adaptive_wall_seconds": 32.35794100002386,
+  "monte_carlo": [
+    {
+      "shots": 100000,
+      "failures": 0,
+      "ler": 0.0,
+      "per_observable_failures": [
+        0
+      ],
+      "lower": 0.0,
+      "upper": 0.000104217382450774,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 3.8922033999988344,
+      "p": 0.001,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 34,
+      "ler": 0.00034,
+      "per_observable_failures": [
+        34
+      ],
+      "lower": 0.00015421753569206764,
+      "upper": 0.0006392474365608929,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 10.124064200004796,
+      "p": 0.003,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    },
+    {
+      "shots": 100000,
+      "failures": 12868,
+      "ler": 0.12868,
+      "per_observable_failures": [
+        12868
+      ],
+      "lower": 0.12446522930841322,
+      "upper": 0.1329771795876244,
+      "pointwise_confidence": 0.9999404761904762,
+      "seconds": 56.836272299988195,
+      "p": 0.01,
+      "profile_interval_overlap": true,
+      "accepted_accuracy_contradiction": false,
+      "reference_resolves_10_percent": false
+    }
+  ],
+  "seconds": 223.93787730002077
+}
